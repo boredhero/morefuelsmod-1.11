@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "all": "morefuelsmod-1.11.x:blocks/cokeBlock"
+            "all": "morefuelsmod-1.11.x:blocks/cokeblock"
         }
     },
     "variants": {

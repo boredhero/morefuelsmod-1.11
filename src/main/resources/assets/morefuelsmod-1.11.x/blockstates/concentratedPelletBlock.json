@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "all": "morefuelsmod-1.11.x:blocks/concentratedPelletBlock"
+            "all": "morefuelsmod-1.11.x:blocks/concentratedpelletblock"
         }
     },
     "variants": {
