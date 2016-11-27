@@ -1,0 +1,18 @@
+##All Japanese Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=燃料ペレット (Nenryō peretto)
+item.concentratedPelletsFuel.name=濃縮された燃料ペレット (Nōshuku sa reta nenryō peretto)
+item.coke.name=コークス（燃料) (Kōkusu (nenryō))
+item.bituminousCoal.name=瀝青炭 (Rekiseitan)
+item.canSlimoline.name=slimolineの缶 (Slimoline no kan)
+item.dustCoal.name=炭塵 (Tanjin)
+
+#Blocks
+tile.pelletBlock.name=ペレット燃料のブロック (Peretto nenryō no burokku)
+tile.concentratedPelletBlock.name=濃縮されたペレット燃料のブロック (Nōshuku sa reta peretto nenryō no burokku)
+tile.cokeBlock.name=コークスのブロック（燃料）) (Kōkusu no burokku (nenryō))
+tile.bituminousCoalOre.name=瀝青炭鉱石 (Rekiseitan kōseki)
+
+#Tabs
+itemGroup.morefuelsmod-1.11.x=より多くの燃料の変更 (Yori ōku no nenryō no henkō)

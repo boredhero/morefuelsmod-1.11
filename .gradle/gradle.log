@@ -11,19 +11,37 @@ This mapping 'snapshot_20161111' was designed for MC 1.10.2! Use at your own per
 #################################################
 :deobfCompileDummyTask
 :deobfProvidedDummyTask
-:eclipseClasspath
-:eclipseJdt
-:eclipseProject
+:sourceApiJava
+:compileApiJava UP-TO-DATE
+:processApiResources UP-TO-DATE
+:apiClasses UP-TO-DATE
+:sourceMainJava
+:compileJavawarning: [options] bootstrap class path not set in conjunction with -source 1.6
+1 warning
+
+:processResources
+:classes
+:jar
+:sourceTestJava
+:compileTestJava UP-TO-DATE
+:processTestResources UP-TO-DATE
+:testClasses UP-TO-DATE
+:test UP-TO-DATE
+:extractMcpData SKIPPED
+:extractMcpMappings SKIPPED
 :getVersionJson
-:extractNatives SKIPPED
 :extractUserdev UP-TO-DATE
-:getAssetIndex UP-TO-DATE
-:getAssets
-:makeStart
-:makeEclipseCleanRunClient UP-TO-DATE
-:makeEclipseCleanRunServer UP-TO-DATE
-:eclipse
+:genSrgs SKIPPED
+:reobfJar
+:extractRangemapReplacedMain
+C:\Users\Noah\Desktop\Coding\MoreFuelsMod\morefuelsmod-1.11\build\sources\main\java
+:retromapReplacedMain
+remapping source...
+:sourceJar
+:assemble
+:check UP-TO-DATE
+:build
 
 BUILD SUCCESSFUL
 
-Total time: 7.285 secs
+Total time: 14.271 secs
