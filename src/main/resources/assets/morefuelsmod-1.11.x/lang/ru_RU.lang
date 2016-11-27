@@ -1,0 +1,18 @@
+##All Russian Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=топливные гранулы (Toplivnyye Granuly)
+item.concentratedPelletsFuel.name=Концентрированные топливные гранулы (Kontsentrirovannyye Toplivnyye Granuly)
+item.coke.name=кокс (топливо) (Koks (Toplivo))
+item.bituminousCoal.name=битуминозный уголь (Bituminoznyy Ugol')
+item.canSlimoline.name=может из Slimoline (Mozhet Iz Slimoline)
+item.dustCoal.name=угольная пыль (Ugol'naya Pyl')
+
+#Blocks
+tile.pelletBlock.name=блок гранул топлива (Blok Granul Topliva)
+tile.concentratedPelletBlock.name=блок концентрированного гранул топлива (Blok Kontsentrirovannogo Granul Topliva)
+tile.cokeBlock.name=блок кокса (топлива) (Blok Koksa (Topliva))
+tile.bituminousCoalOre.name=каменный уголь руда (Kamennyy Ugol' Ruda)
+
+#Tabs
+itemGroup.morefuelsmod-1.11.x=модификация больше топлива (Modifikatsiya Bol'she Topliva)

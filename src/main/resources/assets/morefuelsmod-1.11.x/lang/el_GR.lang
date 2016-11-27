@@ -1,0 +1,18 @@
+##All Greek Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=πλίνθων καυσίμων (plínthon kafsímon)
+item.concentratedPelletsFuel.name=συμπυκνωμένου πλίνθων καυσίμων (sympyknoménou plínthon kafsímon)
+item.coke.name=οπτάνθρακα (καυσίμων) (optánthraka (kafsímon))
+item.bituminousCoal.name=ασφαλτούχα άνθρακα (asfaltoúcha ánthraka)
+item.canSlimoline.name=Μπορεί να του Slimoline (Boreí na tou Slimoline)
+item.dustCoal.name=ανθρακοσκόνη (anthrakoskóni)
+
+#Blocks
+tile.pelletBlock.name=μπλοκ του καυσίμου βιομάζας (blok tou kafsímou viomázas)
+tile.concentratedPelletBlock.name=μπλοκ συμπυκνωμένου καύσιμο pellet
+tile.cokeBlock.name=Αποκλεισμός της Coke (καυσίμων) (Apokleismós tis Coke (kafsímon))
+tile.bituminousCoalOre.name=ασφαλτούχα ορυκτό άνθρακα (asfaltoúcha oryktó ánthraka)
+
+#Tabs
+itemGroup.morefuelsmod-1.11.x=Περισσότερα Καύσιμα Τροποποίηση (Perissótera Káfsima Tropopoíisi)

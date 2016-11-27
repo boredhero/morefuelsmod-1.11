@@ -1,0 +1,18 @@
+##All Italian Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=Pellet di Combustibile
+item.concentratedPelletsFuel.name=Pellet di Combustibile Concentrate
+item.coke.name=Coca (Carburante)
+item.bituminousCoal.name=Carbone Bituminoso
+item.canSlimoline.name=Tanica di Slimoline
+item.dustCoal.name=Polvere di Carbone
+
+#Blocks
+tile.pelletBlock.name=Blocco di Combustibile Pellet
+tile.concentratedPelletBlock.name=Blocco di Combustibile Pellet Concentrato
+tile.cokeBlock.name=Blocco di Coke (Combustibile)
+tile.bituminousCoalOre.name=Minerale di Carbone Bituminoso
+
+#Tabs
+itemGroup.morefuelsmod-1.11.x=Modifica Pi� Combustibili

@@ -1,0 +1,18 @@
+##All Spanish Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=Pastillas de Combustible
+item.concentratedPelletsFuel.name=Pastillas de Combustible Concentrados
+item.coke.name=Coque (Combustible)
+item.bituminousCoal.name=Carbon Bituminoso
+item.canSlimoline.name=Bidon de Slimolina
+item.dustCoal.name=Polvo de Carbon
+
+#Blocks
+tile.pelletBlock.name=Bloque de Pastillas de combustible
+tile.concentratedPelletBlock.name=Bloque de Concentrados Pastillas de Combustible
+tile.cokeBlock.name=Bloque de Coque (Combustible)
+tile.bituminousCoalOre.name=Mineral de Carbon Bituminoso
+
+#Tabs
+itemGroup.morefuelsmod-1.11.x=Mas Combustibles Modificacion
