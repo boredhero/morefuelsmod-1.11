@@ -222,7 +222,9 @@ public class ItemArmor extends Item
      */
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {
-        return this.material.getRepairItem() == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
+        ItemStack mat = this.material.getRepairItemStack();
+        if (!mat.func_190926_b() && net.minecraftforge.oredict.OreDictionary.itemMatches(mat,repair,false)) return true;
+        return super.getIsRepairable(toRepair, repair);
     }
 
     public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
@@ -293,7 +295,7 @@ public class ItemArmor extends Item
         private final SoundEvent soundEvent;
         private final float toughness;
         //Added by forge for custom Armor materials.
-        public Item customCraftingMaterial = null;
+        public ItemStack repairMaterial = ItemStack.field_190927_a;
 
         private ArmorMaterial(String nameIn, int maxDamageFactorIn, int[] damageReductionAmountArrayIn, int enchantabilityIn, SoundEvent soundEventIn, float toughnessIn)
         {
@@ -338,17 +340,10 @@ public class ItemArmor extends Item
         /**
          * Get a main crafting component of this Armor Material (example is Items.iron_ingot)
          */
+        @Deprecated // Use getRepairItemStack below
         public Item getRepairItem()
         {
-            switch (this)
-            {
-                case LEATHER: return Items.LEATHER;
-                case CHAIN:   return Items.IRON_INGOT;
-                case GOLD:    return Items.GOLD_INGOT;
-                case IRON:    return Items.IRON_INGOT;
-                case DIAMOND: return Items.DIAMOND;
-                default:      return customCraftingMaterial;
-            }
+            return this == LEATHER ? Items.LEATHER : (this == CHAIN ? Items.IRON_INGOT : (this == GOLD ? Items.GOLD_INGOT : (this == IRON ? Items.IRON_INGOT : (this == DIAMOND ? Items.DIAMOND : null))));
         }
 
         @SideOnly(Side.CLIENT)
@@ -360,6 +355,22 @@ public class ItemArmor extends Item
         public float getToughness()
         {
             return this.toughness;
+        }
+
+        public ArmorMaterial setRepairItem(ItemStack stack)
+        {
+            if (!this.repairMaterial.func_190926_b()) throw new RuntimeException("Repair material has already been set");
+            if (this == LEATHER || this == CHAIN || this == GOLD || this == IRON || this == DIAMOND) throw new RuntimeException("Can not change vanilla armor repair materials");
+            this.repairMaterial = stack;
+            return this;
+        }
+
+        public ItemStack getRepairItemStack()
+        {
+            if (!repairMaterial.func_190926_b()) return repairMaterial;
+            Item ret = this.getRepairItem();
+            if (ret != null) repairMaterial = new ItemStack(ret,1,net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE);
+            return repairMaterial;
         }
     }
 }

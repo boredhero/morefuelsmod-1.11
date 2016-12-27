@@ -177,4 +177,12 @@ public class BlockObserver extends BlockDirectional
     {
         return this.getDefaultState().withProperty(FACING, EnumFacing.getFront(meta & 7));
     }
+
+    /* ======================================== FORGE START =====================================*/
+    @Override
+    public void observedNeighborChange(IBlockState observerState, World world, BlockPos observerPos, Block changedBlock, BlockPos changedBlockPos)
+    {
+        func_190962_b(observerState, world, observerPos, changedBlock, changedBlockPos);
+    }
+    /* ========================================= FORGE END ======================================*/
 }

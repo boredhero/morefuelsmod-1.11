@@ -227,6 +227,13 @@ public class EntityPotion extends EntityThrowable
             entityareaeffectcloud.addEffect(new PotionEffect(potioneffect));
         }
 
+        NBTTagCompound nbttagcompound = p_190542_1_.getTagCompound();
+
+        if (nbttagcompound != null && nbttagcompound.hasKey("CustomPotionColor", 99))
+        {
+            entityareaeffectcloud.setColor(nbttagcompound.getInteger("CustomPotionColor"));
+        }
+
         this.worldObj.spawnEntityInWorld(entityareaeffectcloud);
     }
 

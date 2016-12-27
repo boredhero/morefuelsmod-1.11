@@ -60,7 +60,7 @@ public class RealmsConnect
                         return;
                     }
 
-                    RealmsConnect.this.connection.sendPacket(new C00Handshake(315, p_connect_1_, p_connect_2_, EnumConnectionState.LOGIN, true));
+                    RealmsConnect.this.connection.sendPacket(new C00Handshake(316, p_connect_1_, p_connect_2_, EnumConnectionState.LOGIN, true));
 
                     if (RealmsConnect.this.aborted)
                     {

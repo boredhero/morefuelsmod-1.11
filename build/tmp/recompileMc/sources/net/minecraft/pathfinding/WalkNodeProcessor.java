@@ -426,6 +426,7 @@ public class WalkNodeProcessor extends NodeProcessor
                         {
                             pathnodetype = PathNodeType.DANGER_FIRE;
                         }
+                        else if(block1.isBurning(blockaccessIn,blockpos$pooledmutableblockpos.setPos(j +x, y, i + z))) pathnodetype = PathNodeType.DAMAGE_FIRE;
                     }
                 }
             }
@@ -441,6 +442,7 @@ public class WalkNodeProcessor extends NodeProcessor
         IBlockState iblockstate = p_189553_1_.getBlockState(blockpos);
         Block block = iblockstate.getBlock();
         Material material = iblockstate.getMaterial();
+        if(block.isBurning(p_189553_1_, blockpos)) return PathNodeType.DAMAGE_FIRE;
         return material == Material.AIR ? PathNodeType.OPEN : (block != Blocks.TRAPDOOR && block != Blocks.IRON_TRAPDOOR && block != Blocks.WATERLILY ? (block == Blocks.FIRE ? PathNodeType.DAMAGE_FIRE : (block == Blocks.CACTUS ? PathNodeType.DAMAGE_CACTUS : (block instanceof BlockDoor && material == Material.WOOD && !((Boolean)iblockstate.getValue(BlockDoor.OPEN)).booleanValue() ? PathNodeType.DOOR_WOOD_CLOSED : (block instanceof BlockDoor && material == Material.IRON && !((Boolean)iblockstate.getValue(BlockDoor.OPEN)).booleanValue() ? PathNodeType.DOOR_IRON_CLOSED : (block instanceof BlockDoor && ((Boolean)iblockstate.getValue(BlockDoor.OPEN)).booleanValue() ? PathNodeType.DOOR_OPEN : (block instanceof BlockRailBase ? PathNodeType.RAIL : (!(block instanceof BlockFence) && !(block instanceof BlockWall) && (!(block instanceof BlockFenceGate) || ((Boolean)iblockstate.getValue(BlockFenceGate.OPEN)).booleanValue()) ? (material == Material.WATER ? PathNodeType.WATER : (material == Material.LAVA ? PathNodeType.LAVA : (block.isPassable(p_189553_1_, blockpos) ? PathNodeType.OPEN : PathNodeType.BLOCKED))) : PathNodeType.FENCE))))))) : PathNodeType.TRAPDOOR);
     }
 }

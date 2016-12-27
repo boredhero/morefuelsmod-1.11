@@ -637,11 +637,11 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
         {
             IBlockState iblockstate = this.getBlockState(p_190529_1_);
 
-            if (iblockstate.getBlock() == Blocks.field_190976_dk)
+            if (true)
             {
                 try
                 {
-                    ((BlockObserver)iblockstate.getBlock()).func_190962_b(iblockstate, this, p_190529_1_, p_190529_2_, p_190529_3_);
+                    iblockstate.getBlock().observedNeighborChange(iblockstate, this, p_190529_1_, p_190529_2_, p_190529_3_);
                 }
                 catch (Throwable throwable)
                 {
@@ -1372,70 +1372,94 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
         this.eventListeners.add(listener);
     }
 
-    public List<AxisAlignedBB> getCollisionBoxes(@Nullable Entity entityIn, AxisAlignedBB aabb)
+    private boolean func_191504_a(@Nullable Entity p_191504_1_, AxisAlignedBB p_191504_2_, boolean p_191504_3_, @Nullable List<AxisAlignedBB> p_191504_4_)
     {
-        List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
-        int i = MathHelper.floor_double(aabb.minX) - 1;
-        int j = MathHelper.ceiling_double_int(aabb.maxX) + 1;
-        int k = MathHelper.floor_double(aabb.minY) - 1;
-        int l = MathHelper.ceiling_double_int(aabb.maxY) + 1;
-        int i1 = MathHelper.floor_double(aabb.minZ) - 1;
-        int j1 = MathHelper.ceiling_double_int(aabb.maxZ) + 1;
+        int i = MathHelper.floor_double(p_191504_2_.minX) - 1;
+        int j = MathHelper.ceiling_double_int(p_191504_2_.maxX) + 1;
+        int k = MathHelper.floor_double(p_191504_2_.minY) - 1;
+        int l = MathHelper.ceiling_double_int(p_191504_2_.maxY) + 1;
+        int i1 = MathHelper.floor_double(p_191504_2_.minZ) - 1;
+        int j1 = MathHelper.ceiling_double_int(p_191504_2_.maxZ) + 1;
         WorldBorder worldborder = this.getWorldBorder();
-        boolean flag = entityIn != null && entityIn.isOutsideBorder();
-        boolean flag1 = entityIn != null && this.isInsideBorder(worldborder, entityIn);
+        boolean flag = p_191504_1_ != null && p_191504_1_.isOutsideBorder();
+        boolean flag1 = p_191504_1_ != null && this.func_191503_g(p_191504_1_);
         IBlockState iblockstate = Blocks.STONE.getDefaultState();
         BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
-        for (int k1 = i; k1 < j; ++k1)
+        try
         {
-            for (int l1 = i1; l1 < j1; ++l1)
+            for (int k1 = i; k1 < j; ++k1)
             {
-                int i2 = (k1 != i && k1 != j - 1 ? 0 : 1) + (l1 != i1 && l1 != j1 - 1 ? 0 : 1);
-
-                if (i2 != 2 && this.isBlockLoaded(blockpos$pooledmutableblockpos.setPos(k1, 64, l1)))
+                for (int l1 = i1; l1 < j1; ++l1)
                 {
-                    for (int j2 = k; j2 < l; ++j2)
+                    boolean flag2 = k1 == i || k1 == j - 1;
+                    boolean flag3 = l1 == i1 || l1 == j1 - 1;
+
+                    if ((!flag2 || !flag3) && this.isBlockLoaded(blockpos$pooledmutableblockpos.setPos(k1, 64, l1)))
                     {
-                        if (i2 <= 0 || j2 != k && j2 != l - 1)
+                        for (int i2 = k; i2 < l; ++i2)
                         {
-                            blockpos$pooledmutableblockpos.setPos(k1, j2, l1);
-
-                            if (entityIn != null)
+                            if (!flag2 && !flag3 || i2 != l - 1)
                             {
-                                if (flag && flag1)
+                                if (p_191504_3_)
                                 {
-                                    entityIn.setOutsideBorder(false);
+                                    if (k1 < -30000000 || k1 >= 30000000 || l1 < -30000000 || l1 >= 30000000)
+                                    {
+                                        boolean lvt_21_1_ = true;
+                                        return lvt_21_1_;
+                                    }
                                 }
-                                else if (!flag && !flag1)
+                                else if (p_191504_1_ != null && flag == flag1)
                                 {
-                                    entityIn.setOutsideBorder(true);
+                                    p_191504_1_.setOutsideBorder(!flag1);
+                                }
+
+                                blockpos$pooledmutableblockpos.setPos(k1, i2, l1);
+                                IBlockState iblockstate1;
+
+                                if (!p_191504_3_ && !worldborder.contains(blockpos$pooledmutableblockpos) && flag1)
+                                {
+                                    iblockstate1 = iblockstate;
+                                }
+                                else
+                                {
+                                    iblockstate1 = this.getBlockState(blockpos$pooledmutableblockpos);
+                                }
+
+                                iblockstate1.addCollisionBoxToList(this, blockpos$pooledmutableblockpos, p_191504_2_, p_191504_4_, p_191504_1_, false);
+                                net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.GetCollisionBoxesEvent(this, null, p_191504_2_, p_191504_4_));
+
+                                if (p_191504_3_ && !p_191504_4_.isEmpty())
+                                {
+                                    boolean flag5 = true;
+                                    return flag5;
                                 }
                             }
-
-                            IBlockState iblockstate1 = iblockstate;
-
-                            if (worldborder.contains(blockpos$pooledmutableblockpos) || !flag1)
-                            {
-                                iblockstate1 = this.getBlockState(blockpos$pooledmutableblockpos);
-                            }
-
-                            iblockstate1.addCollisionBoxToList(this, blockpos$pooledmutableblockpos, aabb, list, entityIn);
                         }
                     }
                 }
             }
         }
+        finally
+        {
+            blockpos$pooledmutableblockpos.release();
+        }
 
-        blockpos$pooledmutableblockpos.release();
+        return !p_191504_4_.isEmpty();
+    }
+
+    public List<AxisAlignedBB> getCollisionBoxes(@Nullable Entity entityIn, AxisAlignedBB aabb)
+    {
+        List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
+        this.func_191504_a(entityIn, aabb, false, list);
 
         if (entityIn != null)
         {
             List<Entity> list1 = this.getEntitiesWithinAABBExcludingEntity(entityIn, aabb.expandXyz(0.25D));
 
-            for (int k2 = 0; k2 < list1.size(); ++k2)
+            for (int i = 0; i < list1.size(); ++i)
             {
-                Entity entity = (Entity)list1.get(k2);
+                Entity entity = (Entity)list1.get(i);
 
                 if (!entityIn.isRidingSameEntity(entity))
                 {
@@ -1459,14 +1483,22 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
         return list;
     }
 
-    public boolean isInsideBorder(WorldBorder worldBorderIn, Entity entityIn)
+    /**
+     * Remove a world event listener
+     */
+    public void removeEventListener(IWorldEventListener listener)
     {
-        double d0 = worldBorderIn.minX();
-        double d1 = worldBorderIn.minZ();
-        double d2 = worldBorderIn.maxX();
-        double d3 = worldBorderIn.maxZ();
+        this.eventListeners.remove(listener);
+    }
 
-        if (entityIn.isOutsideBorder())
+    public boolean func_191503_g(Entity p_191503_1_)
+    {
+        double d0 = this.worldBorder.minX();
+        double d1 = this.worldBorder.minZ();
+        double d2 = this.worldBorder.maxX();
+        double d3 = this.worldBorder.maxZ();
+
+        if (p_191503_1_.isOutsideBorder())
         {
             ++d0;
             ++d1;
@@ -1481,15 +1513,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
             ++d3;
         }
 
-        return entityIn.posX > d0 && entityIn.posX < d2 && entityIn.posZ > d1 && entityIn.posZ < d3;
-    }
-
-    /**
-     * Remove a world event listener
-     */
-    public void removeEventListener(IWorldEventListener listener)
-    {
-        this.eventListeners.remove(listener);
+        return p_191503_1_.posX > d0 && p_191503_1_.posX < d2 && p_191503_1_.posZ > d1 && p_191503_1_.posZ < d3;
     }
 
     /**
@@ -1497,57 +1521,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
      */
     public boolean collidesWithAnyBlock(AxisAlignedBB bbox)
     {
-        List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
-        int i = MathHelper.floor_double(bbox.minX) - 1;
-        int j = MathHelper.ceiling_double_int(bbox.maxX) + 1;
-        int k = MathHelper.floor_double(bbox.minY) - 1;
-        int l = MathHelper.ceiling_double_int(bbox.maxY) + 1;
-        int i1 = MathHelper.floor_double(bbox.minZ) - 1;
-        int j1 = MathHelper.ceiling_double_int(bbox.maxZ) + 1;
-        BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
-
-        try
-        {
-            for (int k1 = i; k1 < j; ++k1)
-            {
-                for (int l1 = i1; l1 < j1; ++l1)
-                {
-                    int i2 = (k1 != i && k1 != j - 1 ? 0 : 1) + (l1 != i1 && l1 != j1 - 1 ? 0 : 1);
-
-                    if (i2 != 2 && this.isBlockLoaded(blockpos$pooledmutableblockpos.setPos(k1, 64, l1)))
-                    {
-                        for (int j2 = k; j2 < l; ++j2)
-                        {
-                            if (i2 <= 0 || j2 != k && j2 != l - 1)
-                            {
-                                blockpos$pooledmutableblockpos.setPos(k1, j2, l1);
-
-                                if (k1 < -30000000 || k1 >= 30000000 || l1 < -30000000 || l1 >= 30000000)
-                                {
-                                    boolean flag1 = true;
-                                    return flag1;
-                                }
-
-                                IBlockState iblockstate = this.getBlockState(blockpos$pooledmutableblockpos);
-                                iblockstate.addCollisionBoxToList(this, blockpos$pooledmutableblockpos, bbox, list, (Entity)null);
-                                net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.GetCollisionBoxesEvent(this, null, bbox, list));
-                                if (!list.isEmpty())
-                                {
-                                    boolean flag = true;
-                                    return flag;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-        finally
-        {
-            blockpos$pooledmutableblockpos.release();
-        }
+        return this.func_191504_a((Entity)null, bbox, true, Lists.<AxisAlignedBB>newArrayList());
     }
 
     /**
@@ -2052,7 +2026,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
 
     public boolean addTileEntity(TileEntity tile)
     {
-        if (tile.getWorld() != null) // Forge - set the world early as vanilla doesn't set it until next tick
+        if (tile.getWorld() != this) // Forge - set the world early as vanilla doesn't set it until next tick
             tile.setWorldObj(this);
 
         List<TileEntity> dest = processingLoadedTiles ? addedTileEntityList : loadedTileEntityList;
@@ -2326,6 +2300,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
                         }
                         else if (block.isBurning(this, new BlockPos(k1, l1, i2)))
                         {
+                            blockpos$pooledmutableblockpos.release();
                             return true;
                         }
                     }
@@ -4060,18 +4035,14 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
             {
                 IBlockState iblockstate = this.getBlockState(blockpos);
 
-                if (Blocks.UNPOWERED_COMPARATOR.isSameDiode(iblockstate))
-                {
-                    iblockstate.neighborChanged(this, blockpos, blockIn, pos);
-                }
-                else if (iblockstate.isNormalCube())
+                iblockstate.getBlock().onNeighborChange(this, blockpos, pos);
+                if (iblockstate.getBlock().isNormalCube(iblockstate, this, blockpos))
                 {
                     blockpos = blockpos.offset(enumfacing);
                     iblockstate = this.getBlockState(blockpos);
-
-                    if (Blocks.UNPOWERED_COMPARATOR.isSameDiode(iblockstate))
+                    if (iblockstate.getBlock().getWeakChanges(this, blockpos))
                     {
-                        iblockstate.neighborChanged(this, blockpos, blockIn, pos);
+                        iblockstate.getBlock().onNeighborChange(this, blockpos, pos);
                     }
                 }
             }

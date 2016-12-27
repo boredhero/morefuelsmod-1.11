@@ -231,6 +231,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
     /**
      * Reads the player data from disk into the specified PlayerEntityMP.
      */
+    @Nullable
     public NBTTagCompound readPlayerData(EntityPlayer player)
     {
         NBTTagCompound nbttagcompound = null;

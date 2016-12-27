@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
@@ -372,6 +373,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
         }
 
         ImageIO.setUseCache(false);
+        Locale.setDefault(Locale.ROOT);
         Bootstrap.register();
         this.dataFixer = DataFixesManager.createFixer();
     }
@@ -606,7 +608,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
     private void createDisplay() throws LWJGLException
     {
         Display.setResizable(true);
-        Display.setTitle("Minecraft 1.11");
+        Display.setTitle("Minecraft 1.11.2");
 
         try
         {
@@ -2436,7 +2438,7 @@ public class Minecraft implements IThreadListener, ISnooperInfo
         SocketAddress socketaddress = this.theIntegratedServer.getNetworkSystem().addLocalEndpoint();
         NetworkManager networkmanager = NetworkManager.provideLocalClient(socketaddress);
         networkmanager.setNetHandler(new NetHandlerLoginClient(networkmanager, this, (GuiScreen)null));
-        networkmanager.sendPacket(new C00Handshake(315, socketaddress.toString(), 0, EnumConnectionState.LOGIN, true));
+        networkmanager.sendPacket(new C00Handshake(316, socketaddress.toString(), 0, EnumConnectionState.LOGIN, true));
         com.mojang.authlib.GameProfile gameProfile = this.getSession().getProfile();
         if (!this.getSession().hasCachedProperties())
         {

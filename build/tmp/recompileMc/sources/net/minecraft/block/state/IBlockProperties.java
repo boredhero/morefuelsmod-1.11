@@ -99,7 +99,7 @@ public interface IBlockProperties
     @Nullable
     AxisAlignedBB getCollisionBoundingBox(IBlockAccess worldIn, BlockPos pos);
 
-    void addCollisionBoxToList(World worldIn, BlockPos pos, AxisAlignedBB p_185908_3_, List<AxisAlignedBB> p_185908_4_, @Nullable Entity p_185908_5_);
+    void addCollisionBoxToList(World worldIn, BlockPos pos, AxisAlignedBB p_185908_3_, List<AxisAlignedBB> p_185908_4_, @Nullable Entity p_185908_5_, boolean p_185908_6_);
 
     AxisAlignedBB getBoundingBox(IBlockAccess blockAccess, BlockPos pos);
 

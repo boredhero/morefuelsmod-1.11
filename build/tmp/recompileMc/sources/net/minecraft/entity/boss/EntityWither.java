@@ -134,6 +134,15 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
         }
     }
 
+    /**
+     * Sets the custom name tag for this entity
+     */
+    public void setCustomNameTag(String name)
+    {
+        super.setCustomNameTag(name);
+        this.bossInfo.setName(this.getDisplayName());
+    }
+
     protected SoundEvent getAmbientSound()
     {
         return SoundEvents.ENTITY_WITHER_AMBIENT;

@@ -16,11 +16,13 @@ public class DebugRenderer
     public final DebugRenderer.IDebugRenderer debugRendererChunkBorder;
     public final DebugRenderer.IDebugRenderer debugRendererHeightMap;
     public final DebugRenderer.IDebugRenderer field_191325_e;
+    public final DebugRenderer.IDebugRenderer field_191557_f;
     private boolean chunkBordersEnabled;
     private boolean pathfindingEnabled;
     private boolean waterEnabled;
     private boolean heightmapEnabled;
     private boolean field_191326_j;
+    private boolean field_191558_l;
 
     public DebugRenderer(Minecraft clientIn)
     {
@@ -29,11 +31,12 @@ public class DebugRenderer
         this.debugRendererChunkBorder = new DebugRendererChunkBorder(clientIn);
         this.debugRendererHeightMap = new DebugRendererHeightMap(clientIn);
         this.field_191325_e = new DebugRendererCollisionBox(clientIn);
+        this.field_191557_f = new DebugRendererNeighborsUpdate(clientIn);
     }
 
     public boolean shouldRender()
     {
-        return this.chunkBordersEnabled || this.pathfindingEnabled || this.waterEnabled || this.heightmapEnabled || this.field_191326_j;
+        return this.chunkBordersEnabled || this.pathfindingEnabled || this.waterEnabled || this.heightmapEnabled || this.field_191326_j || this.field_191558_l;
     }
 
     /**
@@ -71,6 +74,16 @@ public class DebugRenderer
         {
             this.field_191325_e.render(partialTicks, finishTimeNano);
         }
+
+        if (this.field_191558_l)
+        {
+            this.field_191557_f.render(partialTicks, finishTimeNano);
+        }
+    }
+
+    public static void func_191556_a(String p_191556_0_, int p_191556_1_, int p_191556_2_, int p_191556_3_, float p_191556_4_, int p_191556_5_)
+    {
+        renderDebugText(p_191556_0_, (double)p_191556_1_ + 0.5D, (double)p_191556_2_ + 0.5D, (double)p_191556_3_ + 0.5D, p_191556_4_, p_191556_5_);
     }
 
     public static void renderDebugText(String str, double x, double y, double z, float partialTicks, int color)

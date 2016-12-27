@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
@@ -14,11 +13,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -45,6 +46,8 @@ public class EntityFishHook extends Entity
     private float fishApproachAngle;
     public Entity caughtEntity;
     private EntityFishHook.State field_190627_av = EntityFishHook.State.FLYING;
+    private int field_191518_aw;
+    private int field_191519_ax;
 
     @SideOnly(Side.CLIENT)
     public EntityFishHook(World p_i47290_1_, EntityPlayer p_i47290_2_, double p_i47290_3_, double p_i47290_5_, double p_i47290_7_)
@@ -70,6 +73,16 @@ public class EntityFishHook extends Entity
         this.ignoreFrustumCheck = true;
         this.angler = p_190626_1_;
         this.angler.fishEntity = this;
+    }
+
+    public void func_191516_a(int p_191516_1_)
+    {
+        this.field_191519_ax = p_191516_1_;
+    }
+
+    public void func_191517_b(int p_191517_1_)
+    {
+        this.field_191518_aw = p_191517_1_;
     }
 
     private void func_190620_n()
@@ -479,7 +492,7 @@ public class EntityFishHook extends Entity
         else
         {
             this.ticksCaughtDelay = MathHelper.getRandomIntegerInRange(this.rand, 100, 600);
-            this.ticksCaughtDelay -= EnchantmentHelper.getLureModifier(this.angler) * 20 * 5;
+            this.ticksCaughtDelay -= this.field_191519_ax * 20 * 5;
         }
     }
 
@@ -517,7 +530,7 @@ public class EntityFishHook extends Entity
             else if (this.ticksCatchable > 0)
             {
                 LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer)this.worldObj);
-                lootcontext$builder.withLuck((float)EnchantmentHelper.getLuckOfSeaModifier(this.angler) + this.angler.getLuck());
+                lootcontext$builder.withLuck((float)this.field_191518_aw + this.angler.getLuck());
 
                 for (ItemStack itemstack : this.worldObj.getLootTableManager().getLootTableFromLocation(LootTableList.GAMEPLAY_FISHING).generateLootForPools(this.rand, lootcontext$builder.build()))
                 {
@@ -532,6 +545,12 @@ public class EntityFishHook extends Entity
                     entityitem.motionZ = d2 * 0.1D;
                     this.worldObj.spawnEntityInWorld(entityitem);
                     this.angler.worldObj.spawnEntityInWorld(new EntityXPOrb(this.angler.worldObj, this.angler.posX, this.angler.posY + 0.5D, this.angler.posZ + 0.5D, this.rand.nextInt(6) + 1));
+                    Item item = itemstack.getItem();
+
+                    if (item == Items.FISH || item == Items.COOKED_FISH)
+                    {
+                        this.angler.addStat(StatList.FISH_CAUGHT, 1);
+                    }
                 }
 
                 i = 1;

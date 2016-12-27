@@ -304,7 +304,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable
 
     private static boolean isMovePlayerPacketInvalid(CPacketPlayer packetIn)
     {
-        return Doubles.isFinite(packetIn.getX(0.0D)) && Doubles.isFinite(packetIn.getY(0.0D)) && Doubles.isFinite(packetIn.getZ(0.0D)) && Floats.isFinite(packetIn.getPitch(0.0F)) && Floats.isFinite(packetIn.getYaw(0.0F)) ? false : Math.abs(packetIn.getX(0.0D)) <= 3.0E7D && Math.abs(packetIn.getX(0.0D)) <= 3.0E7D;
+        return Doubles.isFinite(packetIn.getX(0.0D)) && Doubles.isFinite(packetIn.getY(0.0D)) && Doubles.isFinite(packetIn.getZ(0.0D)) && Floats.isFinite(packetIn.getPitch(0.0F)) && Floats.isFinite(packetIn.getYaw(0.0F)) ? false : Math.abs(packetIn.getX(0.0D)) <= 3.0E7D && Math.abs(packetIn.getZ(0.0D)) <= 3.0E7D;
     }
 
     private static boolean isMoveVehiclePacketInvalid(CPacketVehicleMove packetIn)
@@ -467,81 +467,92 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable
                         double d9 = d6 - this.firstGoodZ;
                         double d10 = this.playerEntity.motionX * this.playerEntity.motionX + this.playerEntity.motionY * this.playerEntity.motionY + this.playerEntity.motionZ * this.playerEntity.motionZ;
                         double d11 = d7 * d7 + d8 * d8 + d9 * d9;
-                        ++this.movePacketCounter;
-                        int i = this.movePacketCounter - this.lastMovePacketCounter;
 
-                        if (i > 5)
+                        if (this.playerEntity.isPlayerSleeping())
                         {
-                            LOGGER.debug("{} is sending move packets too frequently ({} packets since last tick)", new Object[] {this.playerEntity.getName(), Integer.valueOf(i)});
-                            i = 1;
-                        }
-
-                        if (!this.playerEntity.isInvulnerableDimensionChange() && (!this.playerEntity.getServerWorld().getGameRules().getBoolean("disableElytraMovementCheck") || !this.playerEntity.isElytraFlying()))
-                        {
-                            float f2 = this.playerEntity.isElytraFlying() ? 300.0F : 100.0F;
-
-                            if (d11 - d10 > (double)(f2 * (float)i) && (!this.serverController.isSinglePlayer() || !this.serverController.getServerOwner().equals(this.playerEntity.getName())))
+                            if (d11 > 1.0D)
                             {
-                                LOGGER.warn("{} moved too quickly! {},{},{}", new Object[] {this.playerEntity.getName(), Double.valueOf(d7), Double.valueOf(d8), Double.valueOf(d9)});
-                                this.setPlayerLocation(this.playerEntity.posX, this.playerEntity.posY, this.playerEntity.posZ, this.playerEntity.rotationYaw, this.playerEntity.rotationPitch);
-                                return;
+                                this.setPlayerLocation(this.playerEntity.posX, this.playerEntity.posY, this.playerEntity.posZ, packetIn.getYaw(this.playerEntity.rotationYaw), packetIn.getPitch(this.playerEntity.rotationPitch));
                             }
                         }
-
-                        boolean flag2 = worldserver.getCollisionBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract(0.0625D)).isEmpty();
-                        d7 = d4 - this.lastGoodX;
-                        d8 = d5 - this.lastGoodY;
-                        d9 = d6 - this.lastGoodZ;
-
-                        if (this.playerEntity.onGround && !packetIn.isOnGround() && d8 > 0.0D)
+                        else
                         {
-                            this.playerEntity.jump();
-                        }
+                            ++this.movePacketCounter;
+                            int i = this.movePacketCounter - this.lastMovePacketCounter;
 
-                        this.playerEntity.moveEntity(MoverType.PLAYER, d7, d8, d9);
-                        this.playerEntity.onGround = packetIn.isOnGround();
-                        double d12 = d8;
-                        d7 = d4 - this.playerEntity.posX;
-                        d8 = d5 - this.playerEntity.posY;
-
-                        if (d8 > -0.5D || d8 < 0.5D)
-                        {
-                            d8 = 0.0D;
-                        }
-
-                        d9 = d6 - this.playerEntity.posZ;
-                        d11 = d7 * d7 + d8 * d8 + d9 * d9;
-                        boolean flag = false;
-
-                        if (!this.playerEntity.isInvulnerableDimensionChange() && d11 > 0.0625D && !this.playerEntity.isPlayerSleeping() && !this.playerEntity.interactionManager.isCreative() && this.playerEntity.interactionManager.getGameType() != GameType.SPECTATOR)
-                        {
-                            flag = true;
-                            LOGGER.warn("{} moved wrongly!", new Object[] {this.playerEntity.getName()});
-                        }
-
-                        this.playerEntity.setPositionAndRotation(d4, d5, d6, f, f1);
-                        this.playerEntity.addMovementStat(this.playerEntity.posX - d0, this.playerEntity.posY - d1, this.playerEntity.posZ - d2);
-
-                        if (!this.playerEntity.noClip && !this.playerEntity.isPlayerSleeping())
-                        {
-                            boolean flag1 = worldserver.getCollisionBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract(0.0625D)).isEmpty();
-
-                            if (flag2 && (flag || !flag1))
+                            if (i > 5)
                             {
-                                this.setPlayerLocation(d0, d1, d2, f, f1);
-                                return;
+                                LOGGER.debug("{} is sending move packets too frequently ({} packets since last tick)", new Object[] {this.playerEntity.getName(), Integer.valueOf(i)});
+                                i = 1;
                             }
-                        }
 
-                        this.floating = d12 >= -0.03125D;
-                        this.floating &= !this.serverController.isFlightAllowed() && !this.playerEntity.capabilities.allowFlying;
-                        this.floating &= !this.playerEntity.isPotionActive(MobEffects.LEVITATION) && !this.playerEntity.isElytraFlying() && !worldserver.checkBlockCollision(this.playerEntity.getEntityBoundingBox().expandXyz(0.0625D).addCoord(0.0D, -0.55D, 0.0D));
-                        this.playerEntity.onGround = packetIn.isOnGround();
-                        this.serverController.getPlayerList().serverUpdateMountedMovingPlayer(this.playerEntity);
-                        this.playerEntity.handleFalling(this.playerEntity.posY - d3, packetIn.isOnGround());
-                        this.lastGoodX = this.playerEntity.posX;
-                        this.lastGoodY = this.playerEntity.posY;
-                        this.lastGoodZ = this.playerEntity.posZ;
+                            if (!this.playerEntity.isInvulnerableDimensionChange() && (!this.playerEntity.getServerWorld().getGameRules().getBoolean("disableElytraMovementCheck") || !this.playerEntity.isElytraFlying()))
+                            {
+                                float f2 = this.playerEntity.isElytraFlying() ? 300.0F : 100.0F;
+
+                                if (d11 - d10 > (double)(f2 * (float)i) && (!this.serverController.isSinglePlayer() || !this.serverController.getServerOwner().equals(this.playerEntity.getName())))
+                                {
+                                    LOGGER.warn("{} moved too quickly! {},{},{}", new Object[] {this.playerEntity.getName(), Double.valueOf(d7), Double.valueOf(d8), Double.valueOf(d9)});
+                                    this.setPlayerLocation(this.playerEntity.posX, this.playerEntity.posY, this.playerEntity.posZ, this.playerEntity.rotationYaw, this.playerEntity.rotationPitch);
+                                    return;
+                                }
+                            }
+
+                            boolean flag2 = worldserver.getCollisionBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract(0.0625D)).isEmpty();
+                            d7 = d4 - this.lastGoodX;
+                            d8 = d5 - this.lastGoodY;
+                            d9 = d6 - this.lastGoodZ;
+
+                            if (this.playerEntity.onGround && !packetIn.isOnGround() && d8 > 0.0D)
+                            {
+                                this.playerEntity.jump();
+                            }
+
+                            this.playerEntity.moveEntity(MoverType.PLAYER, d7, d8, d9);
+                            this.playerEntity.onGround = packetIn.isOnGround();
+                            double d12 = d8;
+                            d7 = d4 - this.playerEntity.posX;
+                            d8 = d5 - this.playerEntity.posY;
+
+                            if (d8 > -0.5D || d8 < 0.5D)
+                            {
+                                d8 = 0.0D;
+                            }
+
+                            d9 = d6 - this.playerEntity.posZ;
+                            d11 = d7 * d7 + d8 * d8 + d9 * d9;
+                            boolean flag = false;
+
+                            if (!this.playerEntity.isInvulnerableDimensionChange() && d11 > 0.0625D && !this.playerEntity.isPlayerSleeping() && !this.playerEntity.interactionManager.isCreative() && this.playerEntity.interactionManager.getGameType() != GameType.SPECTATOR)
+                            {
+                                flag = true;
+                                LOGGER.warn("{} moved wrongly!", new Object[] {this.playerEntity.getName()});
+                            }
+
+                            this.playerEntity.setPositionAndRotation(d4, d5, d6, f, f1);
+                            this.playerEntity.addMovementStat(this.playerEntity.posX - d0, this.playerEntity.posY - d1, this.playerEntity.posZ - d2);
+
+                            if (!this.playerEntity.noClip && !this.playerEntity.isPlayerSleeping())
+                            {
+                                boolean flag1 = worldserver.getCollisionBoxes(this.playerEntity, this.playerEntity.getEntityBoundingBox().contract(0.0625D)).isEmpty();
+
+                                if (flag2 && (flag || !flag1))
+                                {
+                                    this.setPlayerLocation(d0, d1, d2, f, f1);
+                                    return;
+                                }
+                            }
+
+                            this.floating = d12 >= -0.03125D;
+                            this.floating &= !this.serverController.isFlightAllowed() && !this.playerEntity.capabilities.allowFlying;
+                            this.floating &= !this.playerEntity.isPotionActive(MobEffects.LEVITATION) && !this.playerEntity.isElytraFlying() && !worldserver.checkBlockCollision(this.playerEntity.getEntityBoundingBox().expandXyz(0.0625D).addCoord(0.0D, -0.55D, 0.0D));
+                            this.playerEntity.onGround = packetIn.isOnGround();
+                            this.serverController.getPlayerList().serverUpdateMountedMovingPlayer(this.playerEntity);
+                            this.playerEntity.handleFalling(this.playerEntity.posY - d3, packetIn.isOnGround());
+                            this.lastGoodX = this.playerEntity.posX;
+                            this.lastGoodY = this.playerEntity.posY;
+                            this.lastGoodZ = this.playerEntity.posZ;
+                        }
                     }
                 }
             }

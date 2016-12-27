@@ -1,41 +1,47 @@
 INFO:  Adding File to context from classpath: C:\Users\Noah\Desktop\Coding\MoreFuelsMod\morefuelsmod-1.11\gradle\wrapper\gradle-wrapper.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\resources.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\rt.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\jsse.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\jce.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\charsets.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\jfr.jar
-INFO:  Decompiling class net/minecraft/client/audio/ITickableSound
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\resources.jar
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\rt.jar
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\jsse.jar
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\jce.jar
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\charsets.jar
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\jfr.jar
+INFO:  Decompiling class net/minecraft/client/audio/SoundList
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/server/integrated/IntegratedServer
+INFO:  Decompiling class net/minecraft/client/audio/ISound
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/audio/SoundListSerializer
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/audio/ITickableSound
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/server/integrated/IntegratedPlayerList
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/network/LanServerInfo
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/server/integrated/IntegratedServerCommandManager
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/multiplayer/ThreadLanServerPing
+INFO:  Decompiling class net/minecraft/server/integrated/IntegratedServer
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/network/LanServerDetector
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/audio/MusicTicker
+INFO:  Decompiling class net/minecraft/client/network/LanServerInfo
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/audio/ISoundEventListener
+INFO:  Decompiling class net/minecraft/client/multiplayer/ThreadLanServerPing
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/audio/SoundManager
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/audio/SoundRegistry
+INFO:  Decompiling class net/minecraft/client/audio/MusicTicker
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/audio/SoundHandler
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/audio/ISoundEventAccessor
+INFO:  Decompiling class net/minecraft/client/audio/ISoundEventListener
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/audio/SoundEventAccessor
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/Matrix4f
+INFO:  Decompiling class net/minecraft/client/audio/SoundRegistry
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/audio/ISoundEventAccessor
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/Vector3d
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/Matrix4f
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/OpenGlHelper
 INFO:  ... done
@@ -843,6 +849,8 @@ INFO:  Decompiling class net/minecraft/util/datafix/fixes/ShulkerBoxItemColor
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/util/datafix/fixes/SpawnEggNames
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/util/datafix/fixes/TotemItemRename
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/util/datafix/fixes/PotionWater
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/util/datafix/fixes/BookPagesStrictJSON
@@ -969,9 +977,9 @@ INFO:  Decompiling class net/minecraft/entity/IEntityOwnable
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/EntityCreature
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/IJumpingMount
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/realms/RealmsVertexFormatElement
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/entity/IJumpingMount
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/passive/EntityTameable
 INFO:  ... done
@@ -1277,8 +1285,6 @@ INFO:  Decompiling class net/minecraft/entity/monster/EntityHusk
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/monster/EntityMagmaCube
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/monster/EntityMob
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/realms/RealmsAnvilLevelStorageSource
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/realms/RealmsScrolledSelectionList
@@ -1295,451 +1301,455 @@ INFO:  Decompiling class net/minecraft/realms/RealmsBufferBuilder
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/realms/RealmsDefaultVertexFormat
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/monster/EntityPigZombie
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/SharedMonsterAttributes
+INFO:  Decompiling class net/minecraft/entity/monster/EntityMob
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/IRangedAttackMob
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/monster/EntitySilverfish
+INFO:  Decompiling class net/minecraft/entity/monster/EntityPigZombie
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/monster/EntityShulker
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/monster/EntitySlime
+INFO:  Decompiling class net/minecraft/entity/SharedMonsterAttributes
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/monster/EntitySkeleton
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/monster/EntityStray
+INFO:  Decompiling class net/minecraft/entity/monster/EntitySilverfish
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/monster/EntitySpider
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/monster/EntityVindicator
+INFO:  Decompiling class net/minecraft/entity/monster/EntitySlime
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/monster/EntityVex
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/monster/EntityWitherSkeleton
+INFO:  Decompiling class net/minecraft/entity/monster/EntityStray
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/monster/EntityWitch
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/monster/EntityZombieVillager
+INFO:  Decompiling class net/minecraft/entity/monster/EntityVindicator
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/monster/EntityZombie
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/entity/monster/EntityWitherSkeleton
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/entity/monster/EntityZombieVillager
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/entity/INpc
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/NpcMerchant
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/passive/EntityVillager
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/INpc
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/player/InventoryPlayer
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/player/PlayerCapabilities
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/player/EnumPlayerModelParts
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/player/EntityPlayer
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/projectile/EntityDragonFireball
+INFO:  Decompiling class net/minecraft/entity/player/InventoryPlayer
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/entity/player/EnumPlayerModelParts
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/projectile/EntityArrow
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/item/EntityEnderEye
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/projectile/EntityEvokerFangs
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/item/EntityFireworkRocket
+INFO:  Decompiling class net/minecraft/entity/projectile/EntityDragonFireball
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/projectile/EntityFireball
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/projectile/EntityLlamaSpit
+INFO:  Decompiling class net/minecraft/entity/item/EntityEnderEye
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/projectile/EntityLargeFireball
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/projectile/ProjectileHelper
+INFO:  Decompiling class net/minecraft/entity/item/EntityFireworkRocket
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/IProjectile
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/projectile/EntitySmallFireball
+INFO:  Decompiling class net/minecraft/entity/projectile/EntityLlamaSpit
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/projectile/EntityShulkerBullet
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/projectile/EntitySpectralArrow
+INFO:  Decompiling class net/minecraft/entity/projectile/ProjectileHelper
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/projectile/EntitySnowball
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/projectile/EntityEgg
+INFO:  Decompiling class net/minecraft/entity/projectile/EntitySmallFireball
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/projectile/EntityThrowable
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/item/EntityExpBottle
+INFO:  Decompiling class net/minecraft/entity/projectile/EntitySpectralArrow
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/item/EntityEnderPearl
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/projectile/EntityTippedArrow
+INFO:  Decompiling class net/minecraft/entity/projectile/EntityEgg
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/projectile/EntityPotion
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/entity/item/EntityExpBottle
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/projectile/EntityWitherSkull
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/item/EntityMinecart
+INFO:  Decompiling class net/minecraft/entity/projectile/EntityTippedArrow
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/item/EntityBoat
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartCommandBlock
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartChest
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartContainer
+INFO:  Decompiling class net/minecraft/entity/item/EntityMinecart
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartHopper
+INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartCommandBlock
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartFurnace
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartMobSpawner
+INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartContainer
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartEmpty
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartHopper
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartTNT
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/entity/item/EntityMinecartMobSpawner
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/util/FoodStats
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/Container
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/ContainerBeacon
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/ContainerRepair
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/ContainerChest
+INFO:  Decompiling class net/minecraft/inventory/Container
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/ContainerBrewingStand
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/IContainerListener
+INFO:  Decompiling class net/minecraft/inventory/ContainerBeacon
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/ClickType
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/ContainerWorkbench
+INFO:  Decompiling class net/minecraft/inventory/ContainerChest
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/InventoryCrafting
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/ContainerEnchantment
+INFO:  Decompiling class net/minecraft/inventory/IContainerListener
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/ContainerDispenser
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/ContainerFurnace
+INFO:  Decompiling class net/minecraft/inventory/ContainerWorkbench
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/SlotFurnaceFuel
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/ContainerHopper
+INFO:  Decompiling class net/minecraft/inventory/ContainerEnchantment
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/SlotFurnaceOutput
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/ContainerHorseChest
+INFO:  Decompiling class net/minecraft/inventory/ContainerFurnace
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/ContainerPlayer
+INFO:  Decompiling class net/minecraft/inventory/ContainerHopper
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/ContainerHorseInventory
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/ContainerMerchant
+INFO:  Decompiling class net/minecraft/inventory/ContainerHorseChest
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/InventoryMerchant
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/InventoryEnderChest
+INFO:  Decompiling class net/minecraft/inventory/ContainerPlayer
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/SlotMerchantResult
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/SlotCrafting
+INFO:  Decompiling class net/minecraft/inventory/ContainerMerchant
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/InventoryCraftResult
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/inventory/SlotShulkerBox
+INFO:  Decompiling class net/minecraft/inventory/InventoryEnderChest
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/ContainerShulkerBox
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/inventory/SlotCrafting
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/inventory/Slot
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemAnvilBlock
+INFO:  Decompiling class net/minecraft/inventory/SlotShulkerBox
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemAir
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemArmorStand
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemArmor
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemAxe
+INFO:  Decompiling class net/minecraft/item/ItemAnvilBlock
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemArrow
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemBed
+INFO:  Decompiling class net/minecraft/item/ItemArmorStand
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemBanner
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemBlockSpecial
+INFO:  Decompiling class net/minecraft/item/ItemAxe
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemBlock
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemBook
+INFO:  Decompiling class net/minecraft/item/ItemBed
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemBoat
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemBow
+INFO:  Decompiling class net/minecraft/item/ItemBlockSpecial
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemGlassBottle
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemSoup
+INFO:  Decompiling class net/minecraft/item/ItemBook
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemCarrotOnAStick
+INFO:  Decompiling class net/minecraft/item/ItemBow
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemBucket
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemClock
+INFO:  Decompiling class net/minecraft/item/ItemSoup
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemChorusFruit
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemCompass
+INFO:  Decompiling class net/minecraft/item/ItemCarrotOnAStick
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemCoal
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/creativetab/CreativeTabs
+INFO:  Decompiling class net/minecraft/item/ItemClock
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemMapBase
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemDoor
+INFO:  Decompiling class net/minecraft/item/ItemCompass
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemTool
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemDye
+INFO:  Decompiling class net/minecraft/creativetab/CreativeTabs
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/EnumDyeColor
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemEgg
+INFO:  Decompiling class net/minecraft/item/ItemDoor
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemCloth
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemEmptyMap
+INFO:  Decompiling class net/minecraft/item/ItemDye
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemElytra
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemEndCrystal
+INFO:  Decompiling class net/minecraft/item/ItemEgg
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemEnchantedBook
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemEnderPearl
+INFO:  Decompiling class net/minecraft/item/ItemEmptyMap
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemEnderEye
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemFireball
+INFO:  Decompiling class net/minecraft/item/ItemEndCrystal
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemExpBottle
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemFirework
+INFO:  Decompiling class net/minecraft/item/ItemEnderPearl
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemFireworkCharge
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemFishFood
+INFO:  Decompiling class net/minecraft/item/ItemFireball
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemFlintAndSteel
+INFO:  Decompiling class net/minecraft/item/ItemFirework
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemFishingRod
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemAppleGold
+INFO:  Decompiling class net/minecraft/item/ItemFishFood
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemFood
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemHoe
+INFO:  Decompiling class net/minecraft/item/ItemFlintAndSteel
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemHangingEntity
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/util/CooldownTracker
+INFO:  Decompiling class net/minecraft/item/ItemAppleGold
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/Item
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/IItemPropertyGetter
+INFO:  Decompiling class net/minecraft/item/ItemHoe
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemStack
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemLead
+INFO:  Decompiling class net/minecraft/util/CooldownTracker
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/init/Items
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemLingeringPotion
+INFO:  Decompiling class net/minecraft/item/IItemPropertyGetter
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemLeaves
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemBucketMilk
+INFO:  Decompiling class net/minecraft/item/ItemLead
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemMap
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemMultiTexture
+INFO:  Decompiling class net/minecraft/item/ItemLingeringPotion
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemMinecart
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemPickaxe
+INFO:  Decompiling class net/minecraft/item/ItemBucketMilk
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemNameTag
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemPotion
+INFO:  Decompiling class net/minecraft/item/ItemMultiTexture
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemPiston
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemRecord
+INFO:  Decompiling class net/minecraft/item/ItemPickaxe
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/EnumRarity
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemSaddle
+INFO:  Decompiling class net/minecraft/item/ItemPotion
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemRedstone
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/item/ItemRecord
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/realms/RealmsBridge
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemSeedFood
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/util/CooldownTrackerServer
+INFO:  Decompiling class net/minecraft/item/ItemSaddle
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemSeeds
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemShield
+INFO:  Decompiling class net/minecraft/item/ItemSeedFood
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemShears
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemShulkerBox
+INFO:  Decompiling class net/minecraft/util/CooldownTrackerServer
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemSpade
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemSimpleFoiled
+INFO:  Decompiling class net/minecraft/item/ItemShield
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemSign
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemSlab
+INFO:  Decompiling class net/minecraft/item/ItemShulkerBox
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemSkull
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemSnowball
+INFO:  Decompiling class net/minecraft/item/ItemSimpleFoiled
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemSnow
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemSpectralArrow
+INFO:  Decompiling class net/minecraft/item/ItemSlab
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemMonsterPlacer
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemSword
+INFO:  Decompiling class net/minecraft/item/ItemSnowball
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemSplashPotion
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemTippedArrow
+INFO:  Decompiling class net/minecraft/item/ItemSpectralArrow
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemColored
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemLilyPad
+INFO:  Decompiling class net/minecraft/item/ItemSword
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/EnumAction
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/ItemWrittenBook
+INFO:  Decompiling class net/minecraft/item/ItemTippedArrow
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/ItemWritableBook
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/potion/PotionHelper
+INFO:  Decompiling class net/minecraft/item/ItemLilyPad
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/potion/PotionType
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/potion/PotionUtils
+INFO:  Decompiling class net/minecraft/item/ItemWrittenBook
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/potion/PotionHelper
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/init/PotionTypes
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/crafting/RecipesArmor
+INFO:  Decompiling class net/minecraft/potion/PotionUtils
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/crafting/RecipesArmorDyes
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/crafting/RecipeBookCloning
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/crafting/RecipesBanners
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/crafting/RecipeFireworks
+INFO:  Decompiling class net/minecraft/item/crafting/RecipesArmor
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/crafting/RecipesDyes
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/crafting/FurnaceRecipes
+INFO:  Decompiling class net/minecraft/item/crafting/RecipeBookCloning
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/crafting/RecipesFood
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/crafting/RecipesMapExtending
+INFO:  Decompiling class net/minecraft/item/crafting/RecipeFireworks
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/crafting/RecipesMapCloning
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/crafting/IRecipe
+INFO:  Decompiling class net/minecraft/item/crafting/FurnaceRecipes
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/crafting/RecipesIngots
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/crafting/RecipeRepairItem
+INFO:  Decompiling class net/minecraft/item/crafting/RecipesMapExtending
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/crafting/CraftingManager
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/crafting/ShapelessRecipes
+INFO:  Decompiling class net/minecraft/item/crafting/IRecipe
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/crafting/ShapedRecipes
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/crafting/ShulkerBoxRecipes
+INFO:  Decompiling class net/minecraft/item/crafting/RecipeRepairItem
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/crafting/ShieldRecipes
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/crafting/RecipeTippedArrow
+INFO:  Decompiling class net/minecraft/item/crafting/ShapelessRecipes
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/crafting/RecipesCrafting
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/item/crafting/RecipesWeapons
+INFO:  Decompiling class net/minecraft/item/crafting/ShulkerBoxRecipes
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/item/crafting/RecipesTools
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/item/crafting/RecipeTippedArrow
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/item/crafting/RecipesWeapons
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentArrowDamage
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnchantmentArrowFire
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnchantmentArrowKnockback
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentArrowInfinite
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnchantmentDamage
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentArrowFire
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentBindingCurse
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnchantmentDigging
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentArrowKnockback
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentDurability
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnumEnchantmentType
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentDamage
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/Enchantment
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnchantmentData
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentDigging
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentHelper
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnchantmentFireAspect
+INFO:  Decompiling class net/minecraft/enchantment/EnumEnchantmentType
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/init/Enchantments
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnchantmentFrostWalker
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentData
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentFishingSpeed
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnchantmentLootBonus
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentFireAspect
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentKnockback
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnchantmentOxygen
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentFrostWalker
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentMending
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnchantmentThorns
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentLootBonus
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentProtection
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentOxygen
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentThorns
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentSweepingEdge
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentVanishingCurse
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentUntouching
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/enchantment/EnchantmentWaterWorker
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/enchantment/EnchantmentWaterWalker
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/enchantment/EnchantmentWaterWorker
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/entity/IMerchant
 INFO:  ... done
@@ -1783,11 +1793,11 @@ INFO:  Decompiling class net/minecraft/world/WorldEntitySpawner
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/EnumSkyBlock
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/world/ChunkCache
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/Teleporter
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/util/WeightedSpawnerEntity
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/world/ChunkCache
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/biome/BiomeBeach
 INFO:  ... done
@@ -1831,11 +1841,11 @@ INFO:  Decompiling class net/minecraft/world/biome/BiomeOcean
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/biome/BiomeSavannaMutated
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/world/biome/BiomeRiver
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/biome/BiomePlains
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/biome/BiomeSavanna
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/world/biome/BiomeRiver
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/biome/BiomeSwamp
 INFO:  ... done
@@ -1883,11 +1893,11 @@ INFO:  Decompiling class net/minecraft/block/BlockBrewingStand
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockBookshelf
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/block/BlockButton
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockBush
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockCactus
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/block/BlockButton
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockCarrot
 INFO:  ... done
@@ -1933,11 +1943,11 @@ INFO:  Decompiling class net/minecraft/block/BlockDoublePlant
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockDoor
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/block/BlockDropper
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockDragonEgg
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockDynamicLiquid
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/block/BlockDropper
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockEndGateway
 INFO:  ... done
@@ -1987,11 +1997,11 @@ INFO:  Decompiling class net/minecraft/block/BlockGravel
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockGrassPath
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/block/BlockSlab
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockHalfStoneSlabNew
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockHalfStoneSlab
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/block/BlockSlab
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockHalfWoodSlab
 INFO:  ... done
@@ -2035,11 +2045,11 @@ INFO:  Decompiling class net/minecraft/block/BlockMycelium
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockMushroom
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/block/BlockNetherWart
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockNetherBrick
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockNetherrack
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/block/BlockNetherWart
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockNewLog
 INFO:  ... done
@@ -2089,11 +2099,11 @@ INFO:  Decompiling class net/minecraft/block/BlockRedSandstone
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockRedFlower
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/block/BlockRedstoneWire
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockRedstoneOre
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockRedstoneLight
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/block/BlockRedstoneWire
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockReed
 INFO:  ... done
@@ -2139,11 +2149,11 @@ INFO:  Decompiling class net/minecraft/block/BlockStairs
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockStainedGlassPane
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/block/BlockStaticLiquid
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockStandingSign
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockStem
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/block/BlockStaticLiquid
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockStoneBrick
 INFO:  ... done
@@ -2193,11 +2203,11 @@ INFO:  Decompiling class net/minecraft/tileentity/TileEntityBanner
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/BlockYellowFlower
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/tileentity/TileEntityBeacon
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/tileentity/BannerPattern
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/tileentity/TileEntity
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/tileentity/TileEntityBeacon
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/tileentity/TileEntityChest
 INFO:  ... done
@@ -2285,9 +2295,9 @@ INFO:  Decompiling class net/minecraft/block/properties/PropertyEnum
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/properties/PropertyDirection
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/block/properties/IProperty
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/block/properties/PropertyInteger
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/block/properties/IProperty
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/border/EnumBorderStatus
 INFO:  ... done
@@ -2323,9 +2333,9 @@ INFO:  Decompiling class net/minecraft/world/chunk/IBlockStatePaletteResizer
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/chunk/storage/IChunkLoader
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/world/chunk/storage/ChunkLoader
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/chunk/storage/RegionFile
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/world/chunk/storage/ChunkLoader
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/chunk/storage/AnvilChunkLoader
 INFO:  ... done
@@ -2369,11 +2379,11 @@ INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenAbstractTree
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/ChunkProviderEnd
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenBirchTree
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenBigTree
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenBlockBlob
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenBirchTree
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenBush
 INFO:  ... done
@@ -2419,11 +2429,11 @@ INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenGlowStone1
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenLakes
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenMegaPineTree
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenMegaJungle
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenHugeTrees
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenMegaPineTree
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/feature/WorldGenDungeons
 INFO:  ... done
@@ -2465,11 +2475,11 @@ INFO:  Decompiling class net/minecraft/world/gen/FlatGeneratorInfo
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/structure/StructureBoundingBox
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/world/gen/structure/StructureEndCityPieces
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/structure/MapGenEndCity
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/structure/MapGenMineshaft
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/world/gen/structure/StructureEndCityPieces
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/structure/StructureMineshaftStart
 INFO:  ... done
@@ -2513,11 +2523,11 @@ INFO:  Decompiling class net/minecraft/world/gen/structure/WoodlandMansion
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/structure/template/BlockRotationProcessor
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/world/gen/structure/template/PlacementSettings
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/structure/template/TemplateManager
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/structure/template/ITemplateProcessor
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/world/gen/structure/template/PlacementSettings
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/world/gen/structure/template/Template
 INFO:  ... done
@@ -2589,11 +2599,11 @@ INFO:  Decompiling class net/minecraft/world/gen/layer/GenLayerZoom
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/pathfinding/PathHeap
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/pathfinding/PathPoint
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/pathfinding/PathNodeType
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/pathfinding/NodeProcessor
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/pathfinding/PathPoint
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/pathfinding/PathFinder
 INFO:  ... done
@@ -2715,9 +2725,9 @@ INFO:  Decompiling class net/minecraft/util/math/Vec2f
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/scoreboard/ScoreObjective
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/scoreboard/Score
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/scoreboard/ScorePlayerTeam
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/scoreboard/Score
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/scoreboard/ScoreboardSaveData
 INFO:  ... done
@@ -2763,9 +2773,9 @@ INFO:  Decompiling class net/minecraft/util/Session
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/util/Timer
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/color/BlockColors
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/color/IBlockColor
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/color/BlockColors
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/color/ItemColors
 INFO:  ... done
@@ -2807,21 +2817,21 @@ INFO:  Decompiling class net/minecraft/client/gui/GuiListExtended
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiLockIconButton
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/gui/GuiOptionsRowList
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiOptionButton
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiPageButtonList
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/gui/GuiOptionsRowList
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiSlot
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiPlayerTabOverlay
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/realms/RealmsConnect
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiSubtitleOverlay
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiOptionSlider
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/realms/RealmsConnect
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiSpectator
 INFO:  ... done
@@ -2857,11 +2867,11 @@ INFO:  Decompiling class net/minecraft/client/gui/GuiGameOver
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiCustomizeWorldScreen
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/gui/GuiScreenServerList
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiScreenDemo
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiDisconnected
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/gui/GuiScreenServerList
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiErrorScreen
 INFO:  ... done
@@ -2879,11 +2889,11 @@ INFO:  Decompiling class net/minecraft/client/gui/GuiMemoryErrorScreen
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiScreenWorking
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/ClientBrandRetriever
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiFlatPresets
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiScreen
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/ClientBrandRetriever
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiDownloadTerrain
 INFO:  ... done
@@ -2907,11 +2917,11 @@ INFO:  Decompiling class net/minecraft/client/gui/achievement/GuiAchievement
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiWinGame
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/gui/achievement/GuiStats
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/achievement/GuiAchievements
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/IProgressMeter
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/gui/achievement/GuiStats
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiKeyBindingList
 INFO:  ... done
@@ -2957,11 +2967,11 @@ INFO:  Decompiling class net/minecraft/client/gui/inventory/GuiEditCommandBlockM
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiMerchant
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/gui/inventory/GuiEditSign
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/inventory/GuiShulkerBox
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/inventory/GuiEditStructure
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/gui/inventory/GuiEditSign
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/ServerListEntryLanScan
 INFO:  ... done
@@ -2987,17 +2997,17 @@ INFO:  Decompiling class net/minecraft/client/gui/GuiResourcePackAvailable
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiResourcePackSelected
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/gui/GuiResourcePackList
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/realms/RealmsLevelSummary
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/gui/GuiCreateWorld
+INFO:  Decompiling class net/minecraft/client/gui/GuiResourcePackList
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/gui/GuiWorldSelection
+INFO:  Decompiling class net/minecraft/client/gui/GuiCreateWorld
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiWorldEdit
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiListWorldSelectionEntry
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/gui/GuiWorldSelection
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/gui/GuiListWorldSelection
 INFO:  ... done
@@ -3035,11 +3045,11 @@ INFO:  Decompiling class net/minecraft/client/model/ModelBook
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelBoat
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/model/ModelChicken
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelChest
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelCow
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/model/ModelChicken
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelElytra
 INFO:  ... done
@@ -3051,11 +3061,11 @@ INFO:  Decompiling class net/minecraft/client/model/ModelEnderman
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelEvoker
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/main/Main
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelEvokerFangs
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelGuardian
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/main/Main
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelGhast
 INFO:  ... done
@@ -3087,11 +3097,11 @@ INFO:  Decompiling class net/minecraft/client/model/ModelPlayer
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelPig
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/model/TexturedQuad
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelPolarBear
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelQuadruped
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/model/TexturedQuad
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelSheep1
 INFO:  ... done
@@ -3139,11 +3149,11 @@ INFO:  Decompiling class net/minecraft/client/model/ModelWither
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelWitch
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/model/ModelZombie
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelWolf
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelDragonHead
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/model/ModelZombie
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/model/ModelEnderCrystal
 INFO:  ... done
@@ -3177,11 +3187,11 @@ INFO:  Decompiling class net/minecraft/client/network/ServerPinger
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/particle/ParticleSweepAttack
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/particle/ParticleBreaking
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/particle/Barrier
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/particle/ParticleBubble
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/particle/ParticleBreaking
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/particle/ParticleDragonBreath
 INFO:  ... done
@@ -3231,11 +3241,11 @@ INFO:  Decompiling class net/minecraft/client/particle/ParticleRedstone
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/particle/ParticlePortal
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/particle/ParticleSmokeNormal
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/particle/ParticleSimpleAnimated
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/particle/ParticleSnowShovel
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/particle/ParticleSmokeNormal
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/particle/ParticleSpit
 INFO:  ... done
@@ -3275,11 +3285,11 @@ INFO:  Decompiling class net/minecraft/client/player/inventory/ContainerLocalMen
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/VertexBuffer
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/RegionRenderCacheBuilder
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/WorldVertexBufferUploader
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/ChunkRenderContainer
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/RegionRenderCacheBuilder
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/EnumFaceDirection
 INFO:  ... done
@@ -3319,11 +3329,11 @@ INFO:  Decompiling class net/minecraft/client/renderer/BlockModelShapes
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/ChestRenderer
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/BlockFluidRenderer
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/BlockRendererDispatcher
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/BlockModelRenderer
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/BlockFluidRenderer
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/block/model/BlockPart
 INFO:  ... done
@@ -3413,11 +3423,11 @@ INFO:  Decompiling class net/minecraft/client/renderer/chunk/ChunkRenderDispatch
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/chunk/ChunkCompileTaskGenerator
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/chunk/CompiledChunk
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/chunk/ChunkRenderWorker
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/chunk/ListChunkFactory
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/chunk/CompiledChunk
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/chunk/RenderChunk
 INFO:  ... done
@@ -3447,9 +3457,11 @@ INFO:  Decompiling class net/minecraft/client/renderer/debug/DebugRendererHeight
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/debug/DebugRenderer
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/debug/DebugRendererWater
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/debug/DebugRendererPathfinding
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/debug/DebugRendererNeighborsUpdate
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/debug/DebugRendererWater
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderAbstractHorse
 INFO:  ... done
@@ -3457,389 +3469,383 @@ INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderArmorStand
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderAreaEffectCloud
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderArrow
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderBlaze
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderBat
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderCaveSpider
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderArrow
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderBoat
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderCow
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderBlaze
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderChicken
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderEntity
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderCaveSpider
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderCreeper
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderElderGuardian
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderCow
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderDragonFireball
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderDragon
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderEntity
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/tileentity/RenderEnderCrystal
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderEndermite
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderElderGuardian
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderEnderman
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/Render
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderDragon
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderManager
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderEvoker
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderEndermite
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderEvokerFangs
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderFallingBlock
+INFO:  Decompiling class net/minecraft/client/renderer/entity/Render
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderXPOrb
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderFish
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderEvoker
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderFireball
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderGiantZombie
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderFallingBlock
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderGhast
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderFish
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderGiantZombie
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderHorse
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderGuardian
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderBiped
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderEntityItem
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderHusk
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/RenderItem
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderBiped
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/tileentity/RenderItemFrame
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderLeashKnot
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderEntityItem
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderMagmaCube
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderLivingBase
+INFO:  Decompiling class net/minecraft/client/renderer/RenderItem
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderLightningBolt
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderLlamaSpit
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderLeashKnot
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderLlama
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderMinecartMobSpawner
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderLivingBase
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderMinecart
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderMooshroom
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderLlamaSpit
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderLiving
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderPainting
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderMinecartMobSpawner
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderOcelot
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderPigZombie
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderMooshroom
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderPig
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderRabbit
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderPainting
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderPolarBear
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderShulkerBullet
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderPigZombie
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSheep
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderRabbit
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderShulkerBullet
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSilverfish
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderShulker
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSkeleton
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSnowMan
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSlime
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSpider
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSkeleton
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSpectralArrow
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderStray
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSnowMan
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSquid
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderPotion
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSpider
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderSnowball
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderTntMinecart
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderStray
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderTippedArrow
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderVex
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderPotion
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderTNTPrimed
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderVillager
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderTntMinecart
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderIronGolem
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderWitch
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderVex
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderVindicator
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderWitherSkeleton
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderVillager
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderWither
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderWolf
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderWitch
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/tileentity/RenderWitherSkull
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderZombieVillager
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderWitherSkeleton
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderZombie
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerArrow
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderWolf
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerArmorBase
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderZombieVillager
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerArrow
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerHeldBlock
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerCape
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerCreeperCharge
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerDeadmau5Head
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerCustomHead
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerEnderDragonDeath
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerCreeperCharge
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerElytra
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerEndermanEyes
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerDeadmau5Head
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerEnderDragonEyes
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerHeldItem
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerEnderDragonDeath
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerBipedArmor
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerMooshroomMushroom
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerEndermanEyes
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerLlamaDecor
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerRenderer
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerHeldItem
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerSaddle
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerSlimeGel
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerMooshroomMushroom
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerSheepWool
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerSpiderEyes
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerRenderer
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerSnowmanHead
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerVillagerArmor
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerSlimeGel
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerStrayClothing
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerHeldItemWitch
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerSpiderEyes
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerIronGolemFlower
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerWolfCollar
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerVillagerArmor
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerWitherAura
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerHeldItemWitch
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/entity/layers/LayerWolfCollar
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/entity/RenderPlayer
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/util/JsonBlendingMode
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/shader/ShaderManager
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/shader/ShaderDefault
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/shader/Shader
+INFO:  Decompiling class net/minecraft/client/util/JsonBlendingMode
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/shader/ShaderGroup
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/shader/ShaderLinkHelper
+INFO:  Decompiling class net/minecraft/client/shader/ShaderManager
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/shader/ShaderLoader
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/shader/Shader
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/shader/ShaderUniform
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/texture/AbstractTexture
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/ThreadDownloadImageData
+INFO:  Decompiling class net/minecraft/client/shader/ShaderLinkHelper
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/texture/DynamicTexture
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/texture/LayeredColorMaskTexture
+INFO:  Decompiling class net/minecraft/client/renderer/texture/AbstractTexture
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/texture/ITextureMapPopulator
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/texture/PngSizeInfo
+INFO:  Decompiling class net/minecraft/client/renderer/ThreadDownloadImageData
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/texture/LayeredTexture
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/texture/Stitcher
+INFO:  Decompiling class net/minecraft/client/renderer/texture/LayeredColorMaskTexture
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/texture/SimpleTexture
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/texture/TextureMap
+INFO:  Decompiling class net/minecraft/client/renderer/texture/PngSizeInfo
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/StitcherException
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/texture/TextureManager
+INFO:  Decompiling class net/minecraft/client/renderer/texture/Stitcher
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/texture/TextureAtlasSprite
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/texture/TextureMap
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/texture/TextureManager
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/texture/TextureUtil
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/texture/ITextureObject
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/texture/ITickable
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/texture/ITickableTextureObject
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/vertex/DefaultVertexFormats
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/vertex/VertexFormat
+INFO:  Decompiling class net/minecraft/client/renderer/texture/ITickable
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/vertex/VertexBuffer
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/vertex/DefaultVertexFormats
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/vertex/VertexFormatElement
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/ResourceIndex
+INFO:  Decompiling class net/minecraft/client/renderer/vertex/VertexFormat
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/AbstractResourcePack
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/DefaultResourcePack
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/DefaultPlayerSkin
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/FallbackResourceManager
+INFO:  Decompiling class net/minecraft/client/resources/ResourceIndex
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/ResourceIndexFolder
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/FolderResourcePack
+INFO:  Decompiling class net/minecraft/client/resources/DefaultResourcePack
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/FileResourcePack
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/GrassColorReloadListener
+INFO:  Decompiling class net/minecraft/client/resources/FallbackResourceManager
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/FoliageColorReloadListener
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/IResource
+INFO:  Decompiling class net/minecraft/client/resources/FolderResourcePack
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/IReloadableResourceManager
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/IResourceManagerReloadListener
+INFO:  Decompiling class net/minecraft/client/resources/GrassColorReloadListener
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/IResourceManager
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/LegacyV2Adapter
+INFO:  Decompiling class net/minecraft/client/resources/IResource
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/resources/IResourceManagerReloadListener
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/IResourcePack
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/ResourcePackFileNotFoundException
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/ResourcePackRepository
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/SimpleResource
+INFO:  Decompiling class net/minecraft/client/resources/LegacyV2Adapter
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/SimpleReloadableResourceManager
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/I18n
+INFO:  Decompiling class net/minecraft/client/resources/ResourcePackRepository
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/SkinManager
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/LanguageManager
+INFO:  Decompiling class net/minecraft/client/resources/SimpleResource
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/Language
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/resources/I18n
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/Locale
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/data/IMetadataSection
+INFO:  Decompiling class net/minecraft/client/resources/LanguageManager
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/data/BaseMetadataSectionSerializer
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/data/MetadataSerializer
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/data/IMetadataSectionSerializer
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/data/AnimationMetadataSection
+INFO:  Decompiling class net/minecraft/client/resources/data/IMetadataSection
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/data/AnimationFrame
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/resources/data/MetadataSerializer
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/data/AnimationMetadataSectionSerializer
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/data/FontMetadataSectionSerializer
+INFO:  Decompiling class net/minecraft/client/resources/data/AnimationMetadataSection
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/data/FontMetadataSection
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/data/LanguageMetadataSection
+INFO:  Decompiling class net/minecraft/client/resources/data/FontMetadataSectionSerializer
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/data/LanguageMetadataSectionSerializer
+INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/resources/data/LanguageMetadataSection
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/data/PackMetadataSectionSerializer
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/data/PackMetadataSection
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/resources/data/TextureMetadataSection
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/resources/data/TextureMetadataSectionSerializer
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/block/model/ModelRotation
+INFO:  Decompiling class net/minecraft/client/resources/data/TextureMetadataSection
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/block/model/IBakedModel
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/block/model/ModelBakery
-INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/block/model/BuiltInModel
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/block/model/ModelResourceLocation
+INFO:  Decompiling class net/minecraft/client/renderer/block/model/ModelRotation
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/block/model/ModelManager
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/renderer/block/model/SimpleBakedModel
+INFO:  Decompiling class net/minecraft/client/renderer/block/model/ModelBakery
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/block/model/MultipartBakedModel
 INFO:  ... done
+INFO:  Decompiling class net/minecraft/client/renderer/block/model/ModelResourceLocation
+INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/renderer/block/model/WeightedBakedModel
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/audio/PositionedSound
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/audio/ElytraSound
+INFO:  Decompiling class net/minecraft/client/renderer/block/model/SimpleBakedModel
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/audio/MovingSound
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/audio/MovingSoundMinecart
+INFO:  Decompiling class net/minecraft/client/audio/PositionedSound
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/audio/GuardianSound
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/audio/PositionedSoundRecord
+INFO:  Decompiling class net/minecraft/client/audio/ElytraSound
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/audio/MovingSoundMinecartRiding
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/audio/SoundList
+INFO:  Decompiling class net/minecraft/client/audio/MovingSoundMinecart
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/audio/Sound
 INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/audio/ISound
-INFO:  ... done
-INFO:  Decompiling class net/minecraft/client/audio/SoundListSerializer
+INFO:  Decompiling class net/minecraft/client/audio/PositionedSoundRecord
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/server/dedicated/PendingCommand
 INFO:  ... done

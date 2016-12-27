@@ -71,4 +71,9 @@ public class ItemBlockSpecial extends Item
             return EnumActionResult.FAIL;
         }
     }
+
+    public Block getBlock()
+    {
+        return this.block;
+    }
 }

@@ -212,6 +212,7 @@ public class FontRenderer implements IResourceManagerReloadListener
      */
     private float renderChar(char ch, boolean italic)
     {
+        if (ch == 160) return 4.0F; // forge: display nbsp as space. MC-2595
         if (ch == 32)
         {
             return 4.0F;
@@ -380,7 +381,7 @@ public class FontRenderer implements IResourceManagerReloadListener
 
             if (c0 == 167 && i + 1 < text.length())
             {
-                int i1 = "0123456789abcdefklmnor".indexOf(text.toLowerCase(Locale.ENGLISH).charAt(i + 1));
+                int i1 = "0123456789abcdefklmnor".indexOf(String.valueOf(text.charAt(i + 1)).toLowerCase(Locale.ROOT).charAt(0));
 
                 if (i1 < 16)
                 {
@@ -649,6 +650,7 @@ public class FontRenderer implements IResourceManagerReloadListener
      */
     public int getCharWidth(char character)
     {
+        if (character == 160) return 4; // forge: display nbsp as space. MC-2595
         if (character == 167)
         {
             return -1;

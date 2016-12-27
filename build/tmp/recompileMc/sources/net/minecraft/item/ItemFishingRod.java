@@ -2,6 +2,7 @@ package net.minecraft.item;
 
 import javax.annotation.Nullable;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
@@ -84,6 +85,20 @@ public class ItemFishingRod extends Item
             if (!itemStackIn.isRemote)
             {
                 EntityFishHook entityfishhook = new EntityFishHook(itemStackIn, worldIn);
+                int j = EnchantmentHelper.func_191528_c(itemstack);
+
+                if (j > 0)
+                {
+                    entityfishhook.func_191516_a(j);
+                }
+
+                int k = EnchantmentHelper.func_191529_b(itemstack);
+
+                if (k > 0)
+                {
+                    entityfishhook.func_191517_b(k);
+                }
+
                 itemStackIn.spawnEntityInWorld(entityfishhook);
             }
 

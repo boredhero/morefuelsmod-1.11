@@ -141,7 +141,7 @@ public final class ItemStack implements net.minecraftforge.common.capabilities.I
 
     public boolean func_190926_b()
     {
-        return this == field_190927_a ? true : (this.item != null && this.item != Item.getItemFromBlock(Blocks.AIR) ? (this.stackSize <= 0 ? true : this.itemDamage < -32768 || this.itemDamage > 65535) : true);
+        return this == field_190927_a ? true : (getItemRaw() != null && getItemRaw() != Item.getItemFromBlock(Blocks.AIR) ? (this.stackSize <= 0 ? true : this.itemDamage < -32768 || this.itemDamage > 65535) : true);
     }
 
     public static void registerFixes(DataFixer fixer)
@@ -431,7 +431,7 @@ public final class ItemStack implements net.minecraftforge.common.capabilities.I
 
     public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB)
     {
-        return stackA.func_190926_b() && stackB.func_190926_b() ? true : (!stackA.func_190926_b() && !stackB.func_190926_b() ? (stackA.stackTagCompound == null && stackB.stackTagCompound != null ? false : stackA.stackTagCompound == null || stackA.stackTagCompound.equals(stackB.stackTagCompound)) : false);
+        return stackA.func_190926_b() && stackB.func_190926_b() ? true : (!stackA.func_190926_b() && !stackB.func_190926_b() ? (stackA.stackTagCompound == null && stackB.stackTagCompound != null ? false : (stackA.stackTagCompound == null || stackA.stackTagCompound.equals(stackB.stackTagCompound)) && stackA.areCapsCompatible(stackB)) : false);
     }
 
     /**
@@ -1222,12 +1222,22 @@ public final class ItemStack implements net.minecraftforge.common.capabilities.I
      */
     private void forgeInit()
     {
-        if (this.item != null)
+        Item item = getItemRaw();
+        if (item != null)
         {
-            this.delegate = this.item.delegate;
-            net.minecraftforge.common.capabilities.ICapabilityProvider provider = this.item.initCapabilities(this, this.capNBT);
-            this.capabilities = net.minecraftforge.event.ForgeEventFactory.gatherCapabilities(this.item, this, provider);
+            this.delegate = item.delegate;
+            net.minecraftforge.common.capabilities.ICapabilityProvider provider = item.initCapabilities(this, this.capNBT);
+            this.capabilities = net.minecraftforge.event.ForgeEventFactory.gatherCapabilities(item, this, provider);
             if (this.capNBT != null && this.capabilities != null) this.capabilities.deserializeNBT(this.capNBT);
         }
+    }
+
+    /**
+     * Internal call to get the actual item, not the delegate.
+     * In all other methods, FML replaces calls to this.item with the item delegate.
+     */
+    private Item getItemRaw()
+    {
+        return this.item;
     }
 }

@@ -255,6 +255,14 @@ public class EntityZombieVillager extends EntityZombie
         return i;
     }
 
+    /**
+     * Gets the pitch of living sounds in living entities.
+     */
+    protected float getSoundPitch()
+    {
+        return this.isChild() ? (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 2.0F : (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F;
+    }
+
     public SoundEvent getAmbientSound()
     {
         return SoundEvents.ENTITY_ZOMBIE_VILLAGER_AMBIENT;

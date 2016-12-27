@@ -312,13 +312,7 @@ public abstract class TileEntity implements net.minecraftforge.common.capabiliti
 
     public void setPos(BlockPos posIn)
     {
-        if (posIn instanceof BlockPos.MutableBlockPos || posIn instanceof BlockPos.PooledMutableBlockPos)
-        {
-            LOGGER.warn((String)"Tried to assign a mutable BlockPos to a block entity...", (Throwable)(new Error(posIn.getClass().toString())));
-            posIn = new BlockPos(posIn);
-        }
-
-        this.pos = posIn;
+        this.pos = posIn.toImmutable();
     }
 
     public boolean onlyOpsCanSetNbt()

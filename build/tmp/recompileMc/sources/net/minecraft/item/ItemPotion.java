@@ -121,7 +121,7 @@ public class ItemPotion extends Item
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack stack)
     {
-        return !PotionUtils.getEffectsFromStack(stack).isEmpty();
+        return super.hasEffect(stack) || !PotionUtils.getEffectsFromStack(stack).isEmpty();
     }
 
     /**

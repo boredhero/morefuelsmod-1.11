@@ -70,6 +70,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
     /** Tracks the number of fingers currently on the screen. Prevents subsequent fingers registering as clicks. */
     private int touchValue;
     private URI clickedLinkURI;
+    protected boolean keyHandled, mouseHandled; // Forge: allow canceling key and mouse Post events from handleMouseInput and handleKeyboardInput
 
     /**
      * Draws the screen and all the components in it.
@@ -570,9 +571,10 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
         {
             while (Mouse.next())
             {
+                this.mouseHandled = false;
                 if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.MouseInputEvent.Pre(this))) continue;
                 this.handleMouseInput();
-                if (this.equals(this.mc.currentScreen)) net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.MouseInputEvent.Post(this));
+                if (this.equals(this.mc.currentScreen) && !this.mouseHandled) net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.MouseInputEvent.Post(this));
             }
         }
 
@@ -580,9 +582,10 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
         {
             while (Keyboard.next())
             {
+                this.keyHandled = false;
                 if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.KeyboardInputEvent.Pre(this))) continue;
                 this.handleKeyboardInput();
-                if (this.equals(this.mc.currentScreen)) net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.KeyboardInputEvent.Post(this));
+                if (this.equals(this.mc.currentScreen) && !this.keyHandled) net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.KeyboardInputEvent.Post(this));
             }
         }
     }

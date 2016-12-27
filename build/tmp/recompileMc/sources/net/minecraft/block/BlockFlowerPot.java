@@ -113,7 +113,7 @@ public class BlockFlowerPot extends BlockContainer
                 {
                     playerIn.setHeldItem(hand, itemstack1);
                 }
-                else if (!playerIn.inventory.addItemStackToInventory(itemstack1))
+                else if (!playerIn.func_191521_c(itemstack1))
                 {
                     playerIn.dropItem(itemstack1, false);
                 }

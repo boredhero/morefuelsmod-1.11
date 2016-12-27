@@ -218,6 +218,11 @@ public class EntitySheep extends EntityAnimal implements net.minecraftforge.comm
         return super.processInteract(player, hand);
     }
 
+    public static void registerFixesSheep(DataFixer fixer)
+    {
+        EntityLiving.registerFixesMob(fixer, EntitySheep.class);
+    }
+
     @SideOnly(Side.CLIENT)
     public float getHeadRotationPointY(float p_70894_1_)
     {
@@ -236,11 +241,6 @@ public class EntitySheep extends EntityAnimal implements net.minecraftforge.comm
         {
             return this.sheepTimer > 0 ? ((float)Math.PI / 5F) : this.rotationPitch * 0.017453292F;
         }
-    }
-
-    public static void registerFixesSheep(DataFixer fixer)
-    {
-        EntityLiving.registerFixesMob(fixer, EntitySheep.class);
     }
 
     /**

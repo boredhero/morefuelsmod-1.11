@@ -351,11 +351,12 @@ public class WorldInfo
     private void updateTagCompound(NBTTagCompound nbt, NBTTagCompound playerNbt)
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
-        nbttagcompound.setString("Name", "1.11");
-        nbttagcompound.setInteger("Id", 819);
+        nbttagcompound.setString("Name", "1.11.2");
+        nbttagcompound.setInteger("Id", 922);
         nbttagcompound.setBoolean("Snapshot", false);
         nbt.setTag("Version", nbttagcompound);
-        nbt.setInteger("DataVersion", 819);
+        nbt.setInteger("DataVersion", 922);
+        net.minecraftforge.fml.common.FMLCommonHandler.instance().getDataFixer().writeVersionData(nbt);
         nbt.setLong("RandomSeed", this.randomSeed);
         nbt.setString("generatorName", this.terrainType.getWorldTypeName());
         nbt.setInteger("generatorVersion", this.terrainType.getGeneratorVersion());

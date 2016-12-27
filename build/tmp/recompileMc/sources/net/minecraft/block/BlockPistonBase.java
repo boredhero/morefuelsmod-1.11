@@ -90,7 +90,7 @@ public class BlockPistonBase extends BlockDirectional
         return !((Boolean)state.getValue(EXTENDED)).booleanValue() || state.getValue(FACING) == EnumFacing.DOWN;
     }
 
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn)
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
     {
         addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getBoundingBox(worldIn, pos));
     }
@@ -230,7 +230,7 @@ public class BlockPistonBase extends BlockDirectional
                 return false;
             }
 
-            worldIn.setBlockState(pos, state.withProperty(EXTENDED, Boolean.valueOf(true)), 2);
+            worldIn.setBlockState(pos, state.withProperty(EXTENDED, Boolean.valueOf(true)), 3);
             worldIn.playSound((EntityPlayer)null, pos, SoundEvents.BLOCK_PISTON_EXTEND, SoundCategory.BLOCKS, 0.5F, worldIn.rand.nextFloat() * 0.25F + 0.6F);
         }
         else if (id == 1)
@@ -386,7 +386,7 @@ public class BlockPistonBase extends BlockDirectional
                 // Forge: With our change to how snowballs are dropped this needs to disallow to mimic vanilla behavior.
                 float chance = iblockstate.getBlock() instanceof BlockSnow ? -1.0f : 1.0f;
                 iblockstate.getBlock().dropBlockAsItemWithChance(worldIn, blockpos1, iblockstate, chance, 0);
-                worldIn.setBlockToAir(blockpos1);
+                worldIn.setBlockState(blockpos1, Blocks.AIR.getDefaultState(), 4);
                 --k;
                 aiblockstate[k] = iblockstate;
             }
@@ -427,7 +427,6 @@ public class BlockPistonBase extends BlockDirectional
             if (extending)
             {
                 worldIn.notifyNeighborsOfStateChange(blockpos2, Blocks.PISTON_HEAD, false);
-                worldIn.notifyNeighborsOfStateChange(pos, this, false);
             }
 
             return true;

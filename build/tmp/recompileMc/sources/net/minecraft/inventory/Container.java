@@ -628,18 +628,19 @@ public abstract class Container
                 if (!itemstack.func_190926_b() && itemstack.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == itemstack.getMetadata()) && ItemStack.areItemStackTagsEqual(stack, itemstack))
                 {
                     int j = itemstack.func_190916_E() + stack.func_190916_E();
+                    int maxSize = Math.min(slot.getSlotStackLimit(), stack.getMaxStackSize());
 
-                    if (j <= stack.getMaxStackSize())
+                    if (j <= maxSize)
                     {
                         stack.func_190920_e(0);
                         itemstack.func_190920_e(j);
                         slot.onSlotChanged();
                         flag = true;
                     }
-                    else if (itemstack.func_190916_E() < stack.getMaxStackSize())
+                    else if (itemstack.func_190916_E() < maxSize)
                     {
-                        stack.func_190918_g(stack.getMaxStackSize() - itemstack.func_190916_E());
-                        itemstack.func_190920_e(stack.getMaxStackSize());
+                        stack.func_190918_g(maxSize - itemstack.func_190916_E());
+                        itemstack.func_190920_e(maxSize);
                         slot.onSlotChanged();
                         flag = true;
                     }

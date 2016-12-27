@@ -773,10 +773,11 @@ public abstract class GuiContainer extends GuiScreen
      * Returns the slot that is currently displayed under the mouse.
      */
     @javax.annotation.Nullable
-    public Slot getSlotUnderMouse()
-    {
-        return this.theSlot;
-    }
+    public Slot getSlotUnderMouse() { return this.theSlot; }
+    public int getGuiLeft() { return guiLeft; }
+    public int getGuiTop() { return guiTop; }
+    public int getXSize() { return xSize; }
+    public int getYSize() { return ySize; }
 
     /* ======================================== FORGE END   =====================================*/
 }

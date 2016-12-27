@@ -186,7 +186,8 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             nbttagcompound.setTag("Level", nbttagcompound1);
-            nbttagcompound.setInteger("DataVersion", 819);
+            nbttagcompound.setInteger("DataVersion", 922);
+            net.minecraftforge.fml.common.FMLCommonHandler.instance().getDataFixer().writeVersionData(nbttagcompound);
             this.writeChunkToNBT(chunkIn, worldIn, nbttagcompound1);
             net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.world.ChunkDataEvent.Save(chunkIn, nbttagcompound));
             this.addChunkToPending(chunkIn.getChunkCoordIntPair(), nbttagcompound);

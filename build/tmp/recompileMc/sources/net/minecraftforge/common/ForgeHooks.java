@@ -301,14 +301,14 @@ public class ForgeHooks
     public static boolean onPickBlock(RayTraceResult target, EntityPlayer player, World world)
     {
         /*
-            boolean flag = this.thePlayer.capabilities.isCreativeMode;
+            boolean flag = this.player.capabilities.isCreativeMode;
             TileEntity tileentity = null;
             ItemStack itemstack;
 
             if (this.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK)
             {
                 BlockPos blockpos = this.objectMouseOver.getBlockPos();
-                IBlockState iblockstate = this.theWorld.getBlockState(blockpos);
+                IBlockState iblockstate = this.world.getBlockState(blockpos);
                 Block block = iblockstate.getBlock();
 
                 if (iblockstate.getMaterial() == Material.AIR)
@@ -316,16 +316,16 @@ public class ForgeHooks
                     return;
                 }
 
-                itemstack = block.getItem(this.theWorld, blockpos, iblockstate);
+                itemstack = block.getItem(this.world, blockpos, iblockstate);
 
-                if (itemstack.func_190926_b())
+                if (itemstack.isEmpty())
                 {
                     return;
                 }
 
                 if (flag && GuiScreen.isCtrlKeyDown() && block.hasTileEntity())
                 {
-                    tileentity = this.theWorld.getTileEntity(blockpos);
+                    tileentity = this.world.getTileEntity(blockpos);
                 }
             }
             else
@@ -348,7 +348,7 @@ public class ForgeHooks
                     EntityItemFrame entityitemframe = (EntityItemFrame)this.objectMouseOver.entityHit;
                     ItemStack itemstack1 = entityitemframe.getDisplayedItem();
 
-                    if (itemstack1.func_190926_b())
+                    if (itemstack1.isEmpty())
                     {
                         itemstack = new ItemStack(Items.ITEM_FRAME);
                     }
@@ -411,13 +411,13 @@ public class ForgeHooks
                 }
             }
 
-            if (itemstack.func_190926_b())
+            if (itemstack.isEmpty())
             {
                 String s = "";
 
                 if (this.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK)
                 {
-                    s = ((ResourceLocation)Block.REGISTRY.getNameForObject(this.theWorld.getBlockState(this.objectMouseOver.getBlockPos()).getBlock())).toString();
+                    s = ((ResourceLocation)Block.REGISTRY.getNameForObject(this.world.getBlockState(this.objectMouseOver.getBlockPos()).getBlock())).toString();
                 }
                 else if (this.objectMouseOver.typeOfHit == RayTraceResult.Type.ENTITY)
                 {
@@ -428,7 +428,7 @@ public class ForgeHooks
             }
             else
             {
-                InventoryPlayer inventoryplayer = this.thePlayer.inventory;
+                InventoryPlayer inventoryplayer = this.player.inventory;
 
                 if (tileentity != null)
                 {
@@ -440,7 +440,7 @@ public class ForgeHooks
                 if (flag)
                 {
                     inventoryplayer.setPickedItemStack(itemstack);
-                    this.playerController.sendSlotPacket(this.thePlayer.getHeldItem(EnumHand.MAIN_HAND), 36 + inventoryplayer.currentItem);
+                    this.playerController.sendSlotPacket(this.player.getHeldItem(EnumHand.MAIN_HAND), 36 + inventoryplayer.currentItem);
                 }
                 else if (i != -1)
                 {

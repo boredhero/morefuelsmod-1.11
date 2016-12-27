@@ -54,7 +54,7 @@ public class BlockFenceGate extends BlockHorizontal
     {
         EnumFacing.Axis enumfacing$axis = ((EnumFacing)state.getValue(FACING)).getAxis();
 
-        if (enumfacing$axis == EnumFacing.Axis.Z && (worldIn.getBlockState(pos.west()).getBlock() == Blocks.COBBLESTONE_WALL || worldIn.getBlockState(pos.east()).getBlock() == Blocks.COBBLESTONE_WALL) || enumfacing$axis == EnumFacing.Axis.X && (worldIn.getBlockState(pos.north()).getBlock() == Blocks.COBBLESTONE_WALL || worldIn.getBlockState(pos.south()).getBlock() == Blocks.COBBLESTONE_WALL))
+        if (enumfacing$axis == EnumFacing.Axis.Z && (canFenceGateConnectTo(worldIn, pos, EnumFacing.WEST) || canFenceGateConnectTo(worldIn, pos, EnumFacing.EAST)) || enumfacing$axis == EnumFacing.Axis.X && (canFenceGateConnectTo(worldIn, pos, EnumFacing.NORTH) || canFenceGateConnectTo(worldIn, pos, EnumFacing.SOUTH)))
         {
             state = state.withProperty(IN_WALL, Boolean.valueOf(true));
         }
@@ -205,4 +205,21 @@ public class BlockFenceGate extends BlockHorizontal
     {
         return new BlockStateContainer(this, new IProperty[] {FACING, OPEN, POWERED, IN_WALL});
     }
+
+    /* ======================================== FORGE START ======================================== */
+
+    @Override
+    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing)
+    {
+        Block connector = world.getBlockState(pos.offset(facing)).getBlock();
+        return connector instanceof BlockFence || connector instanceof BlockWall;
+    }
+
+    private boolean canFenceGateConnectTo(IBlockAccess world, BlockPos pos, EnumFacing facing)
+    {
+        Block block = world.getBlockState(pos.offset(facing)).getBlock();
+        return block.canBeConnectedTo(world, pos.offset(facing), facing.getOpposite());
+    }
+
+    /* ======================================== FORGE END ======================================== */
 }

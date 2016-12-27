@@ -1099,6 +1099,19 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
     }
 
     /**
+     * Checks whether an item can be enchanted with a certain enchantment. This applies specifically to enchanting an item in the enchanting table and is called when retrieving the list of possible enchantments for an item.
+     * Enchantments may additionally (or exclusively) be doing their own checks in {@link net.minecraft.enchantment.Enchantment#canApplyAtEnchantingTable(ItemStack)}; check the individual implementation for reference.
+     * By default this will check if the enchantment type is valid for this item type.
+     * @param stack the item stack to be enchanted
+     * @param enchantment the enchantment to be applied
+     * @return true if the enchantment can be applied to this item
+     */
+    public boolean canApplyAtEnchantingTable(ItemStack stack, net.minecraft.enchantment.Enchantment enchantment)
+    {
+        return enchantment.type.canEnchantItem(stack.getItem());
+    }
+
+    /**
      * Whether this Item can be used as a payment to activate the vanilla beacon.
      * @param stack the ItemStack
      * @return true if this Item can be used
@@ -1655,8 +1668,9 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
         registerItem(446, "jungle_boat", new ItemBoat(EntityBoat.Type.JUNGLE));
         registerItem(447, "acacia_boat", new ItemBoat(EntityBoat.Type.ACACIA));
         registerItem(448, "dark_oak_boat", new ItemBoat(EntityBoat.Type.DARK_OAK));
-        registerItem(449, "totem", (new Item()).setUnlocalizedName("totem").setMaxStackSize(1).setCreativeTab(CreativeTabs.COMBAT));
+        registerItem(449, "totem_of_undying", (new Item()).setUnlocalizedName("totem").setMaxStackSize(1).setCreativeTab(CreativeTabs.COMBAT));
         registerItem(450, "shulker_shell", (new Item()).setUnlocalizedName("shulkerShell").setCreativeTab(CreativeTabs.MATERIALS));
+        registerItem(452, "iron_nugget", (new Item()).setUnlocalizedName("ironNugget").setCreativeTab(CreativeTabs.MATERIALS));
         registerItem(2256, "record_13", (new ItemRecord("13", SoundEvents.RECORD_13)).setUnlocalizedName("record"));
         registerItem(2257, "record_cat", (new ItemRecord("cat", SoundEvents.RECORD_CAT)).setUnlocalizedName("record"));
         registerItem(2258, "record_blocks", (new ItemRecord("blocks", SoundEvents.RECORD_BLOCKS)).setUnlocalizedName("record"));
@@ -1716,10 +1730,8 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
         private final float damageVsEntity;
         /** Defines the natural enchantability factor of the material. */
         private final int enchantability;
-
         //Added by forge for custom Tool materials.
-        @Nullable
-        private ItemStack repairMaterial = null;
+        private ItemStack repairMaterial = ItemStack.field_190927_a;
 
         private ToolMaterial(int harvestLevel, int maxUses, float efficiency, float damageVsEntity, int enchantability)
         {
@@ -1773,20 +1785,12 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
         @Deprecated // Use getRepairItemStack below
         public Item getRepairItem()
         {
-            switch (this)
-            {
-                case WOOD:    return Item.getItemFromBlock(Blocks.PLANKS);
-                case STONE:   return Item.getItemFromBlock(Blocks.COBBLESTONE);
-                case GOLD:    return Items.GOLD_INGOT;
-                case IRON:    return Items.IRON_INGOT;
-                case DIAMOND: return Items.DIAMOND;
-                default:      return Items.field_190931_a;
-            }
+            return this == WOOD ? Item.getItemFromBlock(Blocks.PLANKS) : (this == STONE ? Item.getItemFromBlock(Blocks.COBBLESTONE) : (this == GOLD ? Items.GOLD_INGOT : (this == IRON ? Items.IRON_INGOT : (this == DIAMOND ? Items.DIAMOND : null))));
         }
 
         public ToolMaterial setRepairItem(ItemStack stack)
         {
-            if (this.repairMaterial != null) throw new RuntimeException("Repair material has already been set");
+            if (!this.repairMaterial.func_190926_b()) throw new RuntimeException("Repair material has already been set");
             if (this == WOOD || this == STONE || this == GOLD || this == IRON || this == DIAMOND) throw new RuntimeException("Can not change vanilla tool repair materials");
             this.repairMaterial = stack;
             return this;
@@ -1794,9 +1798,9 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
 
         public ItemStack getRepairItemStack()
         {
-            if (repairMaterial != null) return repairMaterial;
+            if (!repairMaterial.func_190926_b()) return repairMaterial;
             Item ret = this.getRepairItem();
-            repairMaterial = new ItemStack(ret, 1, net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE);
+            if (ret != null) repairMaterial = new ItemStack(ret, 1, net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE);
             return repairMaterial;
         }
     }

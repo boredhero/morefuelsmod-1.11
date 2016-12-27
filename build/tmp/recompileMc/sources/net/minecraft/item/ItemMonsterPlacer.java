@@ -34,7 +34,6 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.lang3.StringUtils;
 
 public class ItemMonsterPlacer extends Item
 {
@@ -313,7 +312,13 @@ public class ItemMonsterPlacer extends Item
             {
                 String s = nbttagcompound1.getString("id");
                 ResourceLocation resourcelocation = new ResourceLocation(s);
-                return !StringUtils.equals(s, resourcelocation.toString()) ? null : resourcelocation;
+
+                if (!s.contains(":"))
+                {
+                    nbttagcompound1.setString("id", resourcelocation.toString());
+                }
+
+                return resourcelocation;
             }
         }
     }

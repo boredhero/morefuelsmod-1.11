@@ -45,8 +45,7 @@ public abstract class MobSpawnerBaseLogic
     private ResourceLocation func_190895_g()
     {
         String s = this.randomEntity.getNbt().getString("id");
-        ResourceLocation resourcelocation = new ResourceLocation(s);
-        return !StringUtils.isNullOrEmpty(s) && org.apache.commons.lang3.StringUtils.equals(s, resourcelocation.toString()) ? resourcelocation : null;
+        return StringUtils.isNullOrEmpty(s) ? null : new ResourceLocation(s);
     }
 
     public void func_190894_a(@Nullable ResourceLocation p_190894_1_)
@@ -197,14 +196,14 @@ public abstract class MobSpawnerBaseLogic
             }
         }
 
-        NBTTagCompound nbttagcompound = nbt.getCompoundTag("SpawnData");
-
-        if (!nbttagcompound.hasKey("id", 8))
+        if (nbt.hasKey("SpawnData", 10))
         {
-            nbttagcompound.setString("id", "Pig");
+            this.setNextSpawnData(new WeightedSpawnerEntity(1, nbt.getCompoundTag("SpawnData")));
         }
-
-        this.setNextSpawnData(new WeightedSpawnerEntity(1, nbttagcompound));
+        else if (!this.minecartToSpawn.isEmpty())
+        {
+            this.setNextSpawnData((WeightedSpawnerEntity)WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.minecartToSpawn));
+        }
 
         if (nbt.hasKey("MinSpawnDelay", 99))
         {

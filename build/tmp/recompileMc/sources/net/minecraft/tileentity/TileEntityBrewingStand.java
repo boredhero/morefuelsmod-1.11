@@ -336,7 +336,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
         else
         {
             Item item = stack.getItem();
-            return index == 4 ? item == Items.BLAZE_POWDER : net.minecraftforge.common.brewing.BrewingRecipeRegistry.isValidInput(stack);
+            return index == 4 ? item == Items.BLAZE_POWDER : net.minecraftforge.common.brewing.BrewingRecipeRegistry.isValidInput(stack) && this.getStackInSlot(index) == ItemStack.field_190927_a;
         }
     }
 

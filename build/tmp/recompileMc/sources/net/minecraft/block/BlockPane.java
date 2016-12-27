@@ -41,9 +41,13 @@ public class BlockPane extends Block
         this.setCreativeTab(CreativeTabs.DECORATIONS);
     }
 
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn)
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
     {
-        state = this.getActualState(state, worldIn, pos);
+        if (!p_185477_7_)
+        {
+            state = this.getActualState(state, worldIn, pos);
+        }
+
         addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[0]);
 
         if (((Boolean)state.getValue(NORTH)).booleanValue())
@@ -209,10 +213,20 @@ public class BlockPane extends Block
         return new BlockStateContainer(this, new IProperty[] {NORTH, EAST, WEST, SOUTH});
     }
 
+    /* ======================================== FORGE START ======================================== */
+
+    @Override
+    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing)
+    {
+        Block connector = world.getBlockState(pos.offset(facing)).getBlock();
+        return connector instanceof BlockPane;
+    }
+
     public boolean canPaneConnectTo(IBlockAccess world, BlockPos pos, EnumFacing dir)
     {
-        BlockPos off = pos.offset(dir);
-        IBlockState state = world.getBlockState(off);
-        return canPaneConnectToBlock(state.getBlock()) || state.isSideSolid(world, off, dir.getOpposite());
+        IBlockState state = world.getBlockState(pos.offset(dir));
+        return state.getBlock().canBeConnectedTo(world, pos.offset(dir), dir.getOpposite()) || canPaneConnectToBlock(state.getBlock()) || state.isSideSolid(world, pos.offset(dir), dir.getOpposite());
     }
+
+    /* ======================================== FORGE END ======================================== */
 }

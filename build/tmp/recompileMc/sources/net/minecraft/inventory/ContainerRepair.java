@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -86,16 +87,25 @@ public class ContainerRepair extends Container
 
                 float breakChance = net.minecraftforge.common.ForgeHooks.onAnvilRepair(p_190901_1_, p_190901_2_, ContainerRepair.this.inputSlots.getStackInSlot(0), ContainerRepair.this.inputSlots.getStackInSlot(1));
 
-                ContainerRepair.this.inputSlots.setInventorySlotContents(0, ItemStack.field_190927_a);
+                ItemStack itemstack = ContainerRepair.this.inputSlots.getStackInSlot(0);
+
+                if (itemstack.func_190916_E() != 1 && !p_190901_1_.capabilities.isCreativeMode && !(itemstack.getItem() instanceof ItemNameTag))
+                {
+                    itemstack.func_190920_e(itemstack.func_190916_E() - 1);
+                }
+                else
+                {
+                    ContainerRepair.this.inputSlots.setInventorySlotContents(0, ItemStack.field_190927_a);
+                }
 
                 if (ContainerRepair.this.materialCost > 0)
                 {
-                    ItemStack itemstack = ContainerRepair.this.inputSlots.getStackInSlot(1);
+                    ItemStack itemstack1 = ContainerRepair.this.inputSlots.getStackInSlot(1);
 
-                    if (!itemstack.func_190926_b() && itemstack.func_190916_E() > ContainerRepair.this.materialCost)
+                    if (!itemstack1.func_190926_b() && itemstack1.func_190916_E() > ContainerRepair.this.materialCost)
                     {
-                        itemstack.func_190918_g(ContainerRepair.this.materialCost);
-                        ContainerRepair.this.inputSlots.setInventorySlotContents(1, itemstack);
+                        itemstack1.func_190918_g(ContainerRepair.this.materialCost);
+                        ContainerRepair.this.inputSlots.setInventorySlotContents(1, itemstack1);
                     }
                     else
                     {
@@ -181,6 +191,12 @@ public class ContainerRepair extends Container
         else
         {
             ItemStack itemstack1 = itemstack.copy();
+
+            if (itemstack1.func_190916_E() > 1 && !this.thePlayer.capabilities.isCreativeMode && !(itemstack1.getItem() instanceof ItemNameTag))
+            {
+                itemstack1.func_190920_e(1);
+            }
+
             ItemStack itemstack2 = this.inputSlots.getStackInSlot(1);
             Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(itemstack1);
             j = j + itemstack.getRepairCost() + (itemstack2.func_190926_b() ? 0 : itemstack2.getRepairCost());
@@ -194,26 +210,26 @@ public class ContainerRepair extends Container
 
                 if (itemstack1.isItemStackDamageable() && itemstack1.getItem().getIsRepairable(itemstack, itemstack2))
                 {
-                    int j2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);
+                    int l2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);
 
-                    if (j2 <= 0)
+                    if (l2 <= 0)
                     {
                         this.outputSlot.setInventorySlotContents(0, ItemStack.field_190927_a);
                         this.maximumCost = 0;
                         return;
                     }
 
-                    int k2;
+                    int i3;
 
-                    for (k2 = 0; j2 > 0 && k2 < itemstack2.func_190916_E(); ++k2)
+                    for (i3 = 0; l2 > 0 && i3 < itemstack2.func_190916_E(); ++i3)
                     {
-                        int l2 = itemstack1.getItemDamage() - j2;
-                        itemstack1.setItemDamage(l2);
+                        int j3 = itemstack1.getItemDamage() - l2;
+                        itemstack1.setItemDamage(j3);
                         ++i;
-                        j2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);
+                        l2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);
                     }
 
-                    this.materialCost = k2;
+                    this.materialCost = i3;
                 }
                 else
                 {
@@ -245,14 +261,16 @@ public class ContainerRepair extends Container
                     }
 
                     Map<Enchantment, Integer> map1 = EnchantmentHelper.getEnchantments(itemstack2);
+                    boolean flag2 = false;
+                    boolean flag3 = false;
 
                     for (Enchantment enchantment1 : map1.keySet())
                     {
                         if (enchantment1 != null)
                         {
-                            int i3 = map.containsKey(enchantment1) ? ((Integer)map.get(enchantment1)).intValue() : 0;
-                            int j3 = ((Integer)map1.get(enchantment1)).intValue();
-                            j3 = i3 == j3 ? j3 + 1 : Math.max(j3, i3);
+                            int i2 = map.containsKey(enchantment1) ? ((Integer)map.get(enchantment1)).intValue() : 0;
+                            int j2 = ((Integer)map1.get(enchantment1)).intValue();
+                            j2 = i2 == j2 ? j2 + 1 : Math.max(j2, i2);
                             boolean flag1 = enchantment1.canApply(itemstack);
 
                             if (this.thePlayer.capabilities.isCreativeMode || itemstack.getItem() == Items.ENCHANTED_BOOK)
@@ -262,21 +280,27 @@ public class ContainerRepair extends Container
 
                             for (Enchantment enchantment : map.keySet())
                             {
-                                if (enchantment != enchantment1 && !(enchantment1.canApplyTogether(enchantment) && enchantment.canApplyTogether(enchantment1)))  //Forge BugFix: Let Both enchantments veto being together
+                                if (enchantment != enchantment1 && !enchantment1.func_191560_c(enchantment))
                                 {
                                     flag1 = false;
                                     ++i;
                                 }
                             }
 
-                            if (flag1)
+                            if (!flag1)
                             {
-                                if (j3 > enchantment1.getMaxLevel())
+                                flag3 = true;
+                            }
+                            else
+                            {
+                                flag2 = true;
+
+                                if (j2 > enchantment1.getMaxLevel())
                                 {
-                                    j3 = enchantment1.getMaxLevel();
+                                    j2 = enchantment1.getMaxLevel();
                                 }
 
-                                map.put(enchantment1, Integer.valueOf(j3));
+                                map.put(enchantment1, Integer.valueOf(j2));
                                 int k3 = 0;
 
                                 switch (enchantment1.getRarity())
@@ -299,9 +323,16 @@ public class ContainerRepair extends Container
                                     k3 = Math.max(1, k3 / 2);
                                 }
 
-                                i += k3 * j3;
+                                i += k3 * j2;
                             }
                         }
+                    }
+
+                    if (flag3 && !flag2)
+                    {
+                        this.outputSlot.setInventorySlotContents(0, ItemStack.field_190927_a);
+                        this.maximumCost = 0;
+                        return;
                     }
                 }
             }
@@ -343,19 +374,19 @@ public class ContainerRepair extends Container
 
             if (!itemstack1.func_190926_b())
             {
-                int i2 = itemstack1.getRepairCost();
+                int k2 = itemstack1.getRepairCost();
 
-                if (!itemstack2.func_190926_b() && i2 < itemstack2.getRepairCost())
+                if (!itemstack2.func_190926_b() && k2 < itemstack2.getRepairCost())
                 {
-                    i2 = itemstack2.getRepairCost();
+                    k2 = itemstack2.getRepairCost();
                 }
 
                 if (k != i || k == 0)
                 {
-                    i2 = i2 * 2 + 1;
+                    k2 = k2 * 2 + 1;
                 }
 
-                itemstack1.setRepairCost(i2);
+                itemstack1.setRepairCost(k2);
                 EnchantmentHelper.setEnchantments(map, itemstack1);
             }
 

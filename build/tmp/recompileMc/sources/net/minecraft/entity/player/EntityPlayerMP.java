@@ -89,6 +89,10 @@ import net.minecraft.util.JsonSerializableSet;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.datafix.DataFixer;
+import net.minecraft.util.datafix.FixTypes;
+import net.minecraft.util.datafix.IDataFixer;
+import net.minecraft.util.datafix.IDataWalker;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
@@ -213,6 +217,27 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
         }
     }
 
+    public static void func_191522_a(DataFixer p_191522_0_)
+    {
+        p_191522_0_.registerWalker(FixTypes.PLAYER, new IDataWalker()
+        {
+            public NBTTagCompound process(IDataFixer fixer, NBTTagCompound compound, int versionIn)
+            {
+                if (compound.hasKey("RootVehicle", 10))
+                {
+                    NBTTagCompound nbttagcompound = compound.getCompoundTag("RootVehicle");
+
+                    if (nbttagcompound.hasKey("Entity", 10))
+                    {
+                        nbttagcompound.setTag("Entity", fixer.process(FixTypes.ENTITY, nbttagcompound.getCompoundTag("Entity"), versionIn));
+                    }
+                }
+
+                return compound;
+            }
+        });
+    }
+
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
@@ -221,13 +246,14 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
         super.writeEntityToNBT(compound);
         compound.setInteger("playerGameType", this.interactionManager.getGameType().getID());
         Entity entity = this.getLowestRidingEntity();
+        Entity entity1 = this.getRidingEntity();
 
-        if (this.getRidingEntity() != null && entity != this & entity.getRecursivePassengersByType(EntityPlayerMP.class).size() == 1)
+        if (entity1 != null && entity != this & entity.getRecursivePassengersByType(EntityPlayerMP.class).size() == 1)
         {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             entity.writeToNBTOptional(nbttagcompound1);
-            nbttagcompound.setUniqueId("Attach", this.getRidingEntity().getUniqueID());
+            nbttagcompound.setUniqueId("Attach", entity1.getUniqueID());
             nbttagcompound.setTag("Entity", nbttagcompound1);
             compound.setTag("RootVehicle", nbttagcompound);
         }

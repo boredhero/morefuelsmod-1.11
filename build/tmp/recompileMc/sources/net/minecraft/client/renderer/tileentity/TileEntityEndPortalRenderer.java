@@ -33,6 +33,7 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
         double d0 = x * x + y * y + z * z;
         int i = this.func_191286_a(d0);
         float f = this.func_191287_c();
+        boolean flag = false;
 
         for (int j = 0; j < i; ++j)
         {
@@ -50,6 +51,8 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
             if (j >= 1)
             {
                 this.bindTexture(END_PORTAL_TEXTURE);
+                flag = true;
+                Minecraft.getMinecraft().entityRenderer.func_191514_d(true);
             }
 
             if (j == 1)
@@ -145,6 +148,11 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
         GlStateManager.disableTexGenCoord(GlStateManager.TexGen.T);
         GlStateManager.disableTexGenCoord(GlStateManager.TexGen.R);
         GlStateManager.enableLighting();
+
+        if (flag)
+        {
+            Minecraft.getMinecraft().entityRenderer.func_191514_d(false);
+        }
     }
 
     protected int func_191286_a(double p_191286_1_)

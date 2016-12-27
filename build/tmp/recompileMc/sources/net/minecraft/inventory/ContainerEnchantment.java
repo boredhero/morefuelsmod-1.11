@@ -219,6 +219,7 @@ public class ContainerEnchantment extends Container
                         {
                             this.enchantLevels[i1] = 0;
                         }
+                        this.enchantLevels[i1] = net.minecraftforge.event.ForgeEventFactory.onEnchantmentLevelSet(worldPointer, position, i1, (int)power, itemstack, enchantLevels[i1]);
                     }
 
                     for (int j1 = 0; j1 < 3; ++j1)

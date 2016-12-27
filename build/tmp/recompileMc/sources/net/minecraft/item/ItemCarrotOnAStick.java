@@ -44,26 +44,33 @@ public class ItemCarrotOnAStick extends Item
     {
         ItemStack itemstack = worldIn.getHeldItem(playerIn);
 
-        if (worldIn.isRiding() && worldIn.getRidingEntity() instanceof EntityPig)
+        if (itemStackIn.isRemote)
         {
-            EntityPig entitypig = (EntityPig)worldIn.getRidingEntity();
-
-            if (itemstack.getMaxDamage() - itemstack.getMetadata() >= 7 && entitypig.boost())
-            {
-                itemstack.damageItem(7, worldIn);
-
-                if (itemstack.func_190926_b())
-                {
-                    ItemStack itemstack1 = new ItemStack(Items.FISHING_ROD);
-                    itemstack1.setTagCompound(itemstack.getTagCompound());
-                    return new ActionResult(EnumActionResult.SUCCESS, itemstack1);
-                }
-
-                return new ActionResult(EnumActionResult.SUCCESS, itemstack);
-            }
+            return new ActionResult(EnumActionResult.PASS, itemstack);
         }
+        else
+        {
+            if (worldIn.isRiding() && worldIn.getRidingEntity() instanceof EntityPig)
+            {
+                EntityPig entitypig = (EntityPig)worldIn.getRidingEntity();
 
-        worldIn.addStat(StatList.getObjectUseStats(this));
-        return new ActionResult(EnumActionResult.PASS, itemstack);
+                if (itemstack.getMaxDamage() - itemstack.getMetadata() >= 7 && entitypig.boost())
+                {
+                    itemstack.damageItem(7, worldIn);
+
+                    if (itemstack.func_190926_b())
+                    {
+                        ItemStack itemstack1 = new ItemStack(Items.FISHING_ROD);
+                        itemstack1.setTagCompound(itemstack.getTagCompound());
+                        return new ActionResult(EnumActionResult.SUCCESS, itemstack1);
+                    }
+
+                    return new ActionResult(EnumActionResult.SUCCESS, itemstack);
+                }
+            }
+
+            worldIn.addStat(StatList.getObjectUseStats(this));
+            return new ActionResult(EnumActionResult.PASS, itemstack);
+        }
     }
 }

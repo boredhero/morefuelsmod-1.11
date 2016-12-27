@@ -211,7 +211,7 @@ public class Chunk
                 {
                     IBlockState iblockstate = this.getBlockState(j, l - 1, k);
 
-                    if (iblockstate.getLightOpacity(this.worldObj, new BlockPos(j, l - 1, k)) != 0)
+                    if (this.getBlockLightOpacity(j, l - 1, k) != 0)
                     {
                         this.heightMap[k << 4 | j] = l;
 
@@ -502,7 +502,7 @@ public class Chunk
     private int getBlockLightOpacity(int x, int y, int z)
     {
         IBlockState state = this.getBlockState(x, y, z); //Forge: Can sometimes be called before we are added to the global world list. So use the less accurate one during that. It'll be recalculated later
-        return this.unloaded ? state.getLightOpacity() : state.getLightOpacity(this.worldObj, new BlockPos(x, y, z));
+        return !isChunkLoaded ? state.getLightOpacity() : state.getLightOpacity(worldObj, new BlockPos(xPosition << 4 | x & 15, y, zPosition << 4 | z & 15));
     }
 
     public IBlockState getBlockState(BlockPos pos)

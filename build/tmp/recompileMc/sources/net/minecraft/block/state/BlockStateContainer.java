@@ -452,9 +452,9 @@ public class BlockStateContainer
                 return this.block.getCollisionBoundingBox(this, worldIn, pos);
             }
 
-            public void addCollisionBoxToList(World worldIn, BlockPos pos, AxisAlignedBB p_185908_3_, List<AxisAlignedBB> p_185908_4_, @Nullable Entity p_185908_5_)
+            public void addCollisionBoxToList(World worldIn, BlockPos pos, AxisAlignedBB p_185908_3_, List<AxisAlignedBB> p_185908_4_, @Nullable Entity p_185908_5_, boolean p_185908_6_)
             {
-                this.block.addCollisionBoxToList(this, worldIn, pos, p_185908_3_, p_185908_4_, p_185908_5_);
+                this.block.addCollisionBoxToList(this, worldIn, pos, p_185908_3_, p_185908_4_, p_185908_5_, p_185908_6_);
             }
 
             public AxisAlignedBB getBoundingBox(IBlockAccess blockAccess, BlockPos pos)

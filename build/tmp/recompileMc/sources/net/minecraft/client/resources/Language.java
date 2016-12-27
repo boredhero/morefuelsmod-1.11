@@ -17,6 +17,7 @@ public class Language implements Comparable<Language>
         this.region = regionIn;
         this.name = nameIn;
         this.bidirectional = bidirectionalIn;
+        this.javaLocale = new java.util.Locale(languageCode, region);
     }
 
     public String getLanguageCode()
@@ -48,4 +49,8 @@ public class Language implements Comparable<Language>
     {
         return this.languageCode.compareTo(p_compareTo_1_.languageCode);
     }
+
+    // Forge: add access to Locale so modders can create correct string and number formatters
+    private final java.util.Locale javaLocale;
+    public java.util.Locale getJavaLocale() { return javaLocale; }
 }

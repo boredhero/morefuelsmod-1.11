@@ -407,11 +407,23 @@ public class GuiIngame extends Gui
                 if (this.mc.gameSettings.attackIndicator == 1)
                 {
                     float f = this.mc.thePlayer.getCooledAttackStrength(0.0F);
+                    boolean flag = false;
 
-                    if (f < 1.0F)
+                    if (this.mc.pointedEntity != null && this.mc.pointedEntity instanceof EntityLivingBase && f >= 1.0F)
                     {
-                        int i = i1 / 2 - 7 + 16;
-                        int j = l / 2 - 7;
+                        flag = this.mc.thePlayer.getCooldownPeriod() > 5.0F;
+                        flag = flag & ((EntityLivingBase)this.mc.pointedEntity).isEntityAlive();
+                    }
+
+                    int i = i1 / 2 - 7 + 16;
+                    int j = l / 2 - 8;
+
+                    if (flag)
+                    {
+                        this.drawTexturedModalRect(j, i, 68, 94, 16, 16);
+                    }
+                    else if (f < 1.0F)
+                    {
                         int k = (int)(f * 17.0F);
                         this.drawTexturedModalRect(j, i, 36, 94, 16, 4);
                         this.drawTexturedModalRect(j, i, 52, 94, k, 4);

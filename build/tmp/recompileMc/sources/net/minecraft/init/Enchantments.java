@@ -25,6 +25,7 @@ public class Enchantments
     /** Lights mobs on fire */
     public static final Enchantment FIRE_ASPECT = getRegisteredEnchantment("fire_aspect");
     public static final Enchantment LOOTING = getRegisteredEnchantment("looting");
+    public static final Enchantment field_191530_r = getRegisteredEnchantment("sweeping");
     public static final Enchantment EFFICIENCY = getRegisteredEnchantment("efficiency");
     public static final Enchantment SILK_TOUCH = getRegisteredEnchantment("silk_touch");
     public static final Enchantment UNBREAKING = getRegisteredEnchantment("unbreaking");

@@ -533,7 +533,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
     }
 
     @Deprecated
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn)
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
     {
         addCollisionBoxToList(pos, entityBox, collidingBoxes, state.getCollisionBoundingBox(worldIn, pos));
     }
@@ -1193,7 +1193,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
      */
     public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
     {
-        return state.getMaterial().isOpaque() && state.isFullCube() && !state.canProvidePower();
+        return state.isNormalCube();
     }
 
     /**
@@ -2086,6 +2086,17 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
     public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor){}
 
     /**
+     * Called on an Observer block whenever an update for an Observer is received.
+     *
+     * @param observerState The Observer block's state.
+     * @param world The current world.
+     * @param observerPos The Observer block's position.
+     * @param changedBlock The updated block.
+     * @param changedBlockPos The updated block's position.
+     */
+    public void observedNeighborChange(IBlockState observerState, World world, BlockPos observerPos, Block changedBlock, BlockPos changedBlockPos){}
+
+    /**
      * Called to determine whether to allow the a block to handle its own indirect power rather than using the default rules.
      * @param world The world
      * @param pos Block position in world
@@ -2304,6 +2315,19 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
          * IBlockstate
          */
         return onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
+    }
+
+    /**
+     * Determines if another block can connect to this block
+     *
+     * @param world The current world
+     * @param pos The position of this block
+     * @param facing The side the connecting block is on
+     * @return True to allow another block to connect to this block
+     */
+    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing)
+    {
+        return false;
     }
 
     /* ========================================= FORGE END ======================================*/

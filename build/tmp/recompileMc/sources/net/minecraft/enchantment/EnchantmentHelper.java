@@ -180,6 +180,12 @@ public class EnchantmentHelper
         return ENCHANTMENT_MODIFIER_LIVING.livingModifier;
     }
 
+    public static float func_191527_a(EntityLivingBase p_191527_0_)
+    {
+        int i = getMaxEnchantmentLevel(Enchantments.field_191530_r, p_191527_0_);
+        return i > 0 ? EnchantmentSweepingEdge.func_191526_e(i) : 0.0F;
+    }
+
     public static void applyThornEnchantments(EntityLivingBase p_151384_0_, Entity p_151384_1_)
     {
         ENCHANTMENT_ITERATOR_HURT.attacker = p_151384_1_;
@@ -269,20 +275,20 @@ public class EnchantmentHelper
         return getMaxEnchantmentLevel(Enchantments.EFFICIENCY, p_185293_0_);
     }
 
-    /**
-     * Returns the level of the 'Luck Of The Sea' enchantment.
-     */
-    public static int getLuckOfSeaModifier(EntityLivingBase player)
+    public static int func_191529_b(ItemStack p_191529_0_)
     {
-        return getMaxEnchantmentLevel(Enchantments.LUCK_OF_THE_SEA, player);
+        /**
+         * Returns the level of enchantment on the ItemStack passed.
+         */
+        return getEnchantmentLevel(Enchantments.LUCK_OF_THE_SEA, p_191529_0_);
     }
 
-    /**
-     * Returns the level of the 'Lure' enchantment on the players held item.
-     */
-    public static int getLureModifier(EntityLivingBase player)
+    public static int func_191528_c(ItemStack p_191528_0_)
     {
-        return getMaxEnchantmentLevel(Enchantments.LURE, player);
+        /**
+         * Returns the level of enchantment on the ItemStack passed.
+         */
+        return getEnchantmentLevel(Enchantments.LURE, p_191528_0_);
     }
 
     public static int getLootingModifier(EntityLivingBase p_185283_0_)
@@ -444,8 +450,7 @@ public class EnchantmentHelper
 
         while (iterator.hasNext())
         {
-            Enchantment e2 = iterator.next().enchantmentobj;
-            if (!p_185282_1_.enchantmentobj.canApplyTogether(e2) || !e2.canApplyTogether(p_185282_1_.enchantmentobj)) //Forge BugFix: Let Both enchantments veto being together
+            if (!p_185282_1_.enchantmentobj.func_191560_c(((EnchantmentData)iterator.next()).enchantmentobj))
             {
                 iterator.remove();
             }

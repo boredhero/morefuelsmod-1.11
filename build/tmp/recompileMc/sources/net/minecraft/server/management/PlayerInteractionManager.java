@@ -456,7 +456,7 @@ public class PlayerInteractionManager
         else
         {
             net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock event = net.minecraftforge.common.ForgeHooks
-                    .onRightClickBlock(player, hand, pos, facing, net.minecraftforge.common.ForgeHooks.rayTraceEyeHitVec(thisPlayerMP, getBlockReachDistance() + 1));
+                    .onRightClickBlock(player, hand, pos, facing, net.minecraftforge.common.ForgeHooks.rayTraceEyeHitVec(player, getBlockReachDistance() + 1));
             if (event.isCanceled()) return EnumActionResult.PASS;
 
             EnumActionResult ret = stack.onItemUseFirst(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);

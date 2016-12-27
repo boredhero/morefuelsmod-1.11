@@ -522,7 +522,7 @@ public class EntityBoat extends Entity
                             {
                                 blockpos$pooledmutableblockpos.setPos(l1, k2, i2);
                                 IBlockState iblockstate = this.worldObj.getBlockState(blockpos$pooledmutableblockpos);
-                                iblockstate.addCollisionBoxToList(this.worldObj, blockpos$pooledmutableblockpos, axisalignedbb1, list, this);
+                                iblockstate.addCollisionBoxToList(this.worldObj, blockpos$pooledmutableblockpos, axisalignedbb1, list, this, false);
 
                                 if (!list.isEmpty())
                                 {

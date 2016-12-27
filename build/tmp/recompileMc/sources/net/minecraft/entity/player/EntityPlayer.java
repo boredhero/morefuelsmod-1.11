@@ -1020,7 +1020,8 @@ public abstract class EntityPlayer extends EntityLivingBase
     public void writeEntityToNBT(NBTTagCompound compound)
     {
         super.writeEntityToNBT(compound);
-        compound.setInteger("DataVersion", 819);
+        compound.setInteger("DataVersion", 922);
+        net.minecraftforge.fml.common.FMLCommonHandler.instance().getDataFixer().writeVersionData(compound);
         compound.setTag("Inventory", this.inventory.writeToNBT(new NBTTagList()));
         compound.setInteger("SelectedItemSlot", this.inventory.currentItem);
         compound.setBoolean("Sleeping", this.sleeping);
@@ -1385,13 +1386,13 @@ public abstract class EntityPlayer extends EntityLivingBase
                         }
                     }
 
-                    float f3 = 0.0F;
+                    float f4 = 0.0F;
                     boolean flag4 = false;
                     int j = EnchantmentHelper.getFireAspectModifier(this);
 
                     if (targetEntity instanceof EntityLivingBase)
                     {
-                        f3 = ((EntityLivingBase)targetEntity).getHealth();
+                        f4 = ((EntityLivingBase)targetEntity).getHealth();
 
                         if (j > 0 && !targetEntity.isBurning())
                         {
@@ -1425,12 +1426,14 @@ public abstract class EntityPlayer extends EntityLivingBase
 
                         if (flag3)
                         {
+                            float f3 = 1.0F + EnchantmentHelper.func_191527_a(this) * f;
+
                             for (EntityLivingBase entitylivingbase : this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, targetEntity.getEntityBoundingBox().expand(1.0D, 0.25D, 1.0D)))
                             {
                                 if (entitylivingbase != this && entitylivingbase != targetEntity && !this.isOnSameTeam(entitylivingbase) && this.getDistanceSqToEntity(entitylivingbase) < 9.0D)
                                 {
                                     entitylivingbase.knockBack(this, 0.4F, (double)MathHelper.sin(this.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
-                                    entitylivingbase.attackEntityFrom(DamageSource.causePlayerDamage(this), 1.0F);
+                                    entitylivingbase.attackEntityFrom(DamageSource.causePlayerDamage(this), f3);
                                 }
                             }
 
@@ -1510,17 +1513,17 @@ public abstract class EntityPlayer extends EntityLivingBase
 
                         if (targetEntity instanceof EntityLivingBase)
                         {
-                            float f4 = f3 - ((EntityLivingBase)targetEntity).getHealth();
-                            this.addStat(StatList.DAMAGE_DEALT, Math.round(f4 * 10.0F));
+                            float f5 = f4 - ((EntityLivingBase)targetEntity).getHealth();
+                            this.addStat(StatList.DAMAGE_DEALT, Math.round(f5 * 10.0F));
 
                             if (j > 0)
                             {
                                 targetEntity.setFire(j * 4);
                             }
 
-                            if (this.worldObj instanceof WorldServer && f4 > 2.0F)
+                            if (this.worldObj instanceof WorldServer && f5 > 2.0F)
                             {
-                                int k = (int)((double)f4 * 0.5D);
+                                int k = (int)((double)f5 * 0.5D);
                                 ((WorldServer)this.worldObj).spawnParticle(EnumParticleTypes.DAMAGE_INDICATOR, targetEntity.posX, targetEntity.posY + (double)(targetEntity.height * 0.5F), targetEntity.posZ, k, 0.1D, 0.0D, 0.1D, 0.2D, new int[0]);
                             }
                         }
@@ -2394,6 +2397,12 @@ public abstract class EntityPlayer extends EntityLivingBase
             this.playEquipSound(stack);
             this.inventory.armorInventory.set(slotIn.getIndex(), stack);
         }
+    }
+
+    public boolean func_191521_c(ItemStack p_191521_1_)
+    {
+        this.playEquipSound(p_191521_1_);
+        return this.inventory.addItemStackToInventory(p_191521_1_);
     }
 
     public Iterable<ItemStack> getHeldEquipment()

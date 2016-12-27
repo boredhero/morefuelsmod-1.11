@@ -387,7 +387,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 this.mc.mcProfiler.startSection("pick");
                 this.mc.pointedEntity = null;
                 double d0 = (double)this.mc.playerController.getBlockReachDistance();
-                this.mc.objectMouseOver = entity.rayTrace(d0, 1.0F);
+                this.mc.objectMouseOver = entity.rayTrace(d0, partialTicks);
                 Vec3d vec3d = entity.getPositionEyes(partialTicks);
                 boolean flag = false;
                 int i = 3;
@@ -1345,7 +1345,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         if (entity.posY + (double)entity.getEyeHeight() < 128.0D)
         {
-            this.renderCloudsCheck(renderglobal, partialTicks, pass);
+            this.renderCloudsCheck(renderglobal, partialTicks, pass, d0, d1, d2);
         }
 
         this.mc.mcProfiler.endStartSection("prepareterrain");
@@ -1463,7 +1463,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
         if (entity.posY + (double)entity.getEyeHeight() >= 128.0D)
         {
             this.mc.mcProfiler.endStartSection("aboveClouds");
-            this.renderCloudsCheck(renderglobal, partialTicks, pass);
+            this.renderCloudsCheck(renderglobal, partialTicks, pass, d0, d1, d2);
         }
 
         this.mc.mcProfiler.endStartSection("forge_render_last");
@@ -1478,7 +1478,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
         }
     }
 
-    private void renderCloudsCheck(RenderGlobal renderGlobalIn, float partialTicks, int pass)
+    private void renderCloudsCheck(RenderGlobal renderGlobalIn, float partialTicks, int pass, double p_180437_4_, double p_180437_6_, double p_180437_8_)
     {
         if (this.mc.gameSettings.shouldRenderClouds() != 0)
         {
@@ -1489,7 +1489,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             GlStateManager.matrixMode(5888);
             GlStateManager.pushMatrix();
             this.setupFog(0, partialTicks);
-            renderGlobalIn.renderClouds(partialTicks, pass);
+            renderGlobalIn.renderClouds(partialTicks, pass, p_180437_4_, p_180437_6_, p_180437_8_);
             GlStateManager.disableFog();
             GlStateManager.popMatrix();
             GlStateManager.matrixMode(5889);
@@ -1947,7 +1947,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
     private void setupFog(int startCoords, float partialTicks)
     {
         Entity entity = this.mc.getRenderViewEntity();
-        GlStateManager.glFog(2918, this.setFogColorBuffer(this.fogColorRed, this.fogColorGreen, this.fogColorBlue, 1.0F));
+        this.func_191514_d(false);
         GlStateManager.glNormal3f(0.0F, -1.0F, 0.0F);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         IBlockState iblockstate = ActiveRenderInfo.getBlockStateAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
@@ -2044,6 +2044,18 @@ public class EntityRenderer implements IResourceManagerReloadListener
         GlStateManager.enableColorMaterial();
         GlStateManager.enableFog();
         GlStateManager.colorMaterial(1028, 4608);
+    }
+
+    public void func_191514_d(boolean p_191514_1_)
+    {
+        if (p_191514_1_)
+        {
+            GlStateManager.glFog(2918, this.setFogColorBuffer(0.0F, 0.0F, 0.0F, 1.0F));
+        }
+        else
+        {
+            GlStateManager.glFog(2918, this.setFogColorBuffer(this.fogColorRed, this.fogColorGreen, this.fogColorBlue, 1.0F));
+        }
     }
 
     /**

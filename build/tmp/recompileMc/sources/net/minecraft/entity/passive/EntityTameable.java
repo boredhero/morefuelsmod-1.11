@@ -100,7 +100,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
     public boolean canBeLeashedTo(EntityPlayer player)
     {
-        return this.isTamed() && this.isOwner(player);
+        return !this.getLeashed();
     }
 
     /**

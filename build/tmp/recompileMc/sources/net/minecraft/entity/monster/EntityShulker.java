@@ -436,7 +436,7 @@ public class EntityShulker extends EntityGolem implements IMob
             {
                 BlockPos blockpos1 = blockpos.add(8 - this.rand.nextInt(17), 8 - this.rand.nextInt(17), 8 - this.rand.nextInt(17));
 
-                if (blockpos1.getY() > 0 && this.worldObj.isAirBlock(blockpos1) && this.worldObj.isInsideBorder(this.worldObj.getWorldBorder(), this) && this.worldObj.getCollisionBoxes(this, new AxisAlignedBB(blockpos1)).isEmpty())
+                if (blockpos1.getY() > 0 && this.worldObj.isAirBlock(blockpos1) && this.worldObj.func_191503_g(this) && this.worldObj.getCollisionBoxes(this, new AxisAlignedBB(blockpos1)).isEmpty())
                 {
                     boolean flag = false;
 

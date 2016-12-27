@@ -180,52 +180,40 @@ public abstract class PlayerList
             nethandlerplayserver.sendPacket(new SPacketEntityEffect(playerIn.getEntityId(), potioneffect));
         }
 
-        if (nbttagcompound != null)
+        if (nbttagcompound != null && nbttagcompound.hasKey("RootVehicle", 10))
         {
-            if (nbttagcompound.hasKey("RootVehicle", 10))
+            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("RootVehicle");
+            Entity entity1 = AnvilChunkLoader.readWorldEntity(nbttagcompound1.getCompoundTag("Entity"), worldserver, true);
+
+            if (entity1 != null)
             {
-                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("RootVehicle");
-                Entity entity2 = AnvilChunkLoader.readWorldEntity(nbttagcompound1.getCompoundTag("Entity"), worldserver, true);
+                UUID uuid = nbttagcompound1.getUniqueId("Attach");
 
-                if (entity2 != null)
+                if (entity1.getUniqueID().equals(uuid))
                 {
-                    UUID uuid = nbttagcompound1.getUniqueId("Attach");
-
-                    if (entity2.getUniqueID().equals(uuid))
+                    playerIn.startRiding(entity1, true);
+                }
+                else
+                {
+                    for (Entity entity : entity1.getRecursivePassengers())
                     {
-                        playerIn.startRiding(entity2, true);
-                    }
-                    else
-                    {
-                        for (Entity entity : entity2.getRecursivePassengers())
+                        if (entity.getUniqueID().equals(uuid))
                         {
-                            if (entity.getUniqueID().equals(uuid))
-                            {
-                                playerIn.startRiding(entity, true);
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!playerIn.isRiding())
-                    {
-                        LOG.warn("Couldn\'t reattach entity to player");
-                        worldserver.removeEntityDangerously(entity2);
-
-                        for (Entity entity3 : entity2.getRecursivePassengers())
-                        {
-                            worldserver.removeEntityDangerously(entity3);
+                            playerIn.startRiding(entity, true);
+                            break;
                         }
                     }
                 }
-            }
-            else if (nbttagcompound.hasKey("Riding", 10))
-            {
-                Entity entity1 = AnvilChunkLoader.readWorldEntity(nbttagcompound.getCompoundTag("Riding"), worldserver, true);
 
-                if (entity1 != null)
+                if (!playerIn.isRiding())
                 {
-                    playerIn.startRiding(entity1, true);
+                    LOG.warn("Couldn\'t reattach entity to player");
+                    worldserver.removeEntityDangerously(entity1);
+
+                    for (Entity entity2 : entity1.getRecursivePassengers())
+                    {
+                        worldserver.removeEntityDangerously(entity2);
+                    }
                 }
             }
         }
@@ -317,6 +305,7 @@ public abstract class PlayerList
     /**
      * called during player login. reads the player information from disk.
      */
+    @Nullable
     public NBTTagCompound readPlayerDataFromFile(EntityPlayerMP playerIn)
     {
         NBTTagCompound nbttagcompound = this.mcServer.worldServers[0].getWorldInfo().getPlayerNBTTagCompound();
@@ -561,7 +550,7 @@ public abstract class PlayerList
         entityplayermp.connection = playerIn.connection;
         entityplayermp.clonePlayer(playerIn, conqueredEnd);
         entityplayermp.dimension = dimension;
-       entityplayermp.setEntityId(playerIn.getEntityId());
+        entityplayermp.setEntityId(playerIn.getEntityId());
         entityplayermp.setCommandStats(playerIn);
         entityplayermp.setPrimaryHand(playerIn.getPrimaryHand());
 
@@ -608,7 +597,7 @@ public abstract class PlayerList
         this.uuidToPlayerMap.put(entityplayermp.getUniqueID(), entityplayermp);
         entityplayermp.addSelfToInternalCraftingInventory();
         entityplayermp.setHealth(entityplayermp.getHealth());
-        net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerRespawnEvent(entityplayermp);
+        net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerRespawnEvent(entityplayermp, conqueredEnd);
         return entityplayermp;
     }
 

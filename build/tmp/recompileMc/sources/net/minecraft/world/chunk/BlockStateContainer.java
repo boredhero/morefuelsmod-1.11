@@ -30,6 +30,10 @@ public class BlockStateContainer implements IBlockStatePaletteResizer
 
     private void setBits(int bitsIn)
     {
+        setBits(bitsIn, false);
+    }
+    private void setBits(int bitsIn, boolean forceBits)
+    {
         if (bitsIn != this.bits)
         {
             this.bits = bitsIn;
@@ -47,6 +51,8 @@ public class BlockStateContainer implements IBlockStatePaletteResizer
             {
                 this.palette = REGISTRY_BASED_PALETTE;
                 this.bits = MathHelper.calculateLogBaseTwoDeBruijn(Block.BLOCK_STATE_IDS.size());
+                if (forceBits)
+                    this.bits = bitsIn;
             }
 
             this.palette.idFor(AIR_BLOCK_STATE);
@@ -102,11 +108,15 @@ public class BlockStateContainer implements IBlockStatePaletteResizer
 
         if (this.bits != i)
         {
-            this.setBits(i);
+            this.setBits(i, true); //Forge, Force bit density to fix network issues, resize below if needed.
         }
 
         this.palette.read(buf);
         buf.readLongArray(this.storage.getBackingLongArray());
+
+        int regSize = MathHelper.calculateLogBaseTwoDeBruijn(Block.BLOCK_STATE_IDS.size());
+        if (this.palette == REGISTRY_BASED_PALETTE && this.bits != regSize) // Resize bits to fit registry.
+            this.onResize(regSize, AIR_BLOCK_STATE);
     }
 
     public void write(PacketBuffer buf)

@@ -598,7 +598,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     private boolean isOpenBlockSpace(BlockPos pos)
     {
-        return !this.worldObj.getBlockState(pos).isNormalCube();
+        IBlockState iblockstate = worldObj.getBlockState(pos);
+        return !iblockstate.getBlock().isNormalCube(iblockstate, worldObj, pos);
     }
 
     /**

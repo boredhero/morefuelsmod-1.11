@@ -21,7 +21,7 @@ public class ItemAppleGold extends ItemFood
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack stack)
     {
-        return stack.getMetadata() > 0;
+        return super.hasEffect(stack) || stack.getMetadata() > 0;
     }
 
     /**

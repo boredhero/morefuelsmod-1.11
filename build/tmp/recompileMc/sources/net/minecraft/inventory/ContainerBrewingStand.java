@@ -114,7 +114,7 @@ public class ContainerBrewingStand extends Container
                         return ItemStack.field_190927_a;
                     }
                 }
-                else if (ContainerBrewingStand.Potion.canHoldPotion(itemstack))
+                else if (ContainerBrewingStand.Potion.canHoldPotion(itemstack) && itemstack.func_190916_E() == 1)
                 {
                     if (!this.mergeItemStack(itemstack1, 0, 3, false))
                     {

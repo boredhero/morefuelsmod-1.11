@@ -62,6 +62,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.passive.EntityZombieHorse;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityDragonFireball;
 import net.minecraft.entity.projectile.EntityEgg;
@@ -113,6 +114,7 @@ import net.minecraft.util.datafix.fixes.SpawnEggNames;
 import net.minecraft.util.datafix.fixes.SpawnerEntityTypes;
 import net.minecraft.util.datafix.fixes.StringToUUID;
 import net.minecraft.util.datafix.fixes.TileEntityId;
+import net.minecraft.util.datafix.fixes.TotemItemRename;
 import net.minecraft.util.datafix.fixes.ZombieProfToType;
 import net.minecraft.util.datafix.fixes.ZombieSplit;
 import net.minecraft.world.chunk.storage.AnvilChunkLoader;
@@ -153,12 +155,15 @@ public class DataFixesManager
         fixer.registerFix(FixTypes.ITEM_INSTANCE, new ShulkerBoxItemColor());
         fixer.registerFix(FixTypes.BLOCK_ENTITY, new ShulkerBoxTileColor());
         fixer.registerFix(FixTypes.OPTIONS, new OptionsLowerCaseLanguage());
+        fixer.registerFix(FixTypes.ITEM_INSTANCE, new TotemItemRename());
     }
 
     public static DataFixer createFixer()
     {
-        DataFixer datafixer = new DataFixer(819);
+        DataFixer datafixer = new DataFixer(922);
+        datafixer = new net.minecraftforge.common.util.CompoundDataFixer(datafixer);
         WorldInfo.registerFixes(datafixer);
+        EntityPlayerMP.func_191522_a(datafixer);
         EntityPlayer.registerFixesPlayer(datafixer);
         AnvilChunkLoader.registerFixes(datafixer);
         ItemStack.registerFixes(datafixer);

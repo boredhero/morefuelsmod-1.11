@@ -142,9 +142,12 @@ public class BlockStairs extends Block
         this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
     }
 
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn)
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_)
     {
-        state = this.getActualState(state, worldIn, pos);
+        if (!p_185477_7_)
+        {
+            state = this.getActualState(state, worldIn, pos);
+        }
 
         for (AxisAlignedBB axisalignedbb : getCollisionBoxList(state))
         {

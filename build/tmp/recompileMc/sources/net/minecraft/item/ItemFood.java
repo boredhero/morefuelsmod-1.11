@@ -48,8 +48,6 @@ public class ItemFood extends Item
      */
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
     {
-        stack.func_190918_g(1);
-
         if (entityLiving instanceof EntityPlayer)
         {
             EntityPlayer entityplayer = (EntityPlayer)entityLiving;
@@ -59,6 +57,7 @@ public class ItemFood extends Item
             entityplayer.addStat(StatList.getObjectUseStats(this));
         }
 
+        stack.func_190918_g(1);
         return stack;
     }
 

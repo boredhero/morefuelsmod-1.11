@@ -535,7 +535,8 @@ public class Template
         nbt.setTag("entities", nbttaglist1);
         nbt.setTag("size", this.writeInts(new int[] {this.size.getX(), this.size.getY(), this.size.getZ()}));
         nbt.setString("author", this.author);
-        nbt.setInteger("DataVersion", 819);
+        nbt.setInteger("DataVersion", 922);
+        net.minecraftforge.fml.common.FMLCommonHandler.instance().getDataFixer().writeVersionData(nbt);
         return nbt;
     }
 

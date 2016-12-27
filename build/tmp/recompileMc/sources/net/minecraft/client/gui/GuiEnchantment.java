@@ -188,7 +188,7 @@ public class GuiEnchantment extends GuiContainer
                 FontRenderer fontrenderer = this.mc.standardGalacticFontRenderer;
                 int i2 = 6839882;
 
-                if ((k < l + 1 || this.mc.thePlayer.experienceLevel < k1) && !this.mc.thePlayer.capabilities.isCreativeMode)
+                if (((k < l + 1 || this.mc.thePlayer.experienceLevel < k1) && !this.mc.thePlayer.capabilities.isCreativeMode) || this.container.enchantClue[l] == -1) // Forge: render buttons as disabled when enchantable but enchantability not met on lower levels
                 {
                     this.drawTexturedModalRect(i1, j + 14 + 19 * l, 0, 185, 108, 19);
                     this.drawTexturedModalRect(i1 + 1, j + 15 + 19 * l, 16 * l, 239, 16, 16);
@@ -237,11 +237,12 @@ public class GuiEnchantment extends GuiContainer
             int l = this.container.worldClue[j];
             int i1 = j + 1;
 
-            if (this.isPointInRegion(60, 14 + 19 * j, 108, 17, mouseX, mouseY) && k > 0 && l >= 0 && enchantment != null)
+            if (this.isPointInRegion(60, 14 + 19 * j, 108, 17, mouseX, mouseY) && k > 0)
             {
                 List<String> list = Lists.<String>newArrayList();
-                list.add("" + TextFormatting.WHITE + TextFormatting.ITALIC + I18n.format("container.enchant.clue", new Object[] {enchantment.getTranslatedName(l)}));
+                list.add("" + TextFormatting.WHITE + TextFormatting.ITALIC + I18n.format("container.enchant.clue", new Object[] {enchantment == null ? "" : enchantment.getTranslatedName(l)}));
 
+                if(enchantment == null) java.util.Collections.addAll(list, "", TextFormatting.RED + I18n.format("forge.container.enchant.limitedEnchantability")); else
                 if (!flag)
                 {
                     list.add("");

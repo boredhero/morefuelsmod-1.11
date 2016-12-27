@@ -87,6 +87,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
     public void loadSprites(IResourceManager resourceManager, ITextureMapPopulator iconCreatorIn)
     {
         this.mapRegisteredSprites.clear();
+        net.minecraftforge.client.ForgeHooksClient.onTextureStitchedPre(this);
         iconCreatorIn.registerSprites(this);
         this.initMissingImage();
         this.deleteGlTexture();
@@ -102,7 +103,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         int j = Integer.MAX_VALUE;
         int k = 1 << this.mipmapLevels;
 
-        net.minecraftforge.client.ForgeHooksClient.onTextureStitchedPre(this);
         net.minecraftforge.fml.common.FMLLog.info("Max texture size: %d", i);
         net.minecraftforge.fml.common.ProgressManager.ProgressBar bar = net.minecraftforge.fml.common.ProgressManager.push("Texture stitching", skipFirst ? 0 : this.mapRegisteredSprites.size());
 
@@ -374,32 +374,28 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
      * @param name The name of the entry to find
      * @return The registered entry, null if nothing was registered.
      */
+    @Nullable
     public TextureAtlasSprite getTextureExtry(String name)
     {
-        return (TextureAtlasSprite)mapRegisteredSprites.get(name);
+        return mapRegisteredSprites.get(name);
     }
 
     /**
      * Adds a texture registry entry to this map for the specified name if one does not already exist.
      * Returns false if the map already contains a entry for the specified name.
      *
-     * @param name Entry name
      * @param entry Entry instance
      * @return True if the entry was added to the map, false otherwise.
      */
-    @Deprecated //Use non-String version
-    public boolean setTextureEntry(String name, TextureAtlasSprite entry)
+    public boolean setTextureEntry(TextureAtlasSprite entry)
     {
+        String name = entry.getIconName();
         if (!mapRegisteredSprites.containsKey(name))
         {
             mapRegisteredSprites.put(name, entry);
             return true;
         }
         return false;
-    }
-    public boolean setTextureEntry(TextureAtlasSprite entry)
-    {
-        return setTextureEntry(entry.getIconName(), entry);
     }
 
     public String getBasePath()

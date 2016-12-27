@@ -1,10 +1,10 @@
-[11:06:59] [Client thread/INFO]: Setting user: Player291
-[11:07:02] [Client thread/WARN]: Skipping bad option: lastServer:
-[11:07:02] [Client thread/INFO]: LWJGL Version: 2.9.4
-[11:07:03] [Client thread/INFO]: [STDOUT]: ---- Minecraft Crash Report ----
-// I bet Cylons wouldn't have this problem.
+[17:57:16] [Client thread/INFO]: Setting user: Player938
+[17:57:18] [Client thread/WARN]: Skipping bad option: lastServer:
+[17:57:18] [Client thread/INFO]: LWJGL Version: 2.9.4
+[17:57:20] [Client thread/INFO]: [STDOUT]: ---- Minecraft Crash Report ----
+// Oops.
 
-Time: 11/27/16 11:07 AM
+Time: 11/28/16 5:57 PM
 Description: Loading screen debug info
 
 This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
@@ -19,39 +19,42 @@ Details:
 	Operating System: Windows 10 (amd64) version 10.0
 	Java Version: 1.8.0_112, Oracle Corporation
 	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
-	Memory: 699120056 bytes (666 MB) / 1037959168 bytes (989 MB) up to 1037959168 bytes (989 MB)
+	Memory: 825334152 bytes (787 MB) / 1037959168 bytes (989 MB) up to 1037959168 bytes (989 MB)
 	JVM Flags: 3 total; -Xincgc -Xmx1024M -Xms1024M
 	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
 	FML: 
 	Loaded coremods (and transformers): 
 	GL info: ' Vendor: 'ATI Technologies Inc.' Version: '4.5.13456 Compatibility Profile Context 21.19.160.512' Renderer: 'AMD Radeon (TM) R9 Fury Series'
-[11:07:04] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:§4More Fuels Mod
-[11:07:04] [Client thread/INFO]: [STDOUT]: More Fuels Mod is making smelting better for you!
-[11:07:06] [Sound Library Loader/INFO]: Starting up SoundSystem...
-[11:07:06] [Thread-8/INFO]: Initializing LWJGL OpenAL
-[11:07:06] [Thread-8/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
-[11:07:06] [Thread-8/INFO]: OpenAL initialized.
-[11:07:06] [Sound Library Loader/INFO]: Sound engine started
-[11:07:08] [Client thread/INFO]: Created: 16x16 textures-atlas
-[11:07:09] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:§4More Fuels Mod
-[11:07:10] [Client thread/INFO]: SoundSystem shutting down...
-[11:07:10] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
-[11:07:10] [Sound Library Loader/INFO]: Starting up SoundSystem...
-[11:07:10] [Thread-10/INFO]: Initializing LWJGL OpenAL
-[11:07:10] [Thread-10/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
-[11:07:10] [Thread-10/INFO]: OpenAL initialized.
-[11:07:10] [Sound Library Loader/INFO]: Sound engine started
-[11:07:12] [Client thread/INFO]: Created: 512x512 textures-atlas
-[11:07:12] [Client thread/WARN]: Skipping bad option: lastServer:
-[11:07:13] [Realms Notification Availability checker #1/INFO]: Could not authorize you against Realms server: Invalid session id
-[11:07:19] [Server thread/INFO]: Starting integrated minecraft server version 1.11
-[11:07:19] [Server thread/INFO]: Generating keypair
-[11:07:19] [Server thread/INFO]: Preparing start region for level 0
-[11:07:20] [Server thread/INFO]: Changing view distance to 12, from 10
-[11:07:20] [Server thread/INFO]: Player291[local:E:88ee44d2] logged in with entity id 118 at (-429.3605572522615, 8.775264300965079, -766.3643359219091)
-[11:07:20] [Server thread/INFO]: Player291 joined the game
-[11:07:21] [Server thread/INFO]: Saving and pausing game...
-[11:07:21] [pool-2-thread-1/WARN]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@521cfb8c[id=32c6d70c-2b61-390a-8ed9-2ab7ce3ffeef,name=Player291,properties={},legacy=false]
+[17:57:22] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:§4More Fuels Mod
+[17:57:22] [Client thread/INFO]: [STDOUT]: More Fuels Mod is making smelting better for you!
+[17:57:26] [Sound Library Loader/INFO]: Starting up SoundSystem...
+[17:57:27] [Thread-8/INFO]: Initializing LWJGL OpenAL
+[17:57:27] [Thread-8/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[17:57:27] [Thread-8/INFO]: OpenAL initialized.
+[17:57:27] [Sound Library Loader/INFO]: Sound engine started
+[17:57:29] [Client thread/INFO]: Created: 16x16 textures-atlas
+[17:57:30] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:§4More Fuels Mod
+[17:57:34] [Client thread/INFO]: SoundSystem shutting down...
+[17:57:35] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
+[17:57:35] [Sound Library Loader/INFO]: Starting up SoundSystem...
+[17:57:35] [Thread-10/INFO]: Initializing LWJGL OpenAL
+[17:57:35] [Thread-10/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[17:57:35] [Thread-10/INFO]: OpenAL initialized.
+[17:57:35] [Sound Library Loader/INFO]: Sound engine started
+[17:57:40] [Client thread/INFO]: Created: 512x512 textures-atlas
+[17:57:40] [Client thread/WARN]: Skipping bad option: lastServer:
+[17:57:41] [Realms Notification Availability checker #1/INFO]: Could not authorize you against Realms server: Invalid session id
+[17:57:55] [Server thread/INFO]: Starting integrated minecraft server version 1.11
+[17:57:55] [Server thread/INFO]: Generating keypair
+[17:57:55] [Server thread/INFO]: Preparing start region for level 0
+[17:57:56] [Server thread/INFO]: Changing view distance to 12, from 10
+[17:57:57] [Server thread/INFO]: Player938[local:E:683bcd3f] logged in with entity id 130 at (-430.79374430986536, 8.775264300965079, -765.7662471292542)
+[17:57:57] [Server thread/INFO]: Player938 joined the game
+[17:57:57] [Server thread/INFO]: Saving and pausing game...
+[17:57:57] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[17:57:57] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[17:57:57] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[17:57:57] [pool-2-thread-1/WARN]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@2b537bc4[id=7d36885a-8062-3bf0-bbc7-0ea5700f9d67,name=Player938,properties={},legacy=false]
 com.mojang.authlib.exceptions.AuthenticationException: The client has sent too many requests within a certain amount of time
 	at com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.makeRequest(YggdrasilAuthenticationService.java:79) ~[YggdrasilAuthenticationService.class:?]
 	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:180) [YggdrasilMinecraftSessionService.class:?]
@@ -73,24 +76,21 @@ com.mojang.authlib.exceptions.AuthenticationException: The client has sent too m
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_112]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_112]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_112]
-[11:07:21] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
-[11:07:21] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
-[11:07:21] [Server thread/INFO]: Saving chunks for level 'New World'/The End
-[11:07:22] [Server thread/INFO]: Player291 has just earned the achievement [Taking Inventory]
-[11:07:22] [Client thread/INFO]: [CHAT] Player291 has just earned the achievement [Taking Inventory]
-[11:07:32] [Server thread/INFO]: Saving and pausing game...
-[11:07:32] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
-[11:07:32] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
-[11:07:32] [Server thread/INFO]: Saving chunks for level 'New World'/The End
-[11:07:33] [Server thread/INFO]: Stopping server
-[11:07:33] [Server thread/INFO]: Saving players
-[11:07:33] [Server thread/INFO]: Player291 lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null}}
-[11:07:33] [Server thread/INFO]: Player291 left the game
-[11:07:33] [Server thread/INFO]: Stopping singleplayer server as player logged out
-[11:07:33] [Server thread/INFO]: Saving worlds
-[11:07:33] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
-[11:07:33] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
-[11:07:33] [Server thread/INFO]: Saving chunks for level 'New World'/The End
-[11:07:38] [Client thread/INFO]: Stopping!
-[11:07:38] [Client thread/INFO]: SoundSystem shutting down...
-[11:07:38] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
+[17:57:59] [Server thread/INFO]: Player938 has just earned the achievement [Taking Inventory]
+[17:57:59] [Client thread/INFO]: [CHAT] Player938 has just earned the achievement [Taking Inventory]
+[17:58:31] [Server thread/INFO]: Saving and pausing game...
+[17:58:31] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[17:58:31] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[17:58:31] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[17:58:31] [Server thread/INFO]: Stopping server
+[17:58:31] [Server thread/INFO]: Saving players
+[17:58:31] [Server thread/INFO]: Player938 lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null, insertion=null}}
+[17:58:31] [Server thread/INFO]: Player938 left the game
+[17:58:31] [Server thread/INFO]: Stopping singleplayer server as player logged out
+[17:58:31] [Server thread/INFO]: Saving worlds
+[17:58:31] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[17:58:32] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[17:58:32] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[17:58:33] [Client thread/INFO]: Stopping!
+[17:58:33] [Client thread/INFO]: SoundSystem shutting down...
+[17:58:33] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com

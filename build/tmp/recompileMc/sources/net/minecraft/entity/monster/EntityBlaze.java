@@ -11,6 +11,7 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.init.SoundEvents;
@@ -264,7 +265,7 @@ public class EntityBlaze extends EntityMob
 
                     this.blaze.getMoveHelper().setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
                 }
-                else if (d0 < 256.0D)
+                else if (d0 < this.func_191523_f() * this.func_191523_f())
                 {
                     double d1 = entitylivingbase.posX - this.blaze.posX;
                     double d2 = entitylivingbase.getEntityBoundingBox().minY + (double)(entitylivingbase.height / 2.0F) - (this.blaze.posY + (double)(this.blaze.height / 2.0F));
@@ -313,6 +314,12 @@ public class EntityBlaze extends EntityMob
                 }
 
                 super.updateTask();
+            }
+
+            private double func_191523_f()
+            {
+                IAttributeInstance iattributeinstance = this.blaze.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE);
+                return iattributeinstance == null ? 16.0D : iattributeinstance.getAttributeValue();
             }
         }
 }

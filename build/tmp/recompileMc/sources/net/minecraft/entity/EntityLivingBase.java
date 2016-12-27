@@ -737,8 +737,10 @@ public abstract class EntityLivingBase extends Entity
         else
         {
             Collection<PotionEffect> collection = this.activePotionsMap.values();
-            this.dataManager.set(HIDE_PARTICLES, Boolean.valueOf(areAllPotionsAmbient(collection)));
-            this.dataManager.set(POTION_EFFECTS, Integer.valueOf(PotionUtils.getPotionColorFromEffectList(collection)));
+            net.minecraftforge.event.entity.living.PotionColorCalculationEvent event = new net.minecraftforge.event.entity.living.PotionColorCalculationEvent(this, PotionUtils.getPotionColorFromEffectList(collection), areAllPotionsAmbient(collection), collection);
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event);
+            this.dataManager.set(HIDE_PARTICLES, event.areParticlesHidden());
+            this.dataManager.set(POTION_EFFECTS, event.getColor());
             this.setInvisible(this.isPotionActive(MobEffects.INVISIBILITY));
         }
     }
@@ -1815,7 +1817,7 @@ public abstract class EntityLivingBase extends Entity
                 double d6 = Math.floor(this.posZ) + 0.5D;
                 double d7 = this.getEntityBoundingBox().maxX - this.getEntityBoundingBox().minX;
                 double d8 = this.getEntityBoundingBox().maxZ - this.getEntityBoundingBox().minZ;
-                AxisAlignedBB axisalignedbb = new AxisAlignedBB(d5 - d7 / 2.0D, this.getEntityBoundingBox().minY, d6 - d8 / 2.0D, d5 + d7 / 2.0D, this.getEntityBoundingBox().maxY, d6 + d8 / 2.0D);
+                AxisAlignedBB axisalignedbb = new AxisAlignedBB(d5 - d7 / 2.0D, this.getEntityBoundingBox().minY - (double)entityIn.height, d6 - d8 / 2.0D, d5 + d7 / 2.0D, this.getEntityBoundingBox().maxY - (double)entityIn.height, d6 + d8 / 2.0D);
 
                 for (int[] aint : aint1)
                 {
@@ -2252,6 +2254,7 @@ public abstract class EntityLivingBase extends Entity
                 if (!ItemStack.areItemStacksEqual(itemstack1, itemstack))
                 {
                     ((WorldServer)this.worldObj).getEntityTracker().sendToAllTrackingEntity(this, new SPacketEntityEquipment(this.getEntityId(), entityequipmentslot, itemstack1));
+                    net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent(this, entityequipmentslot, itemstack, itemstack1));
 
                     if (!itemstack.func_190926_b())
                     {

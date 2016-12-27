@@ -89,11 +89,10 @@ public class RecipeFireworks implements IRecipe
             if (j >= 1 && i == 1 && i1 == 0)
             {
                 this.resultItem = new ItemStack(Items.FIREWORKS, 3);
-
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+
                 if (l > 0)
                 {
-                    NBTTagCompound nbttagcompound3 = new NBTTagCompound();
                     NBTTagList nbttaglist = new NBTTagList();
 
                     for (int k2 = 0; k2 < inv.getSizeInventory(); ++k2)
@@ -106,12 +105,13 @@ public class RecipeFireworks implements IRecipe
                         }
                     }
 
-                    nbttagcompound3.setTag("Explosions", nbttaglist);
-                    nbttagcompound3.setByte("Flight", (byte)j);
-                    nbttagcompound1.setTag("Fireworks", nbttagcompound3);
+                    nbttagcompound1.setTag("Explosions", nbttaglist);
                 }
 
-                this.resultItem.setTagCompound(nbttagcompound1); //Forge BugFix: NPE Protection
+                nbttagcompound1.setByte("Flight", (byte)j);
+                NBTTagCompound nbttagcompound3 = new NBTTagCompound();
+                nbttagcompound3.setTag("Fireworks", nbttagcompound1);
+                this.resultItem.setTagCompound(nbttagcompound3);
                 return true;
             }
             else if (j == 1 && i == 0 && l == 0 && k > 0 && j1 <= 1)

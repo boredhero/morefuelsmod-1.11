@@ -52,6 +52,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.ParticleItemPickup;
 import net.minecraft.client.player.inventory.ContainerLocalMenu;
 import net.minecraft.client.player.inventory.LocalBlockIntercommunication;
+import net.minecraft.client.renderer.debug.DebugRendererNeighborsUpdate;
 import net.minecraft.client.renderer.debug.DebugRendererPathfinding;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
@@ -229,7 +230,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITabCompleter;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -887,8 +887,14 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
         if (entity != null)
         {
-            SoundEvent soundevent = entity instanceof EntityXPOrb ? SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP : SoundEvents.ENTITY_ITEM_PICKUP;
-            this.clientWorldController.playSound(entity.posX, entity.posY, entity.posZ, soundevent, SoundCategory.PLAYERS, 0.2F, ((this.avRandomizer.nextFloat() - this.avRandomizer.nextFloat()) * 0.7F + 1.0F) * 2.0F, false);
+            if (entity instanceof EntityXPOrb)
+            {
+                this.clientWorldController.playSound(entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (this.avRandomizer.nextFloat() - this.avRandomizer.nextFloat()) * 0.35F + 0.9F, false);
+            }
+            else
+            {
+                this.clientWorldController.playSound(entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, (this.avRandomizer.nextFloat() - this.avRandomizer.nextFloat()) * 1.4F + 2.0F, false);
+            }
 
             if (entity instanceof EntityItem)
             {
@@ -1338,6 +1344,11 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             }
             else
             {
+                if(tileentity == null)
+                {
+                    LOGGER.error("Received invalid update packet for null tile entity at {} with data: {}", packetIn.getPos(), packetIn.getNbtCompound());
+                    return;
+                }
                 tileentity.onDataPacket(netManager, packetIn);
             }
 
@@ -1981,11 +1992,18 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             Path path = Path.read(packetbuffer1);
             ((DebugRendererPathfinding)this.gameController.debugRenderer.debugRendererPathfinding).addPath(j, path, f);
         }
-        else if ("MC|StopSound".equals(packetIn.getChannelName()))
+        else if ("MC|DebugNeighborsUpdate".equals(packetIn.getChannelName()))
         {
             PacketBuffer packetbuffer2 = packetIn.getBufferData();
-            String s = packetbuffer2.readStringFromBuffer(32767);
-            String s1 = packetbuffer2.readStringFromBuffer(256);
+            long k = packetbuffer2.readVarLong();
+            BlockPos blockpos = packetbuffer2.readBlockPos();
+            ((DebugRendererNeighborsUpdate)this.gameController.debugRenderer.field_191557_f).func_191553_a(k, blockpos);
+        }
+        else if ("MC|StopSound".equals(packetIn.getChannelName()))
+        {
+            PacketBuffer packetbuffer3 = packetIn.getBufferData();
+            String s = packetbuffer3.readStringFromBuffer(32767);
+            String s1 = packetbuffer3.readStringFromBuffer(256);
             this.gameController.getSoundHandler().stop(s1, SoundCategory.getByName(s));
         }
     }

@@ -99,6 +99,16 @@ public class SlotItemHandler extends Slot
 
     }
 
+    /**
+     * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1 in the case
+     * of armor slots)
+     */
+    @Override
+    public int getSlotStackLimit()
+    {
+        return this.itemHandler.getSlotLimit(this.index);
+    }
+
     @Override
     public int getItemStackLimit(@Nonnull ItemStack stack)
     {

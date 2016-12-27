@@ -76,7 +76,7 @@ public class BlockFarmland extends Block
      */
     public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance)
     {
-        if (!worldIn.isRemote && worldIn.rand.nextFloat() < fallDistance - 0.5F && entityIn instanceof EntityLivingBase && (entityIn instanceof EntityPlayer || worldIn.getGameRules().getBoolean("mobGriefing")) && entityIn.width * entityIn.width * entityIn.height > 0.512F)
+        if (!worldIn.isRemote && entityIn.canTrample(worldIn, this, pos, fallDistance)) // Forge: Move logic to Entity#canTrample
         {
             this.func_190970_b(worldIn, pos);
         }
@@ -123,6 +123,19 @@ public class BlockFarmland extends Block
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
         super.neighborChanged(state, worldIn, pos, blockIn, p_189540_5_);
+
+        if (worldIn.getBlockState(pos.up()).getMaterial().isSolid())
+        {
+            this.func_190970_b(worldIn, pos);
+        }
+    }
+
+    /**
+     * Called after the block is set in the Chunk data, but before the Tile Entity is set
+     */
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
+    {
+        super.onBlockAdded(worldIn, pos, state);
 
         if (worldIn.getBlockState(pos.up()).getMaterial().isSolid())
         {

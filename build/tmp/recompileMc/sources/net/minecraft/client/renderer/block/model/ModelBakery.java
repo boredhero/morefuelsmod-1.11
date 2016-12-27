@@ -450,10 +450,12 @@ public class ModelBakery
         this.variantNames.put(Item.getItemFromBlock(Blocks.OAK_FENCE), Lists.newArrayList(new String[] {"oak_fence"}));
         this.variantNames.put(Items.OAK_DOOR, Lists.newArrayList(new String[] {"oak_door"}));
         this.variantNames.put(Items.BOAT, Lists.newArrayList(new String[] {"oak_boat"}));
+        this.variantNames.put(Items.field_190929_cY, Lists.newArrayList(new String[] {"totem"}));
         for (Entry<net.minecraftforge.fml.common.registry.RegistryDelegate<Item>, Set<String>> e : customVariantNames.entrySet())
         {
             this.variantNames.put(e.getKey().get(), Lists.newArrayList(e.getValue().iterator()));
         }
+
     }
 
     protected List<String> getVariantNames(Item stack)

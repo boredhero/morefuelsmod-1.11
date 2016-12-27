@@ -1031,6 +1031,7 @@ public class RenderItem implements IResourceManagerReloadListener
         this.registerItem(Items.CHORUS_FRUIT, "chorus_fruit");
         this.registerItem(Items.CHORUS_FRUIT_POPPED, "chorus_fruit_popped");
         this.registerItem(Items.field_190930_cZ, "shulker_shell");
+        this.registerItem(Items.field_191525_da, "iron_nugget");
         this.registerItem(Items.RECORD_13, "record_13");
         this.registerItem(Items.RECORD_CAT, "record_cat");
         this.registerItem(Items.RECORD_BLOCKS, "record_blocks");

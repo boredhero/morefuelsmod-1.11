@@ -60,8 +60,6 @@ public class StatList
     /** counts the number of times you've killed a player */
     public static final StatBase PLAYER_KILLS = (new StatBasic("stat.playerKills", new TextComponentTranslation("stat.playerKills", new Object[0]))).registerStat();
     public static final StatBase FISH_CAUGHT = (new StatBasic("stat.fishCaught", new TextComponentTranslation("stat.fishCaught", new Object[0]))).registerStat();
-    public static final StatBase JUNK_FISHED = (new StatBasic("stat.junkFished", new TextComponentTranslation("stat.junkFished", new Object[0]))).registerStat();
-    public static final StatBase TREASURE_FISHED = (new StatBasic("stat.treasureFished", new TextComponentTranslation("stat.treasureFished", new Object[0]))).registerStat();
     public static final StatBase TALKED_TO_VILLAGER = (new StatBasic("stat.talkedToVillager", new TextComponentTranslation("stat.talkedToVillager", new Object[0]))).registerStat();
     public static final StatBase TRADED_WITH_VILLAGER = (new StatBasic("stat.tradedWithVillager", new TextComponentTranslation("stat.tradedWithVillager", new Object[0]))).registerStat();
     public static final StatBase CAKE_SLICES_EATEN = (new StatBasic("stat.cakeSlicesEaten", new TextComponentTranslation("stat.cakeSlicesEaten", new Object[0]))).registerStat();
