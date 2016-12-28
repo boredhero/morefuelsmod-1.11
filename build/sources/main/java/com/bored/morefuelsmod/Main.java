@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = Main.modid, name = Main.name, version = Main.version, acceptedMinecraftVersions = "[1.11]")
+@Mod(modid = Main.modid, name = Main.name, version = Main.version, acceptedMinecraftVersions = "[1.11.0, 1.11.2]")
 public class Main {
 
 	public static final String modid = "morefuelsmod-1.11.x";
@@ -31,7 +31,7 @@ public class Main {
 		config.load();
 		boolean enableRFtLrecipe = config.get(Configuration.CATEGORY_GENERAL, "enableRFtLrecipe", true).getBoolean(true);
 		if(enableRFtLrecipe)
-			//RFtL.init();
+			RFtL.init();
 		config.save();
 		ModItems.init();
 		ModBlocks.init();
