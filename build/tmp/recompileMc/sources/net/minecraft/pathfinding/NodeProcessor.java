@@ -22,9 +22,9 @@ public abstract class NodeProcessor
         this.blockaccess = sourceIn;
         this.entity = mob;
         this.pointMap.clearMap();
-        this.entitySizeX = MathHelper.floor_float(mob.width + 1.0F);
-        this.entitySizeY = MathHelper.floor_float(mob.height + 1.0F);
-        this.entitySizeZ = MathHelper.floor_float(mob.width + 1.0F);
+        this.entitySizeX = MathHelper.floor(mob.width + 1.0F);
+        this.entitySizeY = MathHelper.floor(mob.height + 1.0F);
+        this.entitySizeZ = MathHelper.floor(mob.width + 1.0F);
     }
 
     /**

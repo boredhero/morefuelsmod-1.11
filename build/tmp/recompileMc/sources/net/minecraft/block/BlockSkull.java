@@ -86,7 +86,7 @@ public class BlockSkull extends BlockContainer
     }
 
     @SideOnly(Side.CLIENT)
-    public boolean func_190946_v(IBlockState p_190946_1_)
+    public boolean hasCustomBreakingProgress(IBlockState state)
     {
         return true;
     }
@@ -113,7 +113,7 @@ public class BlockSkull extends BlockContainer
      * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
      * IBlockstate
      */
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing()).withProperty(NODROP, Boolean.valueOf(false));
     }
@@ -235,7 +235,7 @@ public class BlockSkull extends BlockContainer
                     entityplayer.addStat(AchievementList.SPAWN_WITHER);
                 }
 
-                worldIn.spawnEntityInWorld(entitywither);
+                worldIn.spawnEntity(entitywither);
 
                 for (int l = 0; l < 120; ++l)
                 {

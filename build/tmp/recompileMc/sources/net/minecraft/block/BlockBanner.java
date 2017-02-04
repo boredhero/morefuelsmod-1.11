@@ -93,13 +93,13 @@ public class BlockBanner extends BlockContainer
     private ItemStack getTileDataItemStack(World worldIn, BlockPos pos)
     {
         TileEntity tileentity = worldIn.getTileEntity(pos);
-        return tileentity instanceof TileEntityBanner ? ((TileEntityBanner)tileentity).func_190615_l() : ItemStack.field_190927_a;
+        return tileentity instanceof TileEntityBanner ? ((TileEntityBanner)tileentity).getItem() : ItemStack.EMPTY;
     }
 
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
     {
         ItemStack itemstack = this.getTileDataItemStack(worldIn, pos);
-        return itemstack.func_190926_b() ? new ItemStack(Items.BANNER) : itemstack;
+        return itemstack.isEmpty() ? new ItemStack(Items.BANNER) : itemstack;
     }
 
     /**
@@ -122,7 +122,7 @@ public class BlockBanner extends BlockContainer
         if (te instanceof TileEntityBanner)
         {
             TileEntityBanner tileentitybanner = (TileEntityBanner)te;
-            ItemStack itemstack = tileentitybanner.func_190615_l();
+            ItemStack itemstack = tileentitybanner.getItem();
             spawnAsEntity(worldIn, pos, itemstack);
         }
         else
@@ -140,7 +140,7 @@ public class BlockBanner extends BlockContainer
         if (te instanceof TileEntityBanner)
         {
             TileEntityBanner tileentitybanner = (TileEntityBanner)te;
-            ItemStack itemstack = tileentitybanner.func_190615_l();
+            ItemStack itemstack = tileentitybanner.getItem();
             ret.add(itemstack);
         }
         else
@@ -201,7 +201,7 @@ public class BlockBanner extends BlockContainer
              * neighbor change. Cases may include when redstone power is updated, cactus blocks popping off due to a
              * neighboring solid block, etc.
              */
-            public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
+            public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
             {
                 EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
 
@@ -211,7 +211,7 @@ public class BlockBanner extends BlockContainer
                     worldIn.setBlockToAir(pos);
                 }
 
-                super.neighborChanged(state, worldIn, pos, blockIn, p_189540_5_);
+                super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
             }
 
             /**
@@ -278,7 +278,7 @@ public class BlockBanner extends BlockContainer
              * neighbor change. Cases may include when redstone power is updated, cactus blocks popping off due to a
              * neighboring solid block, etc.
              */
-            public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
+            public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
             {
                 if (!worldIn.getBlockState(pos.down()).getMaterial().isSolid())
                 {
@@ -286,7 +286,7 @@ public class BlockBanner extends BlockContainer
                     worldIn.setBlockToAir(pos);
                 }
 
-                super.neighborChanged(state, worldIn, pos, blockIn, p_189540_5_);
+                super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
             }
 
             /**

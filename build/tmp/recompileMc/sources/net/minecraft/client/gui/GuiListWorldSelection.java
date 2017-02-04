@@ -23,9 +23,9 @@ public class GuiListWorldSelection extends GuiListExtended
     /** Index to the currently selected world */
     private int selectedIdx = -1;
 
-    public GuiListWorldSelection(GuiWorldSelection p_i46590_1_, Minecraft clientIn, int p_i46590_3_, int p_i46590_4_, int p_i46590_5_, int p_i46590_6_, int p_i46590_7_)
+    public GuiListWorldSelection(GuiWorldSelection p_i46590_1_, Minecraft clientIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn)
     {
-        super(clientIn, p_i46590_3_, p_i46590_4_, p_i46590_5_, p_i46590_6_, p_i46590_7_);
+        super(clientIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
         this.worldSelectionObj = p_i46590_1_;
         this.refreshList();
     }

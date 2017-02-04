@@ -42,7 +42,7 @@ public class EntityFireworkRocket extends Entity
 
     protected void entityInit()
     {
-        this.dataManager.register(FIREWORK_ITEM, ItemStack.field_190927_a);
+        this.dataManager.register(FIREWORK_ITEM, ItemStack.EMPTY);
         this.dataManager.register(field_191512_b, Integer.valueOf(0));
     }
 
@@ -69,7 +69,7 @@ public class EntityFireworkRocket extends Entity
         this.setPosition(x, y, z);
         int i = 1;
 
-        if (!givenItem.func_190926_b() && givenItem.hasTagCompound())
+        if (!givenItem.isEmpty() && givenItem.hasTagCompound())
         {
             this.dataManager.set(FIREWORK_ITEM, givenItem.copy());
             NBTTagCompound nbttagcompound = givenItem.getTagCompound();
@@ -102,7 +102,7 @@ public class EntityFireworkRocket extends Entity
 
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
         {
-            float f = MathHelper.sqrt_double(x * x + z * z);
+            float f = MathHelper.sqrt(x * x + z * z);
             this.rotationYaw = (float)(MathHelper.atan2(x, z) * (180D / Math.PI));
             this.rotationPitch = (float)(MathHelper.atan2(y, (double)f) * (180D / Math.PI));
             this.prevRotationYaw = this.rotationYaw;
@@ -124,7 +124,7 @@ public class EntityFireworkRocket extends Entity
         {
             if (this.field_191513_e == null)
             {
-                Entity entity = this.worldObj.getEntityByID(((Integer)this.dataManager.get(field_191512_b)).intValue());
+                Entity entity = this.world.getEntityByID(((Integer)this.dataManager.get(field_191512_b)).intValue());
 
                 if (entity instanceof EntityLivingBase)
                 {
@@ -155,10 +155,10 @@ public class EntityFireworkRocket extends Entity
             this.motionX *= 1.15D;
             this.motionZ *= 1.15D;
             this.motionY += 0.04D;
-            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
         }
 
-        float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
         this.rotationYaw = (float)(MathHelper.atan2(this.motionX, this.motionZ) * (180D / Math.PI));
 
         for (this.rotationPitch = (float)(MathHelper.atan2(this.motionY, (double)f) * (180D / Math.PI)); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
@@ -186,19 +186,19 @@ public class EntityFireworkRocket extends Entity
 
         if (this.fireworkAge == 0 && !this.isSilent())
         {
-            this.worldObj.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_FIREWORK_LAUNCH, SoundCategory.AMBIENT, 3.0F, 1.0F);
+            this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_FIREWORK_LAUNCH, SoundCategory.AMBIENT, 3.0F, 1.0F);
         }
 
         ++this.fireworkAge;
 
-        if (this.worldObj.isRemote && this.fireworkAge % 2 < 2)
+        if (this.world.isRemote && this.fireworkAge % 2 < 2)
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, this.posX, this.posY - 0.3D, this.posZ, this.rand.nextGaussian() * 0.05D, -this.motionY * 0.5D, this.rand.nextGaussian() * 0.05D, new int[0]);
+            this.world.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, this.posX, this.posY - 0.3D, this.posZ, this.rand.nextGaussian() * 0.05D, -this.motionY * 0.5D, this.rand.nextGaussian() * 0.05D, new int[0]);
         }
 
-        if (!this.worldObj.isRemote && this.fireworkAge > this.lifetime)
+        if (!this.world.isRemote && this.fireworkAge > this.lifetime)
         {
-            this.worldObj.setEntityState(this, (byte)17);
+            this.world.setEntityState(this, (byte)17);
             this.func_191510_k();
             this.setDead();
         }
@@ -208,7 +208,7 @@ public class EntityFireworkRocket extends Entity
     {
         float f = 0.0F;
         ItemStack itemstack = (ItemStack)this.dataManager.get(FIREWORK_ITEM);
-        NBTTagCompound nbttagcompound = itemstack.func_190926_b() ? null : itemstack.getSubCompound("Fireworks");
+        NBTTagCompound nbttagcompound = itemstack.isEmpty() ? null : itemstack.getSubCompound("Fireworks");
         NBTTagList nbttaglist = nbttagcompound != null ? nbttagcompound.getTagList("Explosions", 10) : null;
 
         if (nbttaglist != null && !nbttaglist.hasNoTags())
@@ -226,7 +226,7 @@ public class EntityFireworkRocket extends Entity
             double d0 = 5.0D;
             Vec3d vec3d = new Vec3d(this.posX, this.posY, this.posZ);
 
-            for (EntityLivingBase entitylivingbase : this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expandXyz(5.0D)))
+            for (EntityLivingBase entitylivingbase : this.world.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expandXyz(5.0D)))
             {
                 if (entitylivingbase != this.field_191513_e && this.getDistanceSqToEntity(entitylivingbase) <= 25.0D)
                 {
@@ -234,7 +234,7 @@ public class EntityFireworkRocket extends Entity
 
                     for (int i = 0; i < 2; ++i)
                     {
-                        RayTraceResult raytraceresult = this.worldObj.rayTraceBlocks(vec3d, new Vec3d(entitylivingbase.posX, entitylivingbase.posY + (double)entitylivingbase.height * 0.5D * (double)i, entitylivingbase.posZ), false, true, false);
+                        RayTraceResult raytraceresult = this.world.rayTraceBlocks(vec3d, new Vec3d(entitylivingbase.posX, entitylivingbase.posY + (double)entitylivingbase.height * 0.5D * (double)i, entitylivingbase.posZ), false, true, false);
 
                         if (raytraceresult == null || raytraceresult.typeOfHit == RayTraceResult.Type.MISS)
                         {
@@ -261,11 +261,11 @@ public class EntityFireworkRocket extends Entity
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id)
     {
-        if (id == 17 && this.worldObj.isRemote)
+        if (id == 17 && this.world.isRemote)
         {
             ItemStack itemstack = (ItemStack)this.dataManager.get(FIREWORK_ITEM);
-            NBTTagCompound nbttagcompound = itemstack.func_190926_b() ? null : itemstack.getSubCompound("Fireworks");
-            this.worldObj.makeFireworks(this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ, nbttagcompound);
+            NBTTagCompound nbttagcompound = itemstack.isEmpty() ? null : itemstack.getSubCompound("Fireworks");
+            this.world.makeFireworks(this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ, nbttagcompound);
         }
 
         super.handleStatusUpdate(id);
@@ -285,7 +285,7 @@ public class EntityFireworkRocket extends Entity
         compound.setInteger("LifeTime", this.lifetime);
         ItemStack itemstack = (ItemStack)this.dataManager.get(FIREWORK_ITEM);
 
-        if (!itemstack.func_190926_b())
+        if (!itemstack.isEmpty())
         {
             compound.setTag("FireworksItem", itemstack.writeToNBT(new NBTTagCompound()));
         }
@@ -304,7 +304,7 @@ public class EntityFireworkRocket extends Entity
         {
             ItemStack itemstack = new ItemStack(nbttagcompound);
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 this.dataManager.set(FIREWORK_ITEM, itemstack);
             }

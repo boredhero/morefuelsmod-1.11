@@ -67,7 +67,7 @@ public class EntityXPOrb extends Entity
     public int getBrightnessForRender(float partialTicks)
     {
         float f = 0.5F;
-        f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+        f = MathHelper.clamp(f, 0.0F, 1.0F);
         int i = super.getBrightnessForRender(partialTicks);
         int j = i & 255;
         int k = i >> 16 & 255;
@@ -102,7 +102,7 @@ public class EntityXPOrb extends Entity
             this.motionY -= 0.029999999329447746D;
         }
 
-        if (this.worldObj.getBlockState(new BlockPos(this)).getMaterial() == Material.LAVA)
+        if (this.world.getBlockState(new BlockPos(this)).getMaterial() == Material.LAVA)
         {
             this.motionY = 0.20000000298023224D;
             this.motionX = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
@@ -117,7 +117,7 @@ public class EntityXPOrb extends Entity
         {
             if (this.closestPlayer == null || this.closestPlayer.getDistanceSqToEntity(this) > 64.0D)
             {
-                this.closestPlayer = this.worldObj.getClosestPlayerToEntity(this, 8.0D);
+                this.closestPlayer = this.world.getClosestPlayerToEntity(this, 8.0D);
             }
 
             this.xpTargetColor = this.xpColor;
@@ -145,12 +145,12 @@ public class EntityXPOrb extends Entity
             }
         }
 
-        this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
         float f = 0.98F;
 
         if (this.onGround)
         {
-            f = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1, MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.98F;
+            f = this.world.getBlockState(new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.posZ))).getBlock().slipperiness * 0.98F;
         }
 
         this.motionX *= (double)f;
@@ -176,7 +176,7 @@ public class EntityXPOrb extends Entity
      */
     public boolean handleWaterMovement()
     {
-        return this.worldObj.handleMaterialAcceleration(this.getEntityBoundingBox(), Material.WATER, this);
+        return this.world.handleMaterialAcceleration(this.getEntityBoundingBox(), Material.WATER, this);
     }
 
     /**
@@ -184,7 +184,7 @@ public class EntityXPOrb extends Entity
      */
     protected void dealFireDamage(int amount)
     {
-        this.attackEntityFrom(DamageSource.inFire, (float)amount);
+        this.attackEntityFrom(DamageSource.IN_FIRE, (float)amount);
     }
 
     /**
@@ -235,7 +235,7 @@ public class EntityXPOrb extends Entity
      */
     public void onCollideWithPlayer(EntityPlayer entityIn)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             if (this.delayBeforeCanPickup == 0 && entityIn.xpCooldown == 0)
             {
@@ -244,7 +244,7 @@ public class EntityXPOrb extends Entity
                 entityIn.onItemPickup(this, 1);
                 ItemStack itemstack = EnchantmentHelper.getEnchantedItem(Enchantments.MENDING, entityIn);
 
-                if (!itemstack.func_190926_b() && itemstack.isItemDamaged())
+                if (!itemstack.isEmpty() && itemstack.isItemDamaged())
                 {
                     int i = Math.min(this.xpToDurability(this.xpValue), itemstack.getItemDamage());
                     this.xpValue -= this.durabilityToXp(i);

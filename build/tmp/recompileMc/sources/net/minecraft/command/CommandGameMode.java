@@ -16,7 +16,7 @@ public class CommandGameMode extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "gamemode";
     }
@@ -31,14 +31,20 @@ public class CommandGameMode extends CommandBase
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The ICommandSender who is requesting usage details
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.gamemode.usage";
     }
 
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
@@ -55,7 +61,7 @@ public class CommandGameMode extends CommandBase
 
             if (sender.getEntityWorld().getGameRules().getBoolean("sendCommandFeedback"))
             {
-                entityplayer.addChatMessage(new TextComponentTranslation("gameMode.changed", new Object[] {itextcomponent}));
+                entityplayer.sendMessage(new TextComponentTranslation("gameMode.changed", new Object[] {itextcomponent}));
             }
 
             if (entityplayer == sender)
@@ -78,13 +84,16 @@ public class CommandGameMode extends CommandBase
         return gametype == GameType.NOT_SET ? WorldSettings.getGameTypeById(parseInt(gameModeString, 0, GameType.values().length - 2)) : gametype;
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"survival", "creative", "adventure", "spectator"}): (args.length == 2 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : Collections.<String>emptyList());
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"survival", "creative", "adventure", "spectator"}): (args.length == 2 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : Collections.<String>emptyList());
     }
 
     /**
      * Return whether the specified command parameter index is a username parameter.
+     *  
+     * @param args The arguments of the command invocation
+     * @param index The index
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

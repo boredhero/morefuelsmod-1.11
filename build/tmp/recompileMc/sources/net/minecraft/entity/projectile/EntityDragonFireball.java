@@ -47,10 +47,10 @@ public class EntityDragonFireball extends EntityFireball
     {
         if (result.entityHit == null || !result.entityHit.isEntityEqual(this.shootingEntity))
         {
-            if (!this.worldObj.isRemote)
+            if (!this.world.isRemote)
             {
-                List<EntityLivingBase> list = this.worldObj.<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D));
-                EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(this.worldObj, this.posX, this.posY, this.posZ);
+                List<EntityLivingBase> list = this.world.<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D));
+                EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(this.world, this.posX, this.posY, this.posZ);
                 entityareaeffectcloud.setOwner(this.shootingEntity);
                 entityareaeffectcloud.setParticle(EnumParticleTypes.DRAGON_BREATH);
                 entityareaeffectcloud.setRadius(3.0F);
@@ -72,8 +72,8 @@ public class EntityDragonFireball extends EntityFireball
                     }
                 }
 
-                this.worldObj.playEvent(2006, new BlockPos(this.posX, this.posY, this.posZ), 0);
-                this.worldObj.spawnEntityInWorld(entityareaeffectcloud);
+                this.world.playEvent(2006, new BlockPos(this.posX, this.posY, this.posZ), 0);
+                this.world.spawnEntity(entityareaeffectcloud);
                 this.setDead();
             }
         }

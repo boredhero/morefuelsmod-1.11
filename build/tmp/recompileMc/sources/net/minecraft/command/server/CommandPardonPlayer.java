@@ -16,7 +16,7 @@ public class CommandPardonPlayer extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "pardon";
     }
@@ -31,14 +31,19 @@ public class CommandPardonPlayer extends CommandBase
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The ICommandSender who is requesting usage details
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.unban.usage";
     }
 
     /**
      * Check if the given ICommandSender has permission to execute this command
+     *  
+     * @param server The server instance
+     * @param sender The ICommandSender to check permissions on
      */
     public boolean checkPermission(MinecraftServer server, ICommandSender sender)
     {
@@ -47,6 +52,10 @@ public class CommandPardonPlayer extends CommandBase
 
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
@@ -70,7 +79,7 @@ public class CommandPardonPlayer extends CommandBase
         }
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getPlayerList().getBannedPlayers().getKeys()) : Collections.<String>emptyList();
     }

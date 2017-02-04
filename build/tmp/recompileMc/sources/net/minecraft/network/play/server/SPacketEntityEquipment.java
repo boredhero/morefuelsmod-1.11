@@ -13,7 +13,7 @@ public class SPacketEntityEquipment implements Packet<INetHandlerPlayClient>
 {
     private int entityID;
     private EntityEquipmentSlot equipmentSlot;
-    private ItemStack itemStack = ItemStack.field_190927_a;
+    private ItemStack itemStack = ItemStack.EMPTY;
 
     public SPacketEntityEquipment()
     {
@@ -23,7 +23,7 @@ public class SPacketEntityEquipment implements Packet<INetHandlerPlayClient>
     {
         this.entityID = entityIdIn;
         this.equipmentSlot = equipmentSlotIn;
-        this.itemStack = itemStackIn.func_190926_b() ? ItemStack.field_190927_a : itemStackIn.copy();
+        this.itemStack = itemStackIn.isEmpty() ? ItemStack.EMPTY : itemStackIn.copy();
     }
 
     /**
@@ -31,9 +31,9 @@ public class SPacketEntityEquipment implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityID = buf.readVarIntFromBuffer();
+        this.entityID = buf.readVarInt();
         this.equipmentSlot = (EntityEquipmentSlot)buf.readEnumValue(EntityEquipmentSlot.class);
-        this.itemStack = buf.readItemStackFromBuffer();
+        this.itemStack = buf.readItemStack();
     }
 
     /**
@@ -41,9 +41,9 @@ public class SPacketEntityEquipment implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityID);
+        buf.writeVarInt(this.entityID);
         buf.writeEnumValue(this.equipmentSlot);
-        buf.writeItemStackToBuffer(this.itemStack);
+        buf.writeItemStack(this.itemStack);
     }
 
     /**

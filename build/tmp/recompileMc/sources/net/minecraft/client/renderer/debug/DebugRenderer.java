@@ -15,13 +15,13 @@ public class DebugRenderer
     public final DebugRenderer.IDebugRenderer debugRendererWater;
     public final DebugRenderer.IDebugRenderer debugRendererChunkBorder;
     public final DebugRenderer.IDebugRenderer debugRendererHeightMap;
-    public final DebugRenderer.IDebugRenderer field_191325_e;
+    public final DebugRenderer.IDebugRenderer collisionBoxRenderer;
     public final DebugRenderer.IDebugRenderer field_191557_f;
     private boolean chunkBordersEnabled;
     private boolean pathfindingEnabled;
     private boolean waterEnabled;
     private boolean heightmapEnabled;
-    private boolean field_191326_j;
+    private boolean renderCollision;
     private boolean field_191558_l;
 
     public DebugRenderer(Minecraft clientIn)
@@ -30,13 +30,13 @@ public class DebugRenderer
         this.debugRendererWater = new DebugRendererWater(clientIn);
         this.debugRendererChunkBorder = new DebugRendererChunkBorder(clientIn);
         this.debugRendererHeightMap = new DebugRendererHeightMap(clientIn);
-        this.field_191325_e = new DebugRendererCollisionBox(clientIn);
+        this.collisionBoxRenderer = new DebugRendererCollisionBox(clientIn);
         this.field_191557_f = new DebugRendererNeighborsUpdate(clientIn);
     }
 
     public boolean shouldRender()
     {
-        return this.chunkBordersEnabled || this.pathfindingEnabled || this.waterEnabled || this.heightmapEnabled || this.field_191326_j || this.field_191558_l;
+        return this.chunkBordersEnabled || this.pathfindingEnabled || this.waterEnabled || this.heightmapEnabled || this.renderCollision || this.field_191558_l;
     }
 
     /**
@@ -70,9 +70,9 @@ public class DebugRenderer
             this.debugRendererHeightMap.render(partialTicks, finishTimeNano);
         }
 
-        if (this.field_191326_j)
+        if (this.renderCollision)
         {
-            this.field_191325_e.render(partialTicks, finishTimeNano);
+            this.collisionBoxRenderer.render(partialTicks, finishTimeNano);
         }
 
         if (this.field_191558_l)
@@ -90,10 +90,10 @@ public class DebugRenderer
     {
         Minecraft minecraft = Minecraft.getMinecraft();
 
-        if (minecraft.thePlayer != null && minecraft.getRenderManager() != null && minecraft.getRenderManager().options != null)
+        if (minecraft.player != null && minecraft.getRenderManager() != null && minecraft.getRenderManager().options != null)
         {
             FontRenderer fontrenderer = minecraft.fontRendererObj;
-            EntityPlayer entityplayer = minecraft.thePlayer;
+            EntityPlayer entityplayer = minecraft.player;
             double d0 = entityplayer.lastTickPosX + (entityplayer.posX - entityplayer.lastTickPosX) * (double)partialTicks;
             double d1 = entityplayer.lastTickPosY + (entityplayer.posY - entityplayer.lastTickPosY) * (double)partialTicks;
             double d2 = entityplayer.lastTickPosZ + (entityplayer.posZ - entityplayer.lastTickPosZ) * (double)partialTicks;
@@ -119,6 +119,6 @@ public class DebugRenderer
     @SideOnly(Side.CLIENT)
     public interface IDebugRenderer
     {
-        void render(float p_190060_1_, long p_190060_2_);
+        void render(float partialTicks, long p_190060_2_);
     }
 }

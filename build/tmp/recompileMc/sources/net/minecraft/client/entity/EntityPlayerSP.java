@@ -215,7 +215,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void onUpdate()
     {
-        if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
+        if (this.world.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
         {
             super.onUpdate();
 
@@ -341,7 +341,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public ItemStack dropItemAndGetStack(EntityItem p_184816_1_)
     {
-        return ItemStack.field_190927_a;
+        return ItemStack.EMPTY;
     }
 
     /**
@@ -386,7 +386,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public void closeScreenAndDropStack()
     {
-        this.inventory.setItemStack(ItemStack.field_190927_a);
+        this.inventory.setItemStack(ItemStack.EMPTY);
         super.closeScreen();
         this.mc.displayGuiScreen((GuiScreen)null);
     }
@@ -414,7 +414,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.lastDamage = f;
                 this.setHealth(this.getHealth());
                 this.hurtResistantTime = this.maxHurtResistantTime;
-                this.damageEntity(DamageSource.generic, f);
+                this.damageEntity(DamageSource.GENERIC, f);
                 this.maxHurtTime = 10;
                 this.hurtTime = this.maxHurtTime;
             }
@@ -458,7 +458,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     protected void sendHorseJump()
     {
-        this.connection.sendPacket(new CPacketEntityAction(this, CPacketEntityAction.Action.START_RIDING_JUMP, MathHelper.floor_float(this.getHorseJumpPower() * 100.0F)));
+        this.connection.sendPacket(new CPacketEntityAction(this, CPacketEntityAction.Action.START_RIDING_JUMP, MathHelper.floor(this.getHorseJumpPower() * 100.0F)));
     }
 
     public void sendHorseInventory()
@@ -500,11 +500,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.permissionLevel = p_184839_1_;
     }
 
-    public void addChatComponentMessage(ITextComponent chatComponent, boolean p_146105_2_)
+    public void sendStatusMessage(ITextComponent chatComponent, boolean actionBar)
     {
-        if (p_146105_2_)
+        if (actionBar)
         {
-            this.mc.ingameGUI.setRecordPlaying(chatComponent, false);
+            this.mc.ingameGUI.setOverlayMessage(chatComponent, false);
         }
         else
         {
@@ -598,8 +598,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     private boolean isOpenBlockSpace(BlockPos pos)
     {
-        IBlockState iblockstate = worldObj.getBlockState(pos);
-        return !iblockstate.getBlock().isNormalCube(iblockstate, worldObj, pos);
+        IBlockState iblockstate = world.getBlockState(pos);
+        return !iblockstate.getBlock().isNormalCube(iblockstate, world, pos);
     }
 
     /**
@@ -624,7 +624,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     /**
      * Send a chat message to the CommandSender
      */
-    public void addChatMessage(ITextComponent component)
+    public void sendMessage(ITextComponent component)
     {
         this.mc.ingameGUI.getChatGUI().printChatMessage(component);
     }
@@ -632,7 +632,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
      */
-    public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+    public boolean canUseCommand(int permLevel, String commandName)
     {
         return permLevel <= this.getPermissionLevel();
     }
@@ -666,7 +666,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         volume = event.getVolume();
         pitch = event.getPitch();
 
-        this.worldObj.playSound(this.posX, this.posY, this.posZ, soundIn, event.getCategory(), volume, pitch, false);
+        this.world.playSound(this.posX, this.posY, this.posZ, soundIn, event.getCategory(), volume, pitch, false);
     }
 
     /**
@@ -681,7 +681,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         ItemStack itemstack = this.getHeldItem(hand);
 
-        if (!itemstack.func_190926_b() && !this.isHandActive())
+        if (!itemstack.isEmpty() && !this.isHandActive())
         {
             super.setActiveHand(hand);
             this.handActive = true;
@@ -826,21 +826,21 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
         if ("minecraft:crafting_table".equals(s))
         {
-            this.mc.displayGuiScreen(new GuiCrafting(this.inventory, this.worldObj));
+            this.mc.displayGuiScreen(new GuiCrafting(this.inventory, this.world));
         }
         else if ("minecraft:enchanting_table".equals(s))
         {
-            this.mc.displayGuiScreen(new GuiEnchantment(this.inventory, this.worldObj, guiOwner));
+            this.mc.displayGuiScreen(new GuiEnchantment(this.inventory, this.world, guiOwner));
         }
         else if ("minecraft:anvil".equals(s))
         {
-            this.mc.displayGuiScreen(new GuiRepair(this.inventory, this.worldObj));
+            this.mc.displayGuiScreen(new GuiRepair(this.inventory, this.world));
         }
     }
 
     public void displayVillagerTradeGui(IMerchant villager)
     {
-        this.mc.displayGuiScreen(new GuiMerchant(this.inventory, villager, this.worldObj));
+        this.mc.displayGuiScreen(new GuiMerchant(this.inventory, villager, this.world));
     }
 
     /**
@@ -1069,7 +1069,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
             if (flag && !this.movementInput.jump)
             {
                 this.horseJumpPowerCounter = -10;
-                ijumpingmount.setJumpPower(MathHelper.floor_float(this.getHorseJumpPower() * 100.0F));
+                ijumpingmount.setJumpPower(MathHelper.floor(this.getHorseJumpPower() * 100.0F));
                 this.sendHorseJump();
             }
             else if (!flag && this.movementInput.jump)
@@ -1145,11 +1145,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
     /**
      * Tries to move the entity towards the specified location.
      */
-    public void moveEntity(MoverType x, double p_70091_2_, double p_70091_4_, double p_70091_6_)
+    public void move(MoverType type, double x, double y, double z)
     {
         double d0 = this.posX;
         double d1 = this.posZ;
-        super.moveEntity(x, p_70091_2_, p_70091_4_, p_70091_6_);
+        super.move(type, x, y, z);
         this.updateAutoJump((float)(this.posX - d0), (float)(this.posZ - d1));
     }
 
@@ -1199,14 +1199,14 @@ public class EntityPlayerSP extends AbstractClientPlayer
                     if (f13 >= -0.15F)
                     {
                         BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().maxY, this.posZ);
-                        IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+                        IBlockState iblockstate = this.world.getBlockState(blockpos);
 
-                        if (iblockstate.getCollisionBoundingBox(this.worldObj, blockpos) == null)
+                        if (iblockstate.getCollisionBoundingBox(this.world, blockpos) == null)
                         {
                             blockpos = blockpos.up();
-                            IBlockState iblockstate1 = this.worldObj.getBlockState(blockpos);
+                            IBlockState iblockstate1 = this.world.getBlockState(blockpos);
 
-                            if (iblockstate1.getCollisionBoundingBox(this.worldObj, blockpos) == null)
+                            if (iblockstate1.getCollisionBoundingBox(this.world, blockpos) == null)
                             {
                                 float f6 = 7.0F;
                                 float f7 = 1.2F;
@@ -1229,7 +1229,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
                                 Vec3d vec3d8 = vec3d4.subtract(vec3d6);
                                 Vec3d vec3d9 = lvt_19_1_.add(vec3d6);
                                 Vec3d vec3d10 = vec3d4.add(vec3d6);
-                                List<AxisAlignedBB> list = this.worldObj.getCollisionBoxes(this, axisalignedbb);
+                                List<AxisAlignedBB> list = this.world.getCollisionBoxes(this, axisalignedbb);
 
                                 if (!list.isEmpty())
                                 {
@@ -1256,10 +1256,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
                                             }
 
                                             BlockPos blockpos2 = blockpos1.up(i);
-                                            IBlockState iblockstate2 = this.worldObj.getBlockState(blockpos2);
+                                            IBlockState iblockstate2 = this.world.getBlockState(blockpos2);
                                             AxisAlignedBB axisalignedbb1;
 
-                                            if ((axisalignedbb1 = iblockstate2.getCollisionBoundingBox(this.worldObj, blockpos2)) != null)
+                                            if ((axisalignedbb1 = iblockstate2.getCollisionBoundingBox(this.world, blockpos2)) != null)
                                             {
                                                 f11 = (float)axisalignedbb1.maxY + (float)blockpos2.getY();
 
@@ -1272,9 +1272,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
                                             if (i > 1)
                                             {
                                                 blockpos = blockpos.up();
-                                                IBlockState iblockstate3 = this.worldObj.getBlockState(blockpos);
+                                                IBlockState iblockstate3 = this.world.getBlockState(blockpos);
 
-                                                if (iblockstate3.getCollisionBoundingBox(this.worldObj, blockpos) != null)
+                                                if (iblockstate3.getCollisionBoundingBox(this.world, blockpos) != null)
                                                 {
                                                     return;
                                                 }

@@ -33,7 +33,7 @@ public class BossInfoLerping extends BossInfo
     public float getPercent()
     {
         long i = Minecraft.getSystemTime() - this.percentSetTime;
-        float f = MathHelper.clamp_float((float)i / 100.0F, 0.0F, 1.0F);
+        float f = MathHelper.clamp((float)i / 100.0F, 0.0F, 1.0F);
         return this.percent + (this.rawPercent - this.percent) * f;
     }
 

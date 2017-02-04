@@ -12,7 +12,7 @@ public class CommandTime extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "time";
     }
@@ -27,14 +27,20 @@ public class CommandTime extends CommandBase
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The ICommandSender who is requesting usage details
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.time.usage";
     }
 
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
@@ -101,24 +107,24 @@ public class CommandTime extends CommandBase
         throw new WrongUsageException("commands.time.usage", new Object[0]);
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"set", "add", "query"}): (args.length == 2 && "set".equals(args[0]) ? getListOfStringsMatchingLastWord(args, new String[] {"day", "night"}): (args.length == 2 && "query".equals(args[0]) ? getListOfStringsMatchingLastWord(args, new String[] {"daytime", "gametime", "day"}): Collections.<String>emptyList()));
     }
 
     protected void setAllWorldTimes(MinecraftServer server, int time)
     {
-        for (int i = 0; i < server.worldServers.length; ++i)
+        for (int i = 0; i < server.worlds.length; ++i)
         {
-            server.worldServers[i].setWorldTime((long)time);
+            server.worlds[i].setWorldTime((long)time);
         }
     }
 
     protected void incrementAllWorldTimes(MinecraftServer server, int amount)
     {
-        for (int i = 0; i < server.worldServers.length; ++i)
+        for (int i = 0; i < server.worlds.length; ++i)
         {
-            WorldServer worldserver = server.worldServers[i];
+            WorldServer worldserver = server.worlds[i];
             worldserver.setWorldTime(worldserver.getWorldTime() + (long)amount);
         }
     }

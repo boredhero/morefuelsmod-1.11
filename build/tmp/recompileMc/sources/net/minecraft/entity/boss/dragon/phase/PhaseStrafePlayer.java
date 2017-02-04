@@ -46,7 +46,7 @@ public class PhaseStrafePlayer extends PhaseBase
                 double d1 = this.attackTarget.posZ;
                 double d2 = d0 - this.dragon.posX;
                 double d3 = d1 - this.dragon.posZ;
-                double d4 = (double)MathHelper.sqrt_double(d2 * d2 + d3 * d3);
+                double d4 = (double)MathHelper.sqrt(d2 * d2 + d3 * d3);
                 double d5 = Math.min(0.4000000059604645D + d4 / 80.0D - 1.0D, 10.0D);
                 this.targetLocation = new Vec3d(d0, this.attackTarget.posY + d5, d1);
             }
@@ -81,10 +81,10 @@ public class PhaseStrafePlayer extends PhaseBase
                         double d9 = this.attackTarget.posX - d6;
                         double d10 = this.attackTarget.posY + (double)(this.attackTarget.height / 2.0F) - (d7 + (double)(this.dragon.dragonPartHead.height / 2.0F));
                         double d11 = this.attackTarget.posZ - d8;
-                        this.dragon.worldObj.playEvent((EntityPlayer)null, 1017, new BlockPos(this.dragon), 0);
-                        EntityDragonFireball entitydragonfireball = new EntityDragonFireball(this.dragon.worldObj, this.dragon, d9, d10, d11);
+                        this.dragon.world.playEvent((EntityPlayer)null, 1017, new BlockPos(this.dragon), 0);
+                        EntityDragonFireball entitydragonfireball = new EntityDragonFireball(this.dragon.world, this.dragon, d9, d10, d11);
                         entitydragonfireball.setLocationAndAngles(d6, d7, d8, 0.0F, 0.0F);
-                        this.dragon.worldObj.spawnEntityInWorld(entitydragonfireball);
+                        this.dragon.world.spawnEntity(entitydragonfireball);
                         this.fireballCharge = 0;
 
                         if (this.currentPath != null)
@@ -199,13 +199,13 @@ public class PhaseStrafePlayer extends PhaseBase
         this.attackTarget = p_188686_1_;
         int i = this.dragon.initPathPoints();
         int j = this.dragon.getNearestPpIdx(this.attackTarget.posX, this.attackTarget.posY, this.attackTarget.posZ);
-        int k = MathHelper.floor_double(this.attackTarget.posX);
-        int l = MathHelper.floor_double(this.attackTarget.posZ);
+        int k = MathHelper.floor(this.attackTarget.posX);
+        int l = MathHelper.floor(this.attackTarget.posZ);
         double d0 = (double)k - this.dragon.posX;
         double d1 = (double)l - this.dragon.posZ;
-        double d2 = (double)MathHelper.sqrt_double(d0 * d0 + d1 * d1);
+        double d2 = (double)MathHelper.sqrt(d0 * d0 + d1 * d1);
         double d3 = Math.min(0.4000000059604645D + d2 / 80.0D - 1.0D, 10.0D);
-        int i1 = MathHelper.floor_double(this.attackTarget.posY + d3);
+        int i1 = MathHelper.floor(this.attackTarget.posY + d3);
         PathPoint pathpoint = new PathPoint(k, i1, l);
         this.currentPath = this.dragon.findPath(i, j, pathpoint);
 

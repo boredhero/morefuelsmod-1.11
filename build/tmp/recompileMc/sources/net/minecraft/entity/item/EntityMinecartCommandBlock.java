@@ -77,7 +77,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart
          */
         public World getEntityWorld()
         {
-            return EntityMinecartCommandBlock.this.worldObj;
+            return EntityMinecartCommandBlock.this.world;
         }
         /**
          * Returns the entity associated with the command sender. MAY BE NULL!
@@ -91,7 +91,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart
          */
         public MinecraftServer getServer()
         {
-            return EntityMinecartCommandBlock.this.worldObj.getMinecraftServer();
+            return EntityMinecartCommandBlock.this.world.getMinecraftServer();
         }
     };
     /** Cooldown before command block logic runs again in ticks */
@@ -114,7 +114,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart
         {
             public NBTTagCompound process(IDataFixer fixer, NBTTagCompound compound, int versionIn)
             {
-                if (TileEntity.func_190559_a(TileEntityCommandBlock.class).equals(new ResourceLocation(compound.getString("id"))))
+                if (TileEntity.getKey(TileEntityCommandBlock.class).equals(new ResourceLocation(compound.getString("id"))))
                 {
                     compound.setString("id", "Control");
                     fixer.process(FixTypes.BLOCK_ENTITY, compound, versionIn);
@@ -175,14 +175,14 @@ public class EntityMinecartCommandBlock extends EntityMinecart
     {
         if (receivingPower && this.ticksExisted - this.activatorRailCooldown >= 4)
         {
-            this.getCommandBlockLogic().trigger(this.worldObj);
+            this.getCommandBlockLogic().trigger(this.world);
             this.activatorRailCooldown = this.ticksExisted;
         }
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
-        if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player, stack))) return true;
+        if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player, hand))) return true;
         this.commandBlockLogic.tryOpenEditCommandBlock(player);
         return false;
     }

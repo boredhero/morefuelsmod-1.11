@@ -35,7 +35,7 @@ public class BlockMobSpawner extends BlockContainer
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return Items.field_190931_a;
+        return Items.AIR;
     }
 
     /**
@@ -79,7 +79,7 @@ public class BlockMobSpawner extends BlockContainer
 
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
     {
-        return ItemStack.field_190927_a;
+        return ItemStack.EMPTY;
     }
 
     @SideOnly(Side.CLIENT)

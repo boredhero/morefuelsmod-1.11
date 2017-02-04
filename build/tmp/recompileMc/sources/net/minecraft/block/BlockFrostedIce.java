@@ -33,7 +33,7 @@ public class BlockFrostedIce extends BlockIce
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(AGE, Integer.valueOf(MathHelper.clamp_int(meta, 0, 3)));
+        return this.getDefaultState().withProperty(AGE, Integer.valueOf(MathHelper.clamp(meta, 0, 3)));
     }
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
@@ -44,7 +44,7 @@ public class BlockFrostedIce extends BlockIce
         }
         else
         {
-            worldIn.scheduleUpdate(pos, this, MathHelper.getRandomIntegerInRange(rand, 20, 40));
+            worldIn.scheduleUpdate(pos, this, MathHelper.getInt(rand, 20, 40));
         }
     }
 
@@ -53,7 +53,7 @@ public class BlockFrostedIce extends BlockIce
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (blockIn == this)
         {
@@ -93,7 +93,7 @@ public class BlockFrostedIce extends BlockIce
         if (i < 3)
         {
             p_185681_1_.setBlockState(p_185681_2_, p_185681_3_.withProperty(AGE, Integer.valueOf(i + 1)), 2);
-            p_185681_1_.scheduleUpdate(p_185681_2_, this, MathHelper.getRandomIntegerInRange(p_185681_4_, 20, 40));
+            p_185681_1_.scheduleUpdate(p_185681_2_, this, MathHelper.getInt(p_185681_4_, 20, 40));
         }
         else
         {
@@ -122,6 +122,6 @@ public class BlockFrostedIce extends BlockIce
 
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
     {
-        return ItemStack.field_190927_a;
+        return ItemStack.EMPTY;
     }
 }

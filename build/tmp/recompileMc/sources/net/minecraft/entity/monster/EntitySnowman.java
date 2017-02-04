@@ -98,37 +98,37 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
     {
         super.onLivingUpdate();
 
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
-            int i = MathHelper.floor_double(this.posX);
-            int j = MathHelper.floor_double(this.posY);
-            int k = MathHelper.floor_double(this.posZ);
+            int i = MathHelper.floor(this.posX);
+            int j = MathHelper.floor(this.posY);
+            int k = MathHelper.floor(this.posZ);
 
             if (this.isWet())
             {
-                this.attackEntityFrom(DamageSource.drown, 1.0F);
+                this.attackEntityFrom(DamageSource.DROWN, 1.0F);
             }
 
-            if (this.worldObj.getBiome(new BlockPos(i, 0, k)).getFloatTemperature(new BlockPos(i, j, k)) > 1.0F)
+            if (this.world.getBiome(new BlockPos(i, 0, k)).getFloatTemperature(new BlockPos(i, j, k)) > 1.0F)
             {
-                this.attackEntityFrom(DamageSource.onFire, 1.0F);
+                this.attackEntityFrom(DamageSource.ON_FIRE, 1.0F);
             }
 
-            if (!this.worldObj.getGameRules().getBoolean("mobGriefing"))
+            if (!this.world.getGameRules().getBoolean("mobGriefing"))
             {
                 return;
             }
 
             for (int l = 0; l < 4; ++l)
             {
-                i = MathHelper.floor_double(this.posX + (double)((float)(l % 2 * 2 - 1) * 0.25F));
-                j = MathHelper.floor_double(this.posY);
-                k = MathHelper.floor_double(this.posZ + (double)((float)(l / 2 % 2 * 2 - 1) * 0.25F));
+                i = MathHelper.floor(this.posX + (double)((float)(l % 2 * 2 - 1) * 0.25F));
+                j = MathHelper.floor(this.posY);
+                k = MathHelper.floor(this.posZ + (double)((float)(l / 2 % 2 * 2 - 1) * 0.25F));
                 BlockPos blockpos = new BlockPos(i, j, k);
 
-                if (this.worldObj.getBlockState(blockpos).getMaterial() == Material.AIR && this.worldObj.getBiome(blockpos).getFloatTemperature(blockpos) < 0.8F && Blocks.SNOW_LAYER.canPlaceBlockAt(this.worldObj, blockpos))
+                if (this.world.getBlockState(blockpos).getMaterial() == Material.AIR && this.world.getBiome(blockpos).getFloatTemperature(blockpos) < 0.8F && Blocks.SNOW_LAYER.canPlaceBlockAt(this.world, blockpos))
                 {
-                    this.worldObj.setBlockState(blockpos, Blocks.SNOW_LAYER.getDefaultState());
+                    this.world.setBlockState(blockpos, Blocks.SNOW_LAYER.getDefaultState());
                 }
             }
         }
@@ -142,20 +142,18 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
 
     /**
      * Attack the specified entity using a ranged attack.
-     *  
-     * @param distanceFactor How far the target is, normalized and clamped between 0.1 and 1.0
      */
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-        EntitySnowball entitysnowball = new EntitySnowball(this.worldObj, this);
+        EntitySnowball entitysnowball = new EntitySnowball(this.world, this);
         double d0 = target.posY + (double)target.getEyeHeight() - 1.100000023841858D;
         double d1 = target.posX - this.posX;
         double d2 = d0 - entitysnowball.posY;
         double d3 = target.posZ - this.posZ;
-        float f = MathHelper.sqrt_double(d1 * d1 + d3 * d3) * 0.2F;
+        float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
         entitysnowball.setThrowableHeading(d1, d2 + (double)f, d3, 1.6F, 12.0F);
         this.playSound(SoundEvents.ENTITY_SNOWMAN_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-        this.worldObj.spawnEntityInWorld(entitysnowball);
+        this.world.spawnEntity(entitysnowball);
     }
 
     public float getEyeHeight()
@@ -167,7 +165,7 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob
     {
         ItemStack itemstack = player.getHeldItem(hand);
 
-        if (itemstack.getItem() == Items.SHEARS && this.isPumpkinEquipped() && !this.worldObj.isRemote)
+        if (itemstack.getItem() == Items.SHEARS && this.isPumpkinEquipped() && !this.world.isRemote)
         {
             this.setPumpkinEquipped(false);
             itemstack.damageItem(1, player);

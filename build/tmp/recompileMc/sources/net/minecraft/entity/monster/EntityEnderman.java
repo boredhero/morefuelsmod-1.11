@@ -136,14 +136,14 @@ public class EntityEnderman extends EntityMob
 
             if (!this.isSilent())
             {
-                this.worldObj.playSound(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ, SoundEvents.ENTITY_ENDERMEN_STARE, this.getSoundCategory(), 2.5F, 1.0F, false);
+                this.world.playSound(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ, SoundEvents.ENTITY_ENDERMEN_STARE, this.getSoundCategory(), 2.5F, 1.0F, false);
             }
         }
     }
 
     public void notifyDataManagerChange(DataParameter<?> key)
     {
-        if (SCREAMING.equals(key) && this.isScreaming() && this.worldObj.isRemote)
+        if (SCREAMING.equals(key) && this.isScreaming() && this.world.isRemote)
         {
             this.playEndermanSound();
         }
@@ -229,11 +229,11 @@ public class EntityEnderman extends EntityMob
      */
     public void onLivingUpdate()
     {
-        if (this.worldObj.isRemote)
+        if (this.world.isRemote)
         {
             for (int i = 0; i < 2; ++i)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height - 0.25D, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, (this.rand.nextDouble() - 0.5D) * 2.0D, -this.rand.nextDouble(), (this.rand.nextDouble() - 0.5D) * 2.0D, new int[0]);
+                this.world.spawnParticle(EnumParticleTypes.PORTAL, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height - 0.25D, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, (this.rand.nextDouble() - 0.5D) * 2.0D, -this.rand.nextDouble(), (this.rand.nextDouble() - 0.5D) * 2.0D, new int[0]);
             }
         }
 
@@ -245,14 +245,14 @@ public class EntityEnderman extends EntityMob
     {
         if (this.isWet())
         {
-            this.attackEntityFrom(DamageSource.drown, 1.0F);
+            this.attackEntityFrom(DamageSource.DROWN, 1.0F);
         }
 
-        if (this.worldObj.isDaytime() && this.ticksExisted >= this.targetChangeTime + 600)
+        if (this.world.isDaytime() && this.ticksExisted >= this.targetChangeTime + 600)
         {
             float f = this.getBrightness(1.0F);
 
-            if (f > 0.5F && this.worldObj.canSeeSky(new BlockPos(this)) && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F)
+            if (f > 0.5F && this.world.canSeeSky(new BlockPos(this)) && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F)
             {
                 this.setAttackTarget((EntityLivingBase)null);
                 this.teleportRandomly();
@@ -298,7 +298,7 @@ public class EntityEnderman extends EntityMob
 
         if (flag)
         {
-            this.worldObj.playSound((EntityPlayer)null, this.prevPosX, this.prevPosY, this.prevPosZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, this.getSoundCategory(), 1.0F, 1.0F);
+            this.world.playSound((EntityPlayer)null, this.prevPosX, this.prevPosY, this.prevPosZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, this.getSoundCategory(), 1.0F, 1.0F);
             this.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F);
         }
 
@@ -449,7 +449,7 @@ public class EntityEnderman extends EntityMob
             public boolean shouldExecute()
             {
                 double d0 = this.getTargetDistance();
-                this.player = this.enderman.worldObj.getNearestAttackablePlayer(this.enderman.posX, this.enderman.posY, this.enderman.posZ, d0, d0, (Function<EntityPlayer, Double>)null, new Predicate<EntityPlayer>()
+                this.player = this.enderman.world.getNearestAttackablePlayer(this.enderman.posX, this.enderman.posY, this.enderman.posZ, d0, d0, (Function<EntityPlayer, Double>)null, new Predicate<EntityPlayer>()
                 {
                     public boolean apply(@Nullable EntityPlayer p_apply_1_)
                     {
@@ -552,7 +552,7 @@ public class EntityEnderman extends EntityMob
              */
             public boolean shouldExecute()
             {
-                return this.enderman.getHeldBlockState() == null ? false : (!this.enderman.worldObj.getGameRules().getBoolean("mobGriefing") ? false : this.enderman.getRNG().nextInt(2000) == 0);
+                return this.enderman.getHeldBlockState() == null ? false : (!this.enderman.world.getGameRules().getBoolean("mobGriefing") ? false : this.enderman.getRNG().nextInt(2000) == 0);
             }
 
             /**
@@ -561,10 +561,10 @@ public class EntityEnderman extends EntityMob
             public void updateTask()
             {
                 Random random = this.enderman.getRNG();
-                World world = this.enderman.worldObj;
-                int i = MathHelper.floor_double(this.enderman.posX - 1.0D + random.nextDouble() * 2.0D);
-                int j = MathHelper.floor_double(this.enderman.posY + random.nextDouble() * 2.0D);
-                int k = MathHelper.floor_double(this.enderman.posZ - 1.0D + random.nextDouble() * 2.0D);
+                World world = this.enderman.world;
+                int i = MathHelper.floor(this.enderman.posX - 1.0D + random.nextDouble() * 2.0D);
+                int j = MathHelper.floor(this.enderman.posY + random.nextDouble() * 2.0D);
+                int k = MathHelper.floor(this.enderman.posZ - 1.0D + random.nextDouble() * 2.0D);
                 BlockPos blockpos = new BlockPos(i, j, k);
                 IBlockState iblockstate = world.getBlockState(blockpos);
                 IBlockState iblockstate1 = world.getBlockState(blockpos.down());
@@ -597,7 +597,7 @@ public class EntityEnderman extends EntityMob
              */
             public boolean shouldExecute()
             {
-                return this.enderman.getHeldBlockState() != null ? false : (!this.enderman.worldObj.getGameRules().getBoolean("mobGriefing") ? false : this.enderman.getRNG().nextInt(20) == 0);
+                return this.enderman.getHeldBlockState() != null ? false : (!this.enderman.world.getGameRules().getBoolean("mobGriefing") ? false : this.enderman.getRNG().nextInt(20) == 0);
             }
 
             /**
@@ -606,14 +606,14 @@ public class EntityEnderman extends EntityMob
             public void updateTask()
             {
                 Random random = this.enderman.getRNG();
-                World world = this.enderman.worldObj;
-                int i = MathHelper.floor_double(this.enderman.posX - 2.0D + random.nextDouble() * 4.0D);
-                int j = MathHelper.floor_double(this.enderman.posY + random.nextDouble() * 3.0D);
-                int k = MathHelper.floor_double(this.enderman.posZ - 2.0D + random.nextDouble() * 4.0D);
+                World world = this.enderman.world;
+                int i = MathHelper.floor(this.enderman.posX - 2.0D + random.nextDouble() * 4.0D);
+                int j = MathHelper.floor(this.enderman.posY + random.nextDouble() * 3.0D);
+                int k = MathHelper.floor(this.enderman.posZ - 2.0D + random.nextDouble() * 4.0D);
                 BlockPos blockpos = new BlockPos(i, j, k);
                 IBlockState iblockstate = world.getBlockState(blockpos);
                 Block block = iblockstate.getBlock();
-                RayTraceResult raytraceresult = world.rayTraceBlocks(new Vec3d((double)((float)MathHelper.floor_double(this.enderman.posX) + 0.5F), (double)((float)j + 0.5F), (double)((float)MathHelper.floor_double(this.enderman.posZ) + 0.5F)), new Vec3d((double)((float)i + 0.5F), (double)((float)j + 0.5F), (double)((float)k + 0.5F)), false, true, false);
+                RayTraceResult raytraceresult = world.rayTraceBlocks(new Vec3d((double)((float)MathHelper.floor(this.enderman.posX) + 0.5F), (double)((float)j + 0.5F), (double)((float)MathHelper.floor(this.enderman.posZ) + 0.5F)), new Vec3d((double)((float)i + 0.5F), (double)((float)j + 0.5F), (double)((float)k + 0.5F)), false, true, false);
                 boolean flag = raytraceresult != null && raytraceresult.getBlockPos().equals(blockpos);
 
                 if (EntityEnderman.CARRIABLE_BLOCKS.contains(block) && flag)

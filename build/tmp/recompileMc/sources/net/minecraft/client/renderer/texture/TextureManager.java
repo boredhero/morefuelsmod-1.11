@@ -131,6 +131,7 @@ public class TextureManager implements ITickable, IResourceManagerReloadListener
 
         if (itextureobject != null)
         {
+            this.mapTextureObjects.remove(textureLocation); // Forge: fix MC-98707
             TextureUtil.deleteTexture(itextureobject.getGlTextureId());
         }
     }

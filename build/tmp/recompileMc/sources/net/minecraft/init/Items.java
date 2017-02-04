@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class Items
 {
-    public static final Item field_190931_a;
+    public static final Item AIR;
     public static final Item IRON_SHOVEL;
     public static final Item IRON_PICKAXE;
     public static final Item IRON_AXE;
@@ -220,8 +220,8 @@ public class Items
     public static final Item BEETROOT_SEEDS;
     public static final Item BEETROOT;
     public static final Item BEETROOT_SOUP;
-    public static final Item field_190929_cY;
-    public static final Item field_190930_cZ;
+    public static final Item TOTEM;
+    public static final Item SHULKER_SHELL;
     public static final Item field_191525_da;
 
     private static Item getRegisteredItem(String name)
@@ -246,7 +246,7 @@ public class Items
         }
         else
         {
-            field_190931_a = getRegisteredItem("air");
+            AIR = getRegisteredItem("air");
             IRON_SHOVEL = getRegisteredItem("iron_shovel");
             IRON_PICKAXE = getRegisteredItem("iron_pickaxe");
             IRON_AXE = getRegisteredItem("iron_axe");
@@ -452,8 +452,8 @@ public class Items
             BEETROOT_SEEDS = getRegisteredItem("beetroot_seeds");
             BEETROOT = getRegisteredItem("beetroot");
             BEETROOT_SOUP = getRegisteredItem("beetroot_soup");
-            field_190929_cY = getRegisteredItem("totem_of_undying");
-            field_190930_cZ = getRegisteredItem("shulker_shell");
+            TOTEM = getRegisteredItem("totem_of_undying");
+            SHULKER_SHELL = getRegisteredItem("shulker_shell");
             field_191525_da = getRegisteredItem("iron_nugget");
         }
     }

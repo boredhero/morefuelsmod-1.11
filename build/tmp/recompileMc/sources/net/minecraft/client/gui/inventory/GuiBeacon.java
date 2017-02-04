@@ -129,7 +129,7 @@ public class GuiBeacon extends GuiContainer
             }
         }
 
-        this.beaconConfirmButton.enabled = !this.tileBeacon.getStackInSlot(0).func_190926_b() && potion != null;
+        this.beaconConfirmButton.enabled = !this.tileBeacon.getStackInSlot(0).isEmpty() && potion != null;
     }
 
     /**
@@ -139,7 +139,7 @@ public class GuiBeacon extends GuiContainer
     {
         if (button.id == -2)
         {
-            this.mc.thePlayer.connection.sendPacket(new CPacketCloseWindow(this.mc.thePlayer.openContainer.windowId));
+            this.mc.player.connection.sendPacket(new CPacketCloseWindow(this.mc.player.openContainer.windowId));
             this.mc.displayGuiScreen((GuiScreen)null);
         }
         else if (button.id == -1)
@@ -149,7 +149,7 @@ public class GuiBeacon extends GuiContainer
             packetbuffer.writeInt(this.tileBeacon.getField(1));
             packetbuffer.writeInt(this.tileBeacon.getField(2));
             this.mc.getConnection().sendPacket(new CPacketCustomPayload("MC|Beacon", packetbuffer));
-            this.mc.thePlayer.connection.sendPacket(new CPacketCloseWindow(this.mc.thePlayer.openContainer.windowId));
+            this.mc.player.connection.sendPacket(new CPacketCloseWindow(this.mc.player.openContainer.windowId));
             this.mc.displayGuiScreen((GuiScreen)null);
         }
         else if (button instanceof GuiBeacon.PowerButton)

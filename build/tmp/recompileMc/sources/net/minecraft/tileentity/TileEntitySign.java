@@ -48,7 +48,7 @@ public class TileEntitySign extends TileEntity
 
     protected void setWorldCreate(World worldIn)
     {
-        this.setWorldObj(worldIn);
+        this.setWorld(worldIn);
     }
 
     public void readFromNBT(NBTTagCompound compound)
@@ -74,13 +74,13 @@ public class TileEntitySign extends TileEntity
             /**
              * Send a chat message to the CommandSender
              */
-            public void addChatMessage(ITextComponent component)
+            public void sendMessage(ITextComponent component)
             {
             }
             /**
              * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
              */
-            public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+            public boolean canUseCommand(int permLevel, String commandName)
             {
                 return permLevel <= 2; //Forge: Fixes  MC-75630 - Exploit with signs and command blocks
             }
@@ -106,7 +106,7 @@ public class TileEntitySign extends TileEntity
              */
             public World getEntityWorld()
             {
-                return TileEntitySign.this.worldObj;
+                return TileEntitySign.this.world;
             }
             /**
              * Returns the entity associated with the command sender. MAY BE NULL!
@@ -130,7 +130,7 @@ public class TileEntitySign extends TileEntity
              */
             public MinecraftServer getServer()
             {
-                return TileEntitySign.this.worldObj.getMinecraftServer();
+                return TileEntitySign.this.world.getMinecraftServer();
             }
         };
 
@@ -218,13 +218,13 @@ public class TileEntitySign extends TileEntity
             /**
              * Send a chat message to the CommandSender
              */
-            public void addChatMessage(ITextComponent component)
+            public void sendMessage(ITextComponent component)
             {
             }
             /**
              * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
              */
-            public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+            public boolean canUseCommand(int permLevel, String commandName)
             {
                 return permLevel <= 2;
             }
@@ -268,9 +268,9 @@ public class TileEntitySign extends TileEntity
             }
             public void setCommandStat(CommandResultStats.Type type, int amount)
             {
-                if (TileEntitySign.this.worldObj != null && !TileEntitySign.this.worldObj.isRemote)
+                if (TileEntitySign.this.world != null && !TileEntitySign.this.world.isRemote)
                 {
-                    TileEntitySign.this.stats.setCommandStatForSender(TileEntitySign.this.worldObj.getMinecraftServer(), this, type, amount);
+                    TileEntitySign.this.stats.setCommandStatForSender(TileEntitySign.this.world.getMinecraftServer(), this, type, amount);
                 }
             }
             /**

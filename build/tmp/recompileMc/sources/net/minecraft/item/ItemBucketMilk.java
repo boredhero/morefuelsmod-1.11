@@ -24,14 +24,16 @@ public class ItemBucketMilk extends Item
      */
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
     {
+        if (!worldIn.isRemote) entityLiving.curePotionEffects(stack); // FORGE - move up so stack.shrink does not turn stack into air
         if (entityLiving instanceof EntityPlayer && !((EntityPlayer)entityLiving).capabilities.isCreativeMode)
         {
-            stack.func_190918_g(1);
+            stack.shrink(1);
         }
 
+        if (false) // FORGE - stack sensitive version at top of method
         if (!worldIn.isRemote)
         {
-            entityLiving.curePotionEffects(stack);
+            entityLiving.clearActivePotions();
         }
 
         if (entityLiving instanceof EntityPlayer)
@@ -39,7 +41,7 @@ public class ItemBucketMilk extends Item
             ((EntityPlayer)entityLiving).addStat(StatList.getObjectUseStats(this));
         }
 
-        return stack.func_190926_b() ? new ItemStack(Items.BUCKET) : stack;
+        return stack.isEmpty() ? new ItemStack(Items.BUCKET) : stack;
     }
 
     /**
@@ -58,10 +60,10 @@ public class ItemBucketMilk extends Item
         return EnumAction.DRINK;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        worldIn.setActiveHand(playerIn);
-        return new ActionResult(EnumActionResult.SUCCESS, worldIn.getHeldItem(playerIn));
+        playerIn.setActiveHand(handIn);
+        return new ActionResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }
 
     @Override

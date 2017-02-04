@@ -27,12 +27,12 @@ public class BlockStatePaletteRegistry implements IBlockStatePalette
     @SideOnly(Side.CLIENT)
     public void read(PacketBuffer buf)
     {
-        buf.readVarIntFromBuffer();
+        buf.readVarInt();
     }
 
     public void write(PacketBuffer buf)
     {
-        buf.writeVarIntToBuffer(0);
+        buf.writeVarInt(0);
     }
 
     public int getSerializedState()

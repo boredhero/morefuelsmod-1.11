@@ -77,7 +77,7 @@ public class PotionUtils
         }
     }
 
-    public static int func_190932_c(ItemStack p_190932_0_)
+    public static int getColor(ItemStack p_190932_0_)
     {
         NBTTagCompound nbttagcompound = p_190932_0_.getTagCompound();
         return nbttagcompound != null && nbttagcompound.hasKey("CustomPotionColor", 99) ? nbttagcompound.getInteger("CustomPotionColor") : (getPotionFromItem(p_190932_0_) == PotionTypes.EMPTY ? 16253176 : getPotionColorFromEffectList(getEffectsFromStack(p_190932_0_)));
@@ -220,7 +220,7 @@ public class PotionUtils
                     {
                         AttributeModifier attributemodifier = (AttributeModifier)entry.getValue();
                         AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(), potion.getAttributeModifierAmount(potioneffect.getAmplifier(), attributemodifier), attributemodifier.getOperation());
-                        list1.add(new Tuple(((IAttribute)entry.getKey()).getAttributeUnlocalizedName(), attributemodifier1));
+                        list1.add(new Tuple(((IAttribute)entry.getKey()).getName(), attributemodifier1));
                     }
                 }
 

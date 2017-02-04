@@ -30,7 +30,7 @@ public class SetDamage extends LootFunction
         if (stack.isItemStackDamageable())
         {
             float f = 1.0F - this.damageRange.generateFloat(rand);
-            stack.setItemDamage(MathHelper.floor_float(f * (float)stack.getMaxDamage()));
+            stack.setItemDamage(MathHelper.floor(f * (float)stack.getMaxDamage()));
         }
         else
         {

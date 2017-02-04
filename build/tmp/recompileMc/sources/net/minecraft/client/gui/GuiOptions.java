@@ -51,18 +51,18 @@ public class GuiOptions extends GuiScreen
             ++i;
         }
 
-        if (this.mc.theWorld != null)
+        if (this.mc.world != null)
         {
-            EnumDifficulty enumdifficulty = this.mc.theWorld.getDifficulty();
+            EnumDifficulty enumdifficulty = this.mc.world.getDifficulty();
             this.difficultyButton = new GuiButton(108, this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), 150, 20, this.getDifficultyText(enumdifficulty));
             this.buttonList.add(this.difficultyButton);
 
-            if (this.mc.isSingleplayer() && !this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
+            if (this.mc.isSingleplayer() && !this.mc.world.getWorldInfo().isHardcoreModeEnabled())
             {
                 this.difficultyButton.setWidth(this.difficultyButton.getButtonWidth() - 20);
                 this.lockButton = new GuiLockIconButton(109, this.difficultyButton.xPosition + this.difficultyButton.getButtonWidth(), this.difficultyButton.yPosition);
                 this.buttonList.add(this.lockButton);
-                this.lockButton.setLocked(this.mc.theWorld.getWorldInfo().isDifficultyLocked());
+                this.lockButton.setLocked(this.mc.world.getWorldInfo().isDifficultyLocked());
                 this.lockButton.enabled = !this.lockButton.isLocked();
                 this.difficultyButton.enabled = !this.lockButton.isLocked();
             }
@@ -100,9 +100,9 @@ public class GuiOptions extends GuiScreen
     {
         this.mc.displayGuiScreen(this);
 
-        if (id == 109 && result && this.mc.theWorld != null)
+        if (id == 109 && result && this.mc.world != null)
         {
-            this.mc.theWorld.getWorldInfo().setDifficultyLocked(true);
+            this.mc.world.getWorldInfo().setDifficultyLocked(true);
             this.lockButton.setLocked(true);
             this.lockButton.enabled = false;
             this.difficultyButton.enabled = false;
@@ -139,13 +139,13 @@ public class GuiOptions extends GuiScreen
 
             if (button.id == 108)
             {
-                this.mc.theWorld.getWorldInfo().setDifficulty(EnumDifficulty.getDifficultyEnum(this.mc.theWorld.getDifficulty().getDifficultyId() + 1));
-                this.difficultyButton.displayString = this.getDifficultyText(this.mc.theWorld.getDifficulty());
+                this.mc.world.getWorldInfo().setDifficulty(EnumDifficulty.getDifficultyEnum(this.mc.world.getDifficulty().getDifficultyId() + 1));
+                this.difficultyButton.displayString = this.getDifficultyText(this.mc.world.getDifficulty());
             }
 
             if (button.id == 109)
             {
-                this.mc.displayGuiScreen(new GuiYesNo(this, (new TextComponentTranslation("difficulty.lock.title", new Object[0])).getFormattedText(), (new TextComponentTranslation("difficulty.lock.question", new Object[] {new TextComponentTranslation(this.mc.theWorld.getWorldInfo().getDifficulty().getDifficultyResourceKey(), new Object[0])})).getFormattedText(), 109));
+                this.mc.displayGuiScreen(new GuiYesNo(this, (new TextComponentTranslation("difficulty.lock.title", new Object[0])).getFormattedText(), (new TextComponentTranslation("difficulty.lock.question", new Object[] {new TextComponentTranslation(this.mc.world.getWorldInfo().getDifficulty().getDifficultyResourceKey(), new Object[0])})).getFormattedText(), 109));
             }
 
             if (button.id == 110)

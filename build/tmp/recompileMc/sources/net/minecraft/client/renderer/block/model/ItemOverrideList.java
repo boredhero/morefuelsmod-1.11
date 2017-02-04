@@ -48,7 +48,7 @@ public class ItemOverrideList
 
     public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity)
     {
-        if (!stack.func_190926_b() && stack.getItem().hasCustomProperties())
+        if (!stack.isEmpty() && stack.getItem().hasCustomProperties())
         {
             ResourceLocation location = applyOverride(stack, world, entity);
             if (location != null)

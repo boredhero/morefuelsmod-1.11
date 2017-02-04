@@ -62,7 +62,7 @@ public class IntegratedServer extends MinecraftServer
         this.theWorldSettings = this.isDemo() ? DemoWorldServer.DEMO_WORLD_SETTINGS : worldSettingsIn;
     }
 
-    public ServerCommandManager createNewCommandManager()
+    public ServerCommandManager createCommandManager()
     {
         return new IntegratedServerCommandManager(this);
     }
@@ -110,7 +110,7 @@ public class IntegratedServer extends MinecraftServer
     /**
      * Initialises the server and starts it.
      */
-    public boolean startServer() throws IOException
+    public boolean init() throws IOException
     {
         LOGGER.info("Starting integrated minecraft server version 1.11.2");
         this.setOnlineMode(true);
@@ -122,7 +122,7 @@ public class IntegratedServer extends MinecraftServer
         this.setKeyPair(CryptManager.generateKeyPair());
         if (!net.minecraftforge.fml.common.FMLCommonHandler.instance().handleServerAboutToStart(this)) return false;
         this.loadAllWorlds(this.getFolderName(), this.getWorldName(), this.theWorldSettings.getSeed(), this.theWorldSettings.getTerrainType(), this.theWorldSettings.getGeneratorOptions());
-        this.setMOTD(this.getServerOwner() + " - " + this.worldServers[0].getWorldInfo().getWorldName());
+        this.setMOTD(this.getServerOwner() + " - " + this.worlds[0].getWorldInfo().getWorldName());
         return net.minecraftforge.fml.common.FMLCommonHandler.instance().handleServerStarting(this);
     }
 
@@ -161,10 +161,10 @@ public class IntegratedServer extends MinecraftServer
                 this.getPlayerList().setViewDistance(this.mc.gameSettings.renderDistanceChunks);
             }
 
-            if (this.mc.theWorld != null)
+            if (this.mc.world != null)
             {
-                WorldInfo worldinfo1 = this.worldServers[0].getWorldInfo();
-                WorldInfo worldinfo = this.mc.theWorld.getWorldInfo();
+                WorldInfo worldinfo1 = this.worlds[0].getWorldInfo();
+                WorldInfo worldinfo = this.mc.world.getWorldInfo();
 
                 if (!worldinfo1.isDifficultyLocked() && worldinfo.getDifficulty() != worldinfo1.getDifficulty())
                 {
@@ -175,7 +175,7 @@ public class IntegratedServer extends MinecraftServer
                 {
                     LOGGER.info("Locking difficulty to {}", new Object[] {worldinfo.getDifficulty()});
 
-                    for (WorldServer worldserver : this.worldServers)
+                    for (WorldServer worldserver : this.worlds)
                     {
                         if (worldserver != null)
                         {
@@ -202,8 +202,8 @@ public class IntegratedServer extends MinecraftServer
      */
     public EnumDifficulty getDifficulty()
     {
-        if (this.mc.theWorld == null) return this.mc.gameSettings.difficulty; // Fix NPE just in case.
-        return this.mc.theWorld.getWorldInfo().getDifficulty();
+        if (this.mc.world == null) return this.mc.gameSettings.difficulty; // Fix NPE just in case.
+        return this.mc.world.getWorldInfo().getDifficulty();
     }
 
     /**
@@ -302,9 +302,9 @@ public class IntegratedServer extends MinecraftServer
     {
         super.setDifficultyForAllWorlds(difficulty);
 
-        if (this.mc.theWorld != null)
+        if (this.mc.world != null)
         {
-            this.mc.theWorld.getWorldInfo().setDifficulty(difficulty);
+            this.mc.world.getWorldInfo().setDifficulty(difficulty);
         }
     }
 
@@ -352,7 +352,7 @@ public class IntegratedServer extends MinecraftServer
             this.lanServerPing.start();
             this.getPlayerList().setGameType(type);
             this.getPlayerList().setCommandsAllowedForAll(allowCheats);
-            this.mc.thePlayer.setPermissionLevel(allowCheats ? 4 : 0);
+            this.mc.player.setPermissionLevel(allowCheats ? 4 : 0);
             return i + "";
         }
         catch (IOException var6)
@@ -385,9 +385,9 @@ public class IntegratedServer extends MinecraftServer
         {
             public void run()
             {
-                for (EntityPlayerMP entityplayermp : Lists.newArrayList(IntegratedServer.this.getPlayerList().getPlayerList()))
+                for (EntityPlayerMP entityplayermp : Lists.newArrayList(IntegratedServer.this.getPlayerList().getPlayers()))
                 {
-                    if (!entityplayermp.getUniqueID().equals(IntegratedServer.this.mc.thePlayer.getUniqueID()))
+                    if (!entityplayermp.getUniqueID().equals(IntegratedServer.this.mc.player.getUniqueID()))
                     {
                         IntegratedServer.this.getPlayerList().playerLoggedOut(entityplayermp);
                     }
@@ -437,7 +437,7 @@ public class IntegratedServer extends MinecraftServer
     {
         if (this.isCallingFromMinecraftThread())
         {
-            this.worldServers[0].getLootTableManager().reloadLootTables();
+            this.worlds[0].getLootTableManager().reloadLootTables();
         }
         else
         {

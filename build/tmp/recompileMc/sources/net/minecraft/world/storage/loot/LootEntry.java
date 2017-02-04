@@ -36,7 +36,7 @@ public abstract class LootEntry
      */
     public int getEffectiveWeight(float luck)
     {
-        return Math.max(MathHelper.floor_float((float)this.weight + (float)this.quality * luck), 0);
+        return Math.max(MathHelper.floor((float)this.weight + (float)this.quality * luck), 0);
     }
 
     public String getEntryName(){ return this.entryName; }

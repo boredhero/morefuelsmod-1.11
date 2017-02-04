@@ -63,26 +63,26 @@ public class MapColor
     }
 
     @SideOnly(Side.CLIENT)
-    public int getMapColor(int p_151643_1_)
+    public int getMapColor(int index)
     {
         int i = 220;
 
-        if (p_151643_1_ == 3)
+        if (index == 3)
         {
             i = 135;
         }
 
-        if (p_151643_1_ == 2)
+        if (index == 2)
         {
             i = 255;
         }
 
-        if (p_151643_1_ == 1)
+        if (index == 1)
         {
             i = 220;
         }
 
-        if (p_151643_1_ == 0)
+        if (index == 0)
         {
             i = 180;
         }

@@ -364,7 +364,7 @@ public class ChunkProviderHell implements IChunkGenerator
                     if ((double)k < 0.0D)
                     {
                         double d10 = (0.0D - (double)k) / 4.0D;
-                        d10 = MathHelper.clamp_double(d10, 0.0D, 1.0D);
+                        d10 = MathHelper.clamp(d10, 0.0D, 1.0D);
                         d8 = d8 * (1.0D - d10) + -10.0D * d10;
                     }
 

@@ -26,7 +26,7 @@ public class EntityAISkeletonRiders extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        return this.horse.worldObj.isAnyPlayerWithinRangeAt(this.horse.posX, this.horse.posY, this.horse.posZ, 10.0D);
+        return this.horse.world.isAnyPlayerWithinRangeAt(this.horse.posX, this.horse.posY, this.horse.posZ, 10.0D);
     }
 
     /**
@@ -34,11 +34,11 @@ public class EntityAISkeletonRiders extends EntityAIBase
      */
     public void updateTask()
     {
-        DifficultyInstance difficultyinstance = this.horse.worldObj.getDifficultyForLocation(new BlockPos(this.horse));
-        this.horse.func_190691_p(false);
+        DifficultyInstance difficultyinstance = this.horse.world.getDifficultyForLocation(new BlockPos(this.horse));
+        this.horse.setTrap(false);
         this.horse.setHorseTamed(true);
         this.horse.setGrowingAge(0);
-        this.horse.worldObj.addWeatherEffect(new EntityLightningBolt(this.horse.worldObj, this.horse.posX, this.horse.posY, this.horse.posZ, true));
+        this.horse.world.addWeatherEffect(new EntityLightningBolt(this.horse.world, this.horse.posX, this.horse.posY, this.horse.posZ, true));
         EntitySkeleton entityskeleton = this.createSkeleton(difficultyinstance, this.horse);
         entityskeleton.startRiding(this.horse);
 
@@ -53,33 +53,33 @@ public class EntityAISkeletonRiders extends EntityAIBase
 
     private AbstractHorse createHorse(DifficultyInstance p_188515_1_)
     {
-        EntitySkeletonHorse entityskeletonhorse = new EntitySkeletonHorse(this.horse.worldObj);
+        EntitySkeletonHorse entityskeletonhorse = new EntitySkeletonHorse(this.horse.world);
         entityskeletonhorse.onInitialSpawn(p_188515_1_, (IEntityLivingData)null);
         entityskeletonhorse.setPosition(this.horse.posX, this.horse.posY, this.horse.posZ);
         entityskeletonhorse.hurtResistantTime = 60;
         entityskeletonhorse.enablePersistence();
         entityskeletonhorse.setHorseTamed(true);
         entityskeletonhorse.setGrowingAge(0);
-        entityskeletonhorse.worldObj.spawnEntityInWorld(entityskeletonhorse);
+        entityskeletonhorse.world.spawnEntity(entityskeletonhorse);
         return entityskeletonhorse;
     }
 
     private EntitySkeleton createSkeleton(DifficultyInstance p_188514_1_, AbstractHorse p_188514_2_)
     {
-        EntitySkeleton entityskeleton = new EntitySkeleton(p_188514_2_.worldObj);
+        EntitySkeleton entityskeleton = new EntitySkeleton(p_188514_2_.world);
         entityskeleton.onInitialSpawn(p_188514_1_, (IEntityLivingData)null);
         entityskeleton.setPosition(p_188514_2_.posX, p_188514_2_.posY, p_188514_2_.posZ);
         entityskeleton.hurtResistantTime = 60;
         entityskeleton.enablePersistence();
 
-        if (entityskeleton.getItemStackFromSlot(EntityEquipmentSlot.HEAD).func_190926_b())
+        if (entityskeleton.getItemStackFromSlot(EntityEquipmentSlot.HEAD).isEmpty())
         {
             entityskeleton.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
         }
 
         entityskeleton.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, EnchantmentHelper.addRandomEnchantment(entityskeleton.getRNG(), entityskeleton.getHeldItemMainhand(), (int)(5.0F + p_188514_1_.getClampedAdditionalDifficulty() * (float)entityskeleton.getRNG().nextInt(18)), false));
         entityskeleton.setItemStackToSlot(EntityEquipmentSlot.HEAD, EnchantmentHelper.addRandomEnchantment(entityskeleton.getRNG(), entityskeleton.getItemStackFromSlot(EntityEquipmentSlot.HEAD), (int)(5.0F + p_188514_1_.getClampedAdditionalDifficulty() * (float)entityskeleton.getRNG().nextInt(18)), false));
-        entityskeleton.worldObj.spawnEntityInWorld(entityskeleton);
+        entityskeleton.world.spawnEntity(entityskeleton);
         return entityskeleton;
     }
 }

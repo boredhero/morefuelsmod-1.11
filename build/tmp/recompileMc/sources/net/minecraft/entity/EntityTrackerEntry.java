@@ -117,9 +117,9 @@ public class EntityTrackerEntry
         this.encodedPosX = EntityTracker.getPositionLong(entityIn.posX);
         this.encodedPosY = EntityTracker.getPositionLong(entityIn.posY);
         this.encodedPosZ = EntityTracker.getPositionLong(entityIn.posZ);
-        this.encodedRotationYaw = MathHelper.floor_float(entityIn.rotationYaw * 256.0F / 360.0F);
-        this.encodedRotationPitch = MathHelper.floor_float(entityIn.rotationPitch * 256.0F / 360.0F);
-        this.lastHeadMotion = MathHelper.floor_float(entityIn.getRotationYawHead() * 256.0F / 360.0F);
+        this.encodedRotationYaw = MathHelper.floor(entityIn.rotationYaw * 256.0F / 360.0F);
+        this.encodedRotationPitch = MathHelper.floor(entityIn.rotationPitch * 256.0F / 360.0F);
+        this.lastHeadMotion = MathHelper.floor(entityIn.getRotationYawHead() * 256.0F / 360.0F);
         this.onGround = entityIn.onGround;
     }
 
@@ -162,13 +162,13 @@ public class EntityTrackerEntry
 
             if (itemstack.getItem() instanceof ItemMap)
             {
-                MapData mapdata = Items.FILLED_MAP.getMapData(itemstack, this.trackedEntity.worldObj);
+                MapData mapdata = Items.FILLED_MAP.getMapData(itemstack, this.trackedEntity.world);
 
                 for (EntityPlayer entityplayer : players)
                 {
                     EntityPlayerMP entityplayermp = (EntityPlayerMP)entityplayer;
                     mapdata.updateVisiblePlayers(entityplayermp, itemstack);
-                    Packet<?> packet = Items.FILLED_MAP.createMapDataPacket(itemstack, this.trackedEntity.worldObj, entityplayermp);
+                    Packet<?> packet = Items.FILLED_MAP.createMapDataPacket(itemstack, this.trackedEntity.world, entityplayermp);
 
                     if (packet != null)
                     {
@@ -177,15 +177,15 @@ public class EntityTrackerEntry
                 }
             }
 
-            this.sendMetadataToAllAssociatedPlayers();
+            this.sendMetadata();
         }
 
         if (this.updateCounter % this.updateFrequency == 0 || this.trackedEntity.isAirBorne || this.trackedEntity.getDataManager().isDirty())
         {
             if (this.trackedEntity.isRiding())
             {
-                int j1 = MathHelper.floor_float(this.trackedEntity.rotationYaw * 256.0F / 360.0F);
-                int l1 = MathHelper.floor_float(this.trackedEntity.rotationPitch * 256.0F / 360.0F);
+                int j1 = MathHelper.floor(this.trackedEntity.rotationYaw * 256.0F / 360.0F);
+                int l1 = MathHelper.floor(this.trackedEntity.rotationPitch * 256.0F / 360.0F);
                 boolean flag3 = Math.abs(j1 - this.encodedRotationYaw) >= 1 || Math.abs(l1 - this.encodedRotationPitch) >= 1;
 
                 if (flag3)
@@ -198,7 +198,7 @@ public class EntityTrackerEntry
                 this.encodedPosX = EntityTracker.getPositionLong(this.trackedEntity.posX);
                 this.encodedPosY = EntityTracker.getPositionLong(this.trackedEntity.posY);
                 this.encodedPosZ = EntityTracker.getPositionLong(this.trackedEntity.posZ);
-                this.sendMetadataToAllAssociatedPlayers();
+                this.sendMetadata();
                 this.ridingEntity = true;
             }
             else
@@ -207,8 +207,8 @@ public class EntityTrackerEntry
                 long i1 = EntityTracker.getPositionLong(this.trackedEntity.posX);
                 long i2 = EntityTracker.getPositionLong(this.trackedEntity.posY);
                 long j2 = EntityTracker.getPositionLong(this.trackedEntity.posZ);
-                int k2 = MathHelper.floor_float(this.trackedEntity.rotationYaw * 256.0F / 360.0F);
-                int i = MathHelper.floor_float(this.trackedEntity.rotationPitch * 256.0F / 360.0F);
+                int k2 = MathHelper.floor(this.trackedEntity.rotationYaw * 256.0F / 360.0F);
+                int i = MathHelper.floor(this.trackedEntity.rotationPitch * 256.0F / 360.0F);
                 long j = i1 - this.encodedPosX;
                 long k = i2 - this.encodedPosY;
                 long l = j2 - this.encodedPosZ;
@@ -274,7 +274,7 @@ public class EntityTrackerEntry
                     this.sendPacketToTrackedPlayers(packet1);
                 }
 
-                this.sendMetadataToAllAssociatedPlayers();
+                this.sendMetadata();
 
                 if (flag)
                 {
@@ -292,7 +292,7 @@ public class EntityTrackerEntry
                 this.ridingEntity = false;
             }
 
-            int k1 = MathHelper.floor_float(this.trackedEntity.getRotationYawHead() * 256.0F / 360.0F);
+            int k1 = MathHelper.floor(this.trackedEntity.getRotationYawHead() * 256.0F / 360.0F);
 
             if (Math.abs(k1 - this.lastHeadMotion) >= 1)
             {
@@ -316,7 +316,7 @@ public class EntityTrackerEntry
      * Sends the entity metadata (DataWatcher) and attributes to all players tracking this entity, including the entity
      * itself if a player.
      */
-    private void sendMetadataToAllAssociatedPlayers()
+    private void sendMetadata()
     {
         EntityDataManager entitydatamanager = this.trackedEntity.getDataManager();
 
@@ -429,7 +429,7 @@ public class EntityTrackerEntry
                         {
                             ItemStack itemstack = ((EntityLivingBase)this.trackedEntity).getItemStackFromSlot(entityequipmentslot);
 
-                            if (!itemstack.func_190926_b())
+                            if (!itemstack.isEmpty())
                             {
                                 playerMP.connection.sendPacket(new SPacketEntityEquipment(this.trackedEntity.getEntityId(), entityequipmentslot, itemstack));
                             }
@@ -518,7 +518,7 @@ public class EntityTrackerEntry
         }
         else if (this.trackedEntity instanceof IAnimals)
         {
-            this.lastHeadMotion = MathHelper.floor_float(this.trackedEntity.getRotationYawHead() * 256.0F / 360.0F);
+            this.lastHeadMotion = MathHelper.floor(this.trackedEntity.getRotationYawHead() * 256.0F / 360.0F);
             return new SPacketSpawnMob((EntityLivingBase)this.trackedEntity);
         }
         else if (this.trackedEntity instanceof EntityPainting)
@@ -544,7 +544,7 @@ public class EntityTrackerEntry
         }
         else if (this.trackedEntity instanceof EntityFishHook)
         {
-            Entity entity2 = ((EntityFishHook)this.trackedEntity).func_190619_l();
+            Entity entity2 = ((EntityFishHook)this.trackedEntity).getAngler();
             return new SPacketSpawnObject(this.trackedEntity, 90, entity2 == null ? this.trackedEntity.getEntityId() : entity2.getEntityId());
         }
         else if (this.trackedEntity instanceof EntitySpectralArrow)

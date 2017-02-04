@@ -37,7 +37,7 @@ public class EntityAIPanic extends EntityAIBase
         {
             if (this.theEntityCreature.isBurning())
             {
-                BlockPos blockpos = this.getRandPos(this.theEntityCreature.worldObj, this.theEntityCreature, 5, 4);
+                BlockPos blockpos = this.getRandPos(this.theEntityCreature.world, this.theEntityCreature, 5, 4);
 
                 if (blockpos != null)
                 {
@@ -48,11 +48,11 @@ public class EntityAIPanic extends EntityAIBase
                 }
             }
 
-            return this.func_190863_f();
+            return this.findRandomPosition();
         }
     }
 
-    private boolean func_190863_f()
+    private boolean findRandomPosition()
     {
         Vec3d vec3d = RandomPositionGenerator.findRandomTarget(this.theEntityCreature, 5, 4);
 

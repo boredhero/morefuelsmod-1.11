@@ -83,7 +83,7 @@ public class EntityAreaEffectCloud extends Entity
         this.setSize(radiusIn * 2.0F, 0.5F);
         this.setPosition(d0, d1, d2);
 
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             this.getDataManager().set(RADIUS, Float.valueOf(radiusIn));
         }
@@ -100,11 +100,11 @@ public class EntityAreaEffectCloud extends Entity
 
         if (!this.colorSet)
         {
-            this.func_190618_C();
+            this.updateFixedColor();
         }
     }
 
-    private void func_190618_C()
+    private void updateFixedColor()
     {
         if (this.potion == PotionTypes.EMPTY && this.effects.isEmpty())
         {
@@ -122,7 +122,7 @@ public class EntityAreaEffectCloud extends Entity
 
         if (!this.colorSet)
         {
-            this.func_190618_C();
+            this.updateFixedColor();
         }
     }
 
@@ -202,7 +202,7 @@ public class EntityAreaEffectCloud extends Entity
         boolean flag = this.shouldIgnoreRadius();
         float f = this.getRadius();
 
-        if (this.worldObj.isRemote)
+        if (this.world.isRemote)
         {
             EnumParticleTypes enumparticletypes = this.getParticle();
             int[] aint = new int[enumparticletypes.getArgumentCount()];
@@ -224,7 +224,7 @@ public class EntityAreaEffectCloud extends Entity
                     for (int i = 0; i < 2; ++i)
                     {
                         float f1 = this.rand.nextFloat() * ((float)Math.PI * 2F);
-                        float f2 = MathHelper.sqrt_float(this.rand.nextFloat()) * 0.2F;
+                        float f2 = MathHelper.sqrt(this.rand.nextFloat()) * 0.2F;
                         float f3 = MathHelper.cos(f1) * f2;
                         float f4 = MathHelper.sin(f1) * f2;
 
@@ -234,11 +234,11 @@ public class EntityAreaEffectCloud extends Entity
                             int k = j >> 16 & 255;
                             int l = j >> 8 & 255;
                             int i1 = j & 255;
-                            this.worldObj.func_190523_a(EnumParticleTypes.SPELL_MOB.getParticleID(), this.posX + (double)f3, this.posY, this.posZ + (double)f4, (double)((float)k / 255.0F), (double)((float)l / 255.0F), (double)((float)i1 / 255.0F), new int[0]);
+                            this.world.spawnAlwaysVisibleParticle(EnumParticleTypes.SPELL_MOB.getParticleID(), this.posX + (double)f3, this.posY, this.posZ + (double)f4, (double)((float)k / 255.0F), (double)((float)l / 255.0F), (double)((float)i1 / 255.0F), new int[0]);
                         }
                         else
                         {
-                            this.worldObj.func_190523_a(enumparticletypes.getParticleID(), this.posX + (double)f3, this.posY, this.posZ + (double)f4, 0.0D, 0.0D, 0.0D, aint);
+                            this.world.spawnAlwaysVisibleParticle(enumparticletypes.getParticleID(), this.posX + (double)f3, this.posY, this.posZ + (double)f4, 0.0D, 0.0D, 0.0D, aint);
                         }
                     }
                 }
@@ -250,7 +250,7 @@ public class EntityAreaEffectCloud extends Entity
                 for (int k1 = 0; (float)k1 < f5; ++k1)
                 {
                     float f6 = this.rand.nextFloat() * ((float)Math.PI * 2F);
-                    float f7 = MathHelper.sqrt_float(this.rand.nextFloat()) * f;
+                    float f7 = MathHelper.sqrt(this.rand.nextFloat()) * f;
                     float f8 = MathHelper.cos(f6) * f7;
                     float f9 = MathHelper.sin(f6) * f7;
 
@@ -260,11 +260,11 @@ public class EntityAreaEffectCloud extends Entity
                         int i2 = l1 >> 16 & 255;
                         int j2 = l1 >> 8 & 255;
                         int j1 = l1 & 255;
-                        this.worldObj.func_190523_a(EnumParticleTypes.SPELL_MOB.getParticleID(), this.posX + (double)f8, this.posY, this.posZ + (double)f9, (double)((float)i2 / 255.0F), (double)((float)j2 / 255.0F), (double)((float)j1 / 255.0F), new int[0]);
+                        this.world.spawnAlwaysVisibleParticle(EnumParticleTypes.SPELL_MOB.getParticleID(), this.posX + (double)f8, this.posY, this.posZ + (double)f9, (double)((float)i2 / 255.0F), (double)((float)j2 / 255.0F), (double)((float)j1 / 255.0F), new int[0]);
                     }
                     else
                     {
-                        this.worldObj.func_190523_a(enumparticletypes.getParticleID(), this.posX + (double)f8, this.posY, this.posZ + (double)f9, (0.5D - this.rand.nextDouble()) * 0.15D, 0.009999999776482582D, (0.5D - this.rand.nextDouble()) * 0.15D, aint);
+                        this.world.spawnAlwaysVisibleParticle(enumparticletypes.getParticleID(), this.posX + (double)f8, this.posY, this.posZ + (double)f9, (0.5D - this.rand.nextDouble()) * 0.15D, 0.009999999776482582D, (0.5D - this.rand.nextDouble()) * 0.15D, aint);
                     }
                 }
             }
@@ -331,7 +331,7 @@ public class EntityAreaEffectCloud extends Entity
                 }
                 else
                 {
-                    List<EntityLivingBase> list = this.worldObj.<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox());
+                    List<EntityLivingBase> list = this.world.<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox());
 
                     if (!list.isEmpty())
                     {
@@ -415,9 +415,9 @@ public class EntityAreaEffectCloud extends Entity
     @Nullable
     public EntityLivingBase getOwner()
     {
-        if (this.owner == null && this.ownerUniqueId != null && this.worldObj instanceof WorldServer)
+        if (this.owner == null && this.ownerUniqueId != null && this.world instanceof WorldServer)
         {
-            Entity entity = ((WorldServer)this.worldObj).getEntityFromUuid(this.ownerUniqueId);
+            Entity entity = ((WorldServer)this.world).getEntityFromUuid(this.ownerUniqueId);
 
             if (entity instanceof EntityLivingBase)
             {

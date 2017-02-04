@@ -53,7 +53,7 @@ public class EntityAILeapAtTarget extends EntityAIBase
     {
         double d0 = this.leapTarget.posX - this.leaper.posX;
         double d1 = this.leapTarget.posZ - this.leaper.posZ;
-        float f = MathHelper.sqrt_double(d0 * d0 + d1 * d1);
+        float f = MathHelper.sqrt(d0 * d0 + d1 * d1);
 
         if ((double)f >= 1.0E-4D)
         {

@@ -46,7 +46,7 @@ public class TileEntityRendererDispatcher
     /** The player's current Z position (same as playerZ) */
     public static double staticPlayerZ;
     public TextureManager renderEngine;
-    public World worldObj;
+    public World world;
     public Entity entity;
     public float entityYaw;
     public float entityPitch;
@@ -96,22 +96,22 @@ public class TileEntityRendererDispatcher
         return (TileEntitySpecialRenderer<T>)(tileEntityIn == null ? null : this.getSpecialRendererByClass(tileEntityIn.getClass()));
     }
 
-    public void prepare(World p_190056_1_, TextureManager p_190056_2_, FontRenderer p_190056_3_, Entity p_190056_4_, RayTraceResult p_190056_5_, float p_190056_6_)
+    public void prepare(World worldIn, TextureManager renderEngineIn, FontRenderer fontRendererIn, Entity entityIn, RayTraceResult cameraHitResultIn, float p_190056_6_)
     {
-        if (this.worldObj != p_190056_1_)
+        if (this.world != worldIn)
         {
-            this.setWorld(p_190056_1_);
+            this.setWorld(worldIn);
         }
 
-        this.renderEngine = p_190056_2_;
-        this.entity = p_190056_4_;
-        this.fontRenderer = p_190056_3_;
-        this.cameraHitResult = p_190056_5_;
-        this.entityYaw = p_190056_4_.prevRotationYaw + (p_190056_4_.rotationYaw - p_190056_4_.prevRotationYaw) * p_190056_6_;
-        this.entityPitch = p_190056_4_.prevRotationPitch + (p_190056_4_.rotationPitch - p_190056_4_.prevRotationPitch) * p_190056_6_;
-        this.entityX = p_190056_4_.lastTickPosX + (p_190056_4_.posX - p_190056_4_.lastTickPosX) * (double)p_190056_6_;
-        this.entityY = p_190056_4_.lastTickPosY + (p_190056_4_.posY - p_190056_4_.lastTickPosY) * (double)p_190056_6_;
-        this.entityZ = p_190056_4_.lastTickPosZ + (p_190056_4_.posZ - p_190056_4_.lastTickPosZ) * (double)p_190056_6_;
+        this.renderEngine = renderEngineIn;
+        this.entity = entityIn;
+        this.fontRenderer = fontRendererIn;
+        this.cameraHitResult = cameraHitResultIn;
+        this.entityYaw = entityIn.prevRotationYaw + (entityIn.rotationYaw - entityIn.prevRotationYaw) * p_190056_6_;
+        this.entityPitch = entityIn.prevRotationPitch + (entityIn.rotationPitch - entityIn.prevRotationPitch) * p_190056_6_;
+        this.entityX = entityIn.lastTickPosX + (entityIn.posX - entityIn.lastTickPosX) * (double)p_190056_6_;
+        this.entityY = entityIn.lastTickPosY + (entityIn.posY - entityIn.lastTickPosY) * (double)p_190056_6_;
+        this.entityZ = entityIn.lastTickPosZ + (entityIn.posZ - entityIn.lastTickPosZ) * (double)p_190056_6_;
     }
 
     public void renderTileEntity(TileEntity tileentityIn, float partialTicks, int destroyStage)
@@ -121,7 +121,7 @@ public class TileEntityRendererDispatcher
             RenderHelper.enableStandardItemLighting();
             if(!drawingBatch || !tileentityIn.hasFastRenderer())
             {
-            int i = this.worldObj.getCombinedLight(tileentityIn.getPos(), 0);
+            int i = this.world.getCombinedLight(tileentityIn.getPos(), 0);
             int j = i % 65536;
             int k = i / 65536;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
@@ -167,7 +167,7 @@ public class TileEntityRendererDispatcher
 
     public void setWorld(@Nullable World worldIn)
     {
-        this.worldObj = worldIn;
+        this.world = worldIn;
 
         if (worldIn == null)
         {

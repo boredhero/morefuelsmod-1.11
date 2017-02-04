@@ -53,9 +53,9 @@ public class InventoryLargeChest implements ILockableContainer
         return this.upperChest.getSizeInventory() + this.lowerChest.getSizeInventory();
     }
 
-    public boolean func_191420_l()
+    public boolean isEmpty()
     {
-        return this.upperChest.func_191420_l() && this.lowerChest.func_191420_l();
+        return this.upperChest.isEmpty() && this.lowerChest.isEmpty();
     }
 
     /**
@@ -150,9 +150,9 @@ public class InventoryLargeChest implements ILockableContainer
     /**
      * Don't rename this method to canInteractWith due to conflicts with Container
      */
-    public boolean isUseableByPlayer(EntityPlayer player)
+    public boolean isUsableByPlayer(EntityPlayer player)
     {
-        return this.upperChest.isUseableByPlayer(player) && this.lowerChest.isUseableByPlayer(player);
+        return this.upperChest.isUsableByPlayer(player) && this.lowerChest.isUsableByPlayer(player);
     }
 
     public void openInventory(EntityPlayer player)

@@ -64,7 +64,7 @@ public class PhaseHoldingPattern extends PhaseBase
     {
         if (this.currentPath != null && this.currentPath.isFinished())
         {
-            BlockPos blockpos = this.dragon.worldObj.getTopSolidOrLiquidBlock(new BlockPos(WorldGenEndPodium.END_PODIUM_LOCATION));
+            BlockPos blockpos = this.dragon.world.getTopSolidOrLiquidBlock(new BlockPos(WorldGenEndPodium.END_PODIUM_LOCATION));
             int i = this.dragon.getFightManager() == null ? 0 : this.dragon.getFightManager().getNumAliveCrystals();
 
             if (this.dragon.getRNG().nextInt(i + 3) == 0)
@@ -74,14 +74,14 @@ public class PhaseHoldingPattern extends PhaseBase
             }
 
             double d0 = 64.0D;
-            EntityPlayer entityplayer = this.dragon.worldObj.getNearestAttackablePlayer(blockpos, d0, d0);
+            EntityPlayer entityplayer = this.dragon.world.getNearestAttackablePlayer(blockpos, d0, d0);
 
             if (entityplayer != null)
             {
                 d0 = entityplayer.getDistanceSqToCenter(blockpos) / 512.0D;
             }
 
-            if (entityplayer != null && (this.dragon.getRNG().nextInt(MathHelper.abs_int((int)d0) + 2) == 0 || this.dragon.getRNG().nextInt(i + 2) == 0))
+            if (entityplayer != null && (this.dragon.getRNG().nextInt(MathHelper.abs((int)d0) + 2) == 0 || this.dragon.getRNG().nextInt(i + 2) == 0))
             {
                 this.strafePlayer(entityplayer);
                 return;

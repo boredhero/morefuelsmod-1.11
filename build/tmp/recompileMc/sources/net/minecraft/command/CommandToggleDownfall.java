@@ -8,7 +8,7 @@ public class CommandToggleDownfall extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "toggledownfall";
     }
@@ -23,14 +23,20 @@ public class CommandToggleDownfall extends CommandBase
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The ICommandSender who is requesting usage details
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.downfall.usage";
     }
 
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
@@ -40,7 +46,7 @@ public class CommandToggleDownfall extends CommandBase
 
     protected void toggleRainfall(MinecraftServer server)
     {
-        WorldInfo worldinfo = server.worldServers[0].getWorldInfo();
+        WorldInfo worldinfo = server.worlds[0].getWorldInfo();
         worldinfo.setRaining(!worldinfo.isRaining());
     }
 }

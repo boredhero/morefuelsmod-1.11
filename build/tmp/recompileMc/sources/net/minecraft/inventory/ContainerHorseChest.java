@@ -6,14 +6,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerHorseChest extends InventoryBasic
 {
-    public ContainerHorseChest(String p_i47268_1_, int p_i47268_2_)
+    public ContainerHorseChest(String inventoryTitle, int slotCount)
     {
-        super(p_i47268_1_, false, p_i47268_2_);
+        super(inventoryTitle, false, slotCount);
     }
 
     @SideOnly(Side.CLIENT)
-    public ContainerHorseChest(ITextComponent p_i47269_1_, int p_i47269_2_)
+    public ContainerHorseChest(ITextComponent inventoryTitle, int slotCount)
     {
-        super(p_i47269_1_, p_i47269_2_);
+        super(inventoryTitle, slotCount);
     }
 }

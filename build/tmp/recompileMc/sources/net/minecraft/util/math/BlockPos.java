@@ -19,7 +19,7 @@ public class BlockPos extends Vec3i
     private static final Logger LOGGER = LogManager.getLogger();
     /** An immutable block pos with zero as all coordinates. */
     public static final BlockPos ORIGIN = new BlockPos(0, 0, 0);
-    private static final int NUM_X_BITS = 1 + MathHelper.calculateLogBaseTwo(MathHelper.roundUpToPowerOfTwo(30000000));
+    private static final int NUM_X_BITS = 1 + MathHelper.log2(MathHelper.smallestEncompassingPowerOfTwo(30000000));
     private static final int NUM_Z_BITS = NUM_X_BITS;
     private static final int NUM_Y_BITS = 64 - NUM_X_BITS - NUM_Z_BITS;
     private static final int Y_SHIFT = 0 + NUM_Z_BITS;
@@ -197,9 +197,9 @@ public class BlockPos extends Vec3i
         return n == 0 ? this : new BlockPos(this.getX() + facing.getFrontOffsetX() * n, this.getY() + facing.getFrontOffsetY() * n, this.getZ() + facing.getFrontOffsetZ() * n);
     }
 
-    public BlockPos func_190942_a(Rotation p_190942_1_)
+    public BlockPos rotate(Rotation rotationIn)
     {
-        switch (p_190942_1_)
+        switch (rotationIn)
         {
             case NONE:
             default:
@@ -410,9 +410,9 @@ public class BlockPos extends Vec3i
                 return super.offset(facing, n).toImmutable();
             }
 
-            public BlockPos func_190942_a(Rotation p_190942_1_)
+            public BlockPos rotate(Rotation rotationIn)
             {
-                return super.func_190942_a(p_190942_1_).toImmutable();
+                return super.rotate(rotationIn).toImmutable();
             }
 
             /**
@@ -452,7 +452,7 @@ public class BlockPos extends Vec3i
 
             public BlockPos.MutableBlockPos setPos(double xIn, double yIn, double zIn)
             {
-                return this.setPos(MathHelper.floor_double(xIn), MathHelper.floor_double(yIn), MathHelper.floor_double(zIn));
+                return this.setPos(MathHelper.floor(xIn), MathHelper.floor(yIn), MathHelper.floor(zIn));
             }
 
             @SideOnly(Side.CLIENT)
@@ -510,7 +510,7 @@ public class BlockPos extends Vec3i
 
             public static BlockPos.PooledMutableBlockPos retain(double xIn, double yIn, double zIn)
             {
-                return retain(MathHelper.floor_double(xIn), MathHelper.floor_double(yIn), MathHelper.floor_double(zIn));
+                return retain(MathHelper.floor(xIn), MathHelper.floor(yIn), MathHelper.floor(zIn));
             }
 
             @SideOnly(Side.CLIENT)

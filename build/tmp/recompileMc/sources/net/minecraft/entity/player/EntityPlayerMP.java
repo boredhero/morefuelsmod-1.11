@@ -164,14 +164,14 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     public EntityPlayerMP(MinecraftServer server, WorldServer worldIn, GameProfile profile, PlayerInteractionManager interactionManagerIn)
     {
         super(worldIn, profile);
-        interactionManagerIn.thisPlayerMP = this;
+        interactionManagerIn.player = this;
         this.interactionManager = interactionManagerIn;
         BlockPos blockpos = worldIn.provider.getRandomizedSpawnPoint();
 
-        if (false && worldIn.provider.func_191066_m() && worldIn.getWorldInfo().getGameType() != GameType.ADVENTURE)
+        if (false && worldIn.provider.hasSkyLight() && worldIn.getWorldInfo().getGameType() != GameType.ADVENTURE)
         {
             int i = Math.max(0, server.getSpawnRadius(worldIn));
-            int j = MathHelper.floor_double(worldIn.getWorldBorder().getClosestDistance((double)blockpos.getX(), (double)blockpos.getZ()));
+            int j = MathHelper.floor(worldIn.getWorldBorder().getClosestDistance((double)blockpos.getX(), (double)blockpos.getZ()));
 
             if (j < i)
             {
@@ -317,7 +317,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
 
         this.openContainer.detectAndSendChanges();
 
-        if (!this.worldObj.isRemote && this.openContainer != null && !this.openContainer.canInteractWith(this))
+        if (!this.world.isRemote && this.openContainer != null && !this.openContainer.canInteractWith(this))
         {
             this.closeScreen();
             this.openContainer = this.inventoryContainer;
@@ -346,7 +346,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
             if (entity.isEntityAlive())
             {
                 this.setPositionAndRotation(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-                this.mcServer.getPlayerList().serverUpdateMountedMovingPlayer(this);
+                this.mcServer.getPlayerList().serverUpdateMovingPlayer(this);
 
                 if (this.isSneaking())
                 {
@@ -370,9 +370,9 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
             {
                 ItemStack itemstack = this.inventory.getStackInSlot(i);
 
-                if (!itemstack.func_190926_b() && itemstack.getItem().isMap())
+                if (!itemstack.isEmpty() && itemstack.getItem().isMap())
                 {
-                    Packet<?> packet = ((ItemMapBase)itemstack.getItem()).createMapDataPacket(itemstack, this.worldObj, this);
+                    Packet<?> packet = ((ItemMapBase)itemstack.getItem()).createMapDataPacket(itemstack, this.world, this);
 
                     if (packet != null)
                     {
@@ -392,37 +392,37 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
             if (this.getHealth() + this.getAbsorptionAmount() != this.lastHealthScore)
             {
                 this.lastHealthScore = this.getHealth() + this.getAbsorptionAmount();
-                this.updateScorePoints(IScoreCriteria.HEALTH, MathHelper.ceiling_float_int(this.lastHealthScore));
+                this.updateScorePoints(IScoreCriteria.HEALTH, MathHelper.ceil(this.lastHealthScore));
             }
 
             if (this.foodStats.getFoodLevel() != this.lastFoodScore)
             {
                 this.lastFoodScore = this.foodStats.getFoodLevel();
-                this.updateScorePoints(IScoreCriteria.FOOD, MathHelper.ceiling_float_int((float)this.lastFoodScore));
+                this.updateScorePoints(IScoreCriteria.FOOD, MathHelper.ceil((float)this.lastFoodScore));
             }
 
             if (this.getAir() != this.lastAirScore)
             {
                 this.lastAirScore = this.getAir();
-                this.updateScorePoints(IScoreCriteria.AIR, MathHelper.ceiling_float_int((float)this.lastAirScore));
+                this.updateScorePoints(IScoreCriteria.AIR, MathHelper.ceil((float)this.lastAirScore));
             }
 
             if (this.getTotalArmorValue() != this.lastArmorScore)
             {
                 this.lastArmorScore = this.getTotalArmorValue();
-                this.updateScorePoints(IScoreCriteria.ARMOR, MathHelper.ceiling_float_int((float)this.lastArmorScore));
+                this.updateScorePoints(IScoreCriteria.ARMOR, MathHelper.ceil((float)this.lastArmorScore));
             }
 
             if (this.experienceTotal != this.lastExperienceScore)
             {
                 this.lastExperienceScore = this.experienceTotal;
-                this.updateScorePoints(IScoreCriteria.XP, MathHelper.ceiling_float_int((float)this.lastExperienceScore));
+                this.updateScorePoints(IScoreCriteria.XP, MathHelper.ceil((float)this.lastExperienceScore));
             }
 
             if (this.experienceLevel != this.lastLevelScore)
             {
                 this.lastLevelScore = this.experienceLevel;
-                this.updateScorePoints(IScoreCriteria.LEVEL, MathHelper.ceiling_float_int((float)this.lastLevelScore));
+                this.updateScorePoints(IScoreCriteria.LEVEL, MathHelper.ceil((float)this.lastLevelScore));
             }
 
             if (this.experienceTotal != this.lastExperience)
@@ -459,7 +459,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
      */
     protected void updateBiomesExplored()
     {
-        Biome biome = this.worldObj.getBiome(new BlockPos(MathHelper.floor_double(this.posX), 0, MathHelper.floor_double(this.posZ)));
+        Biome biome = this.world.getBiome(new BlockPos(MathHelper.floor(this.posX), 0, MathHelper.floor(this.posZ)));
         String s = biome.getBiomeName();
         JsonSerializableSet jsonserializableset = (JsonSerializableSet)this.getStatFile().getProgress(AchievementList.EXPLORE_ALL_BIOMES);
 
@@ -507,7 +507,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     public void onDeath(DamageSource cause)
     {
         if (net.minecraftforge.common.ForgeHooks.onLivingDeath(this, cause)) return;
-        boolean flag = this.worldObj.getGameRules().getBoolean("showDeathMessages");
+        boolean flag = this.world.getGameRules().getBoolean("showDeathMessages");
         this.connection.sendPacket(new SPacketCombatEvent(this.getCombatTracker(), SPacketCombatEvent.Event.ENTITY_DIED, flag));
 
         if (flag)
@@ -527,15 +527,15 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
             }
             else
             {
-                this.mcServer.getPlayerList().sendChatMsg(this.getCombatTracker().getDeathMessage());
+                this.mcServer.getPlayerList().sendMessage(this.getCombatTracker().getDeathMessage());
             }
         }
 
-        if (!this.worldObj.getGameRules().getBoolean("keepInventory") && !this.isSpectator())
+        if (!this.world.getGameRules().getBoolean("keepInventory") && !this.isSpectator())
         {
             captureDrops = true;
             capturedDrops.clear();
-            this.func_190776_cN();
+            this.destroyVanishingCursedItems();
             this.inventory.dropAllItems();
 
             captureDrops = false;
@@ -544,12 +544,12 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
             {
                 for (net.minecraft.entity.item.EntityItem item : capturedDrops)
                 {
-                    this.worldObj.spawnEntityInWorld(item);
+                    this.world.spawnEntity(item);
                 }
             }
         }
 
-        for (ScoreObjective scoreobjective : this.worldObj.getScoreboard().getObjectivesFromCriteria(IScoreCriteria.DEATH_COUNT))
+        for (ScoreObjective scoreobjective : this.world.getScoreboard().getObjectivesFromCriteria(IScoreCriteria.DEATH_COUNT))
         {
             Score score = this.getWorldScoreboard().getOrCreateScore(this.getName(), scoreobjective);
             score.incrementScore();
@@ -559,7 +559,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
 
         if (entitylivingbase != null)
         {
-            EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.ENTITY_EGGS.get(EntityList.func_191301_a(entitylivingbase));
+            EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.ENTITY_EGGS.get(EntityList.getKey(entitylivingbase));
 
             if (entitylist$entityegginfo != null)
             {
@@ -589,7 +589,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
         {
             boolean flag = this.mcServer.isDedicatedServer() && this.canPlayersAttack() && "fall".equals(source.damageType);
 
-            if (!flag && this.respawnInvulnerabilityTicks > 0 && source != DamageSource.outOfWorld)
+            if (!flag && this.respawnInvulnerabilityTicks > 0 && source != DamageSource.OUT_OF_WORLD)
             {
                 return false;
             }
@@ -641,7 +641,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
 
         if (this.dimension == 1 && dimensionIn == 1)
         {
-            this.worldObj.removeEntity(this);
+            this.world.removeEntity(this);
 
             if (!this.playerConqueredTheEnd)
             {
@@ -716,7 +716,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
         {
             this.addStat(StatList.SLEEP_IN_BED);
             Packet<?> packet = new SPacketUseBed(this, bedLocation);
-            this.getServerWorld().getEntityTracker().sendToAllTrackingEntity(this, packet);
+            this.getServerWorld().getEntityTracker().sendToTracking(this, packet);
             this.connection.setPlayerLocation(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
             this.connection.sendPacket(packet);
         }
@@ -800,16 +800,16 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
      */
     public void handleFalling(double y, boolean onGroundIn)
     {
-        int i = MathHelper.floor_double(this.posX);
-        int j = MathHelper.floor_double(this.posY - 0.20000000298023224D);
-        int k = MathHelper.floor_double(this.posZ);
+        int i = MathHelper.floor(this.posX);
+        int j = MathHelper.floor(this.posY - 0.20000000298023224D);
+        int k = MathHelper.floor(this.posZ);
         BlockPos blockpos = new BlockPos(i, j, k);
-        IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+        IBlockState iblockstate = this.world.getBlockState(blockpos);
 
-        if (iblockstate.getBlock().isAir(iblockstate, this.worldObj, blockpos))
+        if (iblockstate.getBlock().isAir(iblockstate, this.world, blockpos))
         {
             BlockPos blockpos1 = blockpos.down();
-            IBlockState iblockstate1 = this.worldObj.getBlockState(blockpos1);
+            IBlockState iblockstate1 = this.world.getBlockState(blockpos1);
             Block block = iblockstate1.getBlock();
 
             if (block instanceof BlockFence || block instanceof BlockWall || block instanceof BlockFenceGate)
@@ -840,7 +840,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     {
         if (guiOwner instanceof ILootContainer && ((ILootContainer)guiOwner).getLootTable() != null && this.isSpectator())
         {
-            this.addChatComponentMessage((new TextComponentTranslation("container.spectatorCantOpen", new Object[0])).setStyle((new Style()).setColor(TextFormatting.RED)), true);
+            this.sendStatusMessage((new TextComponentTranslation("container.spectatorCantOpen", new Object[0])).setStyle((new Style()).setColor(TextFormatting.RED)), true);
         }
         else
         {
@@ -860,7 +860,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     {
         if (chestInventory instanceof ILootContainer && ((ILootContainer)chestInventory).getLootTable() != null && this.isSpectator())
         {
-            this.addChatComponentMessage((new TextComponentTranslation("container.spectatorCantOpen", new Object[0])).setStyle((new Style()).setColor(TextFormatting.RED)), true);
+            this.sendStatusMessage((new TextComponentTranslation("container.spectatorCantOpen", new Object[0])).setStyle((new Style()).setColor(TextFormatting.RED)), true);
         }
         else
         {
@@ -903,7 +903,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     public void displayVillagerTradeGui(IMerchant villager)
     {
         this.getNextWindowId();
-        this.openContainer = new ContainerMerchant(this.inventory, villager, this.worldObj);
+        this.openContainer = new ContainerMerchant(this.inventory, villager, this.world);
         this.openContainer.windowId = this.currentWindowId;
         this.openContainer.addListener(this);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.player.PlayerContainerEvent.Open(this, this.openContainer));
@@ -1113,9 +1113,9 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
         this.lastHealth = -1.0E8F;
     }
 
-    public void addChatComponentMessage(ITextComponent chatComponent, boolean p_146105_2_)
+    public void sendStatusMessage(ITextComponent chatComponent, boolean actionBar)
     {
-        this.connection.sendPacket(new SPacketChat(chatComponent, (byte)(p_146105_2_ ? 2 : 0)));
+        this.connection.sendPacket(new SPacketChat(chatComponent, (byte)(actionBar ? 2 : 0)));
     }
 
     /**
@@ -1123,7 +1123,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
      */
     protected void onItemUseFinish()
     {
-        if (!this.activeItemStack.func_190926_b() && this.isHandActive())
+        if (!this.activeItemStack.isEmpty() && this.isHandActive())
         {
             this.connection.sendPacket(new SPacketEntityStatus(this, (byte)9));
             super.onItemUseFinish();
@@ -1196,7 +1196,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
 
     public WorldServer getServerWorld()
     {
-        return (WorldServer)this.worldObj;
+        return (WorldServer)this.world;
     }
 
     /**
@@ -1236,7 +1236,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     /**
      * Send a chat message to the CommandSender
      */
-    public void addChatMessage(ITextComponent component)
+    public void sendMessage(ITextComponent component)
     {
         this.connection.sendPacket(new SPacketChat(component));
     }
@@ -1244,7 +1244,7 @@ public class EntityPlayerMP extends EntityPlayer implements IContainerListener
     /**
      * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
      */
-    public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+    public boolean canUseCommand(int permLevel, String commandName)
     {
         if ("seed".equals(commandName) && !this.mcServer.isDedicatedServer())
         {

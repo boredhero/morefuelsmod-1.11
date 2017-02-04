@@ -185,7 +185,7 @@ public class GuiScreenBook extends GuiScreen
                 }
 
                 PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
-                packetbuffer.writeItemStackToBuffer(this.bookObj);
+                packetbuffer.writeItemStack(this.bookObj);
                 this.mc.getConnection().sendPacket(new CPacketCustomPayload(s1, packetbuffer));
             }
         }
@@ -375,7 +375,7 @@ public class GuiScreenBook extends GuiScreen
     {
         String s = this.pageGetCurrent();
         String s1 = s + p_146459_1_;
-        int i = this.fontRendererObj.splitStringWidth(s1 + "" + TextFormatting.BLACK + "_", 118);
+        int i = this.fontRendererObj.getWordWrappedHeight(s1 + "" + TextFormatting.BLACK + "_", 118);
 
         if (i <= 128 && s1.length() < 256)
         {
@@ -620,10 +620,10 @@ public class GuiScreenBook extends GuiScreen
         {
             private final boolean isForward;
 
-            public NextPageButton(int p_i46316_1_, int p_i46316_2_, int p_i46316_3_, boolean p_i46316_4_)
+            public NextPageButton(int buttonId, int x, int y, boolean isForwardIn)
             {
-                super(p_i46316_1_, p_i46316_2_, p_i46316_3_, 23, 13, "");
-                this.isForward = p_i46316_4_;
+                super(buttonId, x, y, 23, 13, "");
+                this.isForward = isForwardIn;
             }
 
             /**

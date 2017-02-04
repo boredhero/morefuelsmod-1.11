@@ -102,7 +102,7 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
             ModelBiped.ArmPose modelbiped$armpose = ModelBiped.ArmPose.EMPTY;
             ModelBiped.ArmPose modelbiped$armpose1 = ModelBiped.ArmPose.EMPTY;
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 modelbiped$armpose = ModelBiped.ArmPose.ITEM;
 
@@ -121,7 +121,7 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
                 }
             }
 
-            if (!itemstack1.func_190926_b())
+            if (!itemstack1.isEmpty())
             {
                 modelbiped$armpose1 = ModelBiped.ArmPose.ITEM;
 
@@ -245,7 +245,7 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
         }
     }
 
-    protected void rotateCorpse(AbstractClientPlayer entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
+    protected void applyRotations(AbstractClientPlayer entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
     {
         if (entityLiving.isEntityAlive() && entityLiving.isPlayerSleeping())
         {
@@ -255,9 +255,9 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
         }
         else if (entityLiving.isElytraFlying())
         {
-            super.rotateCorpse(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
+            super.applyRotations(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
             float f = (float)entityLiving.getTicksElytraFlying() + partialTicks;
-            float f1 = MathHelper.clamp_float(f * f / 100.0F, 0.0F, 1.0F);
+            float f1 = MathHelper.clamp(f * f / 100.0F, 0.0F, 1.0F);
             GlStateManager.rotate(f1 * (-90.0F - entityLiving.rotationPitch), 1.0F, 0.0F, 0.0F);
             Vec3d vec3d = entityLiving.getLook(partialTicks);
             double d0 = entityLiving.motionX * entityLiving.motionX + entityLiving.motionZ * entityLiving.motionZ;
@@ -272,7 +272,7 @@ public class RenderPlayer extends RenderLivingBase<AbstractClientPlayer>
         }
         else
         {
-            super.rotateCorpse(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
+            super.applyRotations(entityLiving, p_77043_2_, p_77043_3_, partialTicks);
         }
     }
 }

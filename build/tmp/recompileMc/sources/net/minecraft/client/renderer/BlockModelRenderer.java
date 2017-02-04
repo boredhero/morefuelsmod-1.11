@@ -115,7 +115,7 @@ public class BlockModelRenderer
 
     private void renderQuadsSmooth(IBlockAccess blockAccessIn, IBlockState stateIn, BlockPos posIn, VertexBuffer buffer, List<BakedQuad> list, float[] quadBounds, BitSet bitSet, BlockModelRenderer.AmbientOcclusionFace aoFace)
     {
-        Vec3d vec3d = stateIn.func_191059_e(blockAccessIn, posIn);
+        Vec3d vec3d = stateIn.getOffset(blockAccessIn, posIn);
         double d0 = (double)posIn.getX() + vec3d.xCoord;
         double d1 = (double)posIn.getY() + vec3d.yCoord;
         double d2 = (double)posIn.getZ() + vec3d.zCoord;
@@ -237,7 +237,7 @@ public class BlockModelRenderer
 
     private void renderQuadsFlat(IBlockAccess blockAccessIn, IBlockState stateIn, BlockPos posIn, int brightnessIn, boolean ownBrightness, VertexBuffer buffer, List<BakedQuad> list, BitSet bitSet)
     {
-        Vec3d vec3d = stateIn.func_191059_e(blockAccessIn, posIn);
+        Vec3d vec3d = stateIn.getOffset(blockAccessIn, posIn);
         double d0 = (double)posIn.getX() + vec3d.xCoord;
         double d1 = (double)posIn.getY() + vec3d.yCoord;
         double d2 = (double)posIn.getZ() + vec3d.zCoord;

@@ -42,7 +42,7 @@ public class RangedAttribute extends BaseAttribute
 
     public double clampValue(double value)
     {
-        value = MathHelper.clamp_double(value, this.minimumValue, this.maximumValue);
+        value = MathHelper.clamp(value, this.minimumValue, this.maximumValue);
         return value;
     }
 }

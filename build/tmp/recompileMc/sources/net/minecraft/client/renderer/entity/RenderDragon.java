@@ -28,7 +28,7 @@ public class RenderDragon extends RenderLiving<EntityDragon>
         this.addLayer(new LayerEnderDragonDeath());
     }
 
-    protected void rotateCorpse(EntityDragon entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
+    protected void applyRotations(EntityDragon entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
     {
         float f = (float)entityLiving.getMovementOffsets(7, partialTicks)[0];
         float f1 = (float)(entityLiving.getMovementOffsets(5, partialTicks)[1] - entityLiving.getMovementOffsets(10, partialTicks)[1]);
@@ -39,7 +39,7 @@ public class RenderDragon extends RenderLiving<EntityDragon>
         if (entityLiving.deathTime > 0)
         {
             float f2 = ((float)entityLiving.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
-            f2 = MathHelper.sqrt_float(f2);
+            f2 = MathHelper.sqrt(f2);
 
             if (f2 > 1.0F)
             {
@@ -105,8 +105,8 @@ public class RenderDragon extends RenderLiving<EntityDragon>
         float f = (float)(p_188325_14_ - p_188325_7_);
         float f1 = (float)(p_188325_16_ - 1.0D - p_188325_9_);
         float f2 = (float)(p_188325_18_ - p_188325_11_);
-        float f3 = MathHelper.sqrt_float(f * f + f2 * f2);
-        float f4 = MathHelper.sqrt_float(f * f + f1 * f1 + f2 * f2);
+        float f3 = MathHelper.sqrt(f * f + f2 * f2);
+        float f4 = MathHelper.sqrt(f * f + f1 * f1 + f2 * f2);
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)p_188325_0_, (float)p_188325_2_ + 2.0F, (float)p_188325_4_);
         GlStateManager.rotate((float)(-Math.atan2((double)f2, (double)f)) * (180F / (float)Math.PI) - 90.0F, 0.0F, 1.0F, 0.0F);
@@ -117,7 +117,7 @@ public class RenderDragon extends RenderLiving<EntityDragon>
         GlStateManager.disableCull();
         GlStateManager.shadeModel(7425);
         float f5 = 0.0F - ((float)p_188325_13_ + p_188325_6_) * 0.01F;
-        float f6 = MathHelper.sqrt_float(f * f + f1 * f1 + f2 * f2) / 32.0F - ((float)p_188325_13_ + p_188325_6_) * 0.01F;
+        float f6 = MathHelper.sqrt(f * f + f1 * f1 + f2 * f2) / 32.0F - ((float)p_188325_13_ + p_188325_6_) * 0.01F;
         vertexbuffer.begin(5, DefaultVertexFormats.POSITION_TEX_COLOR);
         int i = 8;
 

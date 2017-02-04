@@ -44,7 +44,7 @@ public class BlockSilverfish extends Block
         return blockState == Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.STONE) || block == Blocks.COBBLESTONE || block == Blocks.STONEBRICK;
     }
 
-    protected ItemStack createStackedBlock(IBlockState state)
+    protected ItemStack getSilkTouchDrop(IBlockState state)
     {
         switch ((BlockSilverfish.EnumType)state.getValue(VARIANT))
         {
@@ -72,7 +72,7 @@ public class BlockSilverfish extends Block
         {
             EntitySilverfish entitysilverfish = new EntitySilverfish(worldIn);
             entitysilverfish.setLocationAndAngles((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, 0.0F, 0.0F);
-            worldIn.spawnEntityInWorld(entitysilverfish);
+            worldIn.spawnEntity(entitysilverfish);
             entitysilverfish.spawnExplosionParticle();
         }
     }

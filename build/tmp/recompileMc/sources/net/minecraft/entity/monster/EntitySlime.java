@@ -137,7 +137,7 @@ public class EntitySlime extends EntityLiving implements IMob
      */
     public void onUpdate()
     {
-        if (!this.worldObj.isRemote && this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL && this.getSlimeSize() > 0)
+        if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL && this.getSlimeSize() > 0)
         {
             this.isDead = true;
         }
@@ -156,7 +156,7 @@ public class EntitySlime extends EntityLiving implements IMob
                 float f1 = this.rand.nextFloat() * 0.5F + 0.5F;
                 float f2 = MathHelper.sin(f) * (float)i * 0.5F * f1;
                 float f3 = MathHelper.cos(f) * (float)i * 0.5F * f1;
-                World world = this.worldObj;
+                World world = this.world;
                 EnumParticleTypes enumparticletypes = this.getParticleType();
                 double d0 = this.posX + (double)f2;
                 double d1 = this.posZ + (double)f3;
@@ -190,7 +190,7 @@ public class EntitySlime extends EntityLiving implements IMob
 
     protected EntitySlime createInstance()
     {
-        return new EntitySlime(this.worldObj);
+        return new EntitySlime(this.world);
     }
 
     public void notifyDataManagerChange(DataParameter<?> key)
@@ -218,7 +218,7 @@ public class EntitySlime extends EntityLiving implements IMob
     {
         int i = this.getSlimeSize();
 
-        if (!this.worldObj.isRemote && i > 1 && this.getHealth() <= 0.0F)
+        if (!this.world.isRemote && i > 1 && this.getHealth() <= 0.0F)
         {
             int j = 2 + this.rand.nextInt(3);
 
@@ -240,7 +240,7 @@ public class EntitySlime extends EntityLiving implements IMob
 
                 entityslime.setSlimeSize(i / 2, true);
                 entityslime.setLocationAndAngles(this.posX + (double)f, this.posY + 0.5D, this.posZ + (double)f1, this.rand.nextFloat() * 360.0F, 0.0F);
-                this.worldObj.spawnEntityInWorld(entityslime);
+                this.world.spawnEntity(entityslime);
             }
         }
 
@@ -334,20 +334,20 @@ public class EntitySlime extends EntityLiving implements IMob
      */
     public boolean getCanSpawnHere()
     {
-        BlockPos blockpos = new BlockPos(MathHelper.floor_double(this.posX), 0, MathHelper.floor_double(this.posZ));
-        Chunk chunk = this.worldObj.getChunkFromBlockCoords(blockpos);
+        BlockPos blockpos = new BlockPos(MathHelper.floor(this.posX), 0, MathHelper.floor(this.posZ));
+        Chunk chunk = this.world.getChunkFromBlockCoords(blockpos);
 
-        if (this.worldObj.getWorldInfo().getTerrainType().handleSlimeSpawnReduction(rand, worldObj))
+        if (this.world.getWorldInfo().getTerrainType().handleSlimeSpawnReduction(rand, world))
         {
             return false;
         }
         else
         {
-            if (this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL)
+            if (this.world.getDifficulty() != EnumDifficulty.PEACEFUL)
             {
-                Biome biome = this.worldObj.getBiome(blockpos);
+                Biome biome = this.world.getBiome(blockpos);
 
-                if (biome == Biomes.SWAMPLAND && this.posY > 50.0D && this.posY < 70.0D && this.rand.nextFloat() < 0.5F && this.rand.nextFloat() < this.worldObj.getCurrentMoonPhaseFactor() && this.worldObj.getLightFromNeighbors(new BlockPos(this)) <= this.rand.nextInt(8))
+                if (biome == Biomes.SWAMPLAND && this.posY > 50.0D && this.posY < 70.0D && this.rand.nextFloat() < 0.5F && this.rand.nextFloat() < this.world.getCurrentMoonPhaseFactor() && this.world.getLightFromNeighbors(new BlockPos(this)) <= this.rand.nextInt(8))
                 {
                     return super.getCanSpawnHere();
                 }

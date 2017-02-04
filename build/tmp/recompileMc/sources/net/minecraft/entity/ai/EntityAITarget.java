@@ -245,14 +245,14 @@ public abstract class EntityAITarget extends EntityAIBase
             }
             else
             {
-                int i = pathpoint.xCoord - MathHelper.floor_double(target.posX);
-                int j = pathpoint.zCoord - MathHelper.floor_double(target.posZ);
+                int i = pathpoint.xCoord - MathHelper.floor(target.posX);
+                int j = pathpoint.zCoord - MathHelper.floor(target.posZ);
                 return (double)(i * i + j * j) <= 2.25D;
             }
         }
     }
 
-    public EntityAITarget func_190882_b(int p_190882_1_)
+    public EntityAITarget setUnseenMemoryTicks(int p_190882_1_)
     {
         this.unseenMemoryTicks = p_190882_1_;
         return this;

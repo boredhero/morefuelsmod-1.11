@@ -32,7 +32,7 @@ public class GuiRepair extends GuiContainer implements IContainerListener
 
     public GuiRepair(InventoryPlayer inventoryIn, World worldIn)
     {
-        super(new ContainerRepair(inventoryIn, worldIn, Minecraft.getMinecraft().thePlayer));
+        super(new ContainerRepair(inventoryIn, worldIn, Minecraft.getMinecraft().player));
         this.playerInventory = inventoryIn;
         this.anvil = (ContainerRepair)this.inventorySlots;
     }
@@ -81,7 +81,7 @@ public class GuiRepair extends GuiContainer implements IContainerListener
             boolean flag = true;
             String s = I18n.format("container.repair.cost", new Object[] {Integer.valueOf(this.anvil.maximumCost)});
 
-            if (this.anvil.maximumCost >= 40 && !this.mc.thePlayer.capabilities.isCreativeMode)
+            if (this.anvil.maximumCost >= 40 && !this.mc.player.capabilities.isCreativeMode)
             {
                 s = I18n.format("container.repair.expensive", new Object[0]);
                 i = 16736352;
@@ -147,7 +147,7 @@ public class GuiRepair extends GuiContainer implements IContainerListener
         }
 
         this.anvil.updateItemName(s);
-        this.mc.thePlayer.connection.sendPacket(new CPacketCustomPayload("MC|ItemName", (new PacketBuffer(Unpooled.buffer())).writeString(s)));
+        this.mc.player.connection.sendPacket(new CPacketCustomPayload("MC|ItemName", (new PacketBuffer(Unpooled.buffer())).writeString(s)));
     }
 
     /**
@@ -204,10 +204,10 @@ public class GuiRepair extends GuiContainer implements IContainerListener
     {
         if (slotInd == 0)
         {
-            this.nameField.setText(stack.func_190926_b() ? "" : stack.getDisplayName());
-            this.nameField.setEnabled(!stack.func_190926_b());
+            this.nameField.setText(stack.isEmpty() ? "" : stack.getDisplayName());
+            this.nameField.setEnabled(!stack.isEmpty());
 
-            if (!stack.func_190926_b())
+            if (!stack.isEmpty())
             {
                 this.renameItem();
             }

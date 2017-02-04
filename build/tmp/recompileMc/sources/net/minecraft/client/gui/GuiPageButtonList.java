@@ -315,7 +315,7 @@ public class GuiPageButtonList extends GuiListExtended
                 {
                     GuiTextField guitextfield1 = (GuiTextField)this.editBoxes.get(j);
                     guitextfield1.setText(s1);
-                    guitextfield1.func_190516_a(guitextfield1.getId(), s1);
+                    guitextfield1.setResponderEntryValue(guitextfield1.getId(), s1);
 
                     if (j == this.editBoxes.size() - 1)
                     {

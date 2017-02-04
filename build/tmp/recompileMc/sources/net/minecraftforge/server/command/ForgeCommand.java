@@ -38,16 +38,18 @@ public class ForgeCommand extends CommandBase {
      * Gets the name of the command
      */
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "forge";
     }
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The ICommandSender who is requesting usage details
      */
     @Override
-    public String getCommandUsage(ICommandSender icommandsender)
+    public String getUsage(ICommandSender icommandsender)
     {
         return "commands.forge.usage";
     }
@@ -62,6 +64,10 @@ public class ForgeCommand extends CommandBase {
     }
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
@@ -115,7 +121,7 @@ public class ForgeCommand extends CommandBase {
     {
         ForgeTimeTracker.tileEntityTrackingDuration = duration;
         ForgeTimeTracker.tileEntityTracking = true;
-        sender.addChatMessage(new TextComponentTranslation("commands.forge.tracking.te.enabled", duration));
+        sender.sendMessage(new TextComponentTranslation("commands.forge.tracking.te.enabled", duration));
     }
 
     private void doTPSLog(MinecraftServer server, ICommandSender sender, String[] args)
@@ -138,17 +144,17 @@ public class ForgeCommand extends CommandBase {
             {
                 double worldTickTime = ForgeCommand.mean(server.worldTickTimes.get(dimId)) * 1.0E-6D;
                 double worldTPS = Math.min(1000.0/worldTickTime, 20);
-                sender.addChatMessage(new TextComponentTranslation("commands.forge.tps.summary",String.format("Dim %d", dimId), timeFormatter.format(worldTickTime), timeFormatter.format(worldTPS)));
+                sender.sendMessage(new TextComponentTranslation("commands.forge.tps.summary",String.format("Dim %d", dimId), timeFormatter.format(worldTickTime), timeFormatter.format(worldTPS)));
             }
             double meanTickTime = ForgeCommand.mean(server.tickTimeArray) * 1.0E-6D;
             double meanTPS = Math.min(1000.0/meanTickTime, 20);
-            sender.addChatMessage(new TextComponentTranslation("commands.forge.tps.summary","Overall", timeFormatter.format(meanTickTime), timeFormatter.format(meanTPS)));
+            sender.sendMessage(new TextComponentTranslation("commands.forge.tps.summary","Overall", timeFormatter.format(meanTickTime), timeFormatter.format(meanTPS)));
         }
         else
         {
             double worldTickTime = ForgeCommand.mean(server.worldTickTimes.get(dim)) * 1.0E-6D;
             double worldTPS = Math.min(1000.0/worldTickTime, 20);
-            sender.addChatMessage(new TextComponentTranslation("commands.forge.tps.summary",String.format("Dim %d", dim), timeFormatter.format(worldTickTime), timeFormatter.format(worldTPS)));
+            sender.sendMessage(new TextComponentTranslation("commands.forge.tps.summary",String.format("Dim %d", dim), timeFormatter.format(worldTickTime), timeFormatter.format(worldTPS)));
         }
     }
 

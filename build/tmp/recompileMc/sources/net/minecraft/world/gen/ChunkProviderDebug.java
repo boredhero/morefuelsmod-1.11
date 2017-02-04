@@ -74,7 +74,7 @@ public class ChunkProviderDebug implements IChunkGenerator
 
             if (p_177461_0_ <= GRID_WIDTH && p_177461_1_ <= GRID_HEIGHT)
             {
-                int i = MathHelper.abs_int(p_177461_0_ * GRID_WIDTH + p_177461_1_);
+                int i = MathHelper.abs(p_177461_0_ * GRID_WIDTH + p_177461_1_);
 
                 if (i < ALL_VALID_STATES.size())
                 {
@@ -118,7 +118,7 @@ public class ChunkProviderDebug implements IChunkGenerator
             ALL_VALID_STATES.addAll(block.getBlockState().getValidStates());
         }
 
-        GRID_WIDTH = MathHelper.ceiling_float_int(MathHelper.sqrt_float((float)ALL_VALID_STATES.size()));
-        GRID_HEIGHT = MathHelper.ceiling_float_int((float)ALL_VALID_STATES.size() / (float)GRID_WIDTH);
+        GRID_WIDTH = MathHelper.ceil(MathHelper.sqrt((float)ALL_VALID_STATES.size()));
+        GRID_HEIGHT = MathHelper.ceil((float)ALL_VALID_STATES.size() / (float)GRID_WIDTH);
     }
 }

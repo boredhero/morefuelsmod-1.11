@@ -129,7 +129,7 @@ public class RenderManager
     private double renderPosZ;
     public TextureManager renderEngine;
     /** Reference to the World object. */
-    public World worldObj;
+    public World world;
     /** RenderManager's field for the renderViewEntity */
     public Entity renderViewEntity;
     public Entity pointedEntity;
@@ -275,7 +275,7 @@ public class RenderManager
 
     public void cacheActiveRenderInfo(World worldIn, FontRenderer textRendererIn, Entity livingPlayerIn, Entity pointedEntityIn, GameSettings optionsIn, float partialTicks)
     {
-        this.worldObj = worldIn;
+        this.world = worldIn;
         this.options = optionsIn;
         this.renderViewEntity = livingPlayerIn;
         this.pointedEntity = pointedEntityIn;
@@ -513,9 +513,9 @@ public class RenderManager
     /**
      * World sets this RenderManager's worldObj to the world provided
      */
-    public void set(@Nullable World worldIn)
+    public void setWorld(@Nullable World worldIn)
     {
-        this.worldObj = worldIn;
+        this.world = worldIn;
 
         if (worldIn == null)
         {

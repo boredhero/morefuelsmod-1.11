@@ -37,8 +37,8 @@ public class ItemRenderer
     private static final ResourceLocation RES_UNDERWATER_OVERLAY = new ResourceLocation("textures/misc/underwater.png");
     /** A reference to the Minecraft object. */
     private final Minecraft mc;
-    private ItemStack itemStackMainHand = ItemStack.field_190927_a;
-    private ItemStack itemStackOffHand = ItemStack.field_190927_a;
+    private ItemStack itemStackMainHand = ItemStack.EMPTY;
+    private ItemStack itemStackOffHand = ItemStack.EMPTY;
     private float equippedProgressMainHand;
     private float prevEquippedProgressMainHand;
     private float equippedProgressOffHand;
@@ -60,7 +60,7 @@ public class ItemRenderer
 
     public void renderItemSide(EntityLivingBase entitylivingbaseIn, ItemStack heldStack, ItemCameraTransforms.TransformType transform, boolean leftHanded)
     {
-        if (!heldStack.func_190926_b())
+        if (!heldStack.isEmpty())
         {
             Item item = heldStack.getItem();
             Block block = Block.getBlockFromItem(item);
@@ -97,8 +97,8 @@ public class ItemRenderer
 
     private void setLightmap()
     {
-        AbstractClientPlayer abstractclientplayer = this.mc.thePlayer;
-        int i = this.mc.theWorld.getCombinedLight(new BlockPos(abstractclientplayer.posX, abstractclientplayer.posY + (double)abstractclientplayer.getEyeHeight(), abstractclientplayer.posZ), 0);
+        AbstractClientPlayer abstractclientplayer = this.mc.player;
+        int i = this.mc.world.getCombinedLight(new BlockPos(abstractclientplayer.posX, abstractclientplayer.posY + (double)abstractclientplayer.getEyeHeight(), abstractclientplayer.posZ), 0);
         float f = (float)(i & 65535);
         float f1 = (float)(i >> 16);
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, f, f1);
@@ -106,7 +106,7 @@ public class ItemRenderer
 
     private void rotateArm(float p_187458_1_)
     {
-        EntityPlayerSP entityplayersp = this.mc.thePlayer;
+        EntityPlayerSP entityplayersp = this.mc.player;
         float f = entityplayersp.prevRenderArmPitch + (entityplayersp.renderArmPitch - entityplayersp.prevRenderArmPitch) * p_187458_1_;
         float f1 = entityplayersp.prevRenderArmYaw + (entityplayersp.renderArmYaw - entityplayersp.prevRenderArmYaw) * p_187458_1_;
         GlStateManager.rotate((entityplayersp.rotationPitch - f) * 0.1F, 1.0F, 0.0F, 0.0F);
@@ -119,14 +119,14 @@ public class ItemRenderer
     private float getMapAngleFromPitch(float pitch)
     {
         float f = 1.0F - pitch / 45.0F + 0.1F;
-        f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+        f = MathHelper.clamp(f, 0.0F, 1.0F);
         f = -MathHelper.cos(f * (float)Math.PI) * 0.5F + 0.5F;
         return f;
     }
 
     private void renderArms()
     {
-        if (!this.mc.thePlayer.isInvisible())
+        if (!this.mc.player.isInvisible())
         {
             GlStateManager.disableCull();
             GlStateManager.pushMatrix();
@@ -140,8 +140,8 @@ public class ItemRenderer
 
     private void renderArm(EnumHandSide p_187455_1_)
     {
-        this.mc.getTextureManager().bindTexture(this.mc.thePlayer.getLocationSkin());
-        Render<AbstractClientPlayer> render = this.renderManager.<AbstractClientPlayer>getEntityRenderObject(this.mc.thePlayer);
+        this.mc.getTextureManager().bindTexture(this.mc.player.getLocationSkin());
+        Render<AbstractClientPlayer> render = this.renderManager.<AbstractClientPlayer>getEntityRenderObject(this.mc.player);
         RenderPlayer renderplayer = (RenderPlayer)render;
         GlStateManager.pushMatrix();
         float f = p_187455_1_ == EnumHandSide.RIGHT ? 1.0F : -1.0F;
@@ -152,11 +152,11 @@ public class ItemRenderer
 
         if (p_187455_1_ == EnumHandSide.RIGHT)
         {
-            renderplayer.renderRightArm(this.mc.thePlayer);
+            renderplayer.renderRightArm(this.mc.player);
         }
         else
         {
-            renderplayer.renderLeftArm(this.mc.thePlayer);
+            renderplayer.renderLeftArm(this.mc.player);
         }
 
         GlStateManager.popMatrix();
@@ -167,7 +167,7 @@ public class ItemRenderer
         float f = p_187465_2_ == EnumHandSide.RIGHT ? 1.0F : -1.0F;
         GlStateManager.translate(f * 0.125F, -0.125F, 0.0F);
 
-        if (!this.mc.thePlayer.isInvisible())
+        if (!this.mc.player.isInvisible())
         {
             GlStateManager.pushMatrix();
             GlStateManager.rotate(f * 10.0F, 0.0F, 0.0F, 1.0F);
@@ -177,7 +177,7 @@ public class ItemRenderer
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(f * 0.51F, -0.08F + p_187465_1_ * -1.2F, -0.75F);
-        float f1 = MathHelper.sqrt_float(p_187465_3_);
+        float f1 = MathHelper.sqrt(p_187465_3_);
         float f2 = MathHelper.sin(f1 * (float)Math.PI);
         float f3 = -0.5F * f2;
         float f4 = 0.4F * MathHelper.sin(f1 * ((float)Math.PI * 2F));
@@ -191,7 +191,7 @@ public class ItemRenderer
 
     private void renderMapFirstPerson(float p_187463_1_, float p_187463_2_, float p_187463_3_)
     {
-        float f = MathHelper.sqrt_float(p_187463_3_);
+        float f = MathHelper.sqrt(p_187463_3_);
         float f1 = -0.2F * MathHelper.sin(p_187463_3_ * (float)Math.PI);
         float f2 = -0.4F * MathHelper.sin(f * (float)Math.PI);
         GlStateManager.translate(0.0F, -f1 / 2.0F, f2);
@@ -222,7 +222,7 @@ public class ItemRenderer
         vertexbuffer.pos(135.0D, -7.0D, 0.0D).tex(1.0D, 0.0D).endVertex();
         vertexbuffer.pos(-7.0D, -7.0D, 0.0D).tex(0.0D, 0.0D).endVertex();
         tessellator.draw();
-        MapData mapdata = Items.FILLED_MAP.getMapData(stack, this.mc.theWorld);
+        MapData mapdata = Items.FILLED_MAP.getMapData(stack, this.mc.world);
 
         if (mapdata != null)
         {
@@ -236,7 +236,7 @@ public class ItemRenderer
     {
         boolean flag = p_187456_3_ != EnumHandSide.LEFT;
         float f = flag ? 1.0F : -1.0F;
-        float f1 = MathHelper.sqrt_float(p_187456_2_);
+        float f1 = MathHelper.sqrt(p_187456_2_);
         float f2 = -0.3F * MathHelper.sin(f1 * (float)Math.PI);
         float f3 = 0.4F * MathHelper.sin(f1 * ((float)Math.PI * 2F));
         float f4 = -0.4F * MathHelper.sin(p_187456_2_ * (float)Math.PI);
@@ -246,7 +246,7 @@ public class ItemRenderer
         float f6 = MathHelper.sin(f1 * (float)Math.PI);
         GlStateManager.rotate(f * f6 * 70.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(f * f5 * -20.0F, 0.0F, 0.0F, 1.0F);
-        AbstractClientPlayer abstractclientplayer = this.mc.thePlayer;
+        AbstractClientPlayer abstractclientplayer = this.mc.player;
         this.mc.getTextureManager().bindTexture(abstractclientplayer.getLocationSkin());
         GlStateManager.translate(f * -1.0F, 3.6F, 3.5F);
         GlStateManager.rotate(f * 120.0F, 0.0F, 0.0F, 1.0F);
@@ -270,7 +270,7 @@ public class ItemRenderer
 
     private void transformEatFirstPerson(float p_187454_1_, EnumHandSide p_187454_2_, ItemStack p_187454_3_)
     {
-        float f = (float)this.mc.thePlayer.getItemInUseCount() - p_187454_1_ + 1.0F;
+        float f = (float)this.mc.player.getItemInUseCount() - p_187454_1_ + 1.0F;
         float f1 = f / (float)p_187454_3_.getMaxItemUseDuration();
 
         if (f1 < 0.8F)
@@ -292,7 +292,7 @@ public class ItemRenderer
         int i = p_187453_1_ == EnumHandSide.RIGHT ? 1 : -1;
         float f = MathHelper.sin(p_187453_2_ * p_187453_2_ * (float)Math.PI);
         GlStateManager.rotate((float)i * (45.0F + f * -20.0F), 0.0F, 1.0F, 0.0F);
-        float f1 = MathHelper.sin(MathHelper.sqrt_float(p_187453_2_) * (float)Math.PI);
+        float f1 = MathHelper.sin(MathHelper.sqrt(p_187453_2_) * (float)Math.PI);
         GlStateManager.rotate((float)i * f1 * -20.0F, 0.0F, 0.0F, 1.0F);
         GlStateManager.rotate(f1 * -80.0F, 1.0F, 0.0F, 0.0F);
         GlStateManager.rotate((float)i * -45.0F, 0.0F, 1.0F, 0.0F);
@@ -309,7 +309,7 @@ public class ItemRenderer
      */
     public void renderItemInFirstPerson(float partialTicks)
     {
-        AbstractClientPlayer abstractclientplayer = this.mc.thePlayer;
+        AbstractClientPlayer abstractclientplayer = this.mc.player;
         float f = abstractclientplayer.getSwingProgress(partialTicks);
         EnumHand enumhand = (EnumHand)Objects.firstNonNull(abstractclientplayer.swingingHand, EnumHand.MAIN_HAND);
         float f1 = abstractclientplayer.prevRotationPitch + (abstractclientplayer.rotationPitch - abstractclientplayer.prevRotationPitch) * partialTicks;
@@ -360,7 +360,7 @@ public class ItemRenderer
         EnumHandSide enumhandside = flag ? p_187457_1_.getPrimaryHand() : p_187457_1_.getPrimaryHand().opposite();
         GlStateManager.pushMatrix();
 
-        if (p_187457_6_.func_190926_b())
+        if (p_187457_6_.isEmpty())
         {
             if (flag && !p_187457_1_.isInvisible())
             {
@@ -369,7 +369,7 @@ public class ItemRenderer
         }
         else if (p_187457_6_.getItem() instanceof net.minecraft.item.ItemMap)
         {
-            if (flag && this.itemStackOffHand.func_190926_b())
+            if (flag && this.itemStackOffHand.isEmpty())
             {
                 this.renderMapFirstPerson(p_187457_3_, p_187457_7_, p_187457_5_);
             }
@@ -405,7 +405,7 @@ public class ItemRenderer
                         GlStateManager.rotate(-13.935F, 1.0F, 0.0F, 0.0F);
                         GlStateManager.rotate((float)j * 35.3F, 0.0F, 1.0F, 0.0F);
                         GlStateManager.rotate((float)j * -9.785F, 0.0F, 0.0F, 1.0F);
-                        float f5 = (float)p_187457_6_.getMaxItemUseDuration() - ((float)this.mc.thePlayer.getItemInUseCount() - p_187457_2_ + 1.0F);
+                        float f5 = (float)p_187457_6_.getMaxItemUseDuration() - ((float)this.mc.player.getItemInUseCount() - p_187457_2_ + 1.0F);
                         float f6 = f5 / 20.0F;
                         f6 = (f6 * f6 + f6 * 2.0F) / 3.0F;
 
@@ -429,8 +429,8 @@ public class ItemRenderer
             }
             else
             {
-                float f = -0.4F * MathHelper.sin(MathHelper.sqrt_float(p_187457_5_) * (float)Math.PI);
-                float f1 = 0.2F * MathHelper.sin(MathHelper.sqrt_float(p_187457_5_) * ((float)Math.PI * 2F));
+                float f = -0.4F * MathHelper.sin(MathHelper.sqrt(p_187457_5_) * (float)Math.PI);
+                float f1 = 0.2F * MathHelper.sin(MathHelper.sqrt(p_187457_5_) * ((float)Math.PI * 2F));
                 float f2 = -0.2F * MathHelper.sin(p_187457_5_ * (float)Math.PI);
                 int i = flag1 ? 1 : -1;
                 GlStateManager.translate((float)i * f, f1, f2);
@@ -451,11 +451,11 @@ public class ItemRenderer
     {
         GlStateManager.disableAlpha();
 
-        if (this.mc.thePlayer.isEntityInsideOpaqueBlock())
+        if (this.mc.player.isEntityInsideOpaqueBlock())
         {
-            IBlockState iblockstate = this.mc.theWorld.getBlockState(new BlockPos(this.mc.thePlayer));
-            BlockPos overlayPos = new BlockPos(this.mc.thePlayer);
-            EntityPlayer entityplayer = this.mc.thePlayer;
+            IBlockState iblockstate = this.mc.world.getBlockState(new BlockPos(this.mc.player));
+            BlockPos overlayPos = new BlockPos(this.mc.player);
+            EntityPlayer entityplayer = this.mc.player;
 
             for (int i = 0; i < 8; ++i)
             {
@@ -463,9 +463,9 @@ public class ItemRenderer
                 double d1 = entityplayer.posY + (double)(((float)((i >> 1) % 2) - 0.5F) * 0.1F);
                 double d2 = entityplayer.posZ + (double)(((float)((i >> 2) % 2) - 0.5F) * entityplayer.width * 0.8F);
                 BlockPos blockpos = new BlockPos(d0, d1 + (double)entityplayer.getEyeHeight(), d2);
-                IBlockState iblockstate1 = this.mc.theWorld.getBlockState(blockpos);
+                IBlockState iblockstate1 = this.mc.world.getBlockState(blockpos);
 
-                if (iblockstate1.func_191058_s())
+                if (iblockstate1.causesSuffocation())
                 {
                     iblockstate = iblockstate1;
                     overlayPos = blockpos;
@@ -474,22 +474,22 @@ public class ItemRenderer
 
             if (iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE)
             {
-                if (!net.minecraftforge.event.ForgeEventFactory.renderBlockOverlay(mc.thePlayer, partialTicks, net.minecraftforge.client.event.RenderBlockOverlayEvent.OverlayType.BLOCK, iblockstate, overlayPos))
+                if (!net.minecraftforge.event.ForgeEventFactory.renderBlockOverlay(mc.player, partialTicks, net.minecraftforge.client.event.RenderBlockOverlayEvent.OverlayType.BLOCK, iblockstate, overlayPos))
                 this.renderBlockInHand(partialTicks, this.mc.getBlockRendererDispatcher().getBlockModelShapes().getTexture(iblockstate));
             }
         }
 
-        if (!this.mc.thePlayer.isSpectator())
+        if (!this.mc.player.isSpectator())
         {
-            if (this.mc.thePlayer.isInsideOfMaterial(Material.WATER))
+            if (this.mc.player.isInsideOfMaterial(Material.WATER))
             {
-                if (!net.minecraftforge.event.ForgeEventFactory.renderWaterOverlay(mc.thePlayer, partialTicks))
+                if (!net.minecraftforge.event.ForgeEventFactory.renderWaterOverlay(mc.player, partialTicks))
                 this.renderWaterOverlayTexture(partialTicks);
             }
 
-            if (this.mc.thePlayer.isBurning())
+            if (this.mc.player.isBurning())
             {
-                if (!net.minecraftforge.event.ForgeEventFactory.renderFireOverlay(mc.thePlayer, partialTicks))
+                if (!net.minecraftforge.event.ForgeEventFactory.renderFireOverlay(mc.player, partialTicks))
                 this.renderFireInFirstPerson(partialTicks);
             }
         }
@@ -536,7 +536,7 @@ public class ItemRenderer
         this.mc.getTextureManager().bindTexture(RES_UNDERWATER_OVERLAY);
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer vertexbuffer = tessellator.getBuffer();
-        float f = this.mc.thePlayer.getBrightness(partialTicks);
+        float f = this.mc.player.getBrightness(partialTicks);
         GlStateManager.color(f, f, f, 0.5F);
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
@@ -547,8 +547,8 @@ public class ItemRenderer
         float f4 = -1.0F;
         float f5 = 1.0F;
         float f6 = -0.5F;
-        float f7 = -this.mc.thePlayer.rotationYaw / 64.0F;
-        float f8 = this.mc.thePlayer.rotationPitch / 64.0F;
+        float f7 = -this.mc.player.rotationYaw / 64.0F;
+        float f8 = this.mc.player.rotationPitch / 64.0F;
         vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
         vertexbuffer.pos(-1.0D, -1.0D, -0.5D).tex((double)(4.0F + f7), (double)(4.0F + f8)).endVertex();
         vertexbuffer.pos(1.0D, -1.0D, -0.5D).tex((double)(0.0F + f7), (double)(4.0F + f8)).endVertex();
@@ -609,20 +609,20 @@ public class ItemRenderer
     {
         this.prevEquippedProgressMainHand = this.equippedProgressMainHand;
         this.prevEquippedProgressOffHand = this.equippedProgressOffHand;
-        EntityPlayerSP entityplayersp = this.mc.thePlayer;
+        EntityPlayerSP entityplayersp = this.mc.player;
         ItemStack itemstack = entityplayersp.getHeldItemMainhand();
         ItemStack itemstack1 = entityplayersp.getHeldItemOffhand();
 
         if (entityplayersp.isRowingBoat())
         {
-            this.equippedProgressMainHand = MathHelper.clamp_float(this.equippedProgressMainHand - 0.4F, 0.0F, 1.0F);
-            this.equippedProgressOffHand = MathHelper.clamp_float(this.equippedProgressOffHand - 0.4F, 0.0F, 1.0F);
+            this.equippedProgressMainHand = MathHelper.clamp(this.equippedProgressMainHand - 0.4F, 0.0F, 1.0F);
+            this.equippedProgressOffHand = MathHelper.clamp(this.equippedProgressOffHand - 0.4F, 0.0F, 1.0F);
         }
         else
         {
             float f = entityplayersp.getCooledAttackStrength(1.0F);
-            this.equippedProgressMainHand += MathHelper.clamp_float((!net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(this.itemStackMainHand, itemstack, entityplayersp.inventory.currentItem) ? f * f * f : 0.0F) - this.equippedProgressMainHand, -0.4F, 0.4F);
-            this.equippedProgressOffHand += MathHelper.clamp_float((float)(!net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(this.itemStackOffHand, itemstack1, -1) ? 1 : 0) - this.equippedProgressOffHand, -0.4F, 0.4F);
+            this.equippedProgressMainHand += MathHelper.clamp((!net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(this.itemStackMainHand, itemstack, entityplayersp.inventory.currentItem) ? f * f * f : 0.0F) - this.equippedProgressMainHand, -0.4F, 0.4F);
+            this.equippedProgressOffHand += MathHelper.clamp((float)(!net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(this.itemStackOffHand, itemstack1, -1) ? 1 : 0) - this.equippedProgressOffHand, -0.4F, 0.4F);
         }
 
         if (this.equippedProgressMainHand < 0.1F)

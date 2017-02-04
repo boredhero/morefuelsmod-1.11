@@ -44,7 +44,7 @@ public class PhaseSittingFlaming extends PhaseSittingBase
 
                 for (int j = 0; j < 6; ++j)
                 {
-                    this.dragon.worldObj.spawnParticle(EnumParticleTypes.DRAGON_BREATH, d3, d4, d5, -vec3d.xCoord * 0.07999999821186066D * (double)j, -vec3d.yCoord * 0.6000000238418579D, -vec3d.zCoord * 0.07999999821186066D * (double)j, new int[0]);
+                    this.dragon.world.spawnParticle(EnumParticleTypes.DRAGON_BREATH, d3, d4, d5, -vec3d.xCoord * 0.07999999821186066D * (double)j, -vec3d.yCoord * 0.6000000238418579D, -vec3d.zCoord * 0.07999999821186066D * (double)j, new int[0]);
                 }
 
                 vec3d.rotateYaw(0.19634955F);
@@ -78,22 +78,22 @@ public class PhaseSittingFlaming extends PhaseSittingBase
             double d0 = this.dragon.dragonPartHead.posX + vec3d.xCoord * 5.0D / 2.0D;
             double d1 = this.dragon.dragonPartHead.posZ + vec3d.zCoord * 5.0D / 2.0D;
             double d2 = this.dragon.dragonPartHead.posY + (double)(this.dragon.dragonPartHead.height / 2.0F);
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(MathHelper.floor_double(d0), MathHelper.floor_double(d2), MathHelper.floor_double(d1));
+            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(MathHelper.floor(d0), MathHelper.floor(d2), MathHelper.floor(d1));
 
-            while (this.dragon.worldObj.isAirBlock(blockpos$mutableblockpos) && d2 >= 0) //Forge: Fix infinite loop if ground is missing.
+            while (this.dragon.world.isAirBlock(blockpos$mutableblockpos) && d2 >= 0) //Forge: Fix infinite loop if ground is missing.
             {
                 --d2;
-                blockpos$mutableblockpos.setPos(MathHelper.floor_double(d0), MathHelper.floor_double(d2), MathHelper.floor_double(d1));
+                blockpos$mutableblockpos.setPos(MathHelper.floor(d0), MathHelper.floor(d2), MathHelper.floor(d1));
             }
 
-            d2 = (double)(MathHelper.floor_double(d2) + 1);
-            this.areaEffectCloud = new EntityAreaEffectCloud(this.dragon.worldObj, d0, d2, d1);
+            d2 = (double)(MathHelper.floor(d2) + 1);
+            this.areaEffectCloud = new EntityAreaEffectCloud(this.dragon.world, d0, d2, d1);
             this.areaEffectCloud.setOwner(this.dragon);
             this.areaEffectCloud.setRadius(5.0F);
             this.areaEffectCloud.setDuration(200);
             this.areaEffectCloud.setParticle(EnumParticleTypes.DRAGON_BREATH);
             this.areaEffectCloud.addEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE));
-            this.dragon.worldObj.spawnEntityInWorld(this.areaEffectCloud);
+            this.dragon.world.spawnEntity(this.areaEffectCloud);
         }
     }
 

@@ -98,12 +98,12 @@ public class Potion extends net.minecraftforge.fml.common.registry.IForgeRegistr
         {
             if (entityLivingBaseIn.getHealth() > 1.0F)
             {
-                entityLivingBaseIn.attackEntityFrom(DamageSource.magic, 1.0F);
+                entityLivingBaseIn.attackEntityFrom(DamageSource.MAGIC, 1.0F);
             }
         }
         else if (this == MobEffects.WITHER)
         {
-            entityLivingBaseIn.attackEntityFrom(DamageSource.wither, 1.0F);
+            entityLivingBaseIn.attackEntityFrom(DamageSource.WITHER, 1.0F);
         }
         else if (this == MobEffects.HUNGER && entityLivingBaseIn instanceof EntityPlayer)
         {
@@ -111,7 +111,7 @@ public class Potion extends net.minecraftforge.fml.common.registry.IForgeRegistr
         }
         else if (this == MobEffects.SATURATION && entityLivingBaseIn instanceof EntityPlayer)
         {
-            if (!entityLivingBaseIn.worldObj.isRemote)
+            if (!entityLivingBaseIn.world.isRemote)
             {
                 ((EntityPlayer)entityLivingBaseIn).getFoodStats().addStats(p_76394_2_ + 1, 1.0F);
             }
@@ -120,7 +120,7 @@ public class Potion extends net.minecraftforge.fml.common.registry.IForgeRegistr
         {
             if (this == MobEffects.INSTANT_DAMAGE && !entityLivingBaseIn.isEntityUndead() || this == MobEffects.INSTANT_HEALTH && entityLivingBaseIn.isEntityUndead())
             {
-                entityLivingBaseIn.attackEntityFrom(DamageSource.magic, (float)(6 << p_76394_2_));
+                entityLivingBaseIn.attackEntityFrom(DamageSource.MAGIC, (float)(6 << p_76394_2_));
             }
         }
         else
@@ -139,7 +139,7 @@ public class Potion extends net.minecraftforge.fml.common.registry.IForgeRegistr
 
                 if (source == null)
                 {
-                    entityLivingBaseIn.attackEntityFrom(DamageSource.magic, (float)j);
+                    entityLivingBaseIn.attackEntityFrom(DamageSource.MAGIC, (float)j);
                 }
                 else
                 {
@@ -246,7 +246,7 @@ public class Potion extends net.minecraftforge.fml.common.registry.IForgeRegistr
         }
         else
         {
-            int i = MathHelper.floor_float((float)p_188410_0_.getDuration() * p_188410_1_);
+            int i = MathHelper.floor((float)p_188410_0_.getDuration() * p_188410_1_);
             return StringUtils.ticksToElapsedTime(i);
         }
     }

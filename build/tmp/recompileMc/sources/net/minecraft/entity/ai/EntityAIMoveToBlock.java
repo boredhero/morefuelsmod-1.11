@@ -47,7 +47,7 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return this.timeoutCounter >= -this.maxStayTicks && this.timeoutCounter <= 1200 && this.shouldMoveTo(this.theEntity.worldObj, this.destinationBlock);
+        return this.timeoutCounter >= -this.maxStayTicks && this.timeoutCounter <= 1200 && this.shouldMoveTo(this.theEntity.world, this.destinationBlock);
     }
 
     /**
@@ -108,7 +108,7 @@ public abstract class EntityAIMoveToBlock extends EntityAIBase
                     {
                         BlockPos blockpos1 = blockpos.add(i1, k - 1, j1);
 
-                        if (this.theEntity.isWithinHomeDistanceFromPosition(blockpos1) && this.shouldMoveTo(this.theEntity.worldObj, blockpos1))
+                        if (this.theEntity.isWithinHomeDistanceFromPosition(blockpos1) && this.shouldMoveTo(this.theEntity.world, blockpos1))
                         {
                             this.destinationBlock = blockpos1;
                             return true;

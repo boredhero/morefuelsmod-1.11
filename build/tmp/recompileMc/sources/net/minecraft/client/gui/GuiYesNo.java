@@ -22,24 +22,24 @@ public class GuiYesNo extends GuiScreen
     protected int parentButtonClickedId;
     private int ticksUntilEnable;
 
-    public GuiYesNo(GuiYesNoCallback p_i1082_1_, String p_i1082_2_, String p_i1082_3_, int p_i1082_4_)
+    public GuiYesNo(GuiYesNoCallback parentScreenIn, String messageLine1In, String messageLine2In, int parentButtonClickedIdIn)
     {
-        this.parentScreen = p_i1082_1_;
-        this.messageLine1 = p_i1082_2_;
-        this.messageLine2 = p_i1082_3_;
-        this.parentButtonClickedId = p_i1082_4_;
+        this.parentScreen = parentScreenIn;
+        this.messageLine1 = messageLine1In;
+        this.messageLine2 = messageLine2In;
+        this.parentButtonClickedId = parentButtonClickedIdIn;
         this.confirmButtonText = I18n.format("gui.yes", new Object[0]);
         this.cancelButtonText = I18n.format("gui.no", new Object[0]);
     }
 
-    public GuiYesNo(GuiYesNoCallback p_i1083_1_, String p_i1083_2_, String p_i1083_3_, String p_i1083_4_, String p_i1083_5_, int p_i1083_6_)
+    public GuiYesNo(GuiYesNoCallback parentScreenIn, String messageLine1In, String messageLine2In, String confirmButtonTextIn, String cancelButtonTextIn, int parentButtonClickedIdIn)
     {
-        this.parentScreen = p_i1083_1_;
-        this.messageLine1 = p_i1083_2_;
-        this.messageLine2 = p_i1083_3_;
-        this.confirmButtonText = p_i1083_4_;
-        this.cancelButtonText = p_i1083_5_;
-        this.parentButtonClickedId = p_i1083_6_;
+        this.parentScreen = parentScreenIn;
+        this.messageLine1 = messageLine1In;
+        this.messageLine2 = messageLine2In;
+        this.confirmButtonText = confirmButtonTextIn;
+        this.cancelButtonText = cancelButtonTextIn;
+        this.parentButtonClickedId = parentButtonClickedIdIn;
     }
 
     /**
@@ -83,9 +83,9 @@ public class GuiYesNo extends GuiScreen
     /**
      * Sets the number of ticks to wait before enabling the buttons.
      */
-    public void setButtonDelay(int p_146350_1_)
+    public void setButtonDelay(int ticksUntilEnableIn)
     {
-        this.ticksUntilEnable = p_146350_1_;
+        this.ticksUntilEnable = ticksUntilEnableIn;
 
         for (GuiButton guibutton : this.buttonList)
         {

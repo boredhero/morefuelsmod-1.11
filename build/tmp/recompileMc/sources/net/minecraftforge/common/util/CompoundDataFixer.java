@@ -129,11 +129,14 @@ public class CompoundDataFixer extends DataFixer
     @Deprecated //Modders do not use this, use add below, To better allow custom fix types.
     public void registerWalker(FixTypes type, IDataWalker walker)
     {
-        registerWalkerAdd(type, walker);
+        registerVanillaWalker(type, walker);
     }
 
+    /**
+     * Do not invoke this method, use registerWalker instead. It is expected to be removed in future versions.
+     */
     @Override
-    public void registerWalkerAdd(IFixType type, IDataWalker walker)
+    public void registerVanillaWalker(IFixType type, IDataWalker walker)
     {
         getWalkers(type).add(walker);
     }

@@ -63,7 +63,7 @@ public abstract class TileEntitySpecialRenderer<T extends TileEntity>
 
     protected World getWorld()
     {
-        return this.rendererDispatcher.worldObj;
+        return this.rendererDispatcher.world;
     }
 
     public void setRendererDispatcher(TileEntityRendererDispatcher rendererDispatcherIn)

@@ -115,9 +115,9 @@ public class GuiScreenOptionsSounds extends GuiScreen
         public float volume = 1.0F;
         public boolean pressed;
 
-        public Button(int p_i46744_2_, int x, int y, SoundCategory categoryIn, boolean master)
+        public Button(int buttonId, int x, int y, SoundCategory categoryIn, boolean master)
         {
-            super(p_i46744_2_, x, y, master ? 310 : 150, 20, "");
+            super(buttonId, x, y, master ? 310 : 150, 20, "");
             this.category = categoryIn;
             this.categoryName = I18n.format("soundCategory." + categoryIn.getName(), new Object[0]);
             this.displayString = this.categoryName + ": " + GuiScreenOptionsSounds.this.getDisplayString(categoryIn);
@@ -143,7 +143,7 @@ public class GuiScreenOptionsSounds extends GuiScreen
                 if (this.pressed)
                 {
                     this.volume = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-                    this.volume = MathHelper.clamp_float(this.volume, 0.0F, 1.0F);
+                    this.volume = MathHelper.clamp(this.volume, 0.0F, 1.0F);
                     mc.gameSettings.setSoundLevel(this.category, this.volume);
                     mc.gameSettings.saveOptions();
                     this.displayString = this.categoryName + ": " + GuiScreenOptionsSounds.this.getDisplayString(this.category);
@@ -164,7 +164,7 @@ public class GuiScreenOptionsSounds extends GuiScreen
             if (super.mousePressed(mc, mouseX, mouseY))
             {
                 this.volume = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-                this.volume = MathHelper.clamp_float(this.volume, 0.0F, 1.0F);
+                this.volume = MathHelper.clamp(this.volume, 0.0F, 1.0F);
                 mc.gameSettings.setSoundLevel(this.category, this.volume);
                 mc.gameSettings.saveOptions();
                 this.displayString = this.categoryName + ": " + GuiScreenOptionsSounds.this.getDisplayString(this.category);

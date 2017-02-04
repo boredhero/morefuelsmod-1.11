@@ -85,7 +85,7 @@ public class WorldServer extends World implements IThreadListener
     /** The entity tracker for this server world. */
     private final EntityTracker theEntityTracker;
     /** The player chunk map for this server world. */
-    private final PlayerChunkMap thePlayerManager;
+    private final PlayerChunkMap playerChunkMap;
     private final Set<NextTickListEntry> pendingTickListEntriesHashSet = Sets.<NextTickListEntry>newHashSet();
     private final TreeSet<NextTickListEntry> pendingTickListEntriesTreeSet = new TreeSet();
     private final Map<UUID, Entity> entitiesByUuid = Maps.<UUID, Entity>newHashMap();
@@ -111,10 +111,10 @@ public class WorldServer extends World implements IThreadListener
         super(saveHandlerIn, info, net.minecraftforge.common.DimensionManager.createProviderFor(dimensionId), profilerIn, false);
         this.mcServer = server;
         this.theEntityTracker = new EntityTracker(this);
-        this.thePlayerManager = new PlayerChunkMap(this);
+        this.playerChunkMap = new PlayerChunkMap(this);
         // Guarantee the dimension ID was not reset by the provider
         int providerDim = this.provider.getDimension();
-        this.provider.registerWorld(this);
+        this.provider.setWorld(this);
         this.provider.setDimension(providerDim);
         this.chunkProvider = this.createChunkProvider();
         perWorldStorage = new MapStorage(new net.minecraftforge.common.WorldSpecificSaveHandler((WorldServer)this, saveHandlerIn));
@@ -206,7 +206,7 @@ public class WorldServer extends World implements IThreadListener
         }
 
         this.theProfiler.endStartSection("chunkSource");
-        this.chunkProvider.unloadQueuedChunks();
+        this.chunkProvider.tick();
         int j = this.calculateSkylightSubtracted(1.0F);
 
         if (j != this.getSkylightSubtracted())
@@ -226,7 +226,7 @@ public class WorldServer extends World implements IThreadListener
         this.theProfiler.endStartSection("tickBlocks");
         this.updateBlocks();
         this.theProfiler.endStartSection("chunkMap");
-        this.thePlayerManager.tick();
+        this.playerChunkMap.tick();
         this.theProfiler.endStartSection("village");
         this.villageCollectionObj.tick();
         this.villageSiege.tick();
@@ -376,9 +376,9 @@ public class WorldServer extends World implements IThreadListener
         {
             int i = this.rand.nextInt(this.playerEntities.size());
             EntityPlayer entityplayer = (EntityPlayer)this.playerEntities.get(i);
-            int j = MathHelper.floor_double(entityplayer.posX) + this.rand.nextInt(11) - 5;
-            int k = MathHelper.floor_double(entityplayer.posY) + this.rand.nextInt(11) - 5;
-            int l = MathHelper.floor_double(entityplayer.posZ) + this.rand.nextInt(11) - 5;
+            int j = MathHelper.floor(entityplayer.posX) + this.rand.nextInt(11) - 5;
+            int k = MathHelper.floor(entityplayer.posY) + this.rand.nextInt(11) - 5;
+            int l = MathHelper.floor(entityplayer.posZ) + this.rand.nextInt(11) - 5;
             this.checkLight(new BlockPos(j, k, l));
         }
 
@@ -391,7 +391,7 @@ public class WorldServer extends World implements IThreadListener
 
         if (this.worldInfo.getTerrainType() == WorldType.DEBUG_WORLD)
         {
-            Iterator<Chunk> iterator1 = this.thePlayerManager.getChunkIterator();
+            Iterator<Chunk> iterator1 = this.playerChunkMap.getChunkIterator();
 
             while (iterator1.hasNext())
             {
@@ -405,7 +405,7 @@ public class WorldServer extends World implements IThreadListener
             boolean flag1 = this.isThundering();
             this.theProfiler.startSection("pollingChunks");
 
-            for (Iterator<Chunk> iterator = getPersistentChunkIterable(this.thePlayerManager.getChunkIterator()); iterator.hasNext(); this.theProfiler.endSection())
+            for (Iterator<Chunk> iterator = getPersistentChunkIterable(this.playerChunkMap.getChunkIterator()); iterator.hasNext(); this.theProfiler.endSection())
             {
                 this.theProfiler.startSection("getChunk");
                 Chunk chunk = (Chunk)iterator.next();
@@ -430,10 +430,10 @@ public class WorldServer extends World implements IThreadListener
                         if (this.getGameRules().getBoolean("doMobSpawning") && this.rand.nextDouble() < (double)difficultyinstance.getAdditionalDifficulty() * 0.01D)
                         {
                             EntitySkeletonHorse entityskeletonhorse = new EntitySkeletonHorse(this);
-                            entityskeletonhorse.func_190691_p(true);
+                            entityskeletonhorse.setTrap(true);
                             entityskeletonhorse.setGrowingAge(0);
                             entityskeletonhorse.setPosition((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
-                            this.spawnEntityInWorld(entityskeletonhorse);
+                            this.spawnEntity(entityskeletonhorse);
                             this.addWeatherEffect(new EntityLightningBolt(this, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), true));
                         }
                         else
@@ -801,7 +801,7 @@ public class WorldServer extends World implements IThreadListener
     @Nullable
     public List<NextTickListEntry> getPendingBlockUpdates(Chunk chunkIn, boolean p_72920_2_)
     {
-        ChunkPos chunkpos = chunkIn.getChunkCoordIntPair();
+        ChunkPos chunkpos = chunkIn.getPos();
         int i = (chunkpos.chunkXPos << 4) - 2;
         int j = i + 16 + 2;
         int k = (chunkpos.chunkZPos << 4) - 2;
@@ -1067,7 +1067,7 @@ public class WorldServer extends World implements IThreadListener
 
             for (Chunk chunk : Lists.newArrayList(chunkproviderserver.getLoadedChunks()))
             {
-                if (chunk != null && !this.thePlayerManager.contains(chunk.xPosition, chunk.zPosition))
+                if (chunk != null && !this.playerChunkMap.contains(chunk.xPosition, chunk.zPosition))
                 {
                     chunkproviderserver.unload(chunk);
                 }
@@ -1095,7 +1095,7 @@ public class WorldServer extends World implements IThreadListener
     {
         this.checkSessionLock();
 
-        for (WorldServer worldserver : this.mcServer.worldServers)
+        for (WorldServer worldserver : this.mcServer.worlds)
         {
             if (worldserver instanceof WorldServerMulti)
             {
@@ -1120,9 +1120,9 @@ public class WorldServer extends World implements IThreadListener
     /**
      * Called when an entity is spawned in the world. This includes players.
      */
-    public boolean spawnEntityInWorld(Entity entityIn)
+    public boolean spawnEntity(Entity entityIn)
     {
-        return this.canAddEntity(entityIn) ? super.spawnEntityInWorld(entityIn) : false;
+        return this.canAddEntity(entityIn) ? super.spawnEntity(entityIn) : false;
     }
 
     public void loadEntities(Collection<Entity> entityCollection)
@@ -1141,7 +1141,7 @@ public class WorldServer extends World implements IThreadListener
     {
         if (entityIn.isDead)
         {
-            LOGGER.warn("Tried to add entity {} but it was marked as removed already", new Object[] {EntityList.func_191301_a(entityIn)});
+            LOGGER.warn("Tried to add entity {} but it was marked as removed already", new Object[] {EntityList.getKey(entityIn)});
             return false;
         }
         else
@@ -1160,7 +1160,7 @@ public class WorldServer extends World implements IThreadListener
                 {
                     if (!(entityIn instanceof EntityPlayer))
                     {
-                        LOGGER.warn("Keeping entity {} that already exists with UUID {}", new Object[] {EntityList.func_191301_a(entity), uuid.toString()});
+                        LOGGER.warn("Keeping entity {} that already exists with UUID {}", new Object[] {EntityList.getKey(entity), uuid.toString()});
                         return false;
                     }
 
@@ -1369,7 +1369,7 @@ public class WorldServer extends World implements IThreadListener
      */
     public PlayerChunkMap getPlayerChunkMap()
     {
-        return this.thePlayerManager;
+        return this.playerChunkMap;
     }
 
     public Teleporter getDefaultTeleporter()
@@ -1438,7 +1438,7 @@ public class WorldServer extends World implements IThreadListener
     }
 
     @Nullable
-    public BlockPos func_190528_a(String p_190528_1_, BlockPos p_190528_2_, boolean p_190528_3_)
+    public BlockPos findNearestStructure(String p_190528_1_, BlockPos p_190528_2_, boolean p_190528_3_)
     {
         return this.getChunkProvider().getStrongholdGen(this, p_190528_1_, p_190528_2_, p_190528_3_);
     }

@@ -24,8 +24,9 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 
-public abstract class AbstractBrewingRecipe<T> implements IBrewingRecipe {
-
+public abstract class AbstractBrewingRecipe<T> implements IBrewingRecipe
+{
+    @Nonnull
     private final ItemStack input;
     private final T ingredient;
     private final ItemStack output;
@@ -52,7 +53,7 @@ public abstract class AbstractBrewingRecipe<T> implements IBrewingRecipe {
     @Nonnull
     public ItemStack getOutput(@Nonnull ItemStack input, @Nonnull ItemStack ingredient)
     {
-        return isInput(input) && isIngredient(ingredient) ? getOutput().copy() : ItemStack.field_190927_a;
+        return isInput(input) && isIngredient(ingredient) ? getOutput().copy() : ItemStack.EMPTY;
     }
 
     @Nonnull

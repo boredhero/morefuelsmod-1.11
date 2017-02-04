@@ -82,23 +82,23 @@ public class BlockOre extends Block
 
             if (this == Blocks.COAL_ORE)
             {
-                i = MathHelper.getRandomIntegerInRange(rand, 0, 2);
+                i = MathHelper.getInt(rand, 0, 2);
             }
             else if (this == Blocks.DIAMOND_ORE)
             {
-                i = MathHelper.getRandomIntegerInRange(rand, 3, 7);
+                i = MathHelper.getInt(rand, 3, 7);
             }
             else if (this == Blocks.EMERALD_ORE)
             {
-                i = MathHelper.getRandomIntegerInRange(rand, 3, 7);
+                i = MathHelper.getInt(rand, 3, 7);
             }
             else if (this == Blocks.LAPIS_ORE)
             {
-                i = MathHelper.getRandomIntegerInRange(rand, 2, 5);
+                i = MathHelper.getInt(rand, 2, 5);
             }
             else if (this == Blocks.QUARTZ_ORE)
             {
-                i = MathHelper.getRandomIntegerInRange(rand, 2, 5);
+                i = MathHelper.getInt(rand, 2, 5);
             }
 
             return i;

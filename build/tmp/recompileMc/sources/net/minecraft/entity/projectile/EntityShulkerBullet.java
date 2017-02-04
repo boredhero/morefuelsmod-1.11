@@ -181,11 +181,11 @@ public class EntityShulkerBullet extends Entity
 
             if (p_184569_1_ != EnumFacing.Axis.X)
             {
-                if (blockpos1.getX() < blockpos.getX() && this.worldObj.isAirBlock(blockpos1.east()))
+                if (blockpos1.getX() < blockpos.getX() && this.world.isAirBlock(blockpos1.east()))
                 {
                     list.add(EnumFacing.EAST);
                 }
-                else if (blockpos1.getX() > blockpos.getX() && this.worldObj.isAirBlock(blockpos1.west()))
+                else if (blockpos1.getX() > blockpos.getX() && this.world.isAirBlock(blockpos1.west()))
                 {
                     list.add(EnumFacing.WEST);
                 }
@@ -193,11 +193,11 @@ public class EntityShulkerBullet extends Entity
 
             if (p_184569_1_ != EnumFacing.Axis.Y)
             {
-                if (blockpos1.getY() < blockpos.getY() && this.worldObj.isAirBlock(blockpos1.up()))
+                if (blockpos1.getY() < blockpos.getY() && this.world.isAirBlock(blockpos1.up()))
                 {
                     list.add(EnumFacing.UP);
                 }
-                else if (blockpos1.getY() > blockpos.getY() && this.worldObj.isAirBlock(blockpos1.down()))
+                else if (blockpos1.getY() > blockpos.getY() && this.world.isAirBlock(blockpos1.down()))
                 {
                     list.add(EnumFacing.DOWN);
                 }
@@ -205,11 +205,11 @@ public class EntityShulkerBullet extends Entity
 
             if (p_184569_1_ != EnumFacing.Axis.Z)
             {
-                if (blockpos1.getZ() < blockpos.getZ() && this.worldObj.isAirBlock(blockpos1.south()))
+                if (blockpos1.getZ() < blockpos.getZ() && this.world.isAirBlock(blockpos1.south()))
                 {
                     list.add(EnumFacing.SOUTH);
                 }
-                else if (blockpos1.getZ() > blockpos.getZ() && this.worldObj.isAirBlock(blockpos1.north()))
+                else if (blockpos1.getZ() > blockpos.getZ() && this.world.isAirBlock(blockpos1.north()))
                 {
                     list.add(EnumFacing.NORTH);
                 }
@@ -219,7 +219,7 @@ public class EntityShulkerBullet extends Entity
 
             if (list.isEmpty())
             {
-                for (int i = 5; !this.worldObj.isAirBlock(blockpos1.offset(enumfacing)) && i > 0; --i)
+                for (int i = 5; !this.world.isAirBlock(blockpos1.offset(enumfacing)) && i > 0; --i)
                 {
                     enumfacing = EnumFacing.random(this.rand);
                 }
@@ -238,7 +238,7 @@ public class EntityShulkerBullet extends Entity
         double d6 = d1 - this.posX;
         double d7 = d2 - this.posY;
         double d4 = d3 - this.posZ;
-        double d5 = (double)MathHelper.sqrt_double(d6 * d6 + d7 * d7 + d4 * d4);
+        double d5 = (double)MathHelper.sqrt(d6 * d6 + d7 * d7 + d4 * d4);
 
         if (d5 == 0.0D)
         {
@@ -262,7 +262,7 @@ public class EntityShulkerBullet extends Entity
      */
     public void onUpdate()
     {
-        if (!this.worldObj.isRemote && this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
+        if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL)
         {
             this.setDead();
         }
@@ -270,11 +270,11 @@ public class EntityShulkerBullet extends Entity
         {
             super.onUpdate();
 
-            if (!this.worldObj.isRemote)
+            if (!this.world.isRemote)
             {
                 if (this.target == null && this.targetUniqueId != null)
                 {
-                    for (EntityLivingBase entitylivingbase : this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(this.targetBlockPos.add(-2, -2, -2), this.targetBlockPos.add(2, 2, 2))))
+                    for (EntityLivingBase entitylivingbase : this.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(this.targetBlockPos.add(-2, -2, -2), this.targetBlockPos.add(2, 2, 2))))
                     {
                         if (entitylivingbase.getUniqueID().equals(this.targetUniqueId))
                         {
@@ -288,7 +288,7 @@ public class EntityShulkerBullet extends Entity
 
                 if (this.owner == null && this.ownerUniqueId != null)
                 {
-                    for (EntityLivingBase entitylivingbase1 : this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(this.ownerBlockPos.add(-2, -2, -2), this.ownerBlockPos.add(2, 2, 2))))
+                    for (EntityLivingBase entitylivingbase1 : this.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(this.ownerBlockPos.add(-2, -2, -2), this.ownerBlockPos.add(2, 2, 2))))
                     {
                         if (entitylivingbase1.getUniqueID().equals(this.ownerUniqueId))
                         {
@@ -309,9 +309,9 @@ public class EntityShulkerBullet extends Entity
                 }
                 else
                 {
-                    this.targetDeltaX = MathHelper.clamp_double(this.targetDeltaX * 1.025D, -1.0D, 1.0D);
-                    this.targetDeltaY = MathHelper.clamp_double(this.targetDeltaY * 1.025D, -1.0D, 1.0D);
-                    this.targetDeltaZ = MathHelper.clamp_double(this.targetDeltaZ * 1.025D, -1.0D, 1.0D);
+                    this.targetDeltaX = MathHelper.clamp(this.targetDeltaX * 1.025D, -1.0D, 1.0D);
+                    this.targetDeltaY = MathHelper.clamp(this.targetDeltaY * 1.025D, -1.0D, 1.0D);
+                    this.targetDeltaZ = MathHelper.clamp(this.targetDeltaZ * 1.025D, -1.0D, 1.0D);
                     this.motionX += (this.targetDeltaX - this.motionX) * 0.2D;
                     this.motionY += (this.targetDeltaY - this.motionY) * 0.2D;
                     this.motionZ += (this.targetDeltaZ - this.motionZ) * 0.2D;
@@ -328,9 +328,9 @@ public class EntityShulkerBullet extends Entity
             this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
             ProjectileHelper.rotateTowardsMovement(this, 0.5F);
 
-            if (this.worldObj.isRemote)
+            if (this.world.isRemote)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.END_ROD, this.posX - this.motionX, this.posY - this.motionY + 0.15D, this.posZ - this.motionZ, 0.0D, 0.0D, 0.0D, new int[0]);
+                this.world.spawnParticle(EnumParticleTypes.END_ROD, this.posX - this.motionX, this.posY - this.motionY + 0.15D, this.posZ - this.motionZ, 0.0D, 0.0D, 0.0D, new int[0]);
             }
             else if (this.target != null && !this.target.isDead)
             {
@@ -349,7 +349,7 @@ public class EntityShulkerBullet extends Entity
                     BlockPos blockpos = new BlockPos(this);
                     EnumFacing.Axis enumfacing$axis = this.direction.getAxis();
 
-                    if (this.worldObj.isBlockNormalCube(blockpos.offset(this.direction), false))
+                    if (this.world.isBlockNormalCube(blockpos.offset(this.direction), false))
                     {
                         this.selectNextMoveDirection(enumfacing$axis);
                     }
@@ -402,7 +402,7 @@ public class EntityShulkerBullet extends Entity
     {
         if (result.entityHit == null)
         {
-            ((WorldServer)this.worldObj).spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX, this.posY, this.posZ, 2, 0.2D, 0.2D, 0.2D, 0.0D, new int[0]);
+            ((WorldServer)this.world).spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX, this.posY, this.posZ, 2, 0.2D, 0.2D, 0.2D, 0.0D, new int[0]);
             this.playSound(SoundEvents.ENTITY_SHULKER_BULLET_HIT, 1.0F, 1.0F);
         }
         else
@@ -436,10 +436,10 @@ public class EntityShulkerBullet extends Entity
      */
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             this.playSound(SoundEvents.ENTITY_SHULKER_BULLET_HURT, 1.0F, 1.0F);
-            ((WorldServer)this.worldObj).spawnParticle(EnumParticleTypes.CRIT, this.posX, this.posY, this.posZ, 15, 0.2D, 0.2D, 0.2D, 0.0D, new int[0]);
+            ((WorldServer)this.world).spawnParticle(EnumParticleTypes.CRIT, this.posX, this.posY, this.posZ, 15, 0.2D, 0.2D, 0.2D, 0.0D, new int[0]);
             this.setDead();
         }
 

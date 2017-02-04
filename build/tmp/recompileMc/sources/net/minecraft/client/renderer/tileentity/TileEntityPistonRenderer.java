@@ -81,8 +81,8 @@ public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEnti
         }
     }
 
-    private boolean renderStateModel(BlockPos p_188186_1_, IBlockState p_188186_2_, VertexBuffer p_188186_3_, World p_188186_4_, boolean p_188186_5_)
+    private boolean renderStateModel(BlockPos pos, IBlockState state, VertexBuffer buffer, World p_188186_4_, boolean checkSides)
     {
-        return this.blockRenderer.getBlockModelRenderer().renderModel(p_188186_4_, this.blockRenderer.getModelForState(p_188186_2_), p_188186_2_, p_188186_1_, p_188186_3_, p_188186_5_);
+        return this.blockRenderer.getBlockModelRenderer().renderModel(p_188186_4_, this.blockRenderer.getModelForState(state), state, pos, buffer, checkSides);
     }
 }

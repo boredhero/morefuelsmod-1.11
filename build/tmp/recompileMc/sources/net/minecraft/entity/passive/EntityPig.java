@@ -105,7 +105,7 @@ public class EntityPig extends EntityAnimal
 
     public void notifyDataManagerChange(DataParameter<?> key)
     {
-        if (field_191520_bx.equals(key) && this.worldObj.isRemote)
+        if (field_191520_bx.equals(key) && this.world.isRemote)
         {
             this.boosting = true;
             this.boostTime = 0;
@@ -178,7 +178,7 @@ public class EntityPig extends EntityAnimal
             }
             else if (this.getSaddled() && !this.isBeingRidden())
             {
-                if (!this.worldObj.isRemote)
+                if (!this.world.isRemote)
                 {
                     player.startRiding(this);
                 }
@@ -208,7 +208,7 @@ public class EntityPig extends EntityAnimal
     {
         super.onDeath(cause);
 
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             if (this.getSaddled())
             {
@@ -251,9 +251,9 @@ public class EntityPig extends EntityAnimal
      */
     public void onStruckByLightning(EntityLightningBolt lightningBolt)
     {
-        if (!this.worldObj.isRemote && !this.isDead)
+        if (!this.world.isRemote && !this.isDead)
         {
-            EntityPigZombie entitypigzombie = new EntityPigZombie(this.worldObj);
+            EntityPigZombie entitypigzombie = new EntityPigZombie(this.world);
             entitypigzombie.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
             entitypigzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
             entitypigzombie.setNoAI(this.isAIDisabled());
@@ -264,7 +264,7 @@ public class EntityPig extends EntityAnimal
                 entitypigzombie.setAlwaysRenderNameTag(this.getAlwaysRenderNameTag());
             }
 
-            this.worldObj.spawnEntityInWorld(entitypigzombie);
+            this.world.spawnEntity(entitypigzombie);
             this.setDead();
         }
     }
@@ -327,7 +327,7 @@ public class EntityPig extends EntityAnimal
             this.prevLimbSwingAmount = this.limbSwingAmount;
             double d1 = this.posX - this.prevPosX;
             double d0 = this.posZ - this.prevPosZ;
-            float f1 = MathHelper.sqrt_double(d1 * d1 + d0 * d0) * 4.0F;
+            float f1 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
 
             if (f1 > 1.0F)
             {
@@ -363,7 +363,7 @@ public class EntityPig extends EntityAnimal
 
     public EntityPig createChild(EntityAgeable ageable)
     {
-        return new EntityPig(this.worldObj);
+        return new EntityPig(this.world);
     }
 
     /**

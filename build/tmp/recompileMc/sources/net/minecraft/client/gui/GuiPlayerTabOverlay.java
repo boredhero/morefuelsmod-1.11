@@ -69,7 +69,7 @@ public class GuiPlayerTabOverlay extends Gui
      */
     public void renderPlayerlist(int width, Scoreboard scoreboardIn, @Nullable ScoreObjective scoreObjectiveIn)
     {
-        NetHandlerPlayClient nethandlerplayclient = this.mc.thePlayer.connection;
+        NetHandlerPlayClient nethandlerplayclient = this.mc.player.connection;
         List<NetworkPlayerInfo> list = ENTRY_ORDERING.<NetworkPlayerInfo>sortedCopy(nethandlerplayclient.getPlayerInfoMap());
         int i = 0;
         int j = 0;
@@ -178,7 +178,7 @@ public class GuiPlayerTabOverlay extends Gui
 
                 if (flag)
                 {
-                    EntityPlayer entityplayer = this.mc.theWorld.getPlayerEntityByUUID(gameprofile.getId());
+                    EntityPlayer entityplayer = this.mc.world.getPlayerEntityByUUID(gameprofile.getId());
                     boolean flag1 = entityplayer != null && entityplayer.isWearing(EnumPlayerModelParts.CAPE) && ("Dinnerbone".equals(gameprofile.getName()) || "Grumm".equals(gameprofile.getName()));
                     this.mc.getTextureManager().bindTexture(networkplayerinfo1.getLocationSkin());
                     int l2 = 8 + (flag1 ? 8 : 0);
@@ -303,8 +303,8 @@ public class GuiPlayerTabOverlay extends Gui
 
             info.setRenderVisibilityId(this.lastTimeOpened);
             info.setLastHealth(i);
-            int j = MathHelper.ceiling_float_int((float)Math.max(i, info.getDisplayHealth()) / 2.0F);
-            int k = Math.max(MathHelper.ceiling_float_int((float)(i / 2)), Math.max(MathHelper.ceiling_float_int((float)(info.getDisplayHealth() / 2)), 10));
+            int j = MathHelper.ceil((float)Math.max(i, info.getDisplayHealth()) / 2.0F);
+            int k = Math.max(MathHelper.ceil((float)(i / 2)), Math.max(MathHelper.ceil((float)(info.getDisplayHealth() / 2)), 10));
             boolean flag = info.getHealthBlinkTime() > (long)this.guiIngame.getUpdateCounter() && (info.getHealthBlinkTime() - (long)this.guiIngame.getUpdateCounter()) / 3L % 2L == 1L;
 
             if (j > 0)
@@ -348,7 +348,7 @@ public class GuiPlayerTabOverlay extends Gui
                 }
                 else
                 {
-                    float f1 = MathHelper.clamp_float((float)i / 20.0F, 0.0F, 1.0F);
+                    float f1 = MathHelper.clamp((float)i / 20.0F, 0.0F, 1.0F);
                     int i1 = (int)((1.0F - f1) * 255.0F) << 16 | (int)(f1 * 255.0F) << 8;
                     String s = "" + (float)i / 2.0F;
 

@@ -37,7 +37,7 @@ public class EntityGiantZombie extends EntityMob
 
     public float getBlockPathWeight(BlockPos pos)
     {
-        return this.worldObj.getLightBrightness(pos) - 0.5F;
+        return this.world.getLightBrightness(pos) - 0.5F;
     }
 
     @Nullable

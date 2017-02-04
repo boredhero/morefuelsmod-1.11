@@ -37,6 +37,9 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.state.BlockStateContainer.StateImplementation;
 
 public class ExtendedBlockState extends BlockStateContainer
@@ -70,7 +73,8 @@ public class ExtendedBlockState extends BlockStateContainer
     }
 
     @Override
-    protected StateImplementation createState(Block block, ImmutableMap<IProperty<?>, Comparable<?>> properties, ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties)
+    @Nonnull
+    protected StateImplementation createState(@Nonnull Block block, @Nonnull  ImmutableMap<IProperty<?>, Comparable<?>> properties, @Nullable ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties)
     {
         if (unlistedProperties == null || unlistedProperties.isEmpty()) return super.createState(block, properties, unlistedProperties);
         return new ExtendedStateImplementation(block, properties, unlistedProperties, null);
@@ -81,7 +85,7 @@ public class ExtendedBlockState extends BlockStateContainer
         private final ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties;
         private Map<Map<IProperty<?>, Comparable<?>>, BlockStateContainer.StateImplementation> normalMap;
 
-        protected ExtendedStateImplementation(Block block, ImmutableMap<IProperty<?>, Comparable<?>> properties, ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties, ImmutableTable<IProperty<?>, Comparable<?>, IBlockState> table)
+        protected ExtendedStateImplementation(Block block, ImmutableMap<IProperty<?>, Comparable<?>> properties, ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties, @Nullable ImmutableTable<IProperty<?>, Comparable<?>, IBlockState> table)
         {
             super(block, properties);
             this.unlistedProperties = unlistedProperties;
@@ -89,7 +93,8 @@ public class ExtendedBlockState extends BlockStateContainer
         }
 
         @Override
-        public <T extends Comparable<T>, V extends T> IBlockState withProperty(IProperty<T> property, V value)
+        @Nonnull
+        public <T extends Comparable<T>, V extends T> IBlockState withProperty(@Nonnull IProperty<T> property, @Nonnull V value)
         {
             if (!this.getProperties().containsKey(property))
             {

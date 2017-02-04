@@ -26,7 +26,7 @@ import net.minecraft.world.storage.loot.LootTable;
 
 public abstract class EntityMinecartContainer extends EntityMinecart implements ILockableContainer, ILootContainer
 {
-    private NonNullList<ItemStack> minecartContainerItems = NonNullList.<ItemStack>func_191197_a(36, ItemStack.field_190927_a);
+    private NonNullList<ItemStack> minecartContainerItems = NonNullList.<ItemStack>withSize(36, ItemStack.EMPTY);
     /**
      * When set to true, the minecart will drop all items when setDead() is called. When false (such as when travelling
      * dimensions) it preserves its contents.
@@ -49,17 +49,17 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     {
         super.killMinecart(source);
 
-        if (this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+        if (this.world.getGameRules().getBoolean("doEntityDrops"))
         {
-            InventoryHelper.dropInventoryItems(this.worldObj, this, this);
+            InventoryHelper.dropInventoryItems(this.world, this, this);
         }
     }
 
-    public boolean func_191420_l()
+    public boolean isEmpty()
     {
         for (ItemStack itemstack : this.minecartContainerItems)
         {
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 return false;
             }
@@ -94,13 +94,13 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         this.addLoot((EntityPlayer)null);
         ItemStack itemstack = (ItemStack)this.minecartContainerItems.get(index);
 
-        if (itemstack.func_190926_b())
+        if (itemstack.isEmpty())
         {
-            return ItemStack.field_190927_a;
+            return ItemStack.EMPTY;
         }
         else
         {
-            this.minecartContainerItems.set(index, ItemStack.field_190927_a);
+            this.minecartContainerItems.set(index, ItemStack.EMPTY);
             return itemstack;
         }
     }
@@ -113,9 +113,9 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         this.addLoot((EntityPlayer)null);
         this.minecartContainerItems.set(index, stack);
 
-        if (!stack.func_190926_b() && stack.func_190916_E() > this.getInventoryStackLimit())
+        if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit())
         {
-            stack.func_190920_e(this.getInventoryStackLimit());
+            stack.setCount(this.getInventoryStackLimit());
         }
     }
 
@@ -130,7 +130,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     /**
      * Don't rename this method to canInteractWith due to conflicts with Container
      */
-    public boolean isUseableByPlayer(EntityPlayer player)
+    public boolean isUsableByPlayer(EntityPlayer player)
     {
         return this.isDead ? false : player.getDistanceSqToEntity(this) <= 64.0D;
     }
@@ -174,7 +174,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     {
         if (this.dropContentsWhenDead)
         {
-            InventoryHelper.dropInventoryItems(this.worldObj, this, this);
+            InventoryHelper.dropInventoryItems(this.world, this, this);
         }
 
         super.setDead();
@@ -188,7 +188,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         this.dropContentsWhenDead = dropWhenDead;
     }
 
-    public static void func_190574_b(DataFixer p_190574_0_, Class<?> p_190574_1_)
+    public static void addDataFixers(DataFixer p_190574_0_, Class<?> p_190574_1_)
     {
         EntityMinecart.registerFixesMinecart(p_190574_0_, p_190574_1_);
         p_190574_0_.registerWalker(FixTypes.ENTITY, new ItemStackDataLists(p_190574_1_, new String[] {"Items"}));
@@ -212,7 +212,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         }
         else
         {
-            ItemStackHelper.func_191282_a(compound, this.minecartContainerItems);
+            ItemStackHelper.saveAllItems(compound, this.minecartContainerItems);
         }
     }
 
@@ -222,7 +222,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     protected void readEntityFromNBT(NBTTagCompound compound)
     {
         super.readEntityFromNBT(compound);
-        this.minecartContainerItems = NonNullList.<ItemStack>func_191197_a(this.getSizeInventory(), ItemStack.field_190927_a);
+        this.minecartContainerItems = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
 
         if (compound.hasKey("LootTable", 8))
         {
@@ -231,14 +231,14 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
         }
         else
         {
-            ItemStackHelper.func_191283_b(compound, this.minecartContainerItems);
+            ItemStackHelper.loadAllItems(compound, this.minecartContainerItems);
         }
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
-        if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player, stack))) return true;
-        if (!this.worldObj.isRemote)
+        if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player, hand))) return true;
+        if (!this.world.isRemote)
         {
             player.displayGUIChest(this);
         }
@@ -296,7 +296,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
     {
         if (this.lootTable != null)
         {
-            LootTable loottable = this.worldObj.getLootTableManager().getLootTableFromLocation(this.lootTable);
+            LootTable loottable = this.world.getLootTableManager().getLootTableFromLocation(this.lootTable);
             this.lootTable = null;
             Random random;
 
@@ -309,7 +309,7 @@ public abstract class EntityMinecartContainer extends EntityMinecart implements 
                 random = new Random(this.lootTableSeed);
             }
 
-            LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer)this.worldObj);
+            LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer)this.world);
 
             if (player != null)
             {

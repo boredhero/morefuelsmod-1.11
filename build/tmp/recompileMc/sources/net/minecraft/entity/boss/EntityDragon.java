@@ -164,7 +164,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
      */
     public void onLivingUpdate()
     {
-        if (this.worldObj.isRemote)
+        if (this.world.isRemote)
         {
             this.setHealth(this.getHealth());
 
@@ -175,12 +175,12 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
 
                 if (f1 <= -0.3F && f >= -0.3F)
                 {
-                    this.worldObj.playSound(this.posX, this.posY, this.posZ, SoundEvents.ENTITY_ENDERDRAGON_FLAP, this.getSoundCategory(), 5.0F, 0.8F + this.rand.nextFloat() * 0.3F, false);
+                    this.world.playSound(this.posX, this.posY, this.posZ, SoundEvents.ENTITY_ENDERDRAGON_FLAP, this.getSoundCategory(), 5.0F, 0.8F + this.rand.nextFloat() * 0.3F, false);
                 }
 
                 if (!this.phaseManager.getCurrentPhase().getIsStationary() && --this.growlTime < 0)
                 {
-                    this.worldObj.playSound(this.posX, this.posY, this.posZ, SoundEvents.ENTITY_ENDERDRAGON_GROWL, this.getSoundCategory(), 2.5F, 0.8F + this.rand.nextFloat() * 0.3F, false);
+                    this.world.playSound(this.posX, this.posY, this.posZ, SoundEvents.ENTITY_ENDERDRAGON_GROWL, this.getSoundCategory(), 2.5F, 0.8F + this.rand.nextFloat() * 0.3F, false);
                     this.growlTime = 200 + this.rand.nextInt(200);
                 }
             }
@@ -193,12 +193,12 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
             float f12 = (this.rand.nextFloat() - 0.5F) * 8.0F;
             float f13 = (this.rand.nextFloat() - 0.5F) * 4.0F;
             float f15 = (this.rand.nextFloat() - 0.5F) * 8.0F;
-            this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX + (double)f12, this.posY + 2.0D + (double)f13, this.posZ + (double)f15, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX + (double)f12, this.posY + 2.0D + (double)f13, this.posZ + (double)f15, 0.0D, 0.0D, 0.0D, new int[0]);
         }
         else
         {
             this.updateDragonEnderCrystal();
-            float f11 = 0.2F / (MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ) * 10.0F + 1.0F);
+            float f11 = 0.2F / (MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ) * 10.0F + 1.0F);
             f11 = f11 * (float)Math.pow(2.0D, this.motionY);
 
             if (this.phaseManager.getCurrentPhase().getIsStationary())
@@ -239,7 +239,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
                 this.ringBuffer[this.ringBufferIndex][0] = (double)this.rotationYaw;
                 this.ringBuffer[this.ringBufferIndex][1] = this.posY;
 
-                if (this.worldObj.isRemote)
+                if (this.world.isRemote)
                 {
                     if (this.newPosRotationIncrements > 0)
                     {
@@ -276,10 +276,10 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
                         double d8 = vec3d.zCoord - this.posZ;
                         double d3 = d6 * d6 + d7 * d7 + d8 * d8;
                         float f5 = iphase.getMaxRiseOrFall();
-                        d7 = MathHelper.clamp_double(d7 / (double)MathHelper.sqrt_double(d6 * d6 + d8 * d8), (double)(-f5), (double)f5);
+                        d7 = MathHelper.clamp(d7 / (double)MathHelper.sqrt(d6 * d6 + d8 * d8), (double)(-f5), (double)f5);
                         this.motionY += d7 * 0.10000000149011612D;
                         this.rotationYaw = MathHelper.wrapDegrees(this.rotationYaw);
-                        double d4 = MathHelper.clamp_double(MathHelper.wrapDegrees(180.0D - MathHelper.atan2(d6, d8) * (180D / Math.PI) - (double)this.rotationYaw), -50.0D, 50.0D);
+                        double d4 = MathHelper.clamp(MathHelper.wrapDegrees(180.0D - MathHelper.atan2(d6, d8) * (180D / Math.PI) - (double)this.rotationYaw), -50.0D, 50.0D);
                         Vec3d vec3d1 = (new Vec3d(vec3d.xCoord - this.posX, vec3d.yCoord - this.posY, vec3d.zCoord - this.posZ)).normalize();
                         Vec3d vec3d2 = (new Vec3d((double)MathHelper.sin(this.rotationYaw * 0.017453292F), this.motionY, (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)))).normalize();
                         float f7 = Math.max(((float)vec3d2.dotProduct(vec3d1) + 0.5F) / 1.5F, 0.0F);
@@ -292,11 +292,11 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
 
                         if (this.slowed)
                         {
-                            this.moveEntity(MoverType.SELF, this.motionX * 0.800000011920929D, this.motionY * 0.800000011920929D, this.motionZ * 0.800000011920929D);
+                            this.move(MoverType.SELF, this.motionX * 0.800000011920929D, this.motionY * 0.800000011920929D, this.motionZ * 0.800000011920929D);
                         }
                         else
                         {
-                            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+                            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
                         }
 
                         Vec3d vec3d3 = (new Vec3d(this.motionX, this.motionY, this.motionZ)).normalize();
@@ -345,12 +345,12 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
                 this.dragonPartWing2.onUpdate();
                 this.dragonPartWing2.setLocationAndAngles(this.posX - (double)(f18 * 4.5F), this.posY + 2.0D, this.posZ - (double)(f3 * 4.5F), 0.0F, 0.0F);
 
-                if (!this.worldObj.isRemote && this.hurtTime == 0)
+                if (!this.world.isRemote && this.hurtTime == 0)
                 {
-                    this.collideWithEntities(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartWing1.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D).offset(0.0D, -2.0D, 0.0D)));
-                    this.collideWithEntities(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartWing2.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D).offset(0.0D, -2.0D, 0.0D)));
-                    this.attackEntitiesInList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartHead.getEntityBoundingBox().expandXyz(1.0D)));
-                    this.attackEntitiesInList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartNeck.getEntityBoundingBox().expandXyz(1.0D)));
+                    this.collideWithEntities(this.world.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartWing1.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D).offset(0.0D, -2.0D, 0.0D)));
+                    this.collideWithEntities(this.world.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartWing2.getEntityBoundingBox().expand(4.0D, 2.0D, 4.0D).offset(0.0D, -2.0D, 0.0D)));
+                    this.attackEntitiesInList(this.world.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartHead.getEntityBoundingBox().expandXyz(1.0D)));
+                    this.attackEntitiesInList(this.world.getEntitiesWithinAABBExcludingEntity(this, this.dragonPartNeck.getEntityBoundingBox().expandXyz(1.0D)));
                 }
 
                 double[] adouble = this.getMovementOffsets(5, 1.0F);
@@ -391,7 +391,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
                     entitydragonpart.setLocationAndAngles(this.posX - (double)((f3 * 1.5F + f6 * f24) * f16), this.posY + (adouble1[1] - adouble[1]) - (double)((f24 + 1.5F) * f2) + 1.5D, this.posZ + (double)((f18 * 1.5F + f22 * f24) * f16), 0.0F, 0.0F);
                 }
 
-                if (!this.worldObj.isRemote)
+                if (!this.world.isRemote)
                 {
                     this.slowed = this.destroyBlocksInAABB(this.dragonPartHead.getEntityBoundingBox()) | this.destroyBlocksInAABB(this.dragonPartNeck.getEntityBoundingBox()) | this.destroyBlocksInAABB(this.dragonPartBody.getEntityBoundingBox());
 
@@ -448,7 +448,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
 
         if (this.rand.nextInt(10) == 0)
         {
-            List<EntityEnderCrystal> list = this.worldObj.<EntityEnderCrystal>getEntitiesWithinAABB(EntityEnderCrystal.class, this.getEntityBoundingBox().expandXyz(32.0D));
+            List<EntityEnderCrystal> list = this.world.<EntityEnderCrystal>getEntitiesWithinAABB(EntityEnderCrystal.class, this.getEntityBoundingBox().expandXyz(32.0D));
             EntityEnderCrystal entityendercrystal = null;
             double d0 = Double.MAX_VALUE;
 
@@ -523,12 +523,12 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
      */
     private boolean destroyBlocksInAABB(AxisAlignedBB p_70972_1_)
     {
-        int i = MathHelper.floor_double(p_70972_1_.minX);
-        int j = MathHelper.floor_double(p_70972_1_.minY);
-        int k = MathHelper.floor_double(p_70972_1_.minZ);
-        int l = MathHelper.floor_double(p_70972_1_.maxX);
-        int i1 = MathHelper.floor_double(p_70972_1_.maxY);
-        int j1 = MathHelper.floor_double(p_70972_1_.maxZ);
+        int i = MathHelper.floor(p_70972_1_.minX);
+        int j = MathHelper.floor(p_70972_1_.minY);
+        int k = MathHelper.floor(p_70972_1_.minZ);
+        int l = MathHelper.floor(p_70972_1_.maxX);
+        int i1 = MathHelper.floor(p_70972_1_.maxY);
+        int j1 = MathHelper.floor(p_70972_1_.maxZ);
         boolean flag = false;
         boolean flag1 = false;
 
@@ -539,20 +539,20 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
                 for (int i2 = k; i2 <= j1; ++i2)
                 {
                     BlockPos blockpos = new BlockPos(k1, l1, i2);
-                    IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+                    IBlockState iblockstate = this.world.getBlockState(blockpos);
                     Block block = iblockstate.getBlock();
 
-                    if (!block.isAir(iblockstate, this.worldObj, blockpos) && iblockstate.getMaterial() != Material.FIRE)
+                    if (!block.isAir(iblockstate, this.world, blockpos) && iblockstate.getMaterial() != Material.FIRE)
                     {
-                        if (!this.worldObj.getGameRules().getBoolean("mobGriefing"))
+                        if (!this.world.getGameRules().getBoolean("mobGriefing"))
                         {
                             flag = true;
                         }
-                        else if (block.canEntityDestroy(iblockstate, this.worldObj, blockpos, this))
+                        else if (block.canEntityDestroy(iblockstate, this.world, blockpos, this))
                         {
                             if (block != Blocks.COMMAND_BLOCK && block != Blocks.REPEATING_COMMAND_BLOCK && block != Blocks.CHAIN_COMMAND_BLOCK && block != Blocks.IRON_BARS && block != Blocks.END_GATEWAY)
                             {
-                                flag1 = this.worldObj.setBlockToAir(blockpos) || flag1;
+                                flag1 = this.world.setBlockToAir(blockpos) || flag1;
                             }
                             else
                             {
@@ -573,7 +573,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
             double d0 = p_70972_1_.minX + (p_70972_1_.maxX - p_70972_1_.minX) * (double)this.rand.nextFloat();
             double d1 = p_70972_1_.minY + (p_70972_1_.maxY - p_70972_1_.minY) * (double)this.rand.nextFloat();
             double d2 = p_70972_1_.minZ + (p_70972_1_.maxZ - p_70972_1_.minZ) * (double)this.rand.nextFloat();
-            this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
         }
 
         return flag;
@@ -673,10 +673,10 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
             float f = (this.rand.nextFloat() - 0.5F) * 8.0F;
             float f1 = (this.rand.nextFloat() - 0.5F) * 4.0F;
             float f2 = (this.rand.nextFloat() - 0.5F) * 8.0F;
-            this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX + (double)f, this.posY + 2.0D + (double)f1, this.posZ + (double)f2, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX + (double)f, this.posY + 2.0D + (double)f1, this.posZ + (double)f2, 0.0D, 0.0D, 0.0D, new int[0]);
         }
 
-        boolean flag = this.worldObj.getGameRules().getBoolean("doMobLoot");
+        boolean flag = this.world.getGameRules().getBoolean("doMobLoot");
         int i = 500;
 
         if (this.fightManager != null && !this.fightManager.hasPreviouslyKilledDragon())
@@ -684,28 +684,28 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
             i = 12000;
         }
 
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             if (this.deathTicks > 150 && this.deathTicks % 5 == 0 && flag)
             {
-                this.dropExperience(MathHelper.floor_float((float)i * 0.08F));
+                this.dropExperience(MathHelper.floor((float)i * 0.08F));
             }
 
             if (this.deathTicks == 1)
             {
-                this.worldObj.playBroadcastSound(1028, new BlockPos(this), 0);
+                this.world.playBroadcastSound(1028, new BlockPos(this), 0);
             }
         }
 
-        this.moveEntity(MoverType.SELF, 0.0D, 0.10000000149011612D, 0.0D);
+        this.move(MoverType.SELF, 0.0D, 0.10000000149011612D, 0.0D);
         this.rotationYaw += 20.0F;
         this.renderYawOffset = this.rotationYaw;
 
-        if (this.deathTicks == 200 && !this.worldObj.isRemote)
+        if (this.deathTicks == 200 && !this.world.isRemote)
         {
             if (flag)
             {
-                this.dropExperience(MathHelper.floor_float((float)i * 0.2F));
+                this.dropExperience(MathHelper.floor((float)i * 0.2F));
             }
 
             if (this.fightManager != null)
@@ -723,7 +723,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
         {
             int i = EntityXPOrb.getXPSplit(p_184668_1_);
             p_184668_1_ -= i;
-            this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY, this.posZ, i));
+            this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY, this.posZ, i));
         }
     }
 
@@ -760,7 +760,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
                     i1 = (int)(20.0F * MathHelper.sin(2.0F * (-(float)Math.PI + ((float)Math.PI / 4F) * (float)k1)));
                 }
 
-                int j1 = Math.max(this.worldObj.getSeaLevel() + 10, this.worldObj.getTopSolidOrLiquidBlock(new BlockPos(l, 0, i1)).getY() + j);
+                int j1 = Math.max(this.world.getSeaLevel() + 10, this.world.getTopSolidOrLiquidBlock(new BlockPos(l, 0, i1)).getY() + j);
                 this.pathPoints[i] = new PathPoint(l, j1, i1);
             }
 
@@ -800,7 +800,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
     {
         float f = 10000.0F;
         int i = 0;
-        PathPoint pathpoint = new PathPoint(MathHelper.floor_double(x), MathHelper.floor_double(y), MathHelper.floor_double(z));
+        PathPoint pathpoint = new PathPoint(MathHelper.floor(x), MathHelper.floor(y), MathHelper.floor(z));
         int j = 0;
 
         if (this.fightManager == null || this.fightManager.getNumAliveCrystals() == 0)
@@ -1020,7 +1020,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
 
     public World getWorld()
     {
-        return this.worldObj;
+        return this.world;
     }
 
     public SoundCategory getSoundCategory()
@@ -1049,7 +1049,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
     @Nullable
     protected ResourceLocation getLootTable()
     {
-        return LootTableList.field_191189_ay;
+        return LootTableList.ENTITIES_ENDER_DRAGON;
     }
 
     @SideOnly(Side.CLIENT)
@@ -1076,8 +1076,8 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
         }
         else
         {
-            BlockPos blockpos = this.worldObj.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION);
-            float f = Math.max(MathHelper.sqrt_double(this.getDistanceSqToCenter(blockpos)) / 4.0F, 1.0F);
+            BlockPos blockpos = this.world.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION);
+            float f = Math.max(MathHelper.sqrt(this.getDistanceSqToCenter(blockpos)) / 4.0F, 1.0F);
             d0 = (double)((float)p_184667_1_ / f);
         }
 
@@ -1107,8 +1107,8 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
         }
         else
         {
-            BlockPos blockpos = this.worldObj.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION);
-            float f = Math.max(MathHelper.sqrt_double(this.getDistanceSqToCenter(blockpos)) / 4.0F, 1.0F);
+            BlockPos blockpos = this.world.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION);
+            float f = Math.max(MathHelper.sqrt(this.getDistanceSqToCenter(blockpos)) / 4.0F, 1.0F);
             float f1 = 6.0F / f;
             float f2 = this.rotationPitch;
             float f3 = 1.5F;
@@ -1130,7 +1130,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
         }
         else
         {
-            entityplayer = this.worldObj.getNearestAttackablePlayer(pos, 64.0D, 64.0D);
+            entityplayer = this.world.getNearestAttackablePlayer(pos, 64.0D, 64.0D);
         }
 
         if (crystal == this.healingEnderCrystal)
@@ -1143,7 +1143,7 @@ public class EntityDragon extends EntityLiving implements IEntityMultiPart, IMob
 
     public void notifyDataManagerChange(DataParameter<?> key)
     {
-        if (PHASE.equals(key) && this.worldObj.isRemote)
+        if (PHASE.equals(key) && this.world.isRemote)
         {
             this.phaseManager.setPhase(PhaseList.getById(((Integer)this.getDataManager().get(PHASE)).intValue()));
         }

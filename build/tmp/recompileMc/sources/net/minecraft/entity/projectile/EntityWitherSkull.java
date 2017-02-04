@@ -84,7 +84,7 @@ public class EntityWitherSkull extends EntityFireball
      */
     protected void onImpact(RayTraceResult result)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             if (result.entityHit != null)
             {
@@ -104,18 +104,18 @@ public class EntityWitherSkull extends EntityFireball
                 }
                 else
                 {
-                    result.entityHit.attackEntityFrom(DamageSource.magic, 5.0F);
+                    result.entityHit.attackEntityFrom(DamageSource.MAGIC, 5.0F);
                 }
 
                 if (result.entityHit instanceof EntityLivingBase)
                 {
                     int i = 0;
 
-                    if (this.worldObj.getDifficulty() == EnumDifficulty.NORMAL)
+                    if (this.world.getDifficulty() == EnumDifficulty.NORMAL)
                     {
                         i = 10;
                     }
-                    else if (this.worldObj.getDifficulty() == EnumDifficulty.HARD)
+                    else if (this.world.getDifficulty() == EnumDifficulty.HARD)
                     {
                         i = 40;
                     }
@@ -127,7 +127,7 @@ public class EntityWitherSkull extends EntityFireball
                 }
             }
 
-            this.worldObj.newExplosion(this, this.posX, this.posY, this.posZ, 1.0F, false, this.worldObj.getGameRules().getBoolean("mobGriefing"));
+            this.world.newExplosion(this, this.posX, this.posY, this.posZ, 1.0F, false, this.world.getGameRules().getBoolean("mobGriefing"));
             this.setDead();
         }
     }

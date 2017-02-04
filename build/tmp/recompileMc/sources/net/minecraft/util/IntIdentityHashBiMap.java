@@ -117,7 +117,7 @@ public class IntIdentityHashBiMap<K> implements IObjectIntIterable<K>
 
     private int hashObject(@Nullable K obectIn)
     {
-        return (MathHelper.getHash(System.identityHashCode(obectIn)) & Integer.MAX_VALUE) % this.values.length;
+        return (MathHelper.hash(System.identityHashCode(obectIn)) & Integer.MAX_VALUE) % this.values.length;
     }
 
     private int getIndex(@Nullable K objectIn, int p_186816_2_)

@@ -28,7 +28,7 @@ public class GuiScreenHorseInventory extends GuiContainer
 
     public GuiScreenHorseInventory(IInventory playerInv, IInventory horseInv, AbstractHorse horse)
     {
-        super(new ContainerHorseInventory(playerInv, horseInv, horse, Minecraft.getMinecraft().thePlayer));
+        super(new ContainerHorseInventory(playerInv, horseInv, horse, Minecraft.getMinecraft().player));
         this.playerInventory = playerInv;
         this.horseInventory = horseInv;
         this.horseEntity = horse;
@@ -59,18 +59,18 @@ public class GuiScreenHorseInventory extends GuiContainer
         {
             AbstractChestHorse abstractchesthorse = (AbstractChestHorse)this.horseEntity;
 
-            if (abstractchesthorse.func_190695_dh())
+            if (abstractchesthorse.hasChest())
             {
-                this.drawTexturedModalRect(i + 79, j + 17, 0, this.ySize, abstractchesthorse.func_190696_dl() * 18, 54);
+                this.drawTexturedModalRect(i + 79, j + 17, 0, this.ySize, abstractchesthorse.getInventoryColumns() * 18, 54);
             }
         }
 
-        if (this.horseEntity.func_190685_dA())
+        if (this.horseEntity.canBeSaddled())
         {
             this.drawTexturedModalRect(i + 7, j + 35 - 18, 18, this.ySize + 54, 18, 18);
         }
 
-        if (this.horseEntity.func_190677_dK())
+        if (this.horseEntity.wearsArmor())
         {
             if (this.horseEntity instanceof EntityLlama)
             {

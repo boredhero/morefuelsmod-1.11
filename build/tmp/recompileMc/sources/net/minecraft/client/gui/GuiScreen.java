@@ -154,7 +154,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
 
     protected void renderToolTip(ItemStack stack, int x, int y)
     {
-        List<String> list = stack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips);
+        List<String> list = stack.getTooltip(this.mc.player, this.mc.gameSettings.advancedItemTooltips);
 
         for (int i = 0; i < list.size(); ++i)
         {
@@ -279,7 +279,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
 
             if (hoverevent.getAction() == HoverEvent.Action.SHOW_ITEM)
             {
-                ItemStack itemstack = ItemStack.field_190927_a;
+                ItemStack itemstack = ItemStack.EMPTY;
 
                 try
                 {
@@ -295,7 +295,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
                     ;
                 }
 
-                if (itemstack.func_190926_b())
+                if (itemstack.isEmpty())
                 {
                     this.drawCreativeTabHoveringText(TextFormatting.RED + "Invalid Item!", x, y);
                 }
@@ -467,9 +467,9 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
         {
             this.mc.ingameGUI.getChatGUI().addToSentMessages(msg);
         }
-        if (net.minecraftforge.client.ClientCommandHandler.instance.executeCommand(mc.thePlayer, msg) != 0) return;
+        if (net.minecraftforge.client.ClientCommandHandler.instance.executeCommand(mc.player, msg) != 0) return;
 
-        this.mc.thePlayer.sendChatMessage(msg);
+        this.mc.player.sendChatMessage(msg);
     }
 
     /**
@@ -667,7 +667,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
 
     public void drawWorldBackground(int tint)
     {
-        if (this.mc.theWorld != null)
+        if (this.mc.world != null)
         {
             this.drawGradientRect(0, 0, this.width, this.height, -1072689136, -804253680);
         }

@@ -135,6 +135,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import javax.annotation.Nullable;
+
 
 /**
  * Handles primary communication from hooked code into the system
@@ -474,7 +476,7 @@ public class FMLClientHandler implements IFMLSidedHandler
      */
     public void displayGuiScreen(EntityPlayer player, GuiScreen gui)
     {
-        if (client.thePlayer==player && gui != null) {
+        if (client.player==player && gui != null) {
             client.displayGuiScreen(gui);
         }
     }
@@ -512,7 +514,7 @@ public class FMLClientHandler implements IFMLSidedHandler
     }
 
     @Override
-    public void showGuiScreen(Object clientGuiElement)
+    public void showGuiScreen(@Nullable Object clientGuiElement)
     {
         GuiScreen gui = (GuiScreen) clientGuiElement;
         client.displayGuiScreen(gui);
@@ -567,12 +569,12 @@ public class FMLClientHandler implements IFMLSidedHandler
 
     public WorldClient getWorldClient()
     {
-        return client.theWorld;
+        return client.world;
     }
 
     public EntityPlayerSP getClientPlayerEntity()
     {
-        return client.thePlayer;
+        return client.player;
     }
 
     @Override
@@ -813,6 +815,7 @@ public class FMLClientHandler implements IFMLSidedHandler
     private static final ResourceLocation iconSheet = new ResourceLocation("fml:textures/gui/icons.png");
     private static final CountDownLatch startupConnectionData = new CountDownLatch(1);
 
+    @Nullable
     public String enhanceServerListEntry(ServerListEntryNormal serverListEntry, ServerData serverEntry, int x, int width, int y, int relativeMouseX, int relativeMouseY)
     {
         String tooltip;

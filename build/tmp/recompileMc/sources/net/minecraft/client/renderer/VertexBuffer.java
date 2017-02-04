@@ -288,8 +288,6 @@ public class VertexBuffer
     /**
      * Gets the position into the vertex data buffer at which the given vertex's color data can be found, in {@code
      * int}s.
-     *  
-     * @param vertexIndex The index of the vertex in question, where 0 is the last one added, 1 is the second last, etc.
      */
     public int getColorIndex(int vertexIndex)
     {
@@ -298,8 +296,6 @@ public class VertexBuffer
 
     /**
      * Modify the color data of the given vertex with the given multipliers.
-     *  
-     * @param vertexIndex The index of the vertex to modify, where 0 is the last one added, 1 is the second last, etc.
      */
     public void putColorMultiplier(float red, float green, float blue, int vertexIndex)
     {
@@ -344,17 +340,15 @@ public class VertexBuffer
     public void putColorRGB_F(float red, float green, float blue, int vertexIndex)
     {
         int i = this.getColorIndex(vertexIndex);
-        int j = MathHelper.clamp_int((int)(red * 255.0F), 0, 255);
-        int k = MathHelper.clamp_int((int)(green * 255.0F), 0, 255);
-        int l = MathHelper.clamp_int((int)(blue * 255.0F), 0, 255);
+        int j = MathHelper.clamp((int)(red * 255.0F), 0, 255);
+        int k = MathHelper.clamp((int)(green * 255.0F), 0, 255);
+        int l = MathHelper.clamp((int)(blue * 255.0F), 0, 255);
         this.putColorRGBA(i, j, k, l, 255);
     }
 
     /**
      * Write the given color data of 4 bytes at the given index into the vertex data buffer, accounting for system
      * endianness.
-     *  
-     * @param index The index in the vertex data buffer to which the color data will be written, in {@code int}s
      */
     public void putColorRGBA(int index, int red, int green, int blue, int alpha)
     {

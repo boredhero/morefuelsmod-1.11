@@ -233,7 +233,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
      */
     public int getMetaFromState(IBlockState state)
     {
-        if (state.getPropertyNames().isEmpty())
+        if (state.getPropertyKeys().isEmpty())
         {
             return 0;
         }
@@ -349,7 +349,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
     }
 
     @Deprecated
-    public boolean isVisuallyOpaque(IBlockState p_176214_1_)
+    public boolean causesSuffocation(IBlockState state)
     {
         return this.blockMaterial.blocksMovement() && this.getDefaultState().isFullCube();
     }
@@ -362,7 +362,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
 
     @Deprecated
     @SideOnly(Side.CLIENT)
-    public boolean func_190946_v(IBlockState p_190946_1_)
+    public boolean hasCustomBreakingProgress(IBlockState state)
     {
         return false;
     }
@@ -618,7 +618,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
      * block, etc.
      */
     @Deprecated
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
     }
 
@@ -706,7 +706,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
      */
     public static void spawnAsEntity(World worldIn, BlockPos pos, ItemStack stack)
     {
-        if (!worldIn.isRemote && !stack.func_190926_b() && worldIn.getGameRules().getBoolean("doTileDrops")&& !worldIn.restoringBlockSnapshots) // do not drop items while restoring blockstates, prevents item dupe
+        if (!worldIn.isRemote && !stack.isEmpty() && worldIn.getGameRules().getBoolean("doTileDrops")&& !worldIn.restoringBlockSnapshots) // do not drop items while restoring blockstates, prevents item dupe
         {
             if (captureDrops.get())
             {
@@ -719,7 +719,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
             double d2 = (double)(worldIn.rand.nextFloat() * 0.5F) + 0.25D;
             EntityItem entityitem = new EntityItem(worldIn, (double)pos.getX() + d0, (double)pos.getY() + d1, (double)pos.getZ() + d2, stack);
             entityitem.setDefaultPickupDelay();
-            worldIn.spawnEntityInWorld(entityitem);
+            worldIn.spawnEntity(entityitem);
         }
     }
 
@@ -734,7 +734,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
             {
                 int i = EntityXPOrb.getXPSplit(amount);
                 amount -= i;
-                worldIn.spawnEntityInWorld(new EntityXPOrb(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, i));
+                worldIn.spawnEntity(new EntityXPOrb(worldIn, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, i));
             }
         }
     }
@@ -801,7 +801,10 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
         return worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY)
+    /**
+     * Called when the block is right clicked by a player.
+     */
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         return false;
     }
@@ -819,7 +822,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
      * IBlockstate
      */
     @Deprecated
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         return this.getStateFromMeta(meta);
     }
@@ -869,9 +872,9 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
         if (this.canSilkHarvest(worldIn, pos, state, player) && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0)
         {
             java.util.List<ItemStack> items = new java.util.ArrayList<ItemStack>();
-            ItemStack itemstack = this.createStackedBlock(state);
+            ItemStack itemstack = this.getSilkTouchDrop(state);
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 items.add(itemstack);
             }
@@ -897,7 +900,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
         return this.getDefaultState().isFullCube() && !this.hasTileEntity(silk_check_state.get());
     }
 
-    protected ItemStack createStackedBlock(IBlockState state)
+    protected ItemStack getSilkTouchDrop(IBlockState state)
     {
         Item item = Item.getItemFromBlock(this);
         int i = 0;
@@ -1116,7 +1119,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
     }
 
     @Deprecated
-    public Vec3d func_190949_e(IBlockState p_190949_1_, IBlockAccess p_190949_2_, BlockPos p_190949_3_)
+    public Vec3d getOffset(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
         Block.EnumOffsetType block$enumoffsettype = this.getOffsetType();
 
@@ -1126,7 +1129,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
         }
         else
         {
-            long i = MathHelper.getCoordinateRandom(p_190949_3_.getX(), 0, p_190949_3_.getZ());
+            long i = MathHelper.getCoordinateRandom(pos.getX(), 0, pos.getZ());
             return new Vec3d(((double)((float)(i >> 16 & 15L) / 15.0F) - 0.5D) * 0.5D, block$enumoffsettype == Block.EnumOffsetType.XYZ ? ((double)((float)(i >> 20 & 15L) / 15.0F) - 1.0D) * 0.2D : 0.0D, ((double)((float)(i >> 24 & 15L) / 15.0F) - 0.5D) * 0.5D);
         }
     }
@@ -1143,7 +1146,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
     }
 
     @SideOnly(Side.CLIENT)
-    public void func_190948_a(ItemStack p_190948_1_, EntityPlayer p_190948_2_, List<String> p_190948_3_, boolean p_190948_4_)
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
     {
     }
 
@@ -1476,7 +1479,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
         for(int i = 0; i < count; i++)
         {
             Item item = this.getItemDropped(state, rand, fortune);
-            if (item != Items.field_190931_a)
+            if (item != Items.AIR)
             {
                 ret.add(new ItemStack(item, 1, this.damageDropped(state)));
             }
@@ -2314,7 +2317,7 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
          * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
          * IBlockstate
          */
-        return onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
+        return getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer);
     }
 
     /**
@@ -2328,6 +2331,17 @@ public class Block extends net.minecraftforge.fml.common.registry.IForgeRegistry
     public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing)
     {
         return false;
+    }
+
+    /**
+     * Get the {@code PathNodeType} for this block. Return {@code null} for vanilla behavior.
+     *
+     * @return the PathNodeType
+     */
+    @Nullable
+    public net.minecraft.pathfinding.PathNodeType getAiPathNodeType(IBlockState state, IBlockAccess world, BlockPos pos)
+    {
+        return isBurning(world, pos) ? net.minecraft.pathfinding.PathNodeType.DAMAGE_FIRE : null;
     }
 
     /* ========================================= FORGE END ======================================*/

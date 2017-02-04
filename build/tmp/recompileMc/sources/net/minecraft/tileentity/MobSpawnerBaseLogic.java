@@ -24,7 +24,7 @@ public abstract class MobSpawnerBaseLogic
 {
     /** The delay to spawn. */
     private int spawnDelay = 20;
-    private final List<WeightedSpawnerEntity> minecartToSpawn = Lists.<WeightedSpawnerEntity>newArrayList();
+    private final List<WeightedSpawnerEntity> potentialSpawns = Lists.<WeightedSpawnerEntity>newArrayList();
     private WeightedSpawnerEntity randomEntity = new WeightedSpawnerEntity();
     /** The rotation of the mob inside the mob spawner */
     private double mobRotation;
@@ -42,17 +42,17 @@ public abstract class MobSpawnerBaseLogic
     private int spawnRange = 4;
 
     @Nullable
-    private ResourceLocation func_190895_g()
+    private ResourceLocation getEntityId()
     {
         String s = this.randomEntity.getNbt().getString("id");
         return StringUtils.isNullOrEmpty(s) ? null : new ResourceLocation(s);
     }
 
-    public void func_190894_a(@Nullable ResourceLocation p_190894_1_)
+    public void setEntityId(@Nullable ResourceLocation id)
     {
-        if (p_190894_1_ != null)
+        if (id != null)
         {
-            this.randomEntity.getNbt().setString("id", p_190894_1_.toString());
+            this.randomEntity.getNbt().setString("id", id.toString());
         }
     }
 
@@ -173,9 +173,9 @@ public abstract class MobSpawnerBaseLogic
             this.spawnDelay = this.minSpawnDelay + this.getSpawnerWorld().rand.nextInt(i);
         }
 
-        if (!this.minecartToSpawn.isEmpty())
+        if (!this.potentialSpawns.isEmpty())
         {
-            this.setNextSpawnData((WeightedSpawnerEntity)WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.minecartToSpawn));
+            this.setNextSpawnData((WeightedSpawnerEntity)WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.potentialSpawns));
         }
 
         this.broadcastEvent(1);
@@ -184,7 +184,7 @@ public abstract class MobSpawnerBaseLogic
     public void readFromNBT(NBTTagCompound nbt)
     {
         this.spawnDelay = nbt.getShort("Delay");
-        this.minecartToSpawn.clear();
+        this.potentialSpawns.clear();
 
         if (nbt.hasKey("SpawnPotentials", 9))
         {
@@ -192,7 +192,7 @@ public abstract class MobSpawnerBaseLogic
 
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                this.minecartToSpawn.add(new WeightedSpawnerEntity(nbttaglist.getCompoundTagAt(i)));
+                this.potentialSpawns.add(new WeightedSpawnerEntity(nbttaglist.getCompoundTagAt(i)));
             }
         }
 
@@ -200,9 +200,9 @@ public abstract class MobSpawnerBaseLogic
         {
             this.setNextSpawnData(new WeightedSpawnerEntity(1, nbt.getCompoundTag("SpawnData")));
         }
-        else if (!this.minecartToSpawn.isEmpty())
+        else if (!this.potentialSpawns.isEmpty())
         {
-            this.setNextSpawnData((WeightedSpawnerEntity)WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.minecartToSpawn));
+            this.setNextSpawnData((WeightedSpawnerEntity)WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.potentialSpawns));
         }
 
         if (nbt.hasKey("MinSpawnDelay", 99))
@@ -231,7 +231,7 @@ public abstract class MobSpawnerBaseLogic
 
     public NBTTagCompound writeToNBT(NBTTagCompound p_189530_1_)
     {
-        ResourceLocation resourcelocation = this.func_190895_g();
+        ResourceLocation resourcelocation = this.getEntityId();
 
         if (resourcelocation == null)
         {
@@ -249,13 +249,13 @@ public abstract class MobSpawnerBaseLogic
             p_189530_1_.setTag("SpawnData", this.randomEntity.getNbt().copy());
             NBTTagList nbttaglist = new NBTTagList();
 
-            if (this.minecartToSpawn.isEmpty())
+            if (this.potentialSpawns.isEmpty())
             {
                 nbttaglist.appendTag(this.randomEntity.toCompoundTag());
             }
             else
             {
-                for (WeightedSpawnerEntity weightedspawnerentity : this.minecartToSpawn)
+                for (WeightedSpawnerEntity weightedspawnerentity : this.potentialSpawns)
                 {
                     nbttaglist.appendTag(weightedspawnerentity.toCompoundTag());
                 }

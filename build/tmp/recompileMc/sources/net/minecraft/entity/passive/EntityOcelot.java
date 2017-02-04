@@ -210,7 +210,7 @@ public class EntityOcelot extends EntityTameable
 
         if (this.isTamed())
         {
-            if (this.isOwner(player) && !this.worldObj.isRemote && !this.isBreedingItem(itemstack))
+            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack))
             {
                 this.aiSit.setSitting(!this.isSitting());
             }
@@ -219,24 +219,24 @@ public class EntityOcelot extends EntityTameable
         {
             if (!player.capabilities.isCreativeMode)
             {
-                itemstack.func_190918_g(1);
+                itemstack.shrink(1);
             }
 
-            if (!this.worldObj.isRemote)
+            if (!this.world.isRemote)
             {
                 if (this.rand.nextInt(3) == 0)
                 {
                     this.setTamed(true);
-                    this.setTameSkin(1 + this.worldObj.rand.nextInt(3));
+                    this.setTameSkin(1 + this.world.rand.nextInt(3));
                     this.setOwnerId(player.getUniqueID());
                     this.playTameEffect(true);
                     this.aiSit.setSitting(true);
-                    this.worldObj.setEntityState(this, (byte)7);
+                    this.world.setEntityState(this, (byte)7);
                 }
                 else
                 {
                     this.playTameEffect(false);
-                    this.worldObj.setEntityState(this, (byte)6);
+                    this.world.setEntityState(this, (byte)6);
                 }
             }
 
@@ -248,7 +248,7 @@ public class EntityOcelot extends EntityTameable
 
     public EntityOcelot createChild(EntityAgeable ageable)
     {
-        EntityOcelot entityocelot = new EntityOcelot(this.worldObj);
+        EntityOcelot entityocelot = new EntityOcelot(this.world);
 
         if (this.isTamed())
         {
@@ -308,7 +308,7 @@ public class EntityOcelot extends EntityTameable
      */
     public boolean getCanSpawnHere()
     {
-        return this.worldObj.rand.nextInt(3) != 0;
+        return this.world.rand.nextInt(3) != 0;
     }
 
     /**
@@ -316,19 +316,19 @@ public class EntityOcelot extends EntityTameable
      */
     public boolean isNotColliding()
     {
-        if (this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this) && this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.worldObj.containsAnyLiquid(this.getEntityBoundingBox()))
+        if (this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getEntityBoundingBox()))
         {
             BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
 
-            if (blockpos.getY() < this.worldObj.getSeaLevel())
+            if (blockpos.getY() < this.world.getSeaLevel())
             {
                 return false;
             }
 
-            IBlockState iblockstate = this.worldObj.getBlockState(blockpos.down());
+            IBlockState iblockstate = this.world.getBlockState(blockpos.down());
             Block block = iblockstate.getBlock();
 
-            if (block == Blocks.GRASS || block.isLeaves(iblockstate, this.worldObj, blockpos.down()))
+            if (block == Blocks.GRASS || block.isLeaves(iblockstate, this.world, blockpos.down()))
             {
                 return true;
             }
@@ -369,14 +369,14 @@ public class EntityOcelot extends EntityTameable
     {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
-        if (this.getTameSkin() == 0 && this.worldObj.rand.nextInt(7) == 0)
+        if (this.getTameSkin() == 0 && this.world.rand.nextInt(7) == 0)
         {
             for (int i = 0; i < 2; ++i)
             {
-                EntityOcelot entityocelot = new EntityOcelot(this.worldObj);
+                EntityOcelot entityocelot = new EntityOcelot(this.world);
                 entityocelot.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
                 entityocelot.setGrowingAge(-24000);
-                this.worldObj.spawnEntityInWorld(entityocelot);
+                this.world.spawnEntity(entityocelot);
             }
         }
 

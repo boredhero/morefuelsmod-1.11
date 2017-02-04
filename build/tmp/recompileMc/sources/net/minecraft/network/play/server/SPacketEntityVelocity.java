@@ -69,7 +69,7 @@ public class SPacketEntityVelocity implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityID = buf.readVarIntFromBuffer();
+        this.entityID = buf.readVarInt();
         this.motionX = buf.readShort();
         this.motionY = buf.readShort();
         this.motionZ = buf.readShort();
@@ -80,7 +80,7 @@ public class SPacketEntityVelocity implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityID);
+        buf.writeVarInt(this.entityID);
         buf.writeShort(this.motionX);
         buf.writeShort(this.motionY);
         buf.writeShort(this.motionZ);

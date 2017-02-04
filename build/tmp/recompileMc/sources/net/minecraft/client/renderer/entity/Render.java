@@ -214,12 +214,12 @@ public abstract class Render<T extends Entity>
         double d5 = entityIn.lastTickPosX + (entityIn.posX - entityIn.lastTickPosX) * (double)partialTicks;
         double d0 = entityIn.lastTickPosY + (entityIn.posY - entityIn.lastTickPosY) * (double)partialTicks;
         double d1 = entityIn.lastTickPosZ + (entityIn.posZ - entityIn.lastTickPosZ) * (double)partialTicks;
-        int i = MathHelper.floor_double(d5 - (double)f);
-        int j = MathHelper.floor_double(d5 + (double)f);
-        int k = MathHelper.floor_double(d0 - (double)f);
-        int l = MathHelper.floor_double(d0);
-        int i1 = MathHelper.floor_double(d1 - (double)f);
-        int j1 = MathHelper.floor_double(d1 + (double)f);
+        int i = MathHelper.floor(d5 - (double)f);
+        int j = MathHelper.floor(d5 + (double)f);
+        int k = MathHelper.floor(d0 - (double)f);
+        int l = MathHelper.floor(d0);
+        int i1 = MathHelper.floor(d1 - (double)f);
+        int j1 = MathHelper.floor(d1 + (double)f);
         double d2 = x - d5;
         double d3 = y - d0;
         double d4 = z - d1;
@@ -248,7 +248,7 @@ public abstract class Render<T extends Entity>
      */
     private World getWorldFromRenderManager()
     {
-        return this.renderManager.worldObj;
+        return this.renderManager.world;
     }
 
     private void renderShadowSingle(IBlockState state, double p_188299_2_, double p_188299_4_, double p_188299_6_, BlockPos p_188299_8_, float p_188299_9_, float p_188299_10_, double p_188299_11_, double p_188299_13_, double p_188299_15_)

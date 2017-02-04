@@ -18,9 +18,9 @@ public class GuiShareToLan extends GuiScreen
     private String gameMode = "survival";
     private boolean allowCheats;
 
-    public GuiShareToLan(GuiScreen p_i1055_1_)
+    public GuiShareToLan(GuiScreen lastScreenIn)
     {
-        this.lastScreen = p_i1055_1_;
+        this.lastScreen = lastScreenIn;
     }
 
     /**

@@ -246,7 +246,7 @@ public class FlatGeneratorInfo
         else
         {
             String[] astring = flatGeneratorSettings.split(";", -1);
-            int i = astring.length == 1 ? 0 : MathHelper.parseIntWithDefault(astring[0], 0);
+            int i = astring.length == 1 ? 0 : MathHelper.getInt(astring[0], 0);
 
             if (i >= 0 && i <= 3)
             {
@@ -262,7 +262,7 @@ public class FlatGeneratorInfo
 
                     if (i > 0 && astring.length > j)
                     {
-                        k = MathHelper.parseIntWithDefault(astring[j++], k);
+                        k = MathHelper.getInt(astring[j++], k);
                     }
 
                     flatgeneratorinfo.setBiome(k);

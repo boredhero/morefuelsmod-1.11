@@ -204,7 +204,7 @@ public class GuiChat extends GuiScreen implements ITabCompleter
     {
         int i = this.sentHistoryCursor + msgPos;
         int j = this.mc.ingameGUI.getChatGUI().getSentMessages().size();
-        i = MathHelper.clamp_int(i, 0, j);
+        i = MathHelper.clamp(i, 0, j);
 
         if (i != this.sentHistoryCursor)
         {

@@ -36,9 +36,9 @@ public class EntitySpectralArrow extends EntityArrow
     {
         super.onUpdate();
 
-        if (this.worldObj.isRemote && !this.inGround)
+        if (this.world.isRemote && !this.inGround)
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.SPELL_INSTANT, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
         }
     }
 

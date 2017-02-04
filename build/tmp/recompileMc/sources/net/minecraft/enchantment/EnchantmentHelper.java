@@ -38,7 +38,7 @@ public class EnchantmentHelper
      */
     public static int getEnchantmentLevel(Enchantment enchID, ItemStack stack)
     {
-        if (stack.func_190926_b())
+        if (stack.isEmpty())
         {
             return 0;
         }
@@ -130,7 +130,7 @@ public class EnchantmentHelper
      */
     private static void applyEnchantmentModifier(EnchantmentHelper.IModifier modifier, ItemStack stack)
     {
-        if (!stack.func_190926_b())
+        if (!stack.isEmpty())
         {
             NBTTagList nbttaglist = stack.getEnchantmentTagList();
 
@@ -304,28 +304,26 @@ public class EnchantmentHelper
     /**
      * Checks if the player has any armor enchanted with the frost walker enchantment. 
      *  @return If player has equipment with frost walker
-     *  
-     * @param player The player to check enchantment for
      */
     public static boolean hasFrostWalkerEnchantment(EntityLivingBase player)
     {
         return getMaxEnchantmentLevel(Enchantments.FROST_WALKER, player) > 0;
     }
 
-    public static boolean func_190938_b(ItemStack p_190938_0_)
+    public static boolean hasBindingCurse(ItemStack p_190938_0_)
     {
         /**
          * Returns the level of enchantment on the ItemStack passed.
          */
-        return getEnchantmentLevel(Enchantments.field_190941_k, p_190938_0_) > 0;
+        return getEnchantmentLevel(Enchantments.BINDING_CURSE, p_190938_0_) > 0;
     }
 
-    public static boolean func_190939_c(ItemStack p_190939_0_)
+    public static boolean hasVanishingCurse(ItemStack p_190939_0_)
     {
         /**
          * Returns the level of enchantment on the ItemStack passed.
          */
-        return getEnchantmentLevel(Enchantments.field_190940_C, p_190939_0_) > 0;
+        return getEnchantmentLevel(Enchantments.VANISHING_CURSE, p_190939_0_) > 0;
     }
 
     public static ItemStack getEnchantedItem(Enchantment p_92099_0_, EntityLivingBase p_92099_1_)
@@ -334,7 +332,7 @@ public class EnchantmentHelper
 
         if (list.isEmpty())
         {
-            return ItemStack.field_190927_a;
+            return ItemStack.EMPTY;
         }
         else
         {
@@ -342,13 +340,13 @@ public class EnchantmentHelper
 
             for (ItemStack itemstack : list)
             {
-                if (!itemstack.func_190926_b() && getEnchantmentLevel(p_92099_0_, itemstack) > 0)
+                if (!itemstack.isEmpty() && getEnchantmentLevel(p_92099_0_, itemstack) > 0)
                 {
                     list1.add(itemstack);
                 }
             }
 
-            return list1.isEmpty() ? ItemStack.field_190927_a : (ItemStack)list1.get(p_92099_1_.getRNG().nextInt(list1.size()));
+            return list1.isEmpty() ? ItemStack.EMPTY : (ItemStack)list1.get(p_92099_1_.getRNG().nextInt(list1.size()));
         }
     }
 
@@ -419,7 +417,7 @@ public class EnchantmentHelper
         {
             p_77513_2_ = p_77513_2_ + 1 + randomIn.nextInt(i / 4 + 1) + randomIn.nextInt(i / 4 + 1);
             float f = (randomIn.nextFloat() + randomIn.nextFloat() - 1.0F) * 0.15F;
-            p_77513_2_ = MathHelper.clamp_int(Math.round((float)p_77513_2_ + (float)p_77513_2_ * f), 1, Integer.MAX_VALUE);
+            p_77513_2_ = MathHelper.clamp(Math.round((float)p_77513_2_ + (float)p_77513_2_ * f), 1, Integer.MAX_VALUE);
             List<EnchantmentData> list1 = getEnchantmentDatas(p_77513_2_, itemStackIn, allowTreasure);
 
             if (!list1.isEmpty())

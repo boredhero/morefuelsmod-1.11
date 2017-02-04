@@ -78,7 +78,7 @@ public class WorldGenMegaPineTree extends WorldGenHugeTrees
         for (int k = y - i; k <= y; ++k)
         {
             int l = y - k;
-            int i1 = p_150541_5_ + MathHelper.floor_float((float)l / (float)i * 3.5F);
+            int i1 = p_150541_5_ + MathHelper.floor((float)l / (float)i * 3.5F);
             this.growLeavesLayerStrict(worldIn, new BlockPos(x, k, z), i1 + (l > 0 && i1 == j && (k & 1) == 0 ? 1 : 0));
             j = i1;
         }

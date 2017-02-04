@@ -143,10 +143,10 @@ public class ForgeEventFactory
     @Deprecated
     public static PlaceEvent onPlayerBlockPlace(EntityPlayer player, BlockSnapshot blockSnapshot, EnumFacing direction)
     {
-        return onPlayerBlockPlace(player, blockSnapshot, direction, null);
+        return onPlayerBlockPlace(player, blockSnapshot, direction, EnumHand.MAIN_HAND);
     }
 
-    public static PlaceEvent onPlayerBlockPlace(EntityPlayer player, BlockSnapshot blockSnapshot, EnumFacing direction, @Nullable EnumHand hand)
+    public static PlaceEvent onPlayerBlockPlace(@Nonnull EntityPlayer player, @Nonnull BlockSnapshot blockSnapshot, @Nonnull EnumFacing direction, @Nonnull EnumHand hand)
     {
         IBlockState placedAgainst = blockSnapshot.getWorld().getBlockState(blockSnapshot.getPos().offset(direction.getOpposite()));
         PlaceEvent event = new PlaceEvent(blockSnapshot, placedAgainst, player, hand);
@@ -223,6 +223,7 @@ public class ForgeEventFactory
        return event.getDroppedExperience();
     }
 
+    @Nullable
     public static List<Biome.SpawnListEntry> getPotentialSpawns(WorldServer world, EnumCreatureType type, BlockPos pos, List<Biome.SpawnListEntry> oldList)
     {
         WorldEvent.PotentialSpawns event = new WorldEvent.PotentialSpawns(world, type, pos, oldList);
@@ -331,6 +332,7 @@ public class ForgeEventFactory
         MinecraftForge.EVENT_BUS.post(new PlayerEvent.LoadFromFile(player, dir, uuidString));
     }
 
+    @Nullable
     public static ITextComponent onClientChat(byte type, ITextComponent message)
     {
         ClientChatReceivedEvent event = new ClientChatReceivedEvent(type, message);
@@ -356,13 +358,14 @@ public class ForgeEventFactory
         if (event.getResult() == Result.ALLOW)
         {
             if (!world.isRemote)
-                stack.func_190918_g(1);
+                stack.shrink(1);
             return 1;
         }
         return 0;
     }
 
-    public static ActionResult<ItemStack> onBucketUse(EntityPlayer player, World world, ItemStack stack, RayTraceResult target)
+    @Nullable
+    public static ActionResult<ItemStack> onBucketUse(@Nonnull EntityPlayer player, @Nonnull World world, @Nonnull ItemStack stack, @Nullable RayTraceResult target)
     {
         FillBucketEvent event = new FillBucketEvent(player, stack, world, target);
         if (MinecraftForge.EVENT_BUS.post(event)) return new ActionResult<ItemStack>(EnumActionResult.FAIL, stack);
@@ -372,8 +375,8 @@ public class ForgeEventFactory
             if (player.capabilities.isCreativeMode)
                 return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 
-            stack.func_190918_g(1);
-            if (stack.func_190926_b())
+            stack.shrink(1);
+            if (stack.isEmpty())
                 return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, event.getFilledBucket());
 
             if (!player.inventory.addItemStackToInventory(event.getFilledBucket()))
@@ -400,8 +403,8 @@ public class ForgeEventFactory
 
     public static int onItemExpire(EntityItem entity, @Nonnull ItemStack item)
     {
-        if (item.func_190926_b()) return -1;
-        ItemExpireEvent event = new ItemExpireEvent(entity, (item.func_190926_b() ? 6000 : item.getItem().getEntityLifespan(item, entity.worldObj)));
+        if (item.isEmpty()) return -1;
+        ItemExpireEvent event = new ItemExpireEvent(entity, (item.isEmpty() ? 6000 : item.getItem().getEntityLifespan(item, entity.world)));
         if (!MinecraftForge.EVENT_BUS.post(event)) return -1;
         return event.getExtraLife();
     }
@@ -427,7 +430,7 @@ public class ForgeEventFactory
 
     public static boolean canMountEntity(Entity entityMounting, Entity entityBeingMounted, boolean isMounting)
     {
-        boolean isCanceled = MinecraftForge.EVENT_BUS.post(new EntityMountEvent(entityMounting, entityBeingMounted, entityMounting.worldObj, isMounting));
+        boolean isCanceled = MinecraftForge.EVENT_BUS.post(new EntityMountEvent(entityMounting, entityBeingMounted, entityMounting.world, isMounting));
 
         if(isCanceled)
         {
@@ -498,7 +501,7 @@ public class ForgeEventFactory
 
     public static boolean onPotionAttemptBrew(NonNullList<ItemStack> stacks)
     {
-        NonNullList<ItemStack> tmp = NonNullList.func_191197_a(stacks.size(), ItemStack.field_190927_a);
+        NonNullList<ItemStack> tmp = NonNullList.withSize(stacks.size(), ItemStack.EMPTY);
         for (int x = 0; x < tmp.size(); x++)
             tmp.set(x, stacks.get(x).copy());
 
@@ -543,27 +546,32 @@ public class ForgeEventFactory
         return MinecraftForge.EVENT_BUS.post(new RenderBlockOverlayEvent(player, renderPartialTicks, type, block, pos));
     }
 
+    @Nullable
     public static CapabilityDispatcher gatherCapabilities(TileEntity tileEntity)
     {
         return gatherCapabilities(new AttachCapabilitiesEvent.TileEntity(tileEntity), null);
     }
 
+    @Nullable
     public static CapabilityDispatcher gatherCapabilities(Entity entity)
     {
         return gatherCapabilities(new AttachCapabilitiesEvent.Entity(entity), null);
     }
 
+    @Nullable
     public static CapabilityDispatcher gatherCapabilities(Item item, ItemStack stack, ICapabilityProvider parent)
     {
         return gatherCapabilities(new AttachCapabilitiesEvent.Item(item, stack), parent);
     }
 
+    @Nullable
     public static CapabilityDispatcher gatherCapabilities(World world, ICapabilityProvider parent)
     {
         return gatherCapabilities(new AttachCapabilitiesEvent.World(world), parent);
     }
 
-    private static CapabilityDispatcher gatherCapabilities(AttachCapabilitiesEvent event, ICapabilityProvider parent)
+    @Nullable
+    private static CapabilityDispatcher gatherCapabilities(AttachCapabilitiesEvent<?> event, @Nullable ICapabilityProvider parent)
     {
         MinecraftForge.EVENT_BUS.post(event);
         return event.getCapabilities().size() > 0 || parent != null ? new CapabilityDispatcher(event.getCapabilities(), parent) : null;
@@ -577,8 +585,8 @@ public class ForgeEventFactory
         Result canContinueSleep = evt.getResult();
         if (canContinueSleep == Result.DEFAULT)
         {
-            IBlockState state = player.worldObj.getBlockState(player.bedLocation);
-            return state.getBlock().isBed(state, player.worldObj, player.bedLocation, player);
+            IBlockState state = player.world.getBlockState(player.bedLocation);
+            return state.getBlock().isBed(state, player.world, player.bedLocation, player);
         }
         else
             return canContinueSleep == Result.ALLOW;

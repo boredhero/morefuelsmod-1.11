@@ -142,9 +142,9 @@ public class ShaderGroup
         }
     }
 
-    private void parsePass(TextureManager p_152764_1_, JsonElement p_152764_2_) throws JsonException, IOException
+    private void parsePass(TextureManager p_152764_1_, JsonElement json) throws JsonException, IOException
     {
-        JsonObject jsonobject = JsonUtils.getJsonObject(p_152764_2_, "pass");
+        JsonObject jsonobject = JsonUtils.getJsonObject(json, "pass");
         String s = JsonUtils.getString(jsonobject, "name");
         String s1 = JsonUtils.getString(jsonobject, "intarget");
         String s2 = JsonUtils.getString(jsonobject, "outtarget");
@@ -255,9 +255,9 @@ public class ShaderGroup
         }
     }
 
-    private void initUniform(JsonElement p_148028_1_) throws JsonException
+    private void initUniform(JsonElement json) throws JsonException
     {
-        JsonObject jsonobject = JsonUtils.getJsonObject(p_148028_1_, "uniform");
+        JsonObject jsonobject = JsonUtils.getJsonObject(json, "uniform");
         String s = JsonUtils.getString(jsonobject, "name");
         ShaderUniform shaderuniform = ((Shader)this.listShaders.get(this.listShaders.size() - 1)).getShaderManager().getShaderUniform(s);
 
@@ -306,9 +306,9 @@ public class ShaderGroup
         }
     }
 
-    public Framebuffer getFramebufferRaw(String p_177066_1_)
+    public Framebuffer getFramebufferRaw(String attributeName)
     {
-        return (Framebuffer)this.mapFramebuffers.get(p_177066_1_);
+        return (Framebuffer)this.mapFramebuffers.get(attributeName);
     }
 
     public void addFramebuffer(String p_148020_1_, int p_148020_2_, int p_148020_3_)
@@ -338,9 +338,9 @@ public class ShaderGroup
         this.listShaders.clear();
     }
 
-    public Shader addShader(String p_148023_1_, Framebuffer p_148023_2_, Framebuffer p_148023_3_) throws JsonException, IOException
+    public Shader addShader(String programName, Framebuffer framebufferIn, Framebuffer framebufferOut) throws JsonException, IOException
     {
-        Shader shader = new Shader(this.resourceManager, p_148023_1_, p_148023_2_, p_148023_3_);
+        Shader shader = new Shader(this.resourceManager, programName, framebufferIn, framebufferOut);
         this.listShaders.add(this.listShaders.size(), shader);
         return shader;
     }

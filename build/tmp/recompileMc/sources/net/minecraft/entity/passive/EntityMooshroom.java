@@ -36,9 +36,9 @@ public class EntityMooshroom extends EntityCow implements net.minecraftforge.com
 
         if (itemstack.getItem() == Items.BOWL && this.getGrowingAge() >= 0 && !player.capabilities.isCreativeMode)
         {
-            itemstack.func_190918_g(1);
+            itemstack.shrink(1);
 
-            if (itemstack.func_190926_b())
+            if (itemstack.isEmpty())
             {
                 player.setHeldItem(hand, new ItemStack(Items.MUSHROOM_STEW));
             }
@@ -52,11 +52,11 @@ public class EntityMooshroom extends EntityCow implements net.minecraftforge.com
         else if (false && itemstack.getItem() == Items.SHEARS && this.getGrowingAge() >= 0) //Forge Disable, Moved to onSheared
         {
             this.setDead();
-            this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX, this.posY + (double)(this.height / 2.0F), this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX, this.posY + (double)(this.height / 2.0F), this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
 
-            if (!this.worldObj.isRemote)
+            if (!this.world.isRemote)
             {
-                EntityCow entitycow = new EntityCow(this.worldObj);
+                EntityCow entitycow = new EntityCow(this.world);
                 entitycow.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
                 entitycow.setHealth(this.getHealth());
                 entitycow.renderYawOffset = this.renderYawOffset;
@@ -66,11 +66,11 @@ public class EntityMooshroom extends EntityCow implements net.minecraftforge.com
                     entitycow.setCustomNameTag(this.getCustomNameTag());
                 }
 
-                this.worldObj.spawnEntityInWorld(entitycow);
+                this.world.spawnEntity(entitycow);
 
                 for (int i = 0; i < 5; ++i)
                 {
-                    this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY + (double)this.height, this.posZ, new ItemStack(Blocks.RED_MUSHROOM)));
+                    this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY + (double)this.height, this.posZ, new ItemStack(Blocks.RED_MUSHROOM)));
                 }
 
                 itemstack.damageItem(1, player);
@@ -87,7 +87,7 @@ public class EntityMooshroom extends EntityCow implements net.minecraftforge.com
 
     public EntityMooshroom createChild(EntityAgeable ageable)
     {
-        return new EntityMooshroom(this.worldObj);
+        return new EntityMooshroom(this.world);
     }
 
     @Override public boolean isShearable(ItemStack item, net.minecraft.world.IBlockAccess world, net.minecraft.util.math.BlockPos pos){ return getGrowingAge() >= 0; }
@@ -95,9 +95,9 @@ public class EntityMooshroom extends EntityCow implements net.minecraftforge.com
     public java.util.List<ItemStack> onSheared(ItemStack item, net.minecraft.world.IBlockAccess world, net.minecraft.util.math.BlockPos pos, int fortune)
     {
         this.setDead();
-        this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX, this.posY + (double)(this.height / 2.0F), this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+        this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX, this.posY + (double)(this.height / 2.0F), this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
 
-        EntityCow entitycow = new EntityCow(this.worldObj);
+        EntityCow entitycow = new EntityCow(this.world);
         entitycow.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
         entitycow.setHealth(this.getHealth());
         entitycow.renderYawOffset = this.renderYawOffset;
@@ -107,7 +107,7 @@ public class EntityMooshroom extends EntityCow implements net.minecraftforge.com
             entitycow.setCustomNameTag(this.getCustomNameTag());
         }
 
-        this.worldObj.spawnEntityInWorld(entitycow);
+        this.world.spawnEntity(entitycow);
 
         java.util.List<ItemStack> ret = new java.util.ArrayList<ItemStack>();
         for (int i = 0; i < 5; ++i)

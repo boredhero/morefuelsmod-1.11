@@ -83,9 +83,9 @@ public class TileEntityEndGateway extends TileEntityEndPortal implements ITickab
         {
             --this.teleportCooldown;
         }
-        else if (!this.worldObj.isRemote)
+        else if (!this.world.isRemote)
         {
-            List<Entity> list = this.worldObj.<Entity>getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(this.getPos()));
+            List<Entity> list = this.world.<Entity>getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(this.getPos()));
 
             if (!list.isEmpty())
             {
@@ -117,13 +117,13 @@ public class TileEntityEndGateway extends TileEntityEndPortal implements ITickab
     @SideOnly(Side.CLIENT)
     public float getSpawnPercent(float p_184302_1_)
     {
-        return MathHelper.clamp_float(((float)this.age + p_184302_1_) / 200.0F, 0.0F, 1.0F);
+        return MathHelper.clamp(((float)this.age + p_184302_1_) / 200.0F, 0.0F, 1.0F);
     }
 
     @SideOnly(Side.CLIENT)
     public float getCooldownPercent(float p_184305_1_)
     {
-        return 1.0F - MathHelper.clamp_float(((float)this.teleportCooldown - p_184305_1_) / 40.0F, 0.0F, 1.0F);
+        return 1.0F - MathHelper.clamp(((float)this.teleportCooldown - p_184305_1_) / 40.0F, 0.0F, 1.0F);
     }
 
     @Nullable
@@ -139,10 +139,10 @@ public class TileEntityEndGateway extends TileEntityEndPortal implements ITickab
 
     public void triggerCooldown()
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             this.teleportCooldown = 40;
-            this.worldObj.addBlockEvent(this.getPos(), this.getBlockType(), 1, 0);
+            this.world.addBlockEvent(this.getPos(), this.getBlockType(), 1, 0);
             this.markDirty();
         }
     }
@@ -162,11 +162,11 @@ public class TileEntityEndGateway extends TileEntityEndPortal implements ITickab
 
     public void teleportEntity(Entity entityIn)
     {
-        if (!this.worldObj.isRemote && !this.isCoolingDown())
+        if (!this.world.isRemote && !this.isCoolingDown())
         {
             this.teleportCooldown = 100;
 
-            if (this.exitPortal == null && this.worldObj.provider instanceof WorldProviderEnd)
+            if (this.exitPortal == null && this.world.provider instanceof WorldProviderEnd)
             {
                 this.findExitPortal();
             }
@@ -183,7 +183,7 @@ public class TileEntityEndGateway extends TileEntityEndPortal implements ITickab
 
     private BlockPos findExitPosition()
     {
-        BlockPos blockpos = findHighestBlock(this.worldObj, this.exitPortal, 5, false);
+        BlockPos blockpos = findHighestBlock(this.world, this.exitPortal, 5, false);
         LOG.debug("Best exit position for portal at {} is {}", new Object[] {this.exitPortal, blockpos});
         return blockpos.up();
     }
@@ -193,32 +193,32 @@ public class TileEntityEndGateway extends TileEntityEndPortal implements ITickab
         Vec3d vec3d = (new Vec3d((double)this.getPos().getX(), 0.0D, (double)this.getPos().getZ())).normalize();
         Vec3d vec3d1 = vec3d.scale(1024.0D);
 
-        for (int i = 16; getChunk(this.worldObj, vec3d1).getTopFilledSegment() > 0 && i-- > 0; vec3d1 = vec3d1.add(vec3d.scale(-16.0D)))
+        for (int i = 16; getChunk(this.world, vec3d1).getTopFilledSegment() > 0 && i-- > 0; vec3d1 = vec3d1.add(vec3d.scale(-16.0D)))
         {
             LOG.debug("Skipping backwards past nonempty chunk at {}", new Object[] {vec3d1});
         }
 
-        for (int j = 16; getChunk(this.worldObj, vec3d1).getTopFilledSegment() == 0 && j-- > 0; vec3d1 = vec3d1.add(vec3d.scale(16.0D)))
+        for (int j = 16; getChunk(this.world, vec3d1).getTopFilledSegment() == 0 && j-- > 0; vec3d1 = vec3d1.add(vec3d.scale(16.0D)))
         {
             LOG.debug("Skipping forward past empty chunk at {}", new Object[] {vec3d1});
         }
 
         LOG.debug("Found chunk at {}", new Object[] {vec3d1});
-        Chunk chunk = getChunk(this.worldObj, vec3d1);
+        Chunk chunk = getChunk(this.world, vec3d1);
         this.exitPortal = findSpawnpointInChunk(chunk);
 
         if (this.exitPortal == null)
         {
             this.exitPortal = new BlockPos(vec3d1.xCoord + 0.5D, 75.0D, vec3d1.zCoord + 0.5D);
             LOG.debug("Failed to find suitable block, settling on {}", new Object[] {this.exitPortal});
-            (new WorldGenEndIsland()).generate(this.worldObj, new Random(this.exitPortal.toLong()), this.exitPortal);
+            (new WorldGenEndIsland()).generate(this.world, new Random(this.exitPortal.toLong()), this.exitPortal);
         }
         else
         {
             LOG.debug("Found block at {}", new Object[] {this.exitPortal});
         }
 
-        this.exitPortal = findHighestBlock(this.worldObj, this.exitPortal, 16, true);
+        this.exitPortal = findHighestBlock(this.world, this.exitPortal, 16, true);
         LOG.debug("Creating portal at {}", new Object[] {this.exitPortal});
         this.exitPortal = this.exitPortal.up(10);
         this.createExitPortal(this.exitPortal);
@@ -255,7 +255,7 @@ public class TileEntityEndGateway extends TileEntityEndPortal implements ITickab
 
     private static Chunk getChunk(World worldIn, Vec3d vec3)
     {
-        return worldIn.getChunkFromChunkCoords(MathHelper.floor_double(vec3.xCoord / 16.0D), MathHelper.floor_double(vec3.zCoord / 16.0D));
+        return worldIn.getChunkFromChunkCoords(MathHelper.floor(vec3.xCoord / 16.0D), MathHelper.floor(vec3.zCoord / 16.0D));
     }
 
     @Nullable
@@ -288,8 +288,8 @@ public class TileEntityEndGateway extends TileEntityEndPortal implements ITickab
 
     private void createExitPortal(BlockPos posIn)
     {
-        (new WorldGenEndGateway()).generate(this.worldObj, new Random(), posIn);
-        TileEntity tileentity = this.worldObj.getTileEntity(posIn);
+        (new WorldGenEndGateway()).generate(this.world, new Random(), posIn);
+        TileEntity tileentity = this.world.getTileEntity(posIn);
 
         if (tileentity instanceof TileEntityEndGateway)
         {
@@ -306,7 +306,7 @@ public class TileEntityEndGateway extends TileEntityEndPortal implements ITickab
     @SideOnly(Side.CLIENT)
     public boolean shouldRenderFace(EnumFacing p_184313_1_)
     {
-        return this.getBlockType().getDefaultState().shouldSideBeRendered(this.worldObj, this.getPos(), p_184313_1_);
+        return this.getBlockType().getDefaultState().shouldSideBeRendered(this.world, this.getPos(), p_184313_1_);
     }
 
     @SideOnly(Side.CLIENT)
@@ -322,7 +322,7 @@ public class TileEntityEndGateway extends TileEntityEndPortal implements ITickab
         return i;
     }
 
-    public void func_190603_b(BlockPos p_190603_1_)
+    public void setExactPosition(BlockPos p_190603_1_)
     {
         this.exactTeleport = true;
         this.exitPortal = p_190603_1_;

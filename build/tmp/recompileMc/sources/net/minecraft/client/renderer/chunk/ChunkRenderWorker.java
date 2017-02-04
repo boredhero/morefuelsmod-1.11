@@ -29,9 +29,9 @@ public class ChunkRenderWorker implements Runnable
     private final RegionRenderCacheBuilder regionRenderCacheBuilder;
     private boolean shouldRun;
 
-    public ChunkRenderWorker(ChunkRenderDispatcher p_i46201_1_)
+    public ChunkRenderWorker(ChunkRenderDispatcher chunkRenderDispatcherIn)
     {
-        this(p_i46201_1_, (RegionRenderCacheBuilder)null);
+        this(chunkRenderDispatcherIn, (RegionRenderCacheBuilder)null);
     }
 
     public ChunkRenderWorker(ChunkRenderDispatcher chunkRenderDispatcherIn, @Nullable RegionRenderCacheBuilder regionRenderCacheBuilderIn)
@@ -79,7 +79,7 @@ public class ChunkRenderWorker implements Runnable
                 return;
             }
 
-            BlockPos blockpos = new BlockPos(Minecraft.getMinecraft().thePlayer);
+            BlockPos blockpos = new BlockPos(Minecraft.getMinecraft().player);
             BlockPos blockpos1 = generator.getRenderChunk().getPosition();
             int i = 16;
             int j = 8;
@@ -217,9 +217,9 @@ public class ChunkRenderWorker implements Runnable
         }
     }
 
-    private boolean isChunkExisting(BlockPos p_188263_1_, World p_188263_2_)
+    private boolean isChunkExisting(BlockPos pos, World worldIn)
     {
-        return !p_188263_2_.getChunkFromChunkCoords(p_188263_1_.getX() >> 4, p_188263_1_.getZ() >> 4).isEmpty();
+        return !worldIn.getChunkFromChunkCoords(pos.getX() >> 4, pos.getZ() >> 4).isEmpty();
     }
 
     private RegionRenderCacheBuilder getRegionRenderCacheBuilder() throws InterruptedException

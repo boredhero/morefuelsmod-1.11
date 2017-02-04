@@ -38,7 +38,7 @@ public class EntityLeashKnot extends EntityHanging
      */
     public void setPosition(double x, double y, double z)
     {
-        super.setPosition((double)MathHelper.floor_double(x) + 0.5D, (double)MathHelper.floor_double(y) + 0.5D, (double)MathHelper.floor_double(z) + 0.5D);
+        super.setPosition((double)MathHelper.floor(x) + 0.5D, (double)MathHelper.floor(y) + 0.5D, (double)MathHelper.floor(z) + 0.5D);
     }
 
     /**
@@ -114,9 +114,9 @@ public class EntityLeashKnot extends EntityHanging
     {
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
-        if (this.worldObj.isRemote)
+        if (this.world.isRemote)
         {
             return true;
         }
@@ -124,7 +124,7 @@ public class EntityLeashKnot extends EntityHanging
         {
             boolean flag = false;
             double d0 = 7.0D;
-            List<EntityLiving> list = this.worldObj.<EntityLiving>getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(this.posX - 7.0D, this.posY - 7.0D, this.posZ - 7.0D, this.posX + 7.0D, this.posY + 7.0D, this.posZ + 7.0D));
+            List<EntityLiving> list = this.world.<EntityLiving>getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(this.posX - 7.0D, this.posY - 7.0D, this.posZ - 7.0D, this.posX + 7.0D, this.posY + 7.0D, this.posZ + 7.0D));
 
             for (EntityLiving entityliving : list)
             {
@@ -160,13 +160,13 @@ public class EntityLeashKnot extends EntityHanging
      */
     public boolean onValidSurface()
     {
-        return this.worldObj.getBlockState(this.hangingPosition).getBlock() instanceof BlockFence;
+        return this.world.getBlockState(this.hangingPosition).getBlock() instanceof BlockFence;
     }
 
     public static EntityLeashKnot createKnot(World worldIn, BlockPos fence)
     {
         EntityLeashKnot entityleashknot = new EntityLeashKnot(worldIn, fence);
-        worldIn.spawnEntityInWorld(entityleashknot);
+        worldIn.spawnEntity(entityleashknot);
         entityleashknot.playPlaceSound();
         return entityleashknot;
     }

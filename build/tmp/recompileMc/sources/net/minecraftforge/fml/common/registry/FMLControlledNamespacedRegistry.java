@@ -30,6 +30,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Iterators;
@@ -47,6 +48,9 @@ import net.minecraftforge.fml.common.functions.GenericIterableFactory;
 import net.minecraftforge.fml.common.registry.RegistryDelegate.Delegate;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraftforge.fml.common.registry.IForgeRegistry.AddCallback;
 import net.minecraftforge.fml.common.registry.IForgeRegistry.ClearCallback;
 import net.minecraftforge.fml.common.registry.IForgeRegistry.CreateCallback;
@@ -57,7 +61,9 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
     public static final boolean DEBUG = Boolean.parseBoolean(System.getProperty("fml.debugRegistryEntries", "false"));
     private final Class<I> superType;
     private final boolean isDelegated;
+    @Nullable
     private ResourceLocation optionalDefaultKey;
+    @Nullable
     private I optionalDefaultObject;
     private int maxId;
     private int minId;
@@ -88,16 +94,16 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
     private final BitSet availabilityMap;
 
     private final Map<ResourceLocation,?> slaves = Maps.newHashMap();
-
+    @Nullable
     private final AddCallback<I> addCallback;
-
+    @Nullable
     private final ClearCallback<I> clearCallback;
-
+    @Nullable
     private final CreateCallback<I> createCallback;
-
+    @Nullable
     private final SubstitutionCallback<I> substitutionCallback;
 
-    FMLControlledNamespacedRegistry(ResourceLocation defaultKey, int minIdValue, int maxIdValue, Class<I> type, BiMap<ResourceLocation, ? extends IForgeRegistry<?>> registries, AddCallback<I> addCallback, ClearCallback<I> clearCallback, CreateCallback<I> createCallback, SubstitutionCallback<I> substitutionCallback)
+    FMLControlledNamespacedRegistry(@Nullable ResourceLocation defaultKey, int minIdValue, int maxIdValue, Class<I> type, BiMap<ResourceLocation, ? extends IForgeRegistry<?>> registries, @Nullable AddCallback<I> addCallback, @Nullable ClearCallback<I> clearCallback, @Nullable CreateCallback<I> createCallback, @Nullable SubstitutionCallback<I> substitutionCallback)
     {
         super(defaultKey);
         this.superType = type;
@@ -225,7 +231,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
      */
     @Override
     @Deprecated
-    public void register(int id, ResourceLocation name, I thing)
+    public void register(int id, @Nonnull ResourceLocation name, @Nonnull I thing)
     {
         add(id, name, thing);
     }
@@ -240,17 +246,10 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
      */
     @Override
     @Deprecated
-    public void putObject(ResourceLocation name, I thing)
+    public void putObject(@Nonnull ResourceLocation name, @Nonnull I thing)
     {
-
-        if (name == null)
-        {
-            throw new NullPointerException("Can't use a null-name for the registry.");
-        }
-        if (thing == null)
-        {
-            throw new NullPointerException("Can't add null-object to the registry.");
-        }
+        Preconditions.checkNotNull(name, "Can't use a null-name for the registry.");
+        Preconditions.checkNotNull(thing, "Can't add null-object to the registry.");
 
         ResourceLocation existingName = getNameForObject(thing);
 
@@ -277,6 +276,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
      * @param name Unique name identifying the object.
      * @return Registered object of the default object if it wasn't found-
      */
+    @Nullable
     @Override
     public I getObject(ResourceLocation name)
     {
@@ -295,6 +295,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
     /**
      * Gets the object identified by the given ID.
      */
+    @Nullable
     @Override
     public I getObjectById(int id)
     {
@@ -313,7 +314,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
      * @param thing Block/Item object.
      * @return Block/Item id or -1 if it wasn't found.
      */
-    public int getId(I thing)
+    public int getId(@Nullable I thing)
     {
         return getIDForObjectBypass(thing);
     }
@@ -324,6 +325,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
      * @param id Block/Item id.
      * @return Block/Item object or null if it wasn't found.
      */
+    @Nullable
     public I getRaw(int id)
     {
         return super.getObjectById(id);
@@ -335,6 +337,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
      * @param name Block/Item name.
      * @return Block/Item object or null if it wasn't found.
      */
+    @Nullable
     private I getRaw(ResourceLocation name)
     {
         I ret = super.getObject(name);
@@ -364,7 +367,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
      * Does this registry contain an entry for the given key?
      */
     @Override
-    public boolean containsKey(ResourceLocation name)
+    public boolean containsKey(@Nonnull ResourceLocation name)
     {
         boolean ret = super.containsKey(name);
 
@@ -447,16 +450,11 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
      * @param thing Object to add.
      * @return ID eventually allocated.
      */
-    int add(int id, ResourceLocation name, I thing)
+    int add(int id, @Nonnull ResourceLocation name, @Nonnull I thing)
     {
-        if (name == null)
-        {
-            throw new NullPointerException(String.format("Can't use a null-name for the registry, object %s.", thing));
-        }
-        if (thing == null)
-        {
-            throw new NullPointerException(String.format("Can't add null-object to the registry, name %s.", name));
-        }
+        Preconditions.checkNotNull(name, "Can't use a null-name for the registry, object %s.", thing);
+        Preconditions.checkNotNull(thing, "Can't add null-object to the registry, name %s.", name);
+
         if (optionalDefaultKey != null && optionalDefaultKey.equals(name) && this.optionalDefaultObject == null)
         {
             this.optionalDefaultObject = thing;
@@ -590,18 +588,9 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
      */
     private void addObjectRaw(int id, ResourceLocation name, I thing)
     {
-        if (name == null)
-        {
-            throw new NullPointerException("The name to be added to the registry is null. This can only happen with a corrupted registry state. Reflection/ASM hackery? Registry bug?");
-        }
-        if (thing == null)
-        {
-            throw new NullPointerException("The object to be added to the registry is null. This can only happen with a corrupted registry state. Reflection/ASM hackery? Registry bug?");
-        }
-        if (!superType.isInstance(thing))
-        {
-            throw new IllegalArgumentException("The object to be added to the registry is not of the right type. Reflection/ASM hackery? Registry bug?");
-        }
+        Preconditions.checkNotNull(name, "The name to be added to the registry is null. This can only happen with a corrupted registry state. Reflection/ASM hackery? Registry bug?");
+        Preconditions.checkNotNull(thing, "The object to be added to the registry is null. This can only happen with a corrupted registry state. Reflection/ASM hackery? Registry bug?");
+        Preconditions.checkState(superType.isInstance(thing), "The object to be added to the registry is not of the right type. Reflection/ASM hackery? Registry bug?");
 
         underlyingIntegerMap.put(thing, id); // obj <-> id
         super.putObject(name, thing); // name <-> obj
@@ -612,6 +601,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
         }
     }
 
+    @Nullable
     public I getDefaultValue()
     {
         return optionalDefaultObject;
@@ -623,6 +613,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
     }
 
     @SuppressWarnings("unchecked")
+    @Nonnull
     private Delegate<I> getExistingDelegate(I thing)
     {
         if (isDelegated)
@@ -631,10 +622,11 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
         }
         else
         {
-            return null;
+            throw new IllegalStateException("Tried to get existing delegate from registry that is not delegated.");
         }
     }
 
+    @Nullable
     I activateSubstitution(ResourceLocation nameToReplace)
     {
         if (getPersistentSubstitutions().containsKey(nameToReplace))
@@ -702,6 +694,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
      * This iterator is used by some regular MC methods to visit all blocks, we need to include substitutions
      * Compare #typeSafeIterable()
      */
+    @Nonnull
     @Override
     public Iterator<I> iterator()
     {
@@ -788,7 +781,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
             if (currId == -1)
             {
                 FMLLog.info("Found a missing id from the world %s", itemName);
-                missingIds.put(entry.getKey(), newId);
+                missingIds.put(itemName, newId);
                 continue; // no block/item -> nothing to add
             }
             else if (currId != newId)
@@ -797,8 +790,9 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
                 remappedIds.put(itemName, new Integer[] {currId, newId});
             }
             I obj = currentRegistry.getRaw(itemName);
+            Preconditions.checkState(obj != null, "objectKey has an ID but no object. Reflection/ASM hackery? Registry bug?");
             I sub = obj;
-            // If we have an object in the originals set, we use that for initial adding - substitute activation will readd the substitute if neceessary later
+            // If we have an object in the originals set, we use that for initial adding - substitute activation will re-add the substitute if necessary later
             if (currentRegistry.substitutionOriginals.containsKey(itemName))
             {
                 obj = currentRegistry.substitutionOriginals.get(itemName);
@@ -831,7 +825,8 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
      * Gets the name we use to identify the given object.
      */
     @Override
-    public ResourceLocation getNameForObject(I value)
+    @Nullable
+    public ResourceLocation getNameForObject(@Nonnull I value)
     {
         ResourceLocation rl = super.getNameForObjectBypass(value);
         if (rl == null)
@@ -851,7 +846,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
     // IForgeRegistry: Modders should only interfaces with these methods
 
     @Override
-    public void register(I value)
+    public void register(@Nonnull I value)
     {
         ResourceLocation key = value.getRegistryName();
         if (key == null)
@@ -870,7 +865,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
         }
     }
     @Override
-    public boolean containsValue(I value)
+    public boolean containsValue(@Nonnull I value)
     {
         return getKey(value) != null;
     }
@@ -882,6 +877,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
     }
 
     @Override
+    @Nullable
     public ResourceLocation getKey(I value)
     {
         /**
@@ -890,6 +886,7 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
         return getNameForObject(value);
     }
 
+    @Nonnull
     @Override //Bouncer for OBF, as the super class's function is NotchCode and gets obfed. This plus the SRG lines prevents a AbstractMethodException
     public Set<ResourceLocation> getKeys()
     {
@@ -897,12 +894,14 @@ public class FMLControlledNamespacedRegistry<I extends IForgeRegistryEntry<I>> e
     }
 
     @Override
+    @Nonnull
     public List<I> getValues()
     {
         return Lists.newArrayList(this.iterator());
     }
 
     @Override
+    @Nonnull
     public Set<Entry<ResourceLocation, I>> getEntries()
     {
         return Sets.newHashSet(new Iterator<Entry<ResourceLocation, I>>()

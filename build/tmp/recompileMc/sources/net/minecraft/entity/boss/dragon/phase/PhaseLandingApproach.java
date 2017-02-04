@@ -61,8 +61,8 @@ public class PhaseLandingApproach extends PhaseBase
         if (this.currentPath == null || this.currentPath.isFinished())
         {
             int i = this.dragon.initPathPoints();
-            BlockPos blockpos = this.dragon.worldObj.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION);
-            EntityPlayer entityplayer = this.dragon.worldObj.getNearestAttackablePlayer(blockpos, 128.0D, 128.0D);
+            BlockPos blockpos = this.dragon.world.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION);
+            EntityPlayer entityplayer = this.dragon.world.getNearestAttackablePlayer(blockpos, 128.0D, 128.0D);
             int j;
 
             if (entityplayer != null)

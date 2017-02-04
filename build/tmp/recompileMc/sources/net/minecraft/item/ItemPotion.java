@@ -28,9 +28,9 @@ public class ItemPotion extends Item
     }
 
     @SideOnly(Side.CLIENT)
-    public ItemStack func_190903_i()
+    public ItemStack getDefaultInstance()
     {
-        return PotionUtils.addPotionToItemStack(super.func_190903_i(), PotionTypes.WATER);
+        return PotionUtils.addPotionToItemStack(super.getDefaultInstance(), PotionTypes.WATER);
     }
 
     /**
@@ -43,7 +43,7 @@ public class ItemPotion extends Item
 
         if (entityplayer == null || !entityplayer.capabilities.isCreativeMode)
         {
-            stack.func_190918_g(1);
+            stack.shrink(1);
         }
 
         if (!worldIn.isRemote)
@@ -68,7 +68,7 @@ public class ItemPotion extends Item
 
         if (entityplayer == null || !entityplayer.capabilities.isCreativeMode)
         {
-            if (stack.func_190926_b())
+            if (stack.isEmpty())
             {
                 return new ItemStack(Items.GLASS_BOTTLE);
             }
@@ -98,10 +98,10 @@ public class ItemPotion extends Item
         return EnumAction.DRINK;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        worldIn.setActiveHand(playerIn);
-        return new ActionResult(EnumActionResult.SUCCESS, worldIn.getHeldItem(playerIn));
+        playerIn.setActiveHand(handIn);
+        return new ActionResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }
 
     public String getItemStackDisplayName(ItemStack stack)
@@ -118,6 +118,14 @@ public class ItemPotion extends Item
         PotionUtils.addPotionTooltip(stack, tooltip, 1.0F);
     }
 
+    /**
+     * Returns true if this item has an enchantment glint. By default, this returns
+     * <code>stack.isItemEnchanted()</code>, but other items can override it (for instance, written books always return
+     * true).
+     *  
+     * Note that if you override this method, you generally want to also call the super version (on {@link Item}) to get
+     * the glint for enchanted items. Of course, that is unnecessary if the overwritten version always returns true.
+     */
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack stack)
     {

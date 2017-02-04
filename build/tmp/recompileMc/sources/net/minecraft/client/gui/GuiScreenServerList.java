@@ -14,10 +14,10 @@ public class GuiScreenServerList extends GuiScreen
     private final ServerData serverData;
     private GuiTextField ipEdit;
 
-    public GuiScreenServerList(GuiScreen p_i1031_1_, ServerData p_i1031_2_)
+    public GuiScreenServerList(GuiScreen lastScreenIn, ServerData serverDataIn)
     {
-        this.lastScreen = p_i1031_1_;
-        this.serverData = p_i1031_2_;
+        this.lastScreen = lastScreenIn;
+        this.serverData = serverDataIn;
     }
 
     /**

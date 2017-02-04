@@ -40,7 +40,7 @@ public class ParticleManager
 {
     private static final ResourceLocation PARTICLE_TEXTURES = new ResourceLocation("textures/particle/particles.png");
     /** Reference to the World object. */
-    protected World worldObj;
+    protected World world;
     private final ArrayDeque<Particle>[][] fxLayers = new ArrayDeque[4][];
     private final Queue<ParticleEmitter> particleEmitters = Queues.<ParticleEmitter>newArrayDeque();
     private final TextureManager renderer;
@@ -51,7 +51,7 @@ public class ParticleManager
 
     public ParticleManager(World worldIn, TextureManager rendererIn)
     {
-        this.worldObj = worldIn;
+        this.world = worldIn;
         this.renderer = rendererIn;
 
         for (int i = 0; i < 4; ++i)
@@ -126,12 +126,12 @@ public class ParticleManager
 
     public void emitParticleAtEntity(Entity entityIn, EnumParticleTypes particleTypes)
     {
-        this.particleEmitters.add(new ParticleEmitter(this.worldObj, entityIn, particleTypes));
+        this.particleEmitters.add(new ParticleEmitter(this.world, entityIn, particleTypes));
     }
 
-    public void func_191271_a(Entity p_191271_1_, EnumParticleTypes p_191271_2_, int p_191271_3_)
+    public void emitParticleAtEntity(Entity p_191271_1_, EnumParticleTypes p_191271_2_, int p_191271_3_)
     {
-        this.particleEmitters.add(new ParticleEmitter(this.worldObj, p_191271_1_, p_191271_2_, p_191271_3_));
+        this.particleEmitters.add(new ParticleEmitter(this.world, p_191271_1_, p_191271_2_, p_191271_3_));
     }
 
     /**
@@ -144,7 +144,7 @@ public class ParticleManager
 
         if (iparticlefactory != null)
         {
-            Particle particle = iparticlefactory.createParticle(particleId, this.worldObj, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, parameters);
+            Particle particle = iparticlefactory.createParticle(particleId, this.world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, parameters);
 
             if (particle != null)
             {
@@ -205,16 +205,16 @@ public class ParticleManager
 
     private void updateEffectLayer(int layer)
     {
-        this.worldObj.theProfiler.startSection(layer + "");
+        this.world.theProfiler.startSection(layer + "");
 
         for (int i = 0; i < 2; ++i)
         {
-            this.worldObj.theProfiler.startSection(i + "");
+            this.world.theProfiler.startSection(i + "");
             this.tickParticleList(this.fxLayers[layer][i]);
-            this.worldObj.theProfiler.endSection();
+            this.world.theProfiler.endSection();
         }
 
-        this.worldObj.theProfiler.endSection();
+        this.world.theProfiler.endSection();
     }
 
     private void tickParticleList(Queue<Particle> p_187240_1_)
@@ -381,7 +381,7 @@ public class ParticleManager
 
     public void clearEffects(@Nullable World worldIn)
     {
-        this.worldObj = worldIn;
+        this.world = worldIn;
 
         for (int i = 0; i < 4; ++i)
         {
@@ -396,9 +396,9 @@ public class ParticleManager
 
     public void addBlockDestroyEffects(BlockPos pos, IBlockState state)
     {
-        if (!state.getBlock().isAir(state, this.worldObj, pos) && !state.getBlock().addDestroyEffects(worldObj, pos, this))
+        if (!state.getBlock().isAir(state, this.world, pos) && !state.getBlock().addDestroyEffects(world, pos, this))
         {
-            state = state.getActualState(this.worldObj, pos);
+            state = state.getActualState(this.world, pos);
             int i = 4;
 
             for (int j = 0; j < 4; ++j)
@@ -410,7 +410,7 @@ public class ParticleManager
                         double d0 = ((double)j + 0.5D) / 4.0D;
                         double d1 = ((double)k + 0.5D) / 4.0D;
                         double d2 = ((double)l + 0.5D) / 4.0D;
-                        this.addEffect((new ParticleDigging(this.worldObj, (double)pos.getX() + d0, (double)pos.getY() + d1, (double)pos.getZ() + d2, d0 - 0.5D, d1 - 0.5D, d2 - 0.5D, state)).setBlockPos(pos));
+                        this.addEffect((new ParticleDigging(this.world, (double)pos.getX() + d0, (double)pos.getY() + d1, (double)pos.getZ() + d2, d0 - 0.5D, d1 - 0.5D, d2 - 0.5D, state)).setBlockPos(pos));
                     }
                 }
             }
@@ -422,7 +422,7 @@ public class ParticleManager
      */
     public void addBlockHitEffects(BlockPos pos, EnumFacing side)
     {
-        IBlockState iblockstate = this.worldObj.getBlockState(pos);
+        IBlockState iblockstate = this.world.getBlockState(pos);
 
         if (iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE)
         {
@@ -430,7 +430,7 @@ public class ParticleManager
             int j = pos.getY();
             int k = pos.getZ();
             float f = 0.1F;
-            AxisAlignedBB axisalignedbb = iblockstate.getBoundingBox(this.worldObj, pos);
+            AxisAlignedBB axisalignedbb = iblockstate.getBoundingBox(this.world, pos);
             double d0 = (double)i + this.rand.nextDouble() * (axisalignedbb.maxX - axisalignedbb.minX - 0.20000000298023224D) + 0.10000000149011612D + axisalignedbb.minX;
             double d1 = (double)j + this.rand.nextDouble() * (axisalignedbb.maxY - axisalignedbb.minY - 0.20000000298023224D) + 0.10000000149011612D + axisalignedbb.minY;
             double d2 = (double)k + this.rand.nextDouble() * (axisalignedbb.maxZ - axisalignedbb.minZ - 0.20000000298023224D) + 0.10000000149011612D + axisalignedbb.minZ;
@@ -465,7 +465,7 @@ public class ParticleManager
                 d0 = (double)i + axisalignedbb.maxX + 0.10000000149011612D;
             }
 
-            this.addEffect((new ParticleDigging(this.worldObj, d0, d1, d2, 0.0D, 0.0D, 0.0D, iblockstate)).setBlockPos(pos).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F));
+            this.addEffect((new ParticleDigging(this.world, d0, d1, d2, 0.0D, 0.0D, 0.0D, iblockstate)).setBlockPos(pos).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F));
         }
     }
 
@@ -486,8 +486,8 @@ public class ParticleManager
 
     public void addBlockHitEffects(BlockPos pos, net.minecraft.util.math.RayTraceResult target)
     {
-        IBlockState state = worldObj.getBlockState(pos);
-        if (state != null && !state.getBlock().addHitEffects(state, worldObj, target, this))
+        IBlockState state = world.getBlockState(pos);
+        if (state != null && !state.getBlock().addHitEffects(state, world, target, this))
         {
             addBlockHitEffects(pos, target.sideHit);
         }

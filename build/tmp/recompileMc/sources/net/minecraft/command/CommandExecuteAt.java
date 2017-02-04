@@ -17,7 +17,7 @@ public class CommandExecuteAt extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "execute";
     }
@@ -32,14 +32,20 @@ public class CommandExecuteAt extends CommandBase
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The ICommandSender who is requesting usage details
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.execute.usage";
     }
 
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     public void execute(final MinecraftServer server, final ICommandSender sender, String[] args) throws CommandException
     {
@@ -77,7 +83,7 @@ public class CommandExecuteAt extends CommandBase
                     throw new CommandException("commands.execute.failed", new Object[] {"detect", entity.getName()});
                 }
 
-                if (!CommandBase.func_190791_b(block, args[9]).apply(iblockstate))
+                if (!CommandBase.convertArgToBlockStatePredicate(block, args[9]).apply(iblockstate))
                 {
                     throw new CommandException("commands.execute.failed", new Object[] {"detect", entity.getName()});
                 }
@@ -105,16 +111,16 @@ public class CommandExecuteAt extends CommandBase
                 /**
                  * Send a chat message to the CommandSender
                  */
-                public void addChatMessage(ITextComponent component)
+                public void sendMessage(ITextComponent component)
                 {
-                    sender.addChatMessage(component);
+                    sender.sendMessage(component);
                 }
                 /**
                  * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
                  */
-                public boolean canCommandSenderUseCommand(int permLevel, String commandName)
+                public boolean canUseCommand(int permLevel, String commandName)
                 {
-                    return sender.canCommandSenderUseCommand(permLevel, commandName);
+                    return sender.canUseCommand(permLevel, commandName);
                 }
                 /**
                  * Get the position in the world. <b>{@code null} is not allowed!</b> If you are not an entity in the
@@ -138,7 +144,7 @@ public class CommandExecuteAt extends CommandBase
                  */
                 public World getEntityWorld()
                 {
-                    return entity.worldObj;
+                    return entity.world;
                 }
                 /**
                  * Returns the entity associated with the command sender. MAY BE NULL!
@@ -152,7 +158,7 @@ public class CommandExecuteAt extends CommandBase
                  */
                 public boolean sendCommandFeedback()
                 {
-                    return server == null || server.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
+                    return server == null || server.worlds[0].getGameRules().getBoolean("commandBlockOutput");
                 }
                 public void setCommandStat(CommandResultStats.Type type, int amount)
                 {
@@ -184,13 +190,16 @@ public class CommandExecuteAt extends CommandBase
         }
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : (args.length > 1 && args.length <= 4 ? getTabCompletionCoordinate(args, 1, pos) : (args.length > 5 && args.length <= 8 && "detect".equals(args[4]) ? getTabCompletionCoordinate(args, 5, pos) : (args.length == 9 && "detect".equals(args[4]) ? getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys()) : Collections.<String>emptyList())));
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : (args.length > 1 && args.length <= 4 ? getTabCompletionCoordinate(args, 1, targetPos) : (args.length > 5 && args.length <= 8 && "detect".equals(args[4]) ? getTabCompletionCoordinate(args, 5, targetPos) : (args.length == 9 && "detect".equals(args[4]) ? getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys()) : Collections.<String>emptyList())));
     }
 
     /**
      * Return whether the specified command parameter index is a username parameter.
+     *  
+     * @param args The arguments of the command invocation
+     * @param index The index
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

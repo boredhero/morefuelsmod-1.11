@@ -252,7 +252,7 @@ public abstract class BlockLeaves extends Block implements net.minecraftforge.co
         return this.leavesFancy ? BlockRenderLayer.CUTOUT_MIPPED : BlockRenderLayer.SOLID;
     }
 
-    public boolean isVisuallyOpaque(IBlockState p_176214_1_)
+    public boolean causesSuffocation(IBlockState state)
     {
         return false;
     }
@@ -287,7 +287,7 @@ public abstract class BlockLeaves extends Block implements net.minecraftforge.co
         if (rand.nextInt(chance) == 0)
         {
             ItemStack drop = new ItemStack(getItemDropped(state, rand, fortune), 1, damageDropped(state));
-            if (!drop.func_190926_b())
+            if (!drop.isEmpty())
                 ret.add(drop);
         }
 

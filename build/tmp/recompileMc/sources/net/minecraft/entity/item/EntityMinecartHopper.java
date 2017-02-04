@@ -59,10 +59,10 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         return 5;
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
-        if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player, stack))) return true;
-        if (!this.worldObj.isRemote)
+        if(net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player, hand))) return true;
+        if (!this.world.isRemote)
         {
             player.displayGUIChest(this);
         }
@@ -104,7 +104,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
      */
     public World getWorld()
     {
-        return this.worldObj;
+        return this.world;
     }
 
     /**
@@ -138,7 +138,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
     {
         super.onUpdate();
 
-        if (!this.worldObj.isRemote && this.isEntityAlive() && this.getBlocked())
+        if (!this.world.isRemote && this.isEntityAlive() && this.getBlocked())
         {
             BlockPos blockpos = new BlockPos(this);
 
@@ -172,7 +172,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
         }
         else
         {
-            List<EntityItem> list = this.worldObj.<EntityItem>getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.25D, 0.0D, 0.25D), EntitySelectors.IS_ALIVE);
+            List<EntityItem> list = this.world.<EntityItem>getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.25D, 0.0D, 0.25D), EntitySelectors.IS_ALIVE);
 
             if (!list.isEmpty())
             {
@@ -187,7 +187,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
     {
         super.killMinecart(source);
 
-        if (this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+        if (this.world.getGameRules().getBoolean("doEntityDrops"))
         {
             this.dropItemWithOffset(Item.getItemFromBlock(Blocks.HOPPER), 1, 0.0F);
         }
@@ -195,7 +195,7 @@ public class EntityMinecartHopper extends EntityMinecartContainer implements IHo
 
     public static void registerFixesMinecartHopper(DataFixer fixer)
     {
-        EntityMinecartContainer.func_190574_b(fixer, EntityMinecartHopper.class);
+        EntityMinecartContainer.addDataFixers(fixer, EntityMinecartHopper.class);
     }
 
     /**

@@ -58,7 +58,7 @@ public class EntityMinecartTNT extends EntityMinecart
         if (this.minecartTNTFuse > 0)
         {
             --this.minecartTNTFuse;
-            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
         }
         else if (this.minecartTNTFuse == 0)
         {
@@ -101,7 +101,7 @@ public class EntityMinecartTNT extends EntityMinecart
         super.killMinecart(source);
         double d0 = this.motionX * this.motionX + this.motionZ * this.motionZ;
 
-        if (!source.isExplosion() && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+        if (!source.isExplosion() && this.world.getGameRules().getBoolean("doEntityDrops"))
         {
             this.entityDropItem(new ItemStack(Blocks.TNT, 1), 0.0F);
         }
@@ -117,7 +117,7 @@ public class EntityMinecartTNT extends EntityMinecart
      */
     protected void explodeCart(double p_94103_1_)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             double d0 = Math.sqrt(p_94103_1_);
 
@@ -126,7 +126,7 @@ public class EntityMinecartTNT extends EntityMinecart
                 d0 = 5.0D;
             }
 
-            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(4.0D + this.rand.nextDouble() * 1.5D * d0), true);
+            this.world.createExplosion(this, this.posX, this.posY, this.posZ, (float)(4.0D + this.rand.nextDouble() * 1.5D * d0), true);
             this.setDead();
         }
     }
@@ -173,13 +173,13 @@ public class EntityMinecartTNT extends EntityMinecart
     {
         this.minecartTNTFuse = 80;
 
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
-            this.worldObj.setEntityState(this, (byte)10);
+            this.world.setEntityState(this, (byte)10);
 
             if (!this.isSilent())
             {
-                this.worldObj.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         }
     }

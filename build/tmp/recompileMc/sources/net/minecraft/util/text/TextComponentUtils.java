@@ -19,7 +19,7 @@ public class TextComponentUtils
             TextComponentScore textcomponentscore = (TextComponentScore)component;
             String s = textcomponentscore.getName();
 
-            if (EntitySelector.hasArguments(s))
+            if (EntitySelector.isSelector(s))
             {
                 List<Entity> list = EntitySelector.<Entity>matchEntities(commandSender, s, Entity.class);
 

@@ -18,9 +18,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemTippedArrow extends ItemArrow
 {
     @SideOnly(Side.CLIENT)
-    public ItemStack func_190903_i()
+    public ItemStack getDefaultInstance()
     {
-        return PotionUtils.addPotionToItemStack(super.func_190903_i(), PotionTypes.POISON);
+        return PotionUtils.addPotionToItemStack(super.getDefaultInstance(), PotionTypes.POISON);
     }
 
     public EntityArrow createArrow(World worldIn, ItemStack stack, EntityLivingBase shooter)

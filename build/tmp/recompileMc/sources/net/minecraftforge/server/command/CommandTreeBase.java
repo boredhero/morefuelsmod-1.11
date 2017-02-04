@@ -48,7 +48,7 @@ public abstract class CommandTreeBase extends CommandBase
 
     public void addSubcommand(ICommand c)
     {
-        commandMap.put(c.getCommandName(), c);
+        commandMap.put(c.getName(), c);
     }
 
     public Collection<ICommand> getSubCommands()
@@ -82,7 +82,7 @@ public abstract class CommandTreeBase extends CommandBase
 
     @Override
     @Nonnull
-    public List<String> getTabCompletionOptions(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args, @Nullable BlockPos pos)
     {
         if(args.length == 1)
         {
@@ -92,7 +92,7 @@ public abstract class CommandTreeBase extends CommandBase
             {
                 if(c.checkPermission(server, sender))
                 {
-                    keys.add(c.getCommandName());
+                    keys.add(c.getName());
                 }
             }
 
@@ -104,14 +104,17 @@ public abstract class CommandTreeBase extends CommandBase
 
         if(cmd != null)
         {
-            return cmd.getTabCompletionOptions(server, sender, shiftArgs(args), pos);
+            return cmd.getTabCompletions(server, sender, shiftArgs(args), pos);
         }
 
-        return super.getTabCompletionOptions(server, sender, args, pos);
+        return super.getTabCompletions(server, sender, args, pos);
     }
 
     /**
      * Return whether the specified command parameter index is a username parameter.
+     *  
+     * @param args The arguments of the command invocation
+     * @param index The index
      */
     @Override
     public boolean isUsernameIndex(@Nonnull String[] args, int index)
@@ -130,13 +133,17 @@ public abstract class CommandTreeBase extends CommandBase
 
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     @Override
     public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException
     {
         if(args.length < 1)
         {
-            sender.addChatMessage(new TextComponentString(CommandBase.joinNiceStringFromCollection(commandMap.keySet())));
+            sender.sendMessage(new TextComponentString(CommandBase.joinNiceStringFromCollection(commandMap.keySet())));
         }
         else
         {

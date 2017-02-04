@@ -1,10 +1,10 @@
 INFO:  Adding File to context from classpath: C:\Users\Noah\Desktop\Coding\MoreFuelsMod\morefuelsmod-1.11\gradle\wrapper\gradle-wrapper.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\resources.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\rt.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\jsse.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\jce.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\charsets.jar
-INFO:  Adding File to context from classpath: C:\Program Files\Java\jre1.8.0_112\lib\jfr.jar
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\resources.jar
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\rt.jar
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\jsse.jar
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\jce.jar
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\charsets.jar
+INFO:  Adding File to context from classpath: C:\Program Files\Java\jdk1.8.0_112\jre\lib\jfr.jar
 INFO:  Decompiling class net/minecraft/client/audio/SoundList
 INFO:  ... done
 INFO:  Decompiling class net/minecraft/client/audio/ISound

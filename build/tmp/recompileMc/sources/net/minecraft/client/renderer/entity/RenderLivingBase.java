@@ -125,7 +125,7 @@ public abstract class RenderLivingBase<T extends EntityLivingBase> extends Rende
             float f7 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
             this.renderLivingAt(entity, x, y, z);
             float f8 = this.handleRotationFloat(entity, partialTicks);
-            this.rotateCorpse(entity, f8, f, partialTicks);
+            this.applyRotations(entity, f8, f, partialTicks);
             float f4 = this.prepareScale(entity, partialTicks);
             float f5 = 0.0F;
             float f6 = 0.0F;
@@ -241,7 +241,7 @@ public abstract class RenderLivingBase<T extends EntityLivingBase> extends Rende
     protected void renderModel(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor)
     {
         boolean flag = !entitylivingbaseIn.isInvisible() || this.renderOutlines;
-        boolean flag1 = !flag && !entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
+        boolean flag1 = !flag && !entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().player);
 
         if (flag || flag1)
         {
@@ -399,14 +399,14 @@ public abstract class RenderLivingBase<T extends EntityLivingBase> extends Rende
         GlStateManager.translate((float)x, (float)y, (float)z);
     }
 
-    protected void rotateCorpse(T entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
+    protected void applyRotations(T entityLiving, float p_77043_2_, float p_77043_3_, float partialTicks)
     {
         GlStateManager.rotate(180.0F - p_77043_3_, 0.0F, 1.0F, 0.0F);
 
         if (entityLiving.deathTime > 0)
         {
             float f = ((float)entityLiving.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
-            f = MathHelper.sqrt_float(f);
+            f = MathHelper.sqrt(f);
 
             if (f > 1.0F)
             {
@@ -497,7 +497,7 @@ public abstract class RenderLivingBase<T extends EntityLivingBase> extends Rende
 
     protected boolean canRenderName(T entity)
     {
-        EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
+        EntityPlayerSP entityplayersp = Minecraft.getMinecraft().player;
         boolean flag = !entity.isInvisibleToPlayer(entityplayersp);
 
         if (entity != entityplayersp)

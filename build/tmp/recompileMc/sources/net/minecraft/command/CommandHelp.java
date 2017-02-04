@@ -18,13 +18,13 @@ import net.minecraft.util.text.event.ClickEvent;
 
 public class CommandHelp extends CommandBase
 {
-    private static final String[] seargeSays = new String[] {"Yolo", "/achievement take achievement.understandCommands @p", "Ask for help on twitter", "/deop @p", "Scoreboard deleted, commands blocked", "Contact helpdesk for help", "/testfornoob @p", "/trigger warning", "Oh my god, it\'s full of stats", "/kill @p[name=!Searge]", "Have you tried turning it off and on again?", "Sorry, no help today"};
+    private static final String[] SEARGE_SAYS = new String[] {"Yolo", "/achievement take achievement.understandCommands @p", "Ask for help on twitter", "/deop @p", "Scoreboard deleted, commands blocked", "Contact helpdesk for help", "/testfornoob @p", "/trigger warning", "Oh my god, it\'s full of stats", "/kill @p[name=!Searge]", "Have you tried turning it off and on again?", "Sorry, no help today"};
     private final Random rand = new Random();
 
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "help";
     }
@@ -39,25 +39,31 @@ public class CommandHelp extends CommandBase
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The ICommandSender who is requesting usage details
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.help.usage";
     }
 
-    public List<String> getCommandAliases()
+    public List<String> getAliases()
     {
         return Arrays.<String>asList(new String[] {"?"});
     }
 
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
         if (sender instanceof CommandBlockBaseLogic)
         {
-            sender.addChatMessage((new TextComponentString("Searge says: ")).appendText(seargeSays[this.rand.nextInt(seargeSays.length) % seargeSays.length]));
+            sender.sendMessage((new TextComponentString("Searge says: ")).appendText(SEARGE_SAYS[this.rand.nextInt(SEARGE_SAYS.length) % SEARGE_SAYS.length]));
         }
         else
         {
@@ -77,10 +83,10 @@ public class CommandHelp extends CommandBase
 
                 if (icommand != null)
                 {
-                    throw new WrongUsageException(icommand.getCommandUsage(sender), new Object[0]);
+                    throw new WrongUsageException(icommand.getUsage(sender), new Object[0]);
                 }
 
-                if (MathHelper.parseIntWithDefault(args[0], -1) == -1 && MathHelper.parseIntWithDefault(args[0], -2) == -2)
+                if (MathHelper.getInt(args[0], -1) == -1 && MathHelper.getInt(args[0], -2) == -2)
                 {
                     throw new CommandNotFoundException();
                 }
@@ -91,21 +97,21 @@ public class CommandHelp extends CommandBase
             int l = Math.min((k + 1) * 7, list.size());
             TextComponentTranslation textcomponenttranslation1 = new TextComponentTranslation("commands.help.header", new Object[] {Integer.valueOf(k + 1), Integer.valueOf(j + 1)});
             textcomponenttranslation1.getStyle().setColor(TextFormatting.DARK_GREEN);
-            sender.addChatMessage(textcomponenttranslation1);
+            sender.sendMessage(textcomponenttranslation1);
 
             for (int i1 = k * 7; i1 < l; ++i1)
             {
                 ICommand icommand1 = (ICommand)list.get(i1);
-                TextComponentTranslation textcomponenttranslation = new TextComponentTranslation(icommand1.getCommandUsage(sender), new Object[0]);
-                textcomponenttranslation.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/" + icommand1.getCommandName() + " "));
-                sender.addChatMessage(textcomponenttranslation);
+                TextComponentTranslation textcomponenttranslation = new TextComponentTranslation(icommand1.getUsage(sender), new Object[0]);
+                textcomponenttranslation.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/" + icommand1.getName() + " "));
+                sender.sendMessage(textcomponenttranslation);
             }
 
             if (k == 0)
             {
                 TextComponentTranslation textcomponenttranslation2 = new TextComponentTranslation("commands.help.footer", new Object[0]);
                 textcomponenttranslation2.getStyle().setColor(TextFormatting.GREEN);
-                sender.addChatMessage(textcomponenttranslation2);
+                sender.sendMessage(textcomponenttranslation2);
             }
         }
     }
@@ -122,7 +128,7 @@ public class CommandHelp extends CommandBase
         return server.getCommandManager().getCommands();
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
     {
         if (args.length == 1)
         {

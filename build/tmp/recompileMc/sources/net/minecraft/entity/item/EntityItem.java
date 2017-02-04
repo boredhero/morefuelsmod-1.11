@@ -83,12 +83,12 @@ public class EntityItem extends Entity
         this.health = 5;
         this.hoverStart = (float)(Math.random() * Math.PI * 2.0D);
         this.setSize(0.25F, 0.25F);
-        this.setEntityItemStack(ItemStack.field_190927_a);
+        this.setEntityItemStack(ItemStack.EMPTY);
     }
 
     protected void entityInit()
     {
-        this.getDataManager().register(ITEM, ItemStack.field_190927_a);
+        this.getDataManager().register(ITEM, ItemStack.EMPTY);
     }
 
     /**
@@ -97,7 +97,7 @@ public class EntityItem extends Entity
     public void onUpdate()
     {
         if (getEntityItem().getItem().onEntityItemUpdate(this)) return;
-        if (this.getEntityItem().func_190926_b())
+        if (this.getEntityItem().isEmpty())
         {
             this.setDead();
         }
@@ -122,7 +122,7 @@ public class EntityItem extends Entity
                 this.motionY -= 0.03999999910593033D;
             }
 
-            if (this.worldObj.isRemote)
+            if (this.world.isRemote)
             {
                 this.noClip = false;
             }
@@ -131,12 +131,12 @@ public class EntityItem extends Entity
                 this.noClip = this.pushOutOfBlocks(this.posX, (this.getEntityBoundingBox().minY + this.getEntityBoundingBox().maxY) / 2.0D, this.posZ);
             }
 
-            this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
             boolean flag = (int)this.prevPosX != (int)this.posX || (int)this.prevPosY != (int)this.posY || (int)this.prevPosZ != (int)this.posZ;
 
             if (flag || this.ticksExisted % 25 == 0)
             {
-                if (this.worldObj.getBlockState(new BlockPos(this)).getMaterial() == Material.LAVA)
+                if (this.world.getBlockState(new BlockPos(this)).getMaterial() == Material.LAVA)
                 {
                     this.motionY = 0.20000000298023224D;
                     this.motionX = (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
@@ -144,7 +144,7 @@ public class EntityItem extends Entity
                     this.playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
                 }
 
-                if (!this.worldObj.isRemote)
+                if (!this.world.isRemote)
                 {
                     this.searchForOtherItemsNearby();
                 }
@@ -154,7 +154,7 @@ public class EntityItem extends Entity
 
             if (this.onGround)
             {
-                f = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1, MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.98F;
+                f = this.world.getBlockState(new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.posZ))).getBlock().slipperiness * 0.98F;
             }
 
             this.motionX *= (double)f;
@@ -173,7 +173,7 @@ public class EntityItem extends Entity
 
             this.handleWaterMovement();
 
-            if (!this.worldObj.isRemote)
+            if (!this.world.isRemote)
             {
                 double d3 = this.motionX - d0;
                 double d4 = this.motionY - d1;
@@ -188,13 +188,13 @@ public class EntityItem extends Entity
 
             ItemStack item = this.getEntityItem();
 
-            if (!this.worldObj.isRemote && this.age >= lifespan)
+            if (!this.world.isRemote && this.age >= lifespan)
             {
                 int hook = net.minecraftforge.event.ForgeEventFactory.onItemExpire(this, item);
                 if (hook < 0) this.setDead();
                 else          this.lifespan += hook;
             }
-            if (item.func_190926_b())
+            if (item.isEmpty())
             {
                 this.setDead();
             }
@@ -206,7 +206,7 @@ public class EntityItem extends Entity
      */
     private void searchForOtherItemsNearby()
     {
-        for (EntityItem entityitem : this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.5D, 0.0D, 0.5D)))
+        for (EntityItem entityitem : this.world.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.5D, 0.0D, 0.5D)))
         {
             this.combineItems(entityitem);
         }
@@ -251,11 +251,11 @@ public class EntityItem extends Entity
                     {
                         return false;
                     }
-                    else if (itemstack1.func_190916_E() < itemstack.func_190916_E())
+                    else if (itemstack1.getCount() < itemstack.getCount())
                     {
                         return other.combineItems(this);
                     }
-                    else if (itemstack1.func_190916_E() + itemstack.func_190916_E() > itemstack1.getMaxStackSize())
+                    else if (itemstack1.getCount() + itemstack.getCount() > itemstack1.getMaxStackSize())
                     {
                         return false;
                     }
@@ -265,7 +265,7 @@ public class EntityItem extends Entity
                     }
                     else
                     {
-                        itemstack1.func_190917_f(itemstack.func_190916_E());
+                        itemstack1.grow(itemstack.getCount());
                         other.delayBeforeCanPickup = Math.max(other.delayBeforeCanPickup, this.delayBeforeCanPickup);
                         other.age = Math.min(other.age, this.age);
                         other.setEntityItemStack(itemstack1);
@@ -303,7 +303,7 @@ public class EntityItem extends Entity
      */
     public boolean handleWaterMovement()
     {
-        if (this.worldObj.handleMaterialAcceleration(this.getEntityBoundingBox(), Material.WATER, this))
+        if (this.world.handleMaterialAcceleration(this.getEntityBoundingBox(), Material.WATER, this))
         {
             if (!this.inWater && !this.firstUpdate)
             {
@@ -325,7 +325,7 @@ public class EntityItem extends Entity
      */
     protected void dealFireDamage(int amount)
     {
-        this.attackEntityFrom(DamageSource.inFire, (float)amount);
+        this.attackEntityFrom(DamageSource.IN_FIRE, (float)amount);
     }
 
     /**
@@ -337,7 +337,7 @@ public class EntityItem extends Entity
         {
             return false;
         }
-        else if (!this.getEntityItem().func_190926_b() && this.getEntityItem().getItem() == Items.NETHER_STAR && source.isExplosion())
+        else if (!this.getEntityItem().isEmpty() && this.getEntityItem().getItem() == Items.NETHER_STAR && source.isExplosion())
         {
             return false;
         }
@@ -380,7 +380,7 @@ public class EntityItem extends Entity
             compound.setString("Owner", this.owner);
         }
 
-        if (!this.getEntityItem().func_190926_b())
+        if (!this.getEntityItem().isEmpty())
         {
             compound.setTag("Item", this.getEntityItem().writeToNBT(new NBTTagCompound()));
         }
@@ -412,7 +412,7 @@ public class EntityItem extends Entity
         NBTTagCompound nbttagcompound = compound.getCompoundTag("Item");
         this.setEntityItemStack(new ItemStack(nbttagcompound));
 
-        if (this.getEntityItem().func_190926_b())
+        if (this.getEntityItem().isEmpty())
         {
             this.setDead();
         }
@@ -424,12 +424,12 @@ public class EntityItem extends Entity
      */
     public void onCollideWithPlayer(EntityPlayer entityIn)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             if (this.delayBeforeCanPickup > 0) return;
             ItemStack itemstack = this.getEntityItem();
             Item item = itemstack.getItem();
-            int i = itemstack.func_190916_E();
+            int i = itemstack.getCount();
 
             int hook = net.minecraftforge.event.ForgeEventFactory.onItemPickup(this, entityIn, itemstack);
             if (hook < 0) return;
@@ -463,7 +463,7 @@ public class EntityItem extends Entity
 
                 if (item == Items.DIAMOND && this.getThrower() != null)
                 {
-                    EntityPlayer entityplayer = this.worldObj.getPlayerEntityByName(this.getThrower());
+                    EntityPlayer entityplayer = this.world.getPlayerEntityByName(this.getThrower());
 
                     if (entityplayer != null && entityplayer != entityIn)
                     {
@@ -474,10 +474,10 @@ public class EntityItem extends Entity
                 net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerItemPickupEvent(entityIn, this);
                 entityIn.onItemPickup(this, i);
 
-                if (itemstack.func_190926_b())
+                if (itemstack.isEmpty())
                 {
                     this.setDead();
-                    itemstack.func_190920_e(i);
+                    itemstack.setCount(i);
                 }
 
                 entityIn.addStat(StatList.getObjectsPickedUpStats(item), i);
@@ -506,7 +506,7 @@ public class EntityItem extends Entity
     {
         Entity entity = super.changeDimension(dimensionIn);
 
-        if (!this.worldObj.isRemote && entity instanceof EntityItem)
+        if (!this.world.isRemote && entity instanceof EntityItem)
         {
             ((EntityItem)entity).searchForOtherItemsNearby();
         }
@@ -591,6 +591,6 @@ public class EntityItem extends Entity
     public void makeFakeItem()
     {
         this.setInfinitePickupDelay();
-        this.age = getEntityItem().getItem().getEntityLifespan(getEntityItem(), worldObj) - 1;
+        this.age = getEntityItem().getItem().getEntityLifespan(getEntityItem(), world) - 1;
     }
 }

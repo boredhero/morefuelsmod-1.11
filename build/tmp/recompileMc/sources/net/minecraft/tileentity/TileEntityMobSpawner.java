@@ -22,11 +22,11 @@ public class TileEntityMobSpawner extends TileEntity implements ITickable
     {
         public void broadcastEvent(int id)
         {
-            TileEntityMobSpawner.this.worldObj.addBlockEvent(TileEntityMobSpawner.this.pos, Blocks.MOB_SPAWNER, id, 0);
+            TileEntityMobSpawner.this.world.addBlockEvent(TileEntityMobSpawner.this.pos, Blocks.MOB_SPAWNER, id, 0);
         }
         public World getSpawnerWorld()
         {
-            return TileEntityMobSpawner.this.worldObj;
+            return TileEntityMobSpawner.this.world;
         }
         public BlockPos getSpawnerPosition()
         {
@@ -50,7 +50,7 @@ public class TileEntityMobSpawner extends TileEntity implements ITickable
         {
             public NBTTagCompound process(IDataFixer fixer, NBTTagCompound compound, int versionIn)
             {
-                if (TileEntity.func_190559_a(TileEntityMobSpawner.class).equals(new ResourceLocation(compound.getString("id"))))
+                if (TileEntity.getKey(TileEntityMobSpawner.class).equals(new ResourceLocation(compound.getString("id"))))
                 {
                     if (compound.hasKey("SpawnPotentials", 9))
                     {

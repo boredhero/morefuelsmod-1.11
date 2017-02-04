@@ -11,7 +11,10 @@ public class ModItems {
 	public static ItemBase bituminousCoal;
 	public static ItemBase canSlimoline;
 	public static ItemBase dustCoal;
-	public static ItemBase bitumen;
+	public static ItemBase glassOrb;
+	public static ItemBase temperedGlassOrb;
+	public static ItemBase lavaOrb;
+	public static ItemBase lavaCrystals;
 
 	public static void init() {
 		pelletsFuel = register(new ItemBase("pelletsFuel"));
@@ -20,6 +23,10 @@ public class ModItems {
 		bituminousCoal = register(new ItemBase("bituminousCoal"));
 		canSlimoline = register(new ItemBase("canSlimoline"));
 		dustCoal = register(new ItemBase("dustCoal"));
+		glassOrb = register(new ItemBase("glassOrb"));
+		temperedGlassOrb = register(new ItemBase("temperedGlassOrb"));
+		lavaOrb = register(new ItemBase("lavaOrb"));
+		lavaCrystals = register(new ItemBase("lavaCrystals"));
 	}
 
 	private static <T extends Item> T register(T item) {

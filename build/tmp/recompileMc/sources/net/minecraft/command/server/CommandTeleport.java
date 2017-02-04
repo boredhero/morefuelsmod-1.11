@@ -23,7 +23,7 @@ public class CommandTeleport extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "teleport";
     }
@@ -38,14 +38,20 @@ public class CommandTeleport extends CommandBase
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The ICommandSender who is requesting usage details
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.teleport.usage";
     }
 
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
@@ -57,7 +63,7 @@ public class CommandTeleport extends CommandBase
         {
             Entity entity = getEntity(server, sender, args[0]);
 
-            if (entity.worldObj != null)
+            if (entity.world != null)
             {
                 int i = 4096;
                 Vec3d vec3d = sender.getPositionVector();
@@ -113,7 +119,7 @@ public class CommandTeleport extends CommandBase
         {
             float f2 = (float)MathHelper.wrapDegrees(p_189862_4_.getResult());
             float f3 = (float)MathHelper.wrapDegrees(p_189862_5_.getResult());
-            f3 = MathHelper.clamp_float(f3, -90.0F, 90.0F);
+            f3 = MathHelper.clamp(f3, -90.0F, 90.0F);
             p_189862_0_.setLocationAndAngles(p_189862_1_.getResult(), p_189862_2_.getResult(), p_189862_3_.getResult(), f2, f3);
             p_189862_0_.setRotationYawHead(f2);
         }
@@ -125,13 +131,16 @@ public class CommandTeleport extends CommandBase
         }
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getAllUsernames()) : (args.length > 1 && args.length <= 4 ? getTabCompletionCoordinate(args, 1, pos) : Collections.<String>emptyList());
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : (args.length > 1 && args.length <= 4 ? getTabCompletionCoordinate(args, 1, targetPos) : Collections.<String>emptyList());
     }
 
     /**
      * Return whether the specified command parameter index is a username parameter.
+     *  
+     * @param args The arguments of the command invocation
+     * @param index The index
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

@@ -81,13 +81,13 @@ public class TileEntityStructure extends TileEntity
         this.setName(compound.getString("name"));
         this.author = compound.getString("author");
         this.metadata = compound.getString("metadata");
-        int i = MathHelper.clamp_int(compound.getInteger("posX"), -32, 32);
-        int j = MathHelper.clamp_int(compound.getInteger("posY"), -32, 32);
-        int k = MathHelper.clamp_int(compound.getInteger("posZ"), -32, 32);
+        int i = MathHelper.clamp(compound.getInteger("posX"), -32, 32);
+        int j = MathHelper.clamp(compound.getInteger("posY"), -32, 32);
+        int k = MathHelper.clamp(compound.getInteger("posZ"), -32, 32);
         this.position = new BlockPos(i, j, k);
-        int l = MathHelper.clamp_int(compound.getInteger("sizeX"), 0, 32);
-        int i1 = MathHelper.clamp_int(compound.getInteger("sizeY"), 0, 32);
-        int j1 = MathHelper.clamp_int(compound.getInteger("sizeZ"), 0, 32);
+        int l = MathHelper.clamp(compound.getInteger("sizeX"), 0, 32);
+        int i1 = MathHelper.clamp(compound.getInteger("sizeY"), 0, 32);
+        int j1 = MathHelper.clamp(compound.getInteger("sizeZ"), 0, 32);
         this.size = new BlockPos(l, i1, j1);
 
         try
@@ -137,14 +137,14 @@ public class TileEntityStructure extends TileEntity
 
     private void updateBlockState()
     {
-        if (this.worldObj != null)
+        if (this.world != null)
         {
             BlockPos blockpos = this.getPos();
-            IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+            IBlockState iblockstate = this.world.getBlockState(blockpos);
 
             if (iblockstate.getBlock() == Blocks.STRUCTURE_BLOCK)
             {
-                this.worldObj.setBlockState(blockpos, iblockstate.withProperty(BlockStructure.MODE, this.mode), 2);
+                this.world.setBlockState(blockpos, iblockstate.withProperty(BlockStructure.MODE, this.mode), 2);
             }
         }
     }
@@ -265,11 +265,11 @@ public class TileEntityStructure extends TileEntity
     public void setMode(TileEntityStructure.Mode modeIn)
     {
         this.mode = modeIn;
-        IBlockState iblockstate = this.worldObj.getBlockState(this.getPos());
+        IBlockState iblockstate = this.world.getBlockState(this.getPos());
 
         if (iblockstate.getBlock() == Blocks.STRUCTURE_BLOCK)
         {
-            this.worldObj.setBlockState(this.getPos(), iblockstate.withProperty(BlockStructure.MODE, modeIn), 2);
+            this.world.setBlockState(this.getPos(), iblockstate.withProperty(BlockStructure.MODE, modeIn), 2);
         }
     }
 
@@ -353,8 +353,8 @@ public class TileEntityStructure extends TileEntity
                     this.position = new BlockPos(structureboundingbox.minX - blockpos.getX() + 1, structureboundingbox.minY - blockpos.getY() + 1, structureboundingbox.minZ - blockpos.getZ() + 1);
                     this.size = new BlockPos(structureboundingbox.maxX - structureboundingbox.minX - 1, structureboundingbox.maxY - structureboundingbox.minY - 1, structureboundingbox.maxZ - structureboundingbox.minZ - 1);
                     this.markDirty();
-                    IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
-                    this.worldObj.notifyBlockUpdate(blockpos, iblockstate, iblockstate, 3);
+                    IBlockState iblockstate = this.world.getBlockState(blockpos);
+                    this.world.notifyBlockUpdate(blockpos, iblockstate, iblockstate, 3);
                     return true;
                 }
                 else
@@ -383,11 +383,11 @@ public class TileEntityStructure extends TileEntity
 
         for (BlockPos.MutableBlockPos blockpos$mutableblockpos : BlockPos.getAllInBoxMutable(p_184418_1_, p_184418_2_))
         {
-            IBlockState iblockstate = this.worldObj.getBlockState(blockpos$mutableblockpos);
+            IBlockState iblockstate = this.world.getBlockState(blockpos$mutableblockpos);
 
             if (iblockstate.getBlock() == Blocks.STRUCTURE_BLOCK)
             {
-                TileEntity tileentity = this.worldObj.getTileEntity(blockpos$mutableblockpos);
+                TileEntity tileentity = this.world.getTileEntity(blockpos$mutableblockpos);
 
                 if (tileentity != null && tileentity instanceof TileEntityStructure)
                 {
@@ -463,14 +463,14 @@ public class TileEntityStructure extends TileEntity
 
     public boolean save(boolean p_189712_1_)
     {
-        if (this.mode == TileEntityStructure.Mode.SAVE && !this.worldObj.isRemote && !StringUtils.isNullOrEmpty(this.name))
+        if (this.mode == TileEntityStructure.Mode.SAVE && !this.world.isRemote && !StringUtils.isNullOrEmpty(this.name))
         {
             BlockPos blockpos = this.getPos().add(this.position);
-            WorldServer worldserver = (WorldServer)this.worldObj;
-            MinecraftServer minecraftserver = this.worldObj.getMinecraftServer();
+            WorldServer worldserver = (WorldServer)this.world;
+            MinecraftServer minecraftserver = this.world.getMinecraftServer();
             TemplateManager templatemanager = worldserver.getStructureTemplateManager();
             Template template = templatemanager.getTemplate(minecraftserver, new ResourceLocation(this.name));
-            template.takeBlocksFromWorld(this.worldObj, blockpos, this.size, !this.ignoreEntities, Blocks.STRUCTURE_VOID);
+            template.takeBlocksFromWorld(this.world, blockpos, this.size, !this.ignoreEntities, Blocks.STRUCTURE_VOID);
             template.setAuthor(this.author);
             return !p_189712_1_ || templatemanager.writeTemplate(minecraftserver, new ResourceLocation(this.name));
         }
@@ -487,12 +487,12 @@ public class TileEntityStructure extends TileEntity
 
     public boolean load(boolean p_189714_1_)
     {
-        if (this.mode == TileEntityStructure.Mode.LOAD && !this.worldObj.isRemote && !StringUtils.isNullOrEmpty(this.name))
+        if (this.mode == TileEntityStructure.Mode.LOAD && !this.world.isRemote && !StringUtils.isNullOrEmpty(this.name))
         {
             BlockPos blockpos = this.getPos();
             BlockPos blockpos1 = blockpos.add(this.position);
-            WorldServer worldserver = (WorldServer)this.worldObj;
-            MinecraftServer minecraftserver = this.worldObj.getMinecraftServer();
+            WorldServer worldserver = (WorldServer)this.world;
+            MinecraftServer minecraftserver = this.world.getMinecraftServer();
             TemplateManager templatemanager = worldserver.getStructureTemplateManager();
             Template template = templatemanager.get(minecraftserver, new ResourceLocation(this.name));
 
@@ -514,8 +514,8 @@ public class TileEntityStructure extends TileEntity
                 {
                     this.size = blockpos2;
                     this.markDirty();
-                    IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
-                    this.worldObj.notifyBlockUpdate(blockpos, iblockstate, iblockstate, 3);
+                    IBlockState iblockstate = this.world.getBlockState(blockpos);
+                    this.world.notifyBlockUpdate(blockpos, iblockstate, iblockstate, 3);
                 }
 
                 if (p_189714_1_ && !flag)
@@ -528,10 +528,10 @@ public class TileEntityStructure extends TileEntity
 
                     if (this.integrity < 1.0F)
                     {
-                        placementsettings.setIntegrity(MathHelper.clamp_float(this.integrity, 0.0F, 1.0F)).setSeed(Long.valueOf(this.seed));
+                        placementsettings.setIntegrity(MathHelper.clamp(this.integrity, 0.0F, 1.0F)).setSeed(Long.valueOf(this.seed));
                     }
 
-                    template.addBlocksToWorldChunk(this.worldObj, blockpos1, placementsettings);
+                    template.addBlocksToWorldChunk(this.world, blockpos1, placementsettings);
                     return true;
                 }
             }
@@ -544,17 +544,17 @@ public class TileEntityStructure extends TileEntity
 
     public void unloadStructure()
     {
-        WorldServer worldserver = (WorldServer)this.worldObj;
+        WorldServer worldserver = (WorldServer)this.world;
         TemplateManager templatemanager = worldserver.getStructureTemplateManager();
         templatemanager.remove(new ResourceLocation(this.name));
     }
 
     public boolean isStructureLoadable()
     {
-        if (this.mode == TileEntityStructure.Mode.LOAD && !this.worldObj.isRemote)
+        if (this.mode == TileEntityStructure.Mode.LOAD && !this.world.isRemote)
         {
-            WorldServer worldserver = (WorldServer)this.worldObj;
-            MinecraftServer minecraftserver = this.worldObj.getMinecraftServer();
+            WorldServer worldserver = (WorldServer)this.world;
+            MinecraftServer minecraftserver = this.world.getMinecraftServer();
             TemplateManager templatemanager = worldserver.getStructureTemplateManager();
             return templatemanager.get(minecraftserver, new ResourceLocation(this.name)) != null;
         }

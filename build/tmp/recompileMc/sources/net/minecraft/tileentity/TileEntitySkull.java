@@ -87,7 +87,7 @@ public class TileEntitySkull extends TileEntity implements ITickable
     {
         if (this.skullType == 5)
         {
-            if (this.worldObj.isBlockPowered(this.pos))
+            if (this.world.isBlockPowered(this.pos))
             {
                 this.dragonAnimated = true;
                 ++this.dragonAnimatedTicks;
@@ -196,19 +196,19 @@ public class TileEntitySkull extends TileEntity implements ITickable
         this.skullRotation = rotation;
     }
 
-    public void mirror(Mirror p_189668_1_)
+    public void mirror(Mirror mirrorIn)
     {
-        if (this.worldObj != null && this.worldObj.getBlockState(this.getPos()).getValue(BlockSkull.FACING) == EnumFacing.UP)
+        if (this.world != null && this.world.getBlockState(this.getPos()).getValue(BlockSkull.FACING) == EnumFacing.UP)
         {
-            this.skullRotation = p_189668_1_.mirrorRotation(this.skullRotation, 16);
+            this.skullRotation = mirrorIn.mirrorRotation(this.skullRotation, 16);
         }
     }
 
-    public void rotate(Rotation p_189667_1_)
+    public void rotate(Rotation rotationIn)
     {
-        if (this.worldObj != null && this.worldObj.getBlockState(this.getPos()).getValue(BlockSkull.FACING) == EnumFacing.UP)
+        if (this.world != null && this.world.getBlockState(this.getPos()).getValue(BlockSkull.FACING) == EnumFacing.UP)
         {
-            this.skullRotation = p_189667_1_.rotate(this.skullRotation, 16);
+            this.skullRotation = rotationIn.rotate(this.skullRotation, 16);
         }
     }
 }

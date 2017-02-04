@@ -48,14 +48,14 @@ public class DebugRendererNeighborsUpdate implements DebugRenderer.IDebugRendere
         map.put(p_191553_3_, Integer.valueOf(integer.intValue() + 1));
     }
 
-    public void render(float p_190060_1_, long p_190060_2_)
+    public void render(float partialTicks, long p_190060_2_)
     {
-        long i = this.field_191554_a.theWorld.getTotalWorldTime();
-        EntityPlayer entityplayer = this.field_191554_a.thePlayer;
-        double d0 = entityplayer.lastTickPosX + (entityplayer.posX - entityplayer.lastTickPosX) * (double)p_190060_1_;
-        double d1 = entityplayer.lastTickPosY + (entityplayer.posY - entityplayer.lastTickPosY) * (double)p_190060_1_;
-        double d2 = entityplayer.lastTickPosZ + (entityplayer.posZ - entityplayer.lastTickPosZ) * (double)p_190060_1_;
-        World world = this.field_191554_a.thePlayer.worldObj;
+        long i = this.field_191554_a.world.getTotalWorldTime();
+        EntityPlayer entityplayer = this.field_191554_a.player;
+        double d0 = entityplayer.lastTickPosX + (entityplayer.posX - entityplayer.lastTickPosX) * (double)partialTicks;
+        double d1 = entityplayer.lastTickPosY + (entityplayer.posY - entityplayer.lastTickPosY) * (double)partialTicks;
+        double d2 = entityplayer.lastTickPosZ + (entityplayer.posZ - entityplayer.lastTickPosZ) * (double)partialTicks;
+        World world = this.field_191554_a.player.world;
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         GlStateManager.glLineWidth(2.0F);
@@ -98,7 +98,7 @@ public class DebugRendererNeighborsUpdate implements DebugRenderer.IDebugRendere
         {
             BlockPos blockpos1 = (BlockPos)entry2.getKey();
             Integer integer1 = (Integer)entry2.getValue();
-            DebugRenderer.func_191556_a(String.valueOf((Object)integer1), blockpos1.getX(), blockpos1.getY(), blockpos1.getZ(), p_190060_1_, -1);
+            DebugRenderer.func_191556_a(String.valueOf((Object)integer1), blockpos1.getX(), blockpos1.getY(), blockpos1.getZ(), partialTicks, -1);
         }
 
         GlStateManager.depthMask(true);

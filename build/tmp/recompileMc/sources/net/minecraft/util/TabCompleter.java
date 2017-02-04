@@ -68,7 +68,7 @@ public abstract class TabCompleter
         if (prefix.length() >= 1)
         {
             net.minecraftforge.client.ClientCommandHandler.instance.autoComplete(prefix);
-            Minecraft.getMinecraft().thePlayer.connection.sendPacket(new CPacketTabComplete(prefix, this.getTargetBlockPos(), this.hasTargetBlock));
+            Minecraft.getMinecraft().player.connection.sendPacket(new CPacketTabComplete(prefix, this.getTargetBlockPos(), this.hasTargetBlock));
             this.requestedCompletions = true;
         }
     }

@@ -22,9 +22,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityElderGuardian extends EntityGuardian
 {
-    public EntityElderGuardian(World p_i47288_1_)
+    public EntityElderGuardian(World worldIn)
     {
-        super(p_i47288_1_);
+        super(worldIn);
         this.setSize(this.width * 2.35F, this.height * 2.35F);
         this.enablePersistence();
 
@@ -42,9 +42,9 @@ public class EntityElderGuardian extends EntityGuardian
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(80.0D);
     }
 
-    public static void func_190768_b(DataFixer p_190768_0_)
+    public static void registerFixesElderGuardian(DataFixer fixer)
     {
-        EntityLiving.registerFixesMob(p_190768_0_, EntityElderGuardian.class);
+        EntityLiving.registerFixesMob(fixer, EntityElderGuardian.class);
     }
 
     @Nullable
@@ -59,7 +59,7 @@ public class EntityElderGuardian extends EntityGuardian
     }
 
     @SideOnly(Side.CLIENT)
-    public void func_190767_di()
+    public void setGhost()
     {
         this.clientSideSpikesAnimation = 1.0F;
         this.clientSideSpikesAnimationO = this.clientSideSpikesAnimation;
@@ -80,9 +80,9 @@ public class EntityElderGuardian extends EntityGuardian
         return this.isInWater() ? SoundEvents.ENTITY_ELDER_GUARDIAN_DEATH : SoundEvents.ENTITY_ELDER_GUARDIAN_DEATH_LAND;
     }
 
-    protected SoundEvent func_190765_dj()
+    protected SoundEvent getFlopSound()
     {
-        return SoundEvents.field_191240_aK;
+        return SoundEvents.ENTITY_ELDER_GUARDIAN_FLOP;
     }
 
     protected void updateAITasks()
@@ -93,7 +93,7 @@ public class EntityElderGuardian extends EntityGuardian
         if ((this.ticksExisted + this.getEntityId()) % 1200 == 0)
         {
             Potion potion = MobEffects.MINING_FATIGUE;
-            List<EntityPlayerMP> list = this.worldObj.<EntityPlayerMP>getPlayers(EntityPlayerMP.class, new Predicate<EntityPlayerMP>()
+            List<EntityPlayerMP> list = this.world.<EntityPlayerMP>getPlayers(EntityPlayerMP.class, new Predicate<EntityPlayerMP>()
             {
                 public boolean apply(@Nullable EntityPlayerMP p_apply_1_)
                 {

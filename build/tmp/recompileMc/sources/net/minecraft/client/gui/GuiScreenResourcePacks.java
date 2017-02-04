@@ -88,14 +88,14 @@ public class GuiScreenResourcePacks extends GuiScreen
         this.availableResourcePacksList.handleMouseInput();
     }
 
-    public boolean hasResourcePackEntry(ResourcePackListEntry p_146961_1_)
+    public boolean hasResourcePackEntry(ResourcePackListEntry resourcePackEntry)
     {
-        return this.selectedResourcePacks.contains(p_146961_1_);
+        return this.selectedResourcePacks.contains(resourcePackEntry);
     }
 
-    public List<ResourcePackListEntry> getListContaining(ResourcePackListEntry p_146962_1_)
+    public List<ResourcePackListEntry> getListContaining(ResourcePackListEntry resourcePackEntry)
     {
-        return this.hasResourcePackEntry(p_146962_1_) ? this.selectedResourcePacks : this.availableResourcePacks;
+        return this.hasResourcePackEntry(resourcePackEntry) ? this.selectedResourcePacks : this.availableResourcePacks;
     }
 
     public List<ResourcePackListEntry> getAvailableResourcePacks()

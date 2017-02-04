@@ -20,16 +20,16 @@ public class WorldProviderEnd extends WorldProvider
     /**
      * creates a new world chunk manager for WorldProvider
      */
-    public void createBiomeProvider()
+    public void init()
     {
         this.biomeProvider = new BiomeProviderSingle(Biomes.SKY);
-        NBTTagCompound nbttagcompound = this.worldObj.getWorldInfo().getDimensionData(DimensionType.THE_END);
-        this.dragonFightManager = this.worldObj instanceof WorldServer ? new DragonFightManager((WorldServer)this.worldObj, nbttagcompound.getCompoundTag("DragonFight")) : null;
+        NBTTagCompound nbttagcompound = this.world.getWorldInfo().getDimensionData(DimensionType.THE_END);
+        this.dragonFightManager = this.world instanceof WorldServer ? new DragonFightManager((WorldServer)this.world, nbttagcompound.getCompoundTag("DragonFight")) : null;
     }
 
     public IChunkGenerator createChunkGenerator()
     {
-        return new ChunkProviderEnd(this.worldObj, this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.worldObj.getSeed(), this.getSpawnCoordinate());
+        return new ChunkProviderEnd(this.world, this.world.getWorldInfo().isMapFeaturesEnabled(), this.world.getSeed(), this.getSpawnCoordinate());
     }
 
     /**
@@ -58,7 +58,7 @@ public class WorldProviderEnd extends WorldProvider
     {
         int i = 10518688;
         float f = MathHelper.cos(p_76562_1_ * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
-        f = MathHelper.clamp_float(f, 0.0F, 1.0F);
+        f = MathHelper.clamp(f, 0.0F, 1.0F);
         float f1 = 0.627451F;
         float f2 = 0.5019608F;
         float f3 = 0.627451F;
@@ -104,7 +104,7 @@ public class WorldProviderEnd extends WorldProvider
      */
     public boolean canCoordinateBeSpawn(int x, int z)
     {
-        return this.worldObj.getGroundAboveSeaLevel(new BlockPos(x, 0, z)).getMaterial().blocksMovement();
+        return this.world.getGroundAboveSeaLevel(new BlockPos(x, 0, z)).getMaterial().blocksMovement();
     }
 
     public BlockPos getSpawnCoordinate()
@@ -144,7 +144,7 @@ public class WorldProviderEnd extends WorldProvider
             nbttagcompound.setTag("DragonFight", this.dragonFightManager.getCompound());
         }
 
-        this.worldObj.getWorldInfo().setDimensionData(DimensionType.THE_END, nbttagcompound);
+        this.world.getWorldInfo().setDimensionData(DimensionType.THE_END, nbttagcompound);
     }
 
     /**

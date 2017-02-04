@@ -11,12 +11,12 @@ public class MapGenBase
     /** The RNG used by the MapGen classes. */
     protected Random rand = new Random();
     /** This world object. */
-    protected World worldObj;
+    protected World world;
 
     public void generate(World worldIn, int x, int z, ChunkPrimer primer)
     {
         int i = this.range;
-        this.worldObj = worldIn;
+        this.world = worldIn;
         this.rand.setSeed(worldIn.getSeed());
         long j = this.rand.nextLong();
         long k = this.rand.nextLong();
@@ -33,7 +33,7 @@ public class MapGenBase
         }
     }
 
-    public static void func_191068_a(long p_191068_0_, Random p_191068_2_, int p_191068_3_, int p_191068_4_)
+    public static void setupChunkSeed(long p_191068_0_, Random p_191068_2_, int p_191068_3_, int p_191068_4_)
     {
         p_191068_2_.setSeed(p_191068_0_);
         long i = p_191068_2_.nextLong();

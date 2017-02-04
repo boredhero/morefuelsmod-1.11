@@ -50,7 +50,7 @@ public class BlockStateContainer implements IBlockStatePaletteResizer
             else
             {
                 this.palette = REGISTRY_BASED_PALETTE;
-                this.bits = MathHelper.calculateLogBaseTwoDeBruijn(Block.BLOCK_STATE_IDS.size());
+                this.bits = MathHelper.log2DeBruijn(Block.BLOCK_STATE_IDS.size());
                 if (forceBits)
                     this.bits = bitsIn;
             }
@@ -60,11 +60,11 @@ public class BlockStateContainer implements IBlockStatePaletteResizer
         }
     }
 
-    public int onResize(int p_186008_1_, IBlockState state)
+    public int onResize(int bits, IBlockState state)
     {
         BitArray bitarray = this.storage;
         IBlockStatePalette iblockstatepalette = this.palette;
-        this.setBits(p_186008_1_);
+        this.setBits(bits);
 
         for (int i = 0; i < bitarray.size(); ++i)
         {
@@ -114,7 +114,7 @@ public class BlockStateContainer implements IBlockStatePaletteResizer
         this.palette.read(buf);
         buf.readLongArray(this.storage.getBackingLongArray());
 
-        int regSize = MathHelper.calculateLogBaseTwoDeBruijn(Block.BLOCK_STATE_IDS.size());
+        int regSize = MathHelper.log2DeBruijn(Block.BLOCK_STATE_IDS.size());
         if (this.palette == REGISTRY_BASED_PALETTE && this.bits != regSize) // Resize bits to fit registry.
             this.onResize(regSize, AIR_BLOCK_STATE);
     }

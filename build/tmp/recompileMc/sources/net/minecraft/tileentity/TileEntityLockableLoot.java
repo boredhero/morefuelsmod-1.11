@@ -17,7 +17,7 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
 {
     protected ResourceLocation lootTable;
     protected long lootTableSeed;
-    protected String field_190577_o;
+    protected String customName;
 
     protected boolean checkLootAndRead(NBTTagCompound compound)
     {
@@ -56,7 +56,7 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     {
         if (this.lootTable != null)
         {
-            LootTable loottable = this.worldObj.getLootTableManager().getLootTableFromLocation(this.lootTable);
+            LootTable loottable = this.world.getLootTableManager().getLootTableFromLocation(this.lootTable);
             this.lootTable = null;
             Random random;
 
@@ -69,7 +69,7 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
                 random = new Random(this.lootTableSeed);
             }
 
-            LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer)this.worldObj);
+            LootContext.Builder lootcontext$builder = new LootContext.Builder((WorldServer)this.world);
 
             if (player != null)
             {
@@ -96,12 +96,12 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
      */
     public boolean hasCustomName()
     {
-        return this.field_190577_o != null && !this.field_190577_o.isEmpty();
+        return this.customName != null && !this.customName.isEmpty();
     }
 
-    public void func_190575_a(String p_190575_1_)
+    public void setCustomName(String p_190575_1_)
     {
-        this.field_190577_o = p_190575_1_;
+        this.customName = p_190575_1_;
     }
 
     /**
@@ -110,7 +110,7 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     public ItemStack getStackInSlot(int index)
     {
         this.fillWithLoot((EntityPlayer)null);
-        return (ItemStack)this.func_190576_q().get(index);
+        return (ItemStack)this.getItems().get(index);
     }
 
     /**
@@ -119,9 +119,9 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     public ItemStack decrStackSize(int index, int count)
     {
         this.fillWithLoot((EntityPlayer)null);
-        ItemStack itemstack = ItemStackHelper.getAndSplit(this.func_190576_q(), index, count);
+        ItemStack itemstack = ItemStackHelper.getAndSplit(this.getItems(), index, count);
 
-        if (!itemstack.func_190926_b())
+        if (!itemstack.isEmpty())
         {
             this.markDirty();
         }
@@ -135,7 +135,7 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     public ItemStack removeStackFromSlot(int index)
     {
         this.fillWithLoot((EntityPlayer)null);
-        return ItemStackHelper.getAndRemove(this.func_190576_q(), index);
+        return ItemStackHelper.getAndRemove(this.getItems(), index);
     }
 
     /**
@@ -144,11 +144,11 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     public void setInventorySlotContents(int index, @Nullable ItemStack stack)
     {
         this.fillWithLoot((EntityPlayer)null);
-        this.func_190576_q().set(index, stack);
+        this.getItems().set(index, stack);
 
-        if (stack.func_190916_E() > this.getInventoryStackLimit())
+        if (stack.getCount() > this.getInventoryStackLimit())
         {
-            stack.func_190920_e(this.getInventoryStackLimit());
+            stack.setCount(this.getInventoryStackLimit());
         }
 
         this.markDirty();
@@ -157,9 +157,9 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     /**
      * Don't rename this method to canInteractWith due to conflicts with Container
      */
-    public boolean isUseableByPlayer(EntityPlayer player)
+    public boolean isUsableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
     }
 
     public void openInventory(EntityPlayer player)
@@ -196,8 +196,8 @@ public abstract class TileEntityLockableLoot extends TileEntityLockable implemen
     public void clear()
     {
         this.fillWithLoot((EntityPlayer)null);
-        this.func_190576_q().clear();
+        this.getItems().clear();
     }
 
-    protected abstract NonNullList<ItemStack> func_190576_q();
+    protected abstract NonNullList<ItemStack> getItems();
 }

@@ -131,9 +131,9 @@ public class VisGraph
         }
     }
 
-    private int getNeighborIndexAtFace(int p_178603_1_, EnumFacing p_178603_2_)
+    private int getNeighborIndexAtFace(int p_178603_1_, EnumFacing facing)
     {
-        switch (p_178603_2_)
+        switch (facing)
         {
             case DOWN:
 

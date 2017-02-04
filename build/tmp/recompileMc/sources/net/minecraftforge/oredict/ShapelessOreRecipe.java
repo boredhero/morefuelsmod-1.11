@@ -37,8 +37,9 @@ import javax.annotation.Nonnull;
 
 public class ShapelessOreRecipe implements IRecipe
 {
-    protected ItemStack output = ItemStack.field_190927_a;
-    protected NonNullList<Object> input = NonNullList.func_191196_a();
+    @Nonnull
+    protected ItemStack output = ItemStack.EMPTY;
+    protected NonNullList<Object> input = NonNullList.create();
 
     public ShapelessOreRecipe(Block result, Object... recipe){ this(new ItemStack(result), recipe); }
     public ShapelessOreRecipe(Item  result, Object... recipe){ this(new ItemStack(result), recipe); }
@@ -103,13 +104,15 @@ public class ShapelessOreRecipe implements IRecipe
     public int getRecipeSize(){ return input.size(); }
 
     @Override
+    @Nonnull
     public ItemStack getRecipeOutput(){ return output; }
 
     /**
      * Returns an Item that is the result of this recipe
      */
     @Override
-    public ItemStack getCraftingResult(InventoryCrafting var1){ return output.copy(); }
+    @Nonnull
+    public ItemStack getCraftingResult(@Nonnull InventoryCrafting var1){ return output.copy(); }
 
     /**
      * Used to check if a recipe matches current crafting inventory
@@ -118,14 +121,14 @@ public class ShapelessOreRecipe implements IRecipe
     @Override
     public boolean matches(InventoryCrafting var1, World world)
     {
-        NonNullList<Object> required = NonNullList.func_191196_a();
+        NonNullList<Object> required = NonNullList.create();
         required.addAll(input);
 
         for (int x = 0; x < var1.getSizeInventory(); x++)
         {
             ItemStack slot = var1.getStackInSlot(x);
 
-            if (!slot.func_190926_b())
+            if (!slot.isEmpty())
             {
                 boolean inRecipe = false;
                 Iterator<Object> req = required.iterator();
@@ -178,6 +181,7 @@ public class ShapelessOreRecipe implements IRecipe
     }
 
     @Override
+    @Nonnull
     public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) //getRecipeLeftovers
     {
         return ForgeHooks.defaultRecipeGetRemainingItems(inv);

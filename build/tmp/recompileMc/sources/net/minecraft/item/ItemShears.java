@@ -54,7 +54,7 @@ public class ItemShears extends Item
     @Override
     public boolean itemInteractionForEntity(ItemStack itemstack, net.minecraft.entity.player.EntityPlayer player, EntityLivingBase entity, net.minecraft.util.EnumHand hand)
     {
-        if (entity.worldObj.isRemote)
+        if (entity.world.isRemote)
         {
             return false;
         }
@@ -62,9 +62,9 @@ public class ItemShears extends Item
         {
             net.minecraftforge.common.IShearable target = (net.minecraftforge.common.IShearable)entity;
             BlockPos pos = new BlockPos(entity.posX, entity.posY, entity.posZ);
-            if (target.isShearable(itemstack, entity.worldObj, pos))
+            if (target.isShearable(itemstack, entity.world, pos))
             {
-                java.util.List<ItemStack> drops = target.onSheared(itemstack, entity.worldObj, pos,
+                java.util.List<ItemStack> drops = target.onSheared(itemstack, entity.world, pos,
                         net.minecraft.enchantment.EnchantmentHelper.getEnchantmentLevel(net.minecraft.init.Enchantments.FORTUNE, itemstack));
 
                 java.util.Random rand = new java.util.Random();
@@ -85,17 +85,17 @@ public class ItemShears extends Item
     @Override
     public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, net.minecraft.entity.player.EntityPlayer player)
     {
-        if (player.worldObj.isRemote || player.capabilities.isCreativeMode)
+        if (player.world.isRemote || player.capabilities.isCreativeMode)
         {
             return false;
         }
-        Block block = player.worldObj.getBlockState(pos).getBlock();
+        Block block = player.world.getBlockState(pos).getBlock();
         if (block instanceof net.minecraftforge.common.IShearable)
         {
             net.minecraftforge.common.IShearable target = (net.minecraftforge.common.IShearable)block;
-            if (target.isShearable(itemstack, player.worldObj, pos))
+            if (target.isShearable(itemstack, player.world, pos))
             {
-                java.util.List<ItemStack> drops = target.onSheared(itemstack, player.worldObj, pos,
+                java.util.List<ItemStack> drops = target.onSheared(itemstack, player.world, pos,
                         net.minecraft.enchantment.EnchantmentHelper.getEnchantmentLevel(net.minecraft.init.Enchantments.FORTUNE, itemstack));
                 java.util.Random rand = new java.util.Random();
 
@@ -105,9 +105,9 @@ public class ItemShears extends Item
                     double d  = (double)(rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
                     double d1 = (double)(rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
                     double d2 = (double)(rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
-                    net.minecraft.entity.item.EntityItem entityitem = new net.minecraft.entity.item.EntityItem(player.worldObj, (double)pos.getX() + d, (double)pos.getY() + d1, (double)pos.getZ() + d2, stack);
+                    net.minecraft.entity.item.EntityItem entityitem = new net.minecraft.entity.item.EntityItem(player.world, (double)pos.getX() + d, (double)pos.getY() + d1, (double)pos.getZ() + d2, stack);
                     entityitem.setDefaultPickupDelay();
-                    player.worldObj.spawnEntityInWorld(entityitem);
+                    player.world.spawnEntity(entityitem);
                 }
 
                 itemstack.damageItem(1, player);

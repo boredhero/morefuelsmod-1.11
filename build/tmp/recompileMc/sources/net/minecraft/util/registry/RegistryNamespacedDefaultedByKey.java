@@ -80,8 +80,8 @@ public class RegistryNamespacedDefaultedByKey<K, V> extends RegistryNamespaced<K
 
     //Bypass functions to allow querying this registry WITHOUT getting the defaulted value.
     // MODDERS DO NOT USE THIS IS FOR FORGE INTERNAL CHECKS
-    public int getIDForObjectBypass(V bypass) { return super.getIDForObject(bypass); }
-    public K getNameForObjectBypass(V value) { return super.getNameForObject(value); }
-    public V getObjectBypass(K name) { return super.getObject(name); }
-    public V getObjectByIdBypass(int id){ return super.getObjectById(id); }
+    public int getIDForObjectBypass(@Nullable V bypass) { return super.getIDForObject(bypass); }
+    @Nullable public K getNameForObjectBypass(V value) { return super.getNameForObject(value); }
+    @Nullable public V getObjectBypass(K name) { return super.getObject(name); }
+    @Nullable public V getObjectByIdBypass(int id){ return super.getObjectById(id); }
 }

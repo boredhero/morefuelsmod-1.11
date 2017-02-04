@@ -114,7 +114,7 @@ public class NetworkPlayerInfo
     @Nullable
     public ScorePlayerTeam getPlayerTeam()
     {
-        return Minecraft.getMinecraft().theWorld.getScoreboard().getPlayersTeam(this.getGameProfile().getName());
+        return Minecraft.getMinecraft().world.getScoreboard().getPlayersTeam(this.getGameProfile().getName());
     }
 
     protected void loadPlayerTextures()

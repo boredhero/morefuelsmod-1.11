@@ -112,7 +112,7 @@ public class BlockStone extends Block
         private final String name;
         private final String unlocalizedName;
         private final MapColor mapColor;
-        private final boolean field_190913_m;
+        private final boolean isNatural;
 
         private EnumType(int p_i46383_3_, MapColor p_i46383_4_, String p_i46383_5_, boolean p_i46383_6_)
         {
@@ -125,7 +125,7 @@ public class BlockStone extends Block
             this.name = p_i46384_5_;
             this.unlocalizedName = p_i46384_6_;
             this.mapColor = p_i46384_4_;
-            this.field_190913_m = p_i46384_7_;
+            this.isNatural = p_i46384_7_;
         }
 
         /**
@@ -169,9 +169,9 @@ public class BlockStone extends Block
             return this.unlocalizedName;
         }
 
-        public boolean func_190912_e()
+        public boolean isNatural()
         {
-            return this.field_190913_m;
+            return this.isNatural;
         }
 
         static

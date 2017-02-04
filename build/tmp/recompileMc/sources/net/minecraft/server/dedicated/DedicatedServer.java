@@ -89,7 +89,7 @@ public class DedicatedServer extends MinecraftServer implements IServer
     /**
      * Initialises the server and starts it.
      */
-    public boolean startServer() throws IOException
+    public boolean init() throws IOException
     {
         Thread thread = new Thread("Server console handler")
         {
@@ -142,7 +142,7 @@ public class DedicatedServer extends MinecraftServer implements IServer
             else
             {
                 this.setOnlineMode(this.settings.getBooleanProperty("online-mode", true));
-                this.func_190517_e(this.settings.getBooleanProperty("prevent-proxy-connections", false));
+                this.setPreventProxyConnections(this.settings.getBooleanProperty("prevent-proxy-connections", false));
                 this.setHostname(this.settings.getStringProperty("server-ip", ""));
             }
 
@@ -260,7 +260,7 @@ public class DedicatedServer extends MinecraftServer implements IServer
                 this.getNetworkCompressionThreshold();
                 this.setBuildLimit(this.settings.getIntProperty("max-build-height", 256));
                 this.setBuildLimit((this.getBuildLimit() + 8) / 16 * 16);
-                this.setBuildLimit(MathHelper.clamp_int(this.getBuildLimit(), 64, 256));
+                this.setBuildLimit(MathHelper.clamp(this.getBuildLimit(), 64, 256));
                 this.settings.setProperty("max-build-height", Integer.valueOf(this.getBuildLimit()));
                 TileEntitySkull.setProfileCache(this.getPlayerProfileCache());
                 TileEntitySkull.setSessionService(this.getMinecraftSessionService());
@@ -590,8 +590,8 @@ public class DedicatedServer extends MinecraftServer implements IServer
         else
         {
             BlockPos blockpos = worldIn.getSpawnPoint();
-            int i = MathHelper.abs_int(pos.getX() - blockpos.getX());
-            int j = MathHelper.abs_int(pos.getZ() - blockpos.getZ());
+            int i = MathHelper.abs(pos.getX() - blockpos.getX());
+            int j = MathHelper.abs(pos.getZ() - blockpos.getZ());
             int k = Math.max(i, j);
             return k <= this.getSpawnProtectionSize();
         }
@@ -655,7 +655,7 @@ public class DedicatedServer extends MinecraftServer implements IServer
     }
 
     //Forge: Enable formated text for colors in console.
-    @Override public void addChatMessage(net.minecraft.util.text.ITextComponent message) { LOGGER.info(message.getFormattedText()); }
+    @Override public void sendMessage(net.minecraft.util.text.ITextComponent message) { LOGGER.info(message.getFormattedText()); }
 
     protected boolean convertFiles() throws IOException
     {

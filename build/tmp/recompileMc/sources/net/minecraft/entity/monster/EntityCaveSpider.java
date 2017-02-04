@@ -42,11 +42,11 @@ public class EntityCaveSpider extends EntitySpider
             {
                 int i = 0;
 
-                if (this.worldObj.getDifficulty() == EnumDifficulty.NORMAL)
+                if (this.world.getDifficulty() == EnumDifficulty.NORMAL)
                 {
                     i = 7;
                 }
-                else if (this.worldObj.getDifficulty() == EnumDifficulty.HARD)
+                else if (this.world.getDifficulty() == EnumDifficulty.HARD)
                 {
                     i = 15;
                 }

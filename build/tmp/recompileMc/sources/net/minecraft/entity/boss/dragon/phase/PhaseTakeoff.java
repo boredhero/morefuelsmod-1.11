@@ -27,7 +27,7 @@ public class PhaseTakeoff extends PhaseBase
     {
         if (!this.firstTick && this.currentPath != null)
         {
-            BlockPos blockpos = this.dragon.worldObj.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION);
+            BlockPos blockpos = this.dragon.world.getTopSolidOrLiquidBlock(WorldGenEndPodium.END_PODIUM_LOCATION);
             double d0 = this.dragon.getDistanceSqToCenter(blockpos);
 
             if (d0 > 100.0D)

@@ -119,7 +119,7 @@ public abstract class EntityHanging extends Entity
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 
-        if (this.tickCounter1++ == 100 && !this.worldObj.isRemote)
+        if (this.tickCounter1++ == 100 && !this.world.isRemote)
         {
             this.tickCounter1 = 0;
 
@@ -136,7 +136,7 @@ public abstract class EntityHanging extends Entity
      */
     public boolean onValidSurface()
     {
-        if (!this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty())
+        if (!this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty())
         {
             return false;
         }
@@ -155,9 +155,9 @@ public abstract class EntityHanging extends Entity
                     int i1 = (i - 1) / -2;
                     int j1 = (j - 1) / -2;
                     blockpos$mutableblockpos.setPos(blockpos).move(enumfacing, k + i1).move(EnumFacing.UP, l + j1);
-                    IBlockState iblockstate = this.worldObj.getBlockState(blockpos$mutableblockpos);
+                    IBlockState iblockstate = this.world.getBlockState(blockpos$mutableblockpos);
 
-                    if (iblockstate.isSideSolid(this.worldObj, blockpos$mutableblockpos, this.facingDirection))
+                    if (iblockstate.isSideSolid(this.world, blockpos$mutableblockpos, this.facingDirection))
                         continue;
 
                     if (!iblockstate.getMaterial().isSolid() && !BlockRedstoneDiode.isDiode(iblockstate))
@@ -167,7 +167,7 @@ public abstract class EntityHanging extends Entity
                 }
             }
 
-            return this.worldObj.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox(), IS_HANGING_ENTITY).isEmpty();
+            return this.world.getEntitiesInAABBexcluding(this, this.getEntityBoundingBox(), IS_HANGING_ENTITY).isEmpty();
         }
     }
 
@@ -206,7 +206,7 @@ public abstract class EntityHanging extends Entity
         }
         else
         {
-            if (!this.isDead && !this.worldObj.isRemote)
+            if (!this.isDead && !this.world.isRemote)
             {
                 this.setDead();
                 this.setBeenAttacked();
@@ -220,9 +220,9 @@ public abstract class EntityHanging extends Entity
     /**
      * Tries to move the entity towards the specified location.
      */
-    public void moveEntity(MoverType x, double p_70091_2_, double p_70091_4_, double p_70091_6_)
+    public void move(MoverType type, double x, double y, double z)
     {
-        if (!this.worldObj.isRemote && !this.isDead && p_70091_2_ * p_70091_2_ + p_70091_4_ * p_70091_4_ + p_70091_6_ * p_70091_6_ > 0.0D)
+        if (!this.world.isRemote && !this.isDead && x * x + y * y + z * z > 0.0D)
         {
             this.setDead();
             this.onBroken((Entity)null);
@@ -234,7 +234,7 @@ public abstract class EntityHanging extends Entity
      */
     public void addVelocity(double x, double y, double z)
     {
-        if (!this.worldObj.isRemote && !this.isDead && x * x + y * y + z * z > 0.0D)
+        if (!this.world.isRemote && !this.isDead && x * x + y * y + z * z > 0.0D)
         {
             this.setDead();
             this.onBroken((Entity)null);
@@ -278,9 +278,9 @@ public abstract class EntityHanging extends Entity
      */
     public EntityItem entityDropItem(ItemStack stack, float offsetY)
     {
-        EntityItem entityitem = new EntityItem(this.worldObj, this.posX + (double)((float)this.facingDirection.getFrontOffsetX() * 0.15F), this.posY + (double)offsetY, this.posZ + (double)((float)this.facingDirection.getFrontOffsetZ() * 0.15F), stack);
+        EntityItem entityitem = new EntityItem(this.world, this.posX + (double)((float)this.facingDirection.getFrontOffsetX() * 0.15F), this.posY + (double)offsetY, this.posZ + (double)((float)this.facingDirection.getFrontOffsetZ() * 0.15F), stack);
         entityitem.setDefaultPickupDelay();
-        this.worldObj.spawnEntityInWorld(entityitem);
+        this.world.spawnEntity(entityitem);
         return entityitem;
     }
 

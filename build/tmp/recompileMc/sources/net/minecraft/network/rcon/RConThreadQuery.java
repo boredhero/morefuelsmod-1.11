@@ -216,7 +216,7 @@ public class RConThreadQuery extends RConThreadBase
             this.output.writeInt(1);
             this.output.writeString("player_");
             this.output.writeInt(0);
-            String[] astring = this.server.getAllUsernames();
+            String[] astring = this.server.getOnlinePlayerNames();
 
             for (String s : astring)
             {

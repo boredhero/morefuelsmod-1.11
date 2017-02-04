@@ -18,7 +18,7 @@ public final class ProjectileHelper
         double d3 = p_188802_0_.motionX;
         double d4 = p_188802_0_.motionY;
         double d5 = p_188802_0_.motionZ;
-        World world = p_188802_0_.worldObj;
+        World world = p_188802_0_.world;
         Vec3d vec3d = new Vec3d(d0, d1, d2);
         Vec3d vec3d1 = new Vec3d(d0 + d3, d1 + d4, d2 + d5);
         RayTraceResult raytraceresult = world.rayTraceBlocks(vec3d, vec3d1, false, true, false);
@@ -70,7 +70,7 @@ public final class ProjectileHelper
         double d0 = p_188803_0_.motionX;
         double d1 = p_188803_0_.motionY;
         double d2 = p_188803_0_.motionZ;
-        float f = MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+        float f = MathHelper.sqrt(d0 * d0 + d2 * d2);
         p_188803_0_.rotationYaw = (float)(MathHelper.atan2(d2, d0) * (180D / Math.PI)) + 90.0F;
 
         for (p_188803_0_.rotationPitch = (float)(MathHelper.atan2((double)f, d1) * (180D / Math.PI)) - 90.0F; p_188803_0_.rotationPitch - p_188803_0_.prevRotationPitch < -180.0F; p_188803_0_.prevRotationPitch -= 360.0F)

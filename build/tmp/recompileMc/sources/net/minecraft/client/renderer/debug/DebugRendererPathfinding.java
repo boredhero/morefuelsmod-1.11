@@ -40,15 +40,15 @@ public class DebugRendererPathfinding implements DebugRenderer.IDebugRenderer
         this.pathMaxDistance.put(Integer.valueOf(p_188289_1_), Float.valueOf(p_188289_3_));
     }
 
-    public void render(float p_190060_1_, long p_190060_2_)
+    public void render(float partialTicks, long p_190060_2_)
     {
         if (this.pathMap.size() != 0)
         {
             long i = System.currentTimeMillis();
-            this.player = this.minecraft.thePlayer;
-            this.xo = this.player.lastTickPosX + (this.player.posX - this.player.lastTickPosX) * (double)p_190060_1_;
-            this.yo = this.player.lastTickPosY + (this.player.posY - this.player.lastTickPosY) * (double)p_190060_1_;
-            this.zo = this.player.lastTickPosZ + (this.player.posZ - this.player.lastTickPosZ) * (double)p_190060_1_;
+            this.player = this.minecraft.player;
+            this.xo = this.player.lastTickPosX + (this.player.posX - this.player.lastTickPosX) * (double)partialTicks;
+            this.yo = this.player.lastTickPosY + (this.player.posY - this.player.lastTickPosY) * (double)partialTicks;
+            this.zo = this.player.lastTickPosZ + (this.player.posZ - this.player.lastTickPosZ) * (double)partialTicks;
             GlStateManager.pushMatrix();
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
@@ -60,7 +60,7 @@ public class DebugRendererPathfinding implements DebugRenderer.IDebugRenderer
             {
                 Path path = (Path)this.pathMap.get(integer);
                 float f = ((Float)this.pathMaxDistance.get(integer)).floatValue();
-                this.renderPathLine(p_190060_1_, path);
+                this.renderPathLine(partialTicks, path);
                 PathPoint pathpoint = path.getTarget();
 
                 if (this.addDistanceToPlayer(pathpoint) <= 40.0F)
@@ -89,8 +89,8 @@ public class DebugRendererPathfinding implements DebugRenderer.IDebugRenderer
                 {
                     if (this.addDistanceToPlayer(pathpoint3) <= 40.0F)
                     {
-                        DebugRenderer.renderDebugText(String.format("%s", new Object[] {pathpoint3.nodeType}), (double)pathpoint3.xCoord + 0.5D, (double)pathpoint3.yCoord + 0.75D, (double)pathpoint3.zCoord + 0.5D, p_190060_1_, -65536);
-                        DebugRenderer.renderDebugText(String.format("%.2f", new Object[] {Float.valueOf(pathpoint3.costMalus)}), (double)pathpoint3.xCoord + 0.5D, (double)pathpoint3.yCoord + 0.25D, (double)pathpoint3.zCoord + 0.5D, p_190060_1_, -65536);
+                        DebugRenderer.renderDebugText(String.format("%s", new Object[] {pathpoint3.nodeType}), (double)pathpoint3.xCoord + 0.5D, (double)pathpoint3.yCoord + 0.75D, (double)pathpoint3.zCoord + 0.5D, partialTicks, -65536);
+                        DebugRenderer.renderDebugText(String.format("%.2f", new Object[] {Float.valueOf(pathpoint3.costMalus)}), (double)pathpoint3.xCoord + 0.5D, (double)pathpoint3.yCoord + 0.25D, (double)pathpoint3.zCoord + 0.5D, partialTicks, -65536);
                     }
                 }
 
@@ -98,8 +98,8 @@ public class DebugRendererPathfinding implements DebugRenderer.IDebugRenderer
                 {
                     if (this.addDistanceToPlayer(pathpoint4) <= 40.0F)
                     {
-                        DebugRenderer.renderDebugText(String.format("%s", new Object[] {pathpoint4.nodeType}), (double)pathpoint4.xCoord + 0.5D, (double)pathpoint4.yCoord + 0.75D, (double)pathpoint4.zCoord + 0.5D, p_190060_1_, -16776961);
-                        DebugRenderer.renderDebugText(String.format("%.2f", new Object[] {Float.valueOf(pathpoint4.costMalus)}), (double)pathpoint4.xCoord + 0.5D, (double)pathpoint4.yCoord + 0.25D, (double)pathpoint4.zCoord + 0.5D, p_190060_1_, -16776961);
+                        DebugRenderer.renderDebugText(String.format("%s", new Object[] {pathpoint4.nodeType}), (double)pathpoint4.xCoord + 0.5D, (double)pathpoint4.yCoord + 0.75D, (double)pathpoint4.zCoord + 0.5D, partialTicks, -16776961);
+                        DebugRenderer.renderDebugText(String.format("%.2f", new Object[] {Float.valueOf(pathpoint4.costMalus)}), (double)pathpoint4.xCoord + 0.5D, (double)pathpoint4.yCoord + 0.25D, (double)pathpoint4.zCoord + 0.5D, partialTicks, -16776961);
                     }
                 }
 
@@ -109,8 +109,8 @@ public class DebugRendererPathfinding implements DebugRenderer.IDebugRenderer
 
                     if (this.addDistanceToPlayer(pathpoint2) <= 40.0F)
                     {
-                        DebugRenderer.renderDebugText(String.format("%s", new Object[] {pathpoint2.nodeType}), (double)pathpoint2.xCoord + 0.5D, (double)pathpoint2.yCoord + 0.75D, (double)pathpoint2.zCoord + 0.5D, p_190060_1_, -1);
-                        DebugRenderer.renderDebugText(String.format("%.2f", new Object[] {Float.valueOf(pathpoint2.costMalus)}), (double)pathpoint2.xCoord + 0.5D, (double)pathpoint2.yCoord + 0.25D, (double)pathpoint2.zCoord + 0.5D, p_190060_1_, -1);
+                        DebugRenderer.renderDebugText(String.format("%s", new Object[] {pathpoint2.nodeType}), (double)pathpoint2.xCoord + 0.5D, (double)pathpoint2.yCoord + 0.75D, (double)pathpoint2.zCoord + 0.5D, partialTicks, -1);
+                        DebugRenderer.renderDebugText(String.format("%.2f", new Object[] {Float.valueOf(pathpoint2.costMalus)}), (double)pathpoint2.xCoord + 0.5D, (double)pathpoint2.yCoord + 0.25D, (double)pathpoint2.zCoord + 0.5D, partialTicks, -1);
                     }
                 }
             }
@@ -154,8 +154,8 @@ public class DebugRendererPathfinding implements DebugRenderer.IDebugRenderer
         tessellator.draw();
     }
 
-    private float addDistanceToPlayer(PathPoint p_190066_1_)
+    private float addDistanceToPlayer(PathPoint point)
     {
-        return (float)(Math.abs((double)p_190066_1_.xCoord - this.player.posX) + Math.abs((double)p_190066_1_.yCoord - this.player.posY) + Math.abs((double)p_190066_1_.zCoord - this.player.posZ));
+        return (float)(Math.abs((double)point.xCoord - this.player.posX) + Math.abs((double)point.yCoord - this.player.posY) + Math.abs((double)point.zCoord - this.player.posZ));
     }
 }

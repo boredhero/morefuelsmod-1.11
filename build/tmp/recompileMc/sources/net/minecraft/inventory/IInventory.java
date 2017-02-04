@@ -11,7 +11,7 @@ public interface IInventory extends IWorldNameable
      */
     int getSizeInventory();
 
-    boolean func_191420_l();
+    boolean isEmpty();
 
     /**
      * Returns the stack in the given slot.
@@ -47,7 +47,7 @@ public interface IInventory extends IWorldNameable
     /**
      * Don't rename this method to canInteractWith due to conflicts with Container
      */
-    boolean isUseableByPlayer(EntityPlayer player);
+    boolean isUsableByPlayer(EntityPlayer player);
 
     void openInventory(EntityPlayer player);
 

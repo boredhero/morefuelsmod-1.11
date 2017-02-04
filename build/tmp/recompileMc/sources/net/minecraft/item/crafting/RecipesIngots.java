@@ -19,7 +19,9 @@ public class RecipesIngots
         {
             Block block = (Block)aobject[0];
             ItemStack itemstack = (ItemStack)aobject[1];
-            manager.addRecipe(new ItemStack(block), new Object[] {"###", "###", "###", '#', itemstack});
+            ItemStack itemstackIngredient = itemstack.copy(); // forge: MC-103403 ensure ingredient stack size is 1 and not 9.
+            itemstackIngredient.setCount(1);
+            manager.addRecipe(new ItemStack(block), new Object[] {"###", "###", "###", '#', itemstackIngredient});
             manager.addRecipe(itemstack, new Object[] {"#", '#', block});
         }
 

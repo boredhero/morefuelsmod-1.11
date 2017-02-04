@@ -65,8 +65,8 @@ public class ViewFrustum
 
     public void updateChunkPositions(double viewEntityX, double viewEntityZ)
     {
-        int i = MathHelper.floor_double(viewEntityX) - 8;
-        int j = MathHelper.floor_double(viewEntityZ) - 8;
+        int i = MathHelper.floor(viewEntityX) - 8;
+        int j = MathHelper.floor(viewEntityZ) - 8;
         int k = this.countChunksX * 16;
 
         for (int l = 0; l < this.countChunksX; ++l)
@@ -102,12 +102,12 @@ public class ViewFrustum
 
     public void markBlocksForUpdate(int p_187474_1_, int p_187474_2_, int p_187474_3_, int p_187474_4_, int p_187474_5_, int p_187474_6_, boolean p_187474_7_)
     {
-        int i = MathHelper.bucketInt(p_187474_1_, 16);
-        int j = MathHelper.bucketInt(p_187474_2_, 16);
-        int k = MathHelper.bucketInt(p_187474_3_, 16);
-        int l = MathHelper.bucketInt(p_187474_4_, 16);
-        int i1 = MathHelper.bucketInt(p_187474_5_, 16);
-        int j1 = MathHelper.bucketInt(p_187474_6_, 16);
+        int i = MathHelper.intFloorDiv(p_187474_1_, 16);
+        int j = MathHelper.intFloorDiv(p_187474_2_, 16);
+        int k = MathHelper.intFloorDiv(p_187474_3_, 16);
+        int l = MathHelper.intFloorDiv(p_187474_4_, 16);
+        int i1 = MathHelper.intFloorDiv(p_187474_5_, 16);
+        int j1 = MathHelper.intFloorDiv(p_187474_6_, 16);
 
         for (int k1 = i; k1 <= l; ++k1)
         {
@@ -147,9 +147,9 @@ public class ViewFrustum
     @Nullable
     protected RenderChunk getRenderChunk(BlockPos pos)
     {
-        int i = MathHelper.bucketInt(pos.getX(), 16);
-        int j = MathHelper.bucketInt(pos.getY(), 16);
-        int k = MathHelper.bucketInt(pos.getZ(), 16);
+        int i = MathHelper.intFloorDiv(pos.getX(), 16);
+        int j = MathHelper.intFloorDiv(pos.getY(), 16);
+        int k = MathHelper.intFloorDiv(pos.getZ(), 16);
 
         if (j >= 0 && j < this.countChunksY)
         {

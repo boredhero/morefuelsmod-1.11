@@ -684,6 +684,9 @@ public class FontRenderer implements IResourceManagerReloadListener
 
     /**
      * Trims a string to fit a specified Width.
+     *  
+     * @param text The text to trim
+     * @param width The width to trim to (in pixels)
      */
     public String trimStringToWidth(String text, int width)
     {
@@ -691,7 +694,37 @@ public class FontRenderer implements IResourceManagerReloadListener
     }
 
     /**
-     * Trims a string to a specified width, and will reverse it if par3 is set.
+     * Trims a string to a specified width, optionally starting from the end and working backwards.
+     * <h3>Samples:</h3>
+     * (Assuming that {@link #getCharWidth(char)} returns <code>6</code> for all of the characters in
+     * <code>0123456789</code> on the current resource pack)
+     * <dl>
+     * <dt><code>trimStringToWidth("0123456789", 1, false)</code></dt>
+     * <dd><samp>""</samp></dd>
+     * <dt><code>trimStringToWidth("0123456789", 6, false)</code></dt>
+     * <dd><samp>"0"</samp></dd>
+     * <dt><code>trimStringToWidth("0123456789", 29, false)</code></dt>
+     * <dd><samp>"0123"</samp></dd>
+     * <dt><code>trimStringToWidth("0123456789", 30, false)</code></dt>
+     * <dd><samp>"01234"</samp></dd>
+     * <dt><code>trimStringToWidth("0123456789", 9001, false)</code></dt>
+     * <dd><samp>"0123456789"</samp></dd>
+     * <dt><code>trimStringToWidth("0123456789", 1, true)</code></dt>
+     * <dd><samp>""</samp></dd>
+     * <dt><code>trimStringToWidth("0123456789", 6, true)</code></dt>
+     * <dd><samp>"9"</samp></dd>
+     * <dt><code>trimStringToWidth("0123456789", 29, true)</code></dt>
+     * <dd><samp>"6789"</samp></dd>
+     * <dt><code>trimStringToWidth("0123456789", 30, true)</code></dt>
+     * <dd><samp>"56789"</samp></dd>
+     * <dt><code>trimStringToWidth("0123456789", 9001, true)</code></dt>
+     * <dd><samp>"0123456789"</samp></dd>
+     * </dl>
+     *  
+     * @param text The text to trim
+     * @param width The width to trim to (in pixels)
+     * @param reverse If true, starts from the end of the string and works backwords, rather than starting from the
+     * start and working forwards. Even if true, the final string will be in the correct order.
      */
     public String trimStringToWidth(String text, int width, boolean reverse)
     {
@@ -793,9 +826,9 @@ public class FontRenderer implements IResourceManagerReloadListener
     }
 
     /**
-     * Returns the width of the wordwrapped String (maximum length is parameter k)
+     * Returns the height (in pixels) of the given string if it is wordwrapped to the given max width.
      */
-    public int splitStringWidth(String str, int maxLength)
+    public int getWordWrappedHeight(String str, int maxLength)
     {
         return this.FONT_HEIGHT * this.listFormattedStringToWidth(str, maxLength).size();
     }

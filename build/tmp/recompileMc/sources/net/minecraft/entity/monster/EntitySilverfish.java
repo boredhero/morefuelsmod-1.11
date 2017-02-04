@@ -114,7 +114,7 @@ public class EntitySilverfish extends EntityMob
         }
         else
         {
-            if ((source instanceof EntityDamageSource || source == DamageSource.magic) && this.summonSilverfish != null)
+            if ((source instanceof EntityDamageSource || source == DamageSource.MAGIC) && this.summonSilverfish != null)
             {
                 this.summonSilverfish.notifyHurt();
             }
@@ -149,7 +149,7 @@ public class EntitySilverfish extends EntityMob
 
     public float getBlockPathWeight(BlockPos pos)
     {
-        return this.worldObj.getBlockState(pos.down()).getBlock() == Blocks.STONE ? 10.0F : super.getBlockPathWeight(pos);
+        return this.world.getBlockState(pos.down()).getBlock() == Blocks.STONE ? 10.0F : super.getBlockPathWeight(pos);
     }
 
     /**
@@ -167,7 +167,7 @@ public class EntitySilverfish extends EntityMob
     {
         if (super.getCanSpawnHere())
         {
-            EntityPlayer entityplayer = this.worldObj.getNearestPlayerNotCreative(this, 5.0D);
+            EntityPlayer entityplayer = this.world.getNearestPlayerNotCreative(this, 5.0D);
             return entityplayer == null;
         }
         else
@@ -212,11 +212,11 @@ public class EntitySilverfish extends EntityMob
                 {
                     Random random = this.entity.getRNG();
 
-                    if (this.entity.worldObj.getGameRules().getBoolean("mobGriefing") && random.nextInt(10) == 0)
+                    if (this.entity.world.getGameRules().getBoolean("mobGriefing") && random.nextInt(10) == 0)
                     {
                         this.facing = EnumFacing.random(random);
                         BlockPos blockpos = (new BlockPos(this.entity.posX, this.entity.posY + 0.5D, this.entity.posZ)).offset(this.facing);
-                        IBlockState iblockstate = this.entity.worldObj.getBlockState(blockpos);
+                        IBlockState iblockstate = this.entity.world.getBlockState(blockpos);
 
                         if (BlockSilverfish.canContainSilverfish(iblockstate))
                         {
@@ -249,7 +249,7 @@ public class EntitySilverfish extends EntityMob
                 }
                 else
                 {
-                    World world = this.entity.worldObj;
+                    World world = this.entity.world;
                     BlockPos blockpos = (new BlockPos(this.entity.posX, this.entity.posY + 0.5D, this.entity.posZ)).offset(this.facing);
                     IBlockState iblockstate = world.getBlockState(blockpos);
 
@@ -298,7 +298,7 @@ public class EntitySilverfish extends EntityMob
 
                 if (this.lookForFriends <= 0)
                 {
-                    World world = this.silverfish.worldObj;
+                    World world = this.silverfish.world;
                     Random random = this.silverfish.getRNG();
                     BlockPos blockpos = new BlockPos(this.silverfish);
 

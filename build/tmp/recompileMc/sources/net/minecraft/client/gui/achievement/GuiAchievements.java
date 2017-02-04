@@ -185,7 +185,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
                 this.zoom -= 0.25F;
             }
 
-            this.zoom = MathHelper.clamp_float(this.zoom, 1.0F, 2.0F);
+            this.zoom = MathHelper.clamp(this.zoom, 1.0F, 2.0F);
 
             if (this.zoom != f2)
             {
@@ -273,8 +273,8 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
 
     protected void drawAchievementScreen(int p_146552_1_, int p_146552_2_, float p_146552_3_)
     {
-        int i = MathHelper.floor_double(this.xScrollO + (this.xScrollP - this.xScrollO) * (double)p_146552_3_);
-        int j = MathHelper.floor_double(this.yScrollO + (this.yScrollP - this.yScrollO) * (double)p_146552_3_);
+        int i = MathHelper.floor(this.xScrollO + (this.xScrollP - this.xScrollO) * (double)p_146552_3_);
+        int j = MathHelper.floor(this.yScrollO + (this.yScrollP - this.yScrollO) * (double)p_146552_3_);
 
         if (i < X_MIN)
         {
@@ -543,7 +543,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
             if (this.statFileWriter.canUnlockAchievement(achievement))
             {
                 int j8 = Math.max(this.fontRendererObj.getStringWidth(s), 120);
-                int i9 = this.fontRendererObj.splitStringWidth(s1, j8);
+                int i9 = this.fontRendererObj.getWordWrappedHeight(s1, j8);
 
                 if (this.statFileWriter.hasAchievementUnlocked(achievement))
                 {
@@ -563,7 +563,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
                 s = I18n.format("achievement.unknown", new Object[0]);
                 int k8 = Math.max(this.fontRendererObj.getStringWidth(s), 120);
                 String s2 = (new TextComponentTranslation("achievement.requires", new Object[] {achievement.parentAchievement.getStatName()})).getUnformattedText();
-                int i5 = this.fontRendererObj.splitStringWidth(s2, k8);
+                int i5 = this.fontRendererObj.getWordWrappedHeight(s2, k8);
                 this.drawGradientRect(i7 - 3, k7 - 3, i7 + k8 + 3, k7 + i5 + 12 + 3, -1073741824, -1073741824);
                 this.fontRendererObj.drawSplitString(s2, i7, k7 + 12, k8, -9416624);
             }
@@ -571,7 +571,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
             {
                 int l8 = Math.max(this.fontRendererObj.getStringWidth(s), 120);
                 String s3 = (new TextComponentTranslation("achievement.requires", new Object[] {achievement.parentAchievement.getStatName()})).getUnformattedText();
-                int j9 = this.fontRendererObj.splitStringWidth(s3, l8);
+                int j9 = this.fontRendererObj.getWordWrappedHeight(s3, l8);
                 this.drawGradientRect(i7 - 3, k7 - 3, i7 + l8 + 3, k7 + j9 + 12 + 3, -1073741824, -1073741824);
                 this.fontRendererObj.drawSplitString(s3, i7, k7 + 12, l8, -9416624);
             }

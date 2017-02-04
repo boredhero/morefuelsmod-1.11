@@ -75,7 +75,7 @@ public class GuiWinGame extends GuiScreen
 
     private void sendRespawnPacket()
     {
-        this.mc.thePlayer.connection.sendPacket(new CPacketClientStatus(CPacketClientStatus.State.PERFORM_RESPAWN));
+        this.mc.player.connection.sendPacket(new CPacketClientStatus(CPacketClientStatus.State.PERFORM_RESPAWN));
         this.mc.displayGuiScreen((GuiScreen)null);
     }
 

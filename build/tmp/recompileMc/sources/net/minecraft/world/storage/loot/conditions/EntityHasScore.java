@@ -39,7 +39,7 @@ public class EntityHasScore implements LootCondition
         }
         else
         {
-            Scoreboard scoreboard = entity.worldObj.getScoreboard();
+            Scoreboard scoreboard = entity.world.getScoreboard();
 
             for (Entry<String, RandomValueRange> entry : this.scores.entrySet())
             {

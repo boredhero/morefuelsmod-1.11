@@ -26,9 +26,9 @@ public class GuiScreenCustomizePresets extends GuiScreen
     private String shareText;
     private String listText;
 
-    public GuiScreenCustomizePresets(GuiCustomizeWorldScreen p_i45524_1_)
+    public GuiScreenCustomizePresets(GuiCustomizeWorldScreen parentIn)
     {
-        this.parent = p_i45524_1_;
+        this.parent = parentIn;
     }
 
     /**
@@ -215,7 +215,7 @@ public class GuiScreenCustomizePresets extends GuiScreen
         {
         }
 
-        private void blitIcon(int p_178051_1_, int p_178051_2_, ResourceLocation p_178051_3_)
+        private void blitIcon(int p_178051_1_, int p_178051_2_, ResourceLocation texture)
         {
             int i = p_178051_1_ + 5;
             GuiScreenCustomizePresets.this.drawHorizontalLine(i - 1, i + 32, p_178051_2_ - 1, -2039584);
@@ -223,7 +223,7 @@ public class GuiScreenCustomizePresets extends GuiScreen
             GuiScreenCustomizePresets.this.drawVerticalLine(i - 1, p_178051_2_ - 1, p_178051_2_ + 32, -2039584);
             GuiScreenCustomizePresets.this.drawVerticalLine(i + 32, p_178051_2_ - 1, p_178051_2_ + 32, -6250336);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.mc.getTextureManager().bindTexture(p_178051_3_);
+            this.mc.getTextureManager().bindTexture(texture);
             int j = 32;
             int k = 32;
             Tessellator tessellator = Tessellator.getInstance();

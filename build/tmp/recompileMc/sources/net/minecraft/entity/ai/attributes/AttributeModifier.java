@@ -16,7 +16,7 @@ public class AttributeModifier
 
     public AttributeModifier(String nameIn, double amountIn, int operationIn)
     {
-        this(MathHelper.getRandomUuid(ThreadLocalRandom.current()), nameIn, amountIn, operationIn);
+        this(MathHelper.getRandomUUID(ThreadLocalRandom.current()), nameIn, amountIn, operationIn);
     }
 
     public AttributeModifier(UUID idIn, String nameIn, double amountIn, int operationIn)

@@ -51,10 +51,10 @@ public class GuiScreenAddServer extends GuiScreen
         }
     };
 
-    public GuiScreenAddServer(GuiScreen p_i1033_1_, ServerData p_i1033_2_)
+    public GuiScreenAddServer(GuiScreen parentScreenIn, ServerData serverDataIn)
     {
-        this.parentScreen = p_i1033_1_;
-        this.serverData = p_i1033_2_;
+        this.parentScreen = parentScreenIn;
+        this.serverData = serverDataIn;
     }
 
     /**

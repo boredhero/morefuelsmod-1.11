@@ -29,9 +29,9 @@ public class PlayerListComponent extends JList implements ITickable
         {
             Vector<String> vector = new Vector();
 
-            for (int i = 0; i < this.server.getPlayerList().getPlayerList().size(); ++i)
+            for (int i = 0; i < this.server.getPlayerList().getPlayers().size(); ++i)
             {
-                vector.add(((EntityPlayerMP)this.server.getPlayerList().getPlayerList().get(i)).getName());
+                vector.add(((EntityPlayerMP)this.server.getPlayerList().getPlayers().get(i)).getName());
             }
 
             this.setListData(vector);

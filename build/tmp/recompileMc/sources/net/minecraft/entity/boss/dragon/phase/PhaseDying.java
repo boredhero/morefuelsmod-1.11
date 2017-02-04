@@ -28,7 +28,7 @@ public class PhaseDying extends PhaseBase
             float f = (this.dragon.getRNG().nextFloat() - 0.5F) * 8.0F;
             float f1 = (this.dragon.getRNG().nextFloat() - 0.5F) * 4.0F;
             float f2 = (this.dragon.getRNG().nextFloat() - 0.5F) * 8.0F;
-            this.dragon.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.dragon.posX + (double)f, this.dragon.posY + 2.0D + (double)f1, this.dragon.posZ + (double)f2, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.dragon.world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.dragon.posX + (double)f, this.dragon.posY + 2.0D + (double)f1, this.dragon.posZ + (double)f2, 0.0D, 0.0D, 0.0D, new int[0]);
         }
     }
 
@@ -42,7 +42,7 @@ public class PhaseDying extends PhaseBase
 
         if (this.targetLocation == null)
         {
-            BlockPos blockpos = this.dragon.worldObj.getHeight(WorldGenEndPodium.END_PODIUM_LOCATION);
+            BlockPos blockpos = this.dragon.world.getHeight(WorldGenEndPodium.END_PODIUM_LOCATION);
             this.targetLocation = new Vec3d((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
         }
 

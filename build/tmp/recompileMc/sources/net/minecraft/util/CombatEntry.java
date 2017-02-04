@@ -13,10 +13,10 @@ public class CombatEntry
     private final String fallSuffix;
     private final float fallDistance;
 
-    public CombatEntry(DamageSource damageSrcIn, int p_i1564_2_, float healthAmount, float damageAmount, String fallSuffixIn, float fallDistanceIn)
+    public CombatEntry(DamageSource damageSrcIn, int timeIn, float healthAmount, float damageAmount, String fallSuffixIn, float fallDistanceIn)
     {
         this.damageSrc = damageSrcIn;
-        this.time = p_i1564_2_;
+        this.time = timeIn;
         this.damage = damageAmount;
         this.health = healthAmount;
         this.fallSuffix = fallSuffixIn;
@@ -58,6 +58,6 @@ public class CombatEntry
 
     public float getDamageAmount()
     {
-        return this.damageSrc == DamageSource.outOfWorld ? Float.MAX_VALUE : this.fallDistance;
+        return this.damageSrc == DamageSource.OUT_OF_WORLD ? Float.MAX_VALUE : this.fallDistance;
     }
 }

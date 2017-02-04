@@ -78,7 +78,7 @@ public class EntityGhast extends EntityFlying implements IMob
     {
         super.onUpdate();
 
-        if (!this.worldObj.isRemote && this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
+        if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL)
         {
             this.setDead();
         }
@@ -157,7 +157,7 @@ public class EntityGhast extends EntityFlying implements IMob
      */
     public boolean getCanSpawnHere()
     {
-        return this.rand.nextInt(20) == 0 && super.getCanSpawnHere() && this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL;
+        return this.rand.nextInt(20) == 0 && super.getCanSpawnHere() && this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
     }
 
     /**
@@ -244,7 +244,7 @@ public class EntityGhast extends EntityFlying implements IMob
 
                 if (entitylivingbase.getDistanceSqToEntity(this.parentEntity) < 4096.0D && this.parentEntity.canEntityBeSeen(entitylivingbase))
                 {
-                    World world = this.parentEntity.worldObj;
+                    World world = this.parentEntity.world;
                     ++this.attackTimer;
 
                     if (this.attackTimer == 10)
@@ -265,7 +265,7 @@ public class EntityGhast extends EntityFlying implements IMob
                         entitylargefireball.posX = this.parentEntity.posX + vec3d.xCoord * 4.0D;
                         entitylargefireball.posY = this.parentEntity.posY + (double)(this.parentEntity.height / 2.0F) + 0.5D;
                         entitylargefireball.posZ = this.parentEntity.posZ + vec3d.zCoord * 4.0D;
-                        world.spawnEntityInWorld(entitylargefireball);
+                        world.spawnEntity(entitylargefireball);
                         this.attackTimer = -40;
                     }
                 }
@@ -397,7 +397,7 @@ public class EntityGhast extends EntityFlying implements IMob
                     if (this.courseChangeCooldown-- <= 0)
                     {
                         this.courseChangeCooldown += this.parentEntity.getRNG().nextInt(5) + 2;
-                        d3 = (double)MathHelper.sqrt_double(d3);
+                        d3 = (double)MathHelper.sqrt(d3);
 
                         if (this.isNotColliding(this.posX, this.posY, this.posZ, d3))
                         {
@@ -427,7 +427,7 @@ public class EntityGhast extends EntityFlying implements IMob
                 {
                     axisalignedbb = axisalignedbb.offset(d0, d1, d2);
 
-                    if (!this.parentEntity.worldObj.getCollisionBoxes(this.parentEntity, axisalignedbb).isEmpty())
+                    if (!this.parentEntity.world.getCollisionBoxes(this.parentEntity, axisalignedbb).isEmpty())
                     {
                         return false;
                     }

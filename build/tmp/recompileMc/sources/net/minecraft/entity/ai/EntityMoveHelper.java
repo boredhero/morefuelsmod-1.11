@@ -74,7 +74,7 @@ public class EntityMoveHelper
             float f1 = (float)this.speed * f;
             float f2 = this.moveForward;
             float f3 = this.moveStrafe;
-            float f4 = MathHelper.sqrt_float(f2 * f2 + f3 * f3);
+            float f4 = MathHelper.sqrt(f2 * f2 + f3 * f3);
 
             if (f4 < 1.0F)
             {
@@ -94,7 +94,7 @@ public class EntityMoveHelper
             {
                 NodeProcessor nodeprocessor = pathnavigate.getNodeProcessor();
 
-                if (nodeprocessor != null && nodeprocessor.getPathNodeType(this.entity.worldObj, MathHelper.floor_double(this.entity.posX + (double)f7), MathHelper.floor_double(this.entity.posY), MathHelper.floor_double(this.entity.posZ + (double)f8)) != PathNodeType.WALKABLE)
+                if (nodeprocessor != null && nodeprocessor.getPathNodeType(this.entity.world, MathHelper.floor(this.entity.posX + (double)f7), MathHelper.floor(this.entity.posY), MathHelper.floor(this.entity.posZ + (double)f8)) != PathNodeType.WALKABLE)
                 {
                     this.moveForward = 1.0F;
                     this.moveStrafe = 0.0F;

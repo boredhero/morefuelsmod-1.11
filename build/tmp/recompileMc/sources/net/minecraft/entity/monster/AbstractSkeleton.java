@@ -69,9 +69,9 @@ public abstract class AbstractSkeleton extends EntityMob implements IRangedAttac
         }
     };
 
-    public AbstractSkeleton(World p_i47289_1_)
+    public AbstractSkeleton(World worldIn)
     {
-        super(p_i47289_1_);
+        super(worldIn);
         this.setSize(0.6F, 1.99F);
         this.setCombatTask();
     }
@@ -104,10 +104,10 @@ public abstract class AbstractSkeleton extends EntityMob implements IRangedAttac
 
     protected void playStepSound(BlockPos pos, Block blockIn)
     {
-        this.playSound(this.func_190727_o(), 0.15F, 1.0F);
+        this.playSound(this.getStepSound(), 0.15F, 1.0F);
     }
 
-    abstract SoundEvent func_190727_o();
+    abstract SoundEvent getStepSound();
 
     /**
      * Get this Entity's EnumCreatureAttribute
@@ -123,17 +123,17 @@ public abstract class AbstractSkeleton extends EntityMob implements IRangedAttac
      */
     public void onLivingUpdate()
     {
-        if (this.worldObj.isDaytime() && !this.worldObj.isRemote)
+        if (this.world.isDaytime() && !this.world.isRemote)
         {
             float f = this.getBrightness(1.0F);
             BlockPos blockpos = this.getRidingEntity() instanceof EntityBoat ? (new BlockPos(this.posX, (double)Math.round(this.posY), this.posZ)).up() : new BlockPos(this.posX, (double)Math.round(this.posY), this.posZ);
 
-            if (f > 0.5F && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.worldObj.canSeeSky(blockpos))
+            if (f > 0.5F && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.world.canSeeSky(blockpos))
             {
                 boolean flag = true;
                 ItemStack itemstack = this.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 
-                if (!itemstack.func_190926_b())
+                if (!itemstack.isEmpty())
                 {
                     if (itemstack.isItemStackDamageable())
                     {
@@ -142,7 +142,7 @@ public abstract class AbstractSkeleton extends EntityMob implements IRangedAttac
                         if (itemstack.getItemDamage() >= itemstack.getMaxDamage())
                         {
                             this.renderBrokenItemStack(itemstack);
-                            this.setItemStackToSlot(EntityEquipmentSlot.HEAD, ItemStack.field_190927_a);
+                            this.setItemStackToSlot(EntityEquipmentSlot.HEAD, ItemStack.EMPTY);
                         }
                     }
 
@@ -215,9 +215,9 @@ public abstract class AbstractSkeleton extends EntityMob implements IRangedAttac
         this.setCombatTask();
         this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
 
-        if (this.getItemStackFromSlot(EntityEquipmentSlot.HEAD).func_190926_b())
+        if (this.getItemStackFromSlot(EntityEquipmentSlot.HEAD).isEmpty())
         {
-            Calendar calendar = this.worldObj.getCurrentDate();
+            Calendar calendar = this.world.getCurrentDate();
 
             if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && this.rand.nextFloat() < 0.25F)
             {
@@ -234,7 +234,7 @@ public abstract class AbstractSkeleton extends EntityMob implements IRangedAttac
      */
     public void setCombatTask()
     {
-        if (this.worldObj != null && !this.worldObj.isRemote)
+        if (this.world != null && !this.world.isRemote)
         {
             this.tasks.removeTask(this.aiAttackOnCollide);
             this.tasks.removeTask(this.aiArrowAttack);
@@ -244,7 +244,7 @@ public abstract class AbstractSkeleton extends EntityMob implements IRangedAttac
             {
                 int i = 20;
 
-                if (this.worldObj.getDifficulty() != EnumDifficulty.HARD)
+                if (this.world.getDifficulty() != EnumDifficulty.HARD)
                 {
                     i = 40;
                 }
@@ -261,25 +261,23 @@ public abstract class AbstractSkeleton extends EntityMob implements IRangedAttac
 
     /**
      * Attack the specified entity using a ranged attack.
-     *  
-     * @param distanceFactor How far the target is, normalized and clamped between 0.1 and 1.0
      */
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
-        EntityArrow entityarrow = this.func_190726_a(distanceFactor);
+        EntityArrow entityarrow = this.getArrow(distanceFactor);
         double d0 = target.posX - this.posX;
         double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - entityarrow.posY;
         double d2 = target.posZ - this.posZ;
-        double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
-        entityarrow.setThrowableHeading(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float)(14 - this.worldObj.getDifficulty().getDifficultyId() * 4));
+        double d3 = (double)MathHelper.sqrt(d0 * d0 + d2 * d2);
+        entityarrow.setThrowableHeading(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float)(14 - this.world.getDifficulty().getDifficultyId() * 4));
         this.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-        this.worldObj.spawnEntityInWorld(entityarrow);
+        this.world.spawnEntity(entityarrow);
     }
 
-    protected EntityArrow func_190726_a(float p_190726_1_)
+    protected EntityArrow getArrow(float p_190726_1_)
     {
-        EntityTippedArrow entitytippedarrow = new EntityTippedArrow(this.worldObj, this);
-        entitytippedarrow.func_190547_a(this, p_190726_1_);
+        EntityTippedArrow entitytippedarrow = new EntityTippedArrow(this.world, this);
+        entitytippedarrow.setEnchantmentEffectsFromEntity(this, p_190726_1_);
         return entitytippedarrow;
     }
 
@@ -296,7 +294,7 @@ public abstract class AbstractSkeleton extends EntityMob implements IRangedAttac
     {
         super.setItemStackToSlot(slotIn, stack);
 
-        if (!this.worldObj.isRemote && slotIn == EntityEquipmentSlot.MAINHAND)
+        if (!this.world.isRemote && slotIn == EntityEquipmentSlot.MAINHAND)
         {
             this.setCombatTask();
         }

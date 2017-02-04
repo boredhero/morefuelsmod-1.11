@@ -63,7 +63,7 @@ public class EntityTippedArrow extends EntityArrow
 
             if (i == -1)
             {
-                this.func_190548_o();
+                this.refreshColor();
             }
             else
             {
@@ -84,7 +84,7 @@ public class EntityTippedArrow extends EntityArrow
         return nbttagcompound != null && nbttagcompound.hasKey("CustomPotionColor", 99) ? nbttagcompound.getInteger("CustomPotionColor") : -1;
     }
 
-    private void func_190548_o()
+    private void refreshColor()
     {
         this.field_191509_at = false;
         this.dataManager.set(COLOR, Integer.valueOf(PotionUtils.getPotionColorFromEffectList(PotionUtils.mergeEffects(this.potion, this.customPotionEffects))));
@@ -109,7 +109,7 @@ public class EntityTippedArrow extends EntityArrow
     {
         super.onUpdate();
 
-        if (this.worldObj.isRemote)
+        if (this.world.isRemote)
         {
             if (this.inGround)
             {
@@ -125,7 +125,7 @@ public class EntityTippedArrow extends EntityArrow
         }
         else if (this.inGround && this.timeInGround != 0 && !this.customPotionEffects.isEmpty() && this.timeInGround >= 600)
         {
-            this.worldObj.setEntityState(this, (byte)0);
+            this.world.setEntityState(this, (byte)0);
             this.potion = PotionTypes.EMPTY;
             this.customPotionEffects.clear();
             this.dataManager.set(COLOR, Integer.valueOf(-1));
@@ -144,7 +144,7 @@ public class EntityTippedArrow extends EntityArrow
 
             for (int j = 0; j < particleCount; ++j)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, d0, d1, d2, new int[0]);
+                this.world.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, d0, d1, d2, new int[0]);
             }
         }
     }
@@ -218,7 +218,7 @@ public class EntityTippedArrow extends EntityArrow
         }
         else
         {
-            this.func_190548_o();
+            this.refreshColor();
         }
     }
 
@@ -284,7 +284,7 @@ public class EntityTippedArrow extends EntityArrow
 
                 for (int j = 0; j < 20; ++j)
                 {
-                    this.worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, d0, d1, d2, new int[0]);
+                    this.world.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, d0, d1, d2, new int[0]);
                 }
             }
         }

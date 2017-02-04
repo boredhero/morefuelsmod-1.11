@@ -22,9 +22,9 @@ public class EntityMinecartEmpty extends EntityMinecart
         EntityMinecart.registerFixesMinecart(fixer, EntityMinecartEmpty.class);
     }
 
-    public boolean processInitialInteract(EntityPlayer player, EnumHand stack)
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
-        if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player, stack))) return true;
+        if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.minecart.MinecartInteractEvent(this, player, hand))) return true;
 
         if (player.isSneaking())
         {
@@ -36,7 +36,7 @@ public class EntityMinecartEmpty extends EntityMinecart
         }
         else
         {
-            if (!this.worldObj.isRemote)
+            if (!this.world.isRemote)
             {
                 player.startRiding(this);
             }

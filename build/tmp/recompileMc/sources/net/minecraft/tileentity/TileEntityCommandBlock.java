@@ -59,7 +59,7 @@ public class TileEntityCommandBlock extends TileEntity
         }
         public void updateCommand()
         {
-            IBlockState iblockstate = TileEntityCommandBlock.this.worldObj.getBlockState(TileEntityCommandBlock.this.pos);
+            IBlockState iblockstate = TileEntityCommandBlock.this.world.getBlockState(TileEntityCommandBlock.this.pos);
             TileEntityCommandBlock.this.getWorld().notifyBlockUpdate(TileEntityCommandBlock.this.pos, iblockstate, iblockstate, 3);
         }
         /**
@@ -93,7 +93,7 @@ public class TileEntityCommandBlock extends TileEntity
          */
         public MinecraftServer getServer()
         {
-            return TileEntityCommandBlock.this.worldObj.getMinecraftServer();
+            return TileEntityCommandBlock.this.world.getMinecraftServer();
         }
     };
 
@@ -166,7 +166,7 @@ public class TileEntityCommandBlock extends TileEntity
         boolean flag = this.auto;
         this.auto = autoIn;
 
-        if (!flag && autoIn && !this.powered && this.worldObj != null && this.getMode() != TileEntityCommandBlock.Mode.SEQUENCE)
+        if (!flag && autoIn && !this.powered && this.world != null && this.getMode() != TileEntityCommandBlock.Mode.SEQUENCE)
         {
             Block block = this.getBlockType();
 
@@ -174,12 +174,12 @@ public class TileEntityCommandBlock extends TileEntity
             {
                 BlockPos blockpos = this.getPos();
                 BlockCommandBlock blockcommandblock = (BlockCommandBlock)block;
-                this.conditionMet = !this.isConditional() || blockcommandblock.isNextToSuccessfulCommandBlock(this.worldObj, blockpos, this.worldObj.getBlockState(blockpos));
-                this.worldObj.scheduleUpdate(blockpos, block, block.tickRate(this.worldObj));
+                this.conditionMet = !this.isConditional() || blockcommandblock.isNextToSuccessfulCommandBlock(this.world, blockpos, this.world.getBlockState(blockpos));
+                this.world.scheduleUpdate(blockpos, block, block.tickRate(this.world));
 
                 if (this.conditionMet)
                 {
-                    blockcommandblock.propagateUpdate(this.worldObj, blockpos);
+                    blockcommandblock.propagateUpdate(this.world, blockpos);
                 }
             }
         }
@@ -213,7 +213,7 @@ public class TileEntityCommandBlock extends TileEntity
 
     public boolean isConditional()
     {
-        IBlockState iblockstate = this.worldObj.getBlockState(this.getPos());
+        IBlockState iblockstate = this.world.getBlockState(this.getPos());
         return iblockstate.getBlock() instanceof BlockCommandBlock ? ((Boolean)iblockstate.getValue(BlockCommandBlock.CONDITIONAL)).booleanValue() : false;
     }
 

@@ -30,7 +30,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
     private static final int[] SLOTS_FOR_DOWN = new int[] {0, 1, 2, 3};
     /** an array of the output slot indices */
     private static final int[] OUTPUT_SLOTS = new int[] {0, 1, 2, 4};
-    private NonNullList<ItemStack> brewingItemStacks = NonNullList.<ItemStack>func_191197_a(5, ItemStack.field_190927_a);
+    private NonNullList<ItemStack> brewingItemStacks = NonNullList.<ItemStack>withSize(5, ItemStack.EMPTY);
     private int brewTime;
     /** an integer with each bit specifying whether that slot of the stand contains a potion */
     private boolean[] filledSlots;
@@ -68,11 +68,11 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
         return this.brewingItemStacks.size();
     }
 
-    public boolean func_191420_l()
+    public boolean isEmpty()
     {
         for (ItemStack itemstack : this.brewingItemStacks)
         {
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 return false;
             }
@@ -91,7 +91,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
         if (this.fuel <= 0 && itemstack.getItem() == Items.BLAZE_POWDER)
         {
             this.fuel = 20;
-            itemstack.func_190918_g(1);
+            itemstack.shrink(1);
             this.markDirty();
         }
 
@@ -128,14 +128,14 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
             this.markDirty();
         }
 
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             boolean[] aboolean = this.createFilledSlotsArray();
 
             if (!Arrays.equals(aboolean, this.filledSlots))
             {
                 this.filledSlots = aboolean;
-                IBlockState iblockstate = this.worldObj.getBlockState(this.getPos());
+                IBlockState iblockstate = this.world.getBlockState(this.getPos());
 
                 if (!(iblockstate.getBlock() instanceof BlockBrewingStand))
                 {
@@ -147,7 +147,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
                     iblockstate = iblockstate.withProperty(BlockBrewingStand.HAS_BOTTLE[i], Boolean.valueOf(aboolean[i]));
                 }
 
-                this.worldObj.setBlockState(this.pos, iblockstate, 2);
+                this.world.setBlockState(this.pos, iblockstate, 2);
             }
         }
     }
@@ -162,7 +162,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
         for (int i = 0; i < 3; ++i)
         {
-            if (!((ItemStack)this.brewingItemStacks.get(i)).func_190926_b())
+            if (!((ItemStack)this.brewingItemStacks.get(i)).isEmpty())
             {
                 aboolean[i] = true;
             }
@@ -176,7 +176,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
         if (1 == 1) return net.minecraftforge.common.brewing.BrewingRecipeRegistry.canBrew(brewingItemStacks, brewingItemStacks.get(3), OUTPUT_SLOTS); // divert to VanillaBrewingRegistry
         ItemStack itemstack = (ItemStack)this.brewingItemStacks.get(3);
 
-        if (itemstack.func_190926_b())
+        if (itemstack.isEmpty())
         {
             return false;
         }
@@ -190,7 +190,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
             {
                 ItemStack itemstack1 = (ItemStack)this.brewingItemStacks.get(i);
 
-                if (!itemstack1.func_190926_b() && PotionHelper.hasConversions(itemstack1, itemstack))
+                if (!itemstack1.isEmpty() && PotionHelper.hasConversions(itemstack1, itemstack))
                 {
                     return true;
                 }
@@ -207,25 +207,25 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
         net.minecraftforge.common.brewing.BrewingRecipeRegistry.brewPotions(brewingItemStacks, brewingItemStacks.get(3), OUTPUT_SLOTS);
 
-        itemstack.func_190918_g(1);
+        itemstack.shrink(1);
         BlockPos blockpos = this.getPos();
 
         if (itemstack.getItem().hasContainerItem(itemstack))
         {
             ItemStack itemstack1 = itemstack.getItem().getContainerItem(itemstack);
 
-            if (itemstack.func_190926_b())
+            if (itemstack.isEmpty())
             {
                 itemstack = itemstack1;
             }
             else
             {
-                InventoryHelper.spawnItemStack(this.worldObj, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), itemstack1);
+                InventoryHelper.spawnItemStack(this.world, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), itemstack1);
             }
         }
 
         this.brewingItemStacks.set(3, itemstack);
-        this.worldObj.playEvent(1035, blockpos, 0);
+        this.world.playEvent(1035, blockpos, 0);
         net.minecraftforge.event.ForgeEventFactory.onPotionBrewed(brewingItemStacks);
     }
 
@@ -237,8 +237,8 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        this.brewingItemStacks = NonNullList.<ItemStack>func_191197_a(this.getSizeInventory(), ItemStack.field_190927_a);
-        ItemStackHelper.func_191283_b(compound, this.brewingItemStacks);
+        this.brewingItemStacks = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
+        ItemStackHelper.loadAllItems(compound, this.brewingItemStacks);
         this.brewTime = compound.getShort("BrewTime");
 
         if (compound.hasKey("CustomName", 8))
@@ -253,7 +253,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
     {
         super.writeToNBT(compound);
         compound.setShort("BrewTime", (short)this.brewTime);
-        ItemStackHelper.func_191282_a(compound, this.brewingItemStacks);
+        ItemStackHelper.saveAllItems(compound, this.brewingItemStacks);
 
         if (this.hasCustomName())
         {
@@ -269,7 +269,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public ItemStack getStackInSlot(int index)
     {
-        return index >= 0 && index < this.brewingItemStacks.size() ? (ItemStack)this.brewingItemStacks.get(index) : ItemStack.field_190927_a;
+        return index >= 0 && index < this.brewingItemStacks.size() ? (ItemStack)this.brewingItemStacks.get(index) : ItemStack.EMPTY;
     }
 
     /**
@@ -310,9 +310,9 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
     /**
      * Don't rename this method to canInteractWith due to conflicts with Container
      */
-    public boolean isUseableByPlayer(EntityPlayer player)
+    public boolean isUsableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
     }
 
     public void openInventory(EntityPlayer player)
@@ -336,7 +336,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
         else
         {
             Item item = stack.getItem();
-            return index == 4 ? item == Items.BLAZE_POWDER : net.minecraftforge.common.brewing.BrewingRecipeRegistry.isValidInput(stack) && this.getStackInSlot(index) == ItemStack.field_190927_a;
+            return index == 4 ? item == Items.BLAZE_POWDER : net.minecraftforge.common.brewing.BrewingRecipeRegistry.isValidInput(stack) && this.getStackInSlot(index).isEmpty(); // FORGE - Fix MC-111753 Identity comparing with ItemStack.EMPTY
         }
     }
 
@@ -402,7 +402,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, net.minecraft.util.EnumFacing facing)
+    public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing)
     {
         if (facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
         {

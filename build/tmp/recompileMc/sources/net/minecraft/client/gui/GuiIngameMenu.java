@@ -55,7 +55,7 @@ public class GuiIngameMenu extends GuiScreen
                 boolean flag = this.mc.isIntegratedServerRunning();
                 boolean flag1 = this.mc.isConnectedToRealms();
                 button.enabled = false;
-                this.mc.theWorld.sendQuittingDisconnectingPacket();
+                this.mc.world.sendQuittingDisconnectingPacket();
                 this.mc.loadWorld((WorldClient)null);
 
                 if (flag)
@@ -81,12 +81,12 @@ public class GuiIngameMenu extends GuiScreen
                 this.mc.setIngameFocus();
                 break;
             case 5:
-                if (this.mc.thePlayer != null)
-                this.mc.displayGuiScreen(new GuiAchievements(this, this.mc.thePlayer.getStatFileWriter()));
+                if (this.mc.player != null)
+                this.mc.displayGuiScreen(new GuiAchievements(this, this.mc.player.getStatFileWriter()));
                 break;
             case 6:
-                if (this.mc.thePlayer != null)
-                this.mc.displayGuiScreen(new GuiStats(this, this.mc.thePlayer.getStatFileWriter()));
+                if (this.mc.player != null)
+                this.mc.displayGuiScreen(new GuiStats(this, this.mc.player.getStatFileWriter()));
                 break;
             case 7:
                 this.mc.displayGuiScreen(new GuiShareToLan(this));

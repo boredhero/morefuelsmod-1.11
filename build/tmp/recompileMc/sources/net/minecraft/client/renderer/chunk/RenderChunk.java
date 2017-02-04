@@ -53,16 +53,16 @@ public class RenderChunk
     private boolean needsUpdateCustom;
     private ChunkCache region;
 
-    public RenderChunk(World p_i47120_1_, RenderGlobal p_i47120_2_, int p_i47120_3_)
+    public RenderChunk(World worldIn, RenderGlobal renderGlobalIn, int indexIn)
     {
         for (int i = 0; i < this.mapEnumFacing.length; ++i)
         {
             this.mapEnumFacing[i] = new BlockPos.MutableBlockPos();
         }
 
-        this.world = p_i47120_1_;
-        this.renderGlobal = p_i47120_2_;
-        this.index = p_i47120_3_;
+        this.world = worldIn;
+        this.renderGlobal = renderGlobalIn;
+        this.index = indexIn;
 
         if (OpenGlHelper.useVbo())
         {
@@ -94,13 +94,13 @@ public class RenderChunk
     /**
      * Sets the RenderChunk base position
      */
-    public void setPosition(int p_189562_1_, int p_189562_2_, int p_189562_3_)
+    public void setPosition(int x, int y, int z)
     {
-        if (p_189562_1_ != this.position.getX() || p_189562_2_ != this.position.getY() || p_189562_3_ != this.position.getZ())
+        if (x != this.position.getX() || y != this.position.getY() || z != this.position.getZ())
         {
             this.stopCompileTask();
-            this.position.setPos(p_189562_1_, p_189562_2_, p_189562_3_);
-            this.boundingBox = new AxisAlignedBB((double)p_189562_1_, (double)p_189562_2_, (double)p_189562_3_, (double)(p_189562_1_ + 16), (double)(p_189562_2_ + 16), (double)(p_189562_3_ + 16));
+            this.position.setPos(x, y, z);
+            this.boundingBox = new AxisAlignedBB((double)x, (double)y, (double)z, (double)(x + 16), (double)(y + 16), (double)(z + 16));
 
             for (EnumFacing enumfacing : EnumFacing.values())
             {
@@ -323,7 +323,7 @@ public class RenderChunk
 
     protected double getDistanceSq()
     {
-        EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
+        EntityPlayerSP entityplayersp = Minecraft.getMinecraft().player;
         double d0 = this.boundingBox.minX + 8.0D - entityplayersp.posX;
         double d1 = this.boundingBox.minY + 8.0D - entityplayersp.posY;
         double d2 = this.boundingBox.minZ + 8.0D - entityplayersp.posZ;
@@ -455,9 +455,9 @@ public class RenderChunk
     }
     /* ========================================= FORGE END ======================================*/
 
-    public BlockPos getBlockPosOffset16(EnumFacing p_181701_1_)
+    public BlockPos getBlockPosOffset16(EnumFacing facing)
     {
-        return this.mapEnumFacing[p_181701_1_.ordinal()];
+        return this.mapEnumFacing[facing.ordinal()];
     }
 
     public World getWorld()

@@ -38,7 +38,7 @@ public class EntityMagmaCube extends EntitySlime
      */
     public boolean getCanSpawnHere()
     {
-        return this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL;
+        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
     }
 
     /**
@@ -46,7 +46,7 @@ public class EntityMagmaCube extends EntitySlime
      */
     public boolean isNotColliding()
     {
-        return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this) && this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.worldObj.containsAnyLiquid(this.getEntityBoundingBox());
+        return this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getEntityBoundingBox());
     }
 
     protected void setSlimeSize(int size, boolean p_70799_2_)
@@ -76,7 +76,7 @@ public class EntityMagmaCube extends EntitySlime
 
     protected EntitySlime createInstance()
     {
-        return new EntityMagmaCube(this.worldObj);
+        return new EntityMagmaCube(this.world);
     }
 
     @Nullable

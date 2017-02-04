@@ -34,11 +34,11 @@ public abstract class InventoryEffectRenderer extends GuiContainer
     protected void updateActivePotionEffects()
     {
         boolean hasVisibleEffect = false;
-        for(PotionEffect potioneffect : this.mc.thePlayer.getActivePotionEffects()) {
+        for(PotionEffect potioneffect : this.mc.player.getActivePotionEffects()) {
             Potion potion = potioneffect.getPotion();
             if(potion.shouldRender(potioneffect)) { hasVisibleEffect = true; break; }
         }
-        if (this.mc.thePlayer.getActivePotionEffects().isEmpty() || !hasVisibleEffect)
+        if (this.mc.player.getActivePotionEffects().isEmpty() || !hasVisibleEffect)
         {
             this.guiLeft = (this.width - this.xSize) / 2;
             this.hasActivePotionEffects = false;
@@ -72,7 +72,7 @@ public abstract class InventoryEffectRenderer extends GuiContainer
         int i = this.guiLeft - 124;
         int j = this.guiTop;
         int k = 166;
-        Collection<PotionEffect> collection = this.mc.thePlayer.getActivePotionEffects();
+        Collection<PotionEffect> collection = this.mc.player.getActivePotionEffects();
 
         if (!collection.isEmpty())
         {

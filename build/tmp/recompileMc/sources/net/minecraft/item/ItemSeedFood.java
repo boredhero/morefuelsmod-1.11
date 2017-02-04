@@ -24,14 +24,14 @@ public class ItemSeedFood extends ItemFood implements net.minecraftforge.common.
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        ItemStack itemstack = stack.getHeldItem(pos);
-        net.minecraft.block.state.IBlockState state = playerIn.getBlockState(worldIn);
-        if (hand == EnumFacing.UP && stack.canPlayerEdit(worldIn.offset(hand), hand, itemstack) && state.getBlock().canSustainPlant(state, playerIn, worldIn, EnumFacing.UP, this) && playerIn.isAirBlock(worldIn.up()))
+        ItemStack itemstack = player.getHeldItem(hand);
+        net.minecraft.block.state.IBlockState state = worldIn.getBlockState(pos);
+        if (facing == EnumFacing.UP && player.canPlayerEdit(pos.offset(facing), facing, itemstack) && state.getBlock().canSustainPlant(state, worldIn, pos, EnumFacing.UP, this) && worldIn.isAirBlock(pos.up()))
         {
-            playerIn.setBlockState(worldIn.up(), this.crops.getDefaultState(), 11);
-            itemstack.func_190918_g(1);
+            worldIn.setBlockState(pos.up(), this.crops.getDefaultState(), 11);
+            itemstack.shrink(1);
             return EnumActionResult.SUCCESS;
         }
         else

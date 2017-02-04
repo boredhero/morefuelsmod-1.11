@@ -29,7 +29,7 @@ public class ItemColors
     // FORGE: Use RegistryDelegates as non-Vanilla item ids are not constant
     private final java.util.Map<net.minecraftforge.fml.common.registry.RegistryDelegate<Item>, IItemColor> itemColorMap = com.google.common.collect.Maps.newHashMap();
 
-    public static ItemColors init(final BlockColors p_186729_0_)
+    public static ItemColors init(final BlockColors colors)
     {
         ItemColors itemcolors = new ItemColors();
         itemcolors.registerItemColorHandler(new IItemColor()
@@ -97,14 +97,14 @@ public class ItemColors
         {
             public int getColorFromItemstack(ItemStack stack, int tintIndex)
             {
-                return tintIndex > 0 ? -1 : PotionUtils.func_190932_c(stack);
+                return tintIndex > 0 ? -1 : PotionUtils.getColor(stack);
             }
         }, new Item[] {Items.POTIONITEM, Items.SPLASH_POTION, Items.LINGERING_POTION});
         itemcolors.registerItemColorHandler(new IItemColor()
         {
             public int getColorFromItemstack(ItemStack stack, int tintIndex)
             {
-                EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.ENTITY_EGGS.get(ItemMonsterPlacer.func_190908_h(stack));
+                EntityList.EntityEggInfo entitylist$entityegginfo = (EntityList.EntityEggInfo)EntityList.ENTITY_EGGS.get(ItemMonsterPlacer.getNamedIdFrom(stack));
                 return entitylist$entityegginfo == null ? -1 : (tintIndex == 0 ? entitylist$entityegginfo.primaryColor : entitylist$entityegginfo.secondaryColor);
             }
         }, new Item[] {Items.SPAWN_EGG});
@@ -113,21 +113,21 @@ public class ItemColors
             public int getColorFromItemstack(ItemStack stack, int tintIndex)
             {
                 IBlockState iblockstate = ((ItemBlock)stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata());
-                return p_186729_0_.colorMultiplier(iblockstate, (IBlockAccess)null, (BlockPos)null, tintIndex);
+                return colors.colorMultiplier(iblockstate, (IBlockAccess)null, (BlockPos)null, tintIndex);
             }
         }, new Block[] {Blocks.GRASS, Blocks.TALLGRASS, Blocks.VINE, Blocks.LEAVES, Blocks.LEAVES2, Blocks.WATERLILY});
         itemcolors.registerItemColorHandler(new IItemColor()
         {
             public int getColorFromItemstack(ItemStack stack, int tintIndex)
             {
-                return tintIndex == 0 ? PotionUtils.func_190932_c(stack) : -1;
+                return tintIndex == 0 ? PotionUtils.getColor(stack) : -1;
             }
         }, new Item[] {Items.TIPPED_ARROW});
         itemcolors.registerItemColorHandler(new IItemColor()
         {
             public int getColorFromItemstack(ItemStack stack, int tintIndex)
             {
-                return tintIndex == 0 ? -1 : ItemMap.func_190907_h(stack);
+                return tintIndex == 0 ? -1 : ItemMap.getColor(stack);
             }
         }, new Item[] {Items.FILLED_MAP});
         return itemcolors;

@@ -27,7 +27,7 @@ public class CooldownTracker
         {
             float f = (float)(cooldowntracker$cooldown.expireTicks - cooldowntracker$cooldown.createTicks);
             float f1 = (float)cooldowntracker$cooldown.expireTicks - ((float)this.ticks + partialTicks);
-            return MathHelper.clamp_float(f1 / f, 0.0F, 1.0F);
+            return MathHelper.clamp(f1 / f, 0.0F, 1.0F);
         }
         else
         {

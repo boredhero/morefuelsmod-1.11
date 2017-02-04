@@ -27,7 +27,7 @@ public class TileEntityEndGatewayRenderer extends TileEntityEndPortalRenderer
             float f = tileentityendgateway.isSpawning() ? tileentityendgateway.getSpawnPercent(partialTicks) : tileentityendgateway.getCooldownPercent(partialTicks);
             double d0 = tileentityendgateway.isSpawning() ? 256.0D - y : 50.0D;
             f = MathHelper.sin(f * (float)Math.PI);
-            int i = MathHelper.floor_double((double)f * d0);
+            int i = MathHelper.floor((double)f * d0);
             float[] afloat = EntitySheep.getDyeRgb(tileentityendgateway.isSpawning() ? EnumDyeColor.MAGENTA : EnumDyeColor.PURPLE);
             TileEntityBeaconRenderer.renderBeamSegment(x, y, z, (double)partialTicks, (double)f, (double)tileentityendgateway.getWorld().getTotalWorldTime(), 0, i, afloat, 0.15D, 0.175D);
             TileEntityBeaconRenderer.renderBeamSegment(x, y, z, (double)partialTicks, (double)f, (double)tileentityendgateway.getWorld().getTotalWorldTime(), 0, -i, afloat, 0.15D, 0.175D);
@@ -37,12 +37,12 @@ public class TileEntityEndGatewayRenderer extends TileEntityEndPortalRenderer
         GlStateManager.enableFog();
     }
 
-    protected int func_191286_a(double p_191286_1_)
+    protected int getPasses(double p_191286_1_)
     {
-        return super.func_191286_a(p_191286_1_) + 1;
+        return super.getPasses(p_191286_1_) + 1;
     }
 
-    protected float func_191287_c()
+    protected float getOffset()
     {
         return 1.0F;
     }

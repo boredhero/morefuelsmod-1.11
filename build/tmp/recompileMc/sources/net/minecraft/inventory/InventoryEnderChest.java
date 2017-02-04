@@ -24,7 +24,7 @@ public class InventoryEnderChest extends InventoryBasic
     {
         for (int i = 0; i < this.getSizeInventory(); ++i)
         {
-            this.setInventorySlotContents(i, ItemStack.field_190927_a);
+            this.setInventorySlotContents(i, ItemStack.EMPTY);
         }
 
         for (int k = 0; k < p_70486_1_.tagCount(); ++k)
@@ -47,7 +47,7 @@ public class InventoryEnderChest extends InventoryBasic
         {
             ItemStack itemstack = this.getStackInSlot(i);
 
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 nbttagcompound.setByte("Slot", (byte)i);
@@ -62,9 +62,9 @@ public class InventoryEnderChest extends InventoryBasic
     /**
      * Don't rename this method to canInteractWith due to conflicts with Container
      */
-    public boolean isUseableByPlayer(EntityPlayer player)
+    public boolean isUsableByPlayer(EntityPlayer player)
     {
-        return this.associatedChest != null && !this.associatedChest.canBeUsed(player) ? false : super.isUseableByPlayer(player);
+        return this.associatedChest != null && !this.associatedChest.canBeUsed(player) ? false : super.isUsableByPlayer(player);
     }
 
     public void openInventory(EntityPlayer player)

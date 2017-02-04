@@ -15,16 +15,16 @@ public class Slot
     /** the id of the slot(also the index in the inventory arraylist) */
     public int slotNumber;
     /** display position of the inventory slot on the screen x axis */
-    public int xDisplayPosition;
+    public int xPos;
     /** display position of the inventory slot on the screen y axis */
-    public int yDisplayPosition;
+    public int yPos;
 
     public Slot(IInventory inventoryIn, int index, int xPosition, int yPosition)
     {
         this.inventory = inventoryIn;
         this.slotIndex = index;
-        this.xDisplayPosition = xPosition;
-        this.yDisplayPosition = yPosition;
+        this.xPos = xPosition;
+        this.yPos = yPosition;
     }
 
     /**
@@ -32,7 +32,7 @@ public class Slot
      */
     public void onSlotChange(ItemStack p_75220_1_, ItemStack p_75220_2_)
     {
-        int i = p_75220_2_.func_190916_E() - p_75220_1_.func_190916_E();
+        int i = p_75220_2_.getCount() - p_75220_1_.getCount();
 
         if (i > 0)
         {
@@ -48,7 +48,7 @@ public class Slot
     {
     }
 
-    protected void func_190900_b(int p_190900_1_)
+    protected void onSwapCraft(int p_190900_1_)
     {
     }
 
@@ -59,10 +59,10 @@ public class Slot
     {
     }
 
-    public ItemStack func_190901_a(EntityPlayer p_190901_1_, ItemStack p_190901_2_)
+    public ItemStack onTake(EntityPlayer thePlayer, ItemStack stack)
     {
         this.onSlotChanged();
-        return p_190901_2_;
+        return stack;
     }
 
     /**
@@ -86,7 +86,7 @@ public class Slot
      */
     public boolean getHasStack()
     {
-        return !this.getStack().func_190926_b();
+        return !this.getStack().isEmpty();
     }
 
     /**

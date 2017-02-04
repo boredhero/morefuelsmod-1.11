@@ -10,9 +10,9 @@ public class GuiLockIconButton extends GuiButton
 {
     private boolean locked;
 
-    public GuiLockIconButton(int p_i45538_1_, int p_i45538_2_, int p_i45538_3_)
+    public GuiLockIconButton(int buttonId, int x, int y)
     {
-        super(p_i45538_1_, p_i45538_2_, p_i45538_3_, 20, 20, "");
+        super(buttonId, x, y, 20, 20, "");
     }
 
     public boolean isLocked()
@@ -82,10 +82,10 @@ public class GuiLockIconButton extends GuiButton
         private final int x;
         private final int y;
 
-        private Icon(int p_i45537_3_, int p_i45537_4_)
+        private Icon(int xIn, int yIn)
         {
-            this.x = p_i45537_3_;
-            this.y = p_i45537_4_;
+            this.x = xIn;
+            this.y = yIn;
         }
 
         public int getX()

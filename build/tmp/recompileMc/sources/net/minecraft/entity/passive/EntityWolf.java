@@ -220,15 +220,15 @@ public class EntityWolf extends EntityTameable
     {
         super.onLivingUpdate();
 
-        if (!this.worldObj.isRemote && this.isWet && !this.isShaking && !this.hasPath() && this.onGround)
+        if (!this.world.isRemote && this.isWet && !this.isShaking && !this.hasPath() && this.onGround)
         {
             this.isShaking = true;
             this.timeWolfIsShaking = 0.0F;
             this.prevTimeWolfIsShaking = 0.0F;
-            this.worldObj.setEntityState(this, (byte)8);
+            this.world.setEntityState(this, (byte)8);
         }
 
-        if (!this.worldObj.isRemote && this.getAttackTarget() == null && this.isAngry())
+        if (!this.world.isRemote && this.getAttackTarget() == null && this.isAngry())
         {
             this.setAngry(false);
         }
@@ -285,7 +285,7 @@ public class EntityWolf extends EntityTameable
                 {
                     float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
                     float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                    this.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double)f1, (double)(f + 0.8F), this.posZ + (double)f2, this.motionX, this.motionY, this.motionZ, new int[0]);
+                    this.world.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double)f1, (double)(f + 0.8F), this.posZ + (double)f2, this.motionX, this.motionY, this.motionZ, new int[0]);
                 }
             }
         }
@@ -407,7 +407,7 @@ public class EntityWolf extends EntityTameable
 
         if (this.isTamed())
         {
-            if (!itemstack.func_190926_b())
+            if (!itemstack.isEmpty())
             {
                 if (itemstack.getItem() instanceof ItemFood)
                 {
@@ -417,7 +417,7 @@ public class EntityWolf extends EntityTameable
                     {
                         if (!player.capabilities.isCreativeMode)
                         {
-                            itemstack.func_190918_g(1);
+                            itemstack.shrink(1);
                         }
 
                         this.heal((float)itemfood.getHealAmount(itemstack));
@@ -434,7 +434,7 @@ public class EntityWolf extends EntityTameable
 
                         if (!player.capabilities.isCreativeMode)
                         {
-                            itemstack.func_190918_g(1);
+                            itemstack.shrink(1);
                         }
 
                         return true;
@@ -442,7 +442,7 @@ public class EntityWolf extends EntityTameable
                 }
             }
 
-            if (this.isOwner(player) && !this.worldObj.isRemote && !this.isBreedingItem(itemstack))
+            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack))
             {
                 this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
@@ -454,10 +454,10 @@ public class EntityWolf extends EntityTameable
         {
             if (!player.capabilities.isCreativeMode)
             {
-                itemstack.func_190918_g(1);
+                itemstack.shrink(1);
             }
 
-            if (!this.worldObj.isRemote)
+            if (!this.world.isRemote)
             {
                 if (this.rand.nextInt(3) == 0)
                 {
@@ -468,12 +468,12 @@ public class EntityWolf extends EntityTameable
                     this.setHealth(20.0F);
                     this.setOwnerId(player.getUniqueID());
                     this.playTameEffect(true);
-                    this.worldObj.setEntityState(this, (byte)7);
+                    this.world.setEntityState(this, (byte)7);
                 }
                 else
                 {
                     this.playTameEffect(false);
-                    this.worldObj.setEntityState(this, (byte)6);
+                    this.world.setEntityState(this, (byte)6);
                 }
             }
 
@@ -558,7 +558,7 @@ public class EntityWolf extends EntityTameable
 
     public EntityWolf createChild(EntityAgeable ageable)
     {
-        EntityWolf entitywolf = new EntityWolf(this.worldObj);
+        EntityWolf entitywolf = new EntityWolf(this.world);
         UUID uuid = this.getOwnerId();
 
         if (uuid != null)
@@ -633,12 +633,12 @@ public class EntityWolf extends EntityTameable
 
     class AIAvoidEntity<T extends Entity> extends EntityAIAvoidEntity<T>
     {
-        private final EntityWolf field_190856_d;
+        private final EntityWolf wolf;
 
-        public AIAvoidEntity(EntityWolf p_i47251_2_, Class<T> p_i47251_3_, float p_i47251_4_, double p_i47251_5_, double p_i47251_7_)
+        public AIAvoidEntity(EntityWolf wolfIn, Class<T> p_i47251_3_, float p_i47251_4_, double p_i47251_5_, double p_i47251_7_)
         {
-            super(p_i47251_2_, p_i47251_3_, p_i47251_4_, p_i47251_5_, p_i47251_7_);
-            this.field_190856_d = p_i47251_2_;
+            super(wolfIn, p_i47251_3_, p_i47251_4_, p_i47251_5_, p_i47251_7_);
+            this.wolf = wolfIn;
         }
 
         /**
@@ -646,12 +646,12 @@ public class EntityWolf extends EntityTameable
          */
         public boolean shouldExecute()
         {
-            return super.shouldExecute() && this.closestLivingEntity instanceof EntityLlama ? !this.field_190856_d.isTamed() && this.func_190854_a((EntityLlama)this.closestLivingEntity) : false;
+            return super.shouldExecute() && this.closestLivingEntity instanceof EntityLlama ? !this.wolf.isTamed() && this.avoidLlama((EntityLlama)this.closestLivingEntity) : false;
         }
 
-        private boolean func_190854_a(EntityLlama p_190854_1_)
+        private boolean avoidLlama(EntityLlama p_190854_1_)
         {
-            return p_190854_1_.func_190707_dL() >= EntityWolf.this.rand.nextInt(5);
+            return p_190854_1_.getStrength() >= EntityWolf.this.rand.nextInt(5);
         }
 
         /**

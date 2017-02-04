@@ -10,21 +10,27 @@ public class CommandDefaultGameMode extends CommandGameMode
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "defaultgamemode";
     }
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The ICommandSender who is requesting usage details
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.defaultgamemode.usage";
     }
 
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
@@ -50,7 +56,7 @@ public class CommandDefaultGameMode extends CommandGameMode
 
         if (server.getForceGamemode())
         {
-            for (EntityPlayerMP entityplayermp : server.getPlayerList().getPlayerList())
+            for (EntityPlayerMP entityplayermp : server.getPlayerList().getPlayers())
             {
                 entityplayermp.setGameType(gameType);
             }

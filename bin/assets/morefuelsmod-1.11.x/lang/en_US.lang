@@ -7,12 +7,20 @@ item.coke.name=Coke
 item.bituminousCoal.name=Bituminous Coal
 item.canSlimoline.name=Can of Slimoline
 item.dustCoal.name=Coal Dust
+item.glassOrb.name=Untempered Glass Orb
+item.temperedGlassOrb.name=Tempered Glass Orb
+item.lavaCrystals.name=Lava Crystals
+item.lavaOrb.name=Lava Orb
+
 
 #Blocks
-tile.pelletBlock.name=Block of Pellet Fuel
-tile.concentratedPelletBlock.name=Block of Concentrated Pellet Fuel
-tile.cokeBlock.name=Block of Coke
+tile.pelletBlock.name=Pellet Fuel Block
+tile.concentratedPelletBlock.name=Concentrated Pellet Fuel Block
+tile.cokeBlock.name=Coke Block
 tile.bituminousCoalOre.name=Bituminous Coal Ore
+tile.creativeInfiniteFuel.name=Creative-Mode Infinite Fuel Block
+tile.bituminousCoalBlock.name=Bituminous Coal Block
+tile.lavaOre.name=Lava Ore
 
 #Tabs
 itemGroup.morefuelsmod-1.11.x=More Fuels Mod

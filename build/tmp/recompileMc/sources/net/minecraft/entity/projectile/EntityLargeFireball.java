@@ -35,7 +35,7 @@ public class EntityLargeFireball extends EntityFireball
      */
     protected void onImpact(RayTraceResult result)
     {
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             if (result.entityHit != null)
             {
@@ -43,8 +43,8 @@ public class EntityLargeFireball extends EntityFireball
                 this.applyEnchantments(this.shootingEntity, result.entityHit);
             }
 
-            boolean flag = this.worldObj.getGameRules().getBoolean("mobGriefing");
-            this.worldObj.newExplosion((Entity)null, this.posX, this.posY, this.posZ, (float)this.explosionPower, flag, flag);
+            boolean flag = this.world.getGameRules().getBoolean("mobGriefing");
+            this.world.newExplosion((Entity)null, this.posX, this.posY, this.posZ, (float)this.explosionPower, flag, flag);
             this.setDead();
         }
     }

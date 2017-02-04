@@ -46,8 +46,8 @@ public class ParticleMobAppearance extends Particle
 
         if (this.entity == null)
         {
-            EntityElderGuardian entityelderguardian = new EntityElderGuardian(this.worldObj);
-            entityelderguardian.func_190767_di();
+            EntityElderGuardian entityelderguardian = new EntityElderGuardian(this.world);
+            entityelderguardian.setGhost();
             this.entity = entityelderguardian;
         }
     }
@@ -55,7 +55,7 @@ public class ParticleMobAppearance extends Particle
     /**
      * Renders the particle
      */
-    public void renderParticle(VertexBuffer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
+    public void renderParticle(VertexBuffer buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ)
     {
         if (this.entity != null)
         {

@@ -87,7 +87,7 @@ public class EntityIronGolem extends EntityGolem
         if (--this.homeCheckTimer <= 0)
         {
             this.homeCheckTimer = 70 + this.rand.nextInt(50);
-            this.villageObj = this.worldObj.getVillageCollection().getNearestVillage(new BlockPos(this), 32);
+            this.villageObj = this.world.getVillageCollection().getNearestVillage(new BlockPos(this), 32);
 
             if (this.villageObj == null)
             {
@@ -149,14 +149,14 @@ public class EntityIronGolem extends EntityGolem
 
         if (this.motionX * this.motionX + this.motionZ * this.motionZ > 2.500000277905201E-7D && this.rand.nextInt(5) == 0)
         {
-            int i = MathHelper.floor_double(this.posX);
-            int j = MathHelper.floor_double(this.posY - 0.20000000298023224D);
-            int k = MathHelper.floor_double(this.posZ);
-            IBlockState iblockstate = this.worldObj.getBlockState(new BlockPos(i, j, k));
+            int i = MathHelper.floor(this.posX);
+            int j = MathHelper.floor(this.posY - 0.20000000298023224D);
+            int k = MathHelper.floor(this.posZ);
+            IBlockState iblockstate = this.world.getBlockState(new BlockPos(i, j, k));
 
             if (iblockstate.getMaterial() != Material.AIR)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ((double)this.rand.nextFloat() - 0.5D) * (double)this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + ((double)this.rand.nextFloat() - 0.5D) * (double)this.width, 4.0D * ((double)this.rand.nextFloat() - 0.5D), 0.5D, ((double)this.rand.nextFloat() - 0.5D) * 4.0D, new int[] {Block.getStateId(iblockstate)});
+                this.world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ((double)this.rand.nextFloat() - 0.5D) * (double)this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + ((double)this.rand.nextFloat() - 0.5D) * (double)this.width, 4.0D * ((double)this.rand.nextFloat() - 0.5D), 0.5D, ((double)this.rand.nextFloat() - 0.5D) * 4.0D, new int[] {Block.getStateId(iblockstate)});
             }
         }
     }
@@ -195,7 +195,7 @@ public class EntityIronGolem extends EntityGolem
     public boolean attackEntityAsMob(Entity entityIn)
     {
         this.attackTimer = 10;
-        this.worldObj.setEntityState(this, (byte)4);
+        this.world.setEntityState(this, (byte)4);
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)(7 + this.rand.nextInt(15)));
 
         if (flag)
@@ -246,12 +246,12 @@ public class EntityIronGolem extends EntityGolem
         if (p_70851_1_)
         {
             this.holdRoseTick = 400;
-            this.worldObj.setEntityState(this, (byte)11);
+            this.world.setEntityState(this, (byte)11);
         }
         else
         {
             this.holdRoseTick = 0;
-            this.worldObj.setEntityState(this, (byte)34);
+            this.world.setEntityState(this, (byte)34);
         }
     }
 

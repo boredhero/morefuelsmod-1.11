@@ -21,20 +21,20 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer<TileEnti
         this.renderBeacon(x, y, z, (double)partialTicks, (double)te.shouldBeamRender(), te.getBeamSegments(), (double)te.getWorld().getTotalWorldTime());
     }
 
-    public void renderBeacon(double p_188206_1_, double p_188206_3_, double p_188206_5_, double p_188206_7_, double p_188206_9_, List<TileEntityBeacon.BeamSegment> p_188206_11_, double p_188206_12_)
+    public void renderBeacon(double x, double y, double z, double partialTicks, double textureScale, List<TileEntityBeacon.BeamSegment> beamSegments, double totalWorldTime)
     {
         GlStateManager.alphaFunc(516, 0.1F);
         this.bindTexture(TEXTURE_BEACON_BEAM);
 
-        if (p_188206_9_ > 0.0D)
+        if (textureScale > 0.0D)
         {
             GlStateManager.disableFog();
             int i = 0;
 
-            for (int j = 0; j < p_188206_11_.size(); ++j)
+            for (int j = 0; j < beamSegments.size(); ++j)
             {
-                TileEntityBeacon.BeamSegment tileentitybeacon$beamsegment = (TileEntityBeacon.BeamSegment)p_188206_11_.get(j);
-                renderBeamSegment(p_188206_1_, p_188206_3_, p_188206_5_, p_188206_7_, p_188206_9_, p_188206_12_, i, tileentitybeacon$beamsegment.getHeight(), tileentitybeacon$beamsegment.getColors());
+                TileEntityBeacon.BeamSegment tileentitybeacon$beamsegment = (TileEntityBeacon.BeamSegment)beamSegments.get(j);
+                renderBeamSegment(x, y, z, partialTicks, textureScale, totalWorldTime, i, tileentitybeacon$beamsegment.getHeight(), tileentitybeacon$beamsegment.getColors());
                 i += tileentitybeacon$beamsegment.getHeight();
             }
 
@@ -61,7 +61,7 @@ public class TileEntityBeaconRenderer extends TileEntitySpecialRenderer<TileEnti
         VertexBuffer vertexbuffer = tessellator.getBuffer();
         double d0 = totalWorldTime + partialTicks;
         double d1 = height < 0 ? d0 : -d0;
-        double d2 = MathHelper.frac(d1 * 0.2D - (double)MathHelper.floor_double(d1 * 0.1D));
+        double d2 = MathHelper.frac(d1 * 0.2D - (double)MathHelper.floor(d1 * 0.1D));
         float f = colors[0];
         float f1 = colors[1];
         float f2 = colors[2];

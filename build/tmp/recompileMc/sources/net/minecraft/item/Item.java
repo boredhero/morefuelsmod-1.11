@@ -74,7 +74,7 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
         @SideOnly(Side.CLIENT)
         public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
         {
-            return MathHelper.clamp_float((float)stack.getItemDamage() / (float)stack.getMaxDamage(), 0.0F, 1.0F);
+            return MathHelper.clamp((float)stack.getItemDamage() / (float)stack.getMaxDamage(), 0.0F, 1.0F);
         }
     };
     private static final IItemPropertyGetter LEFTHANDED_GETTER = new IItemPropertyGetter()
@@ -124,7 +124,7 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
     public static Item getItemFromBlock(Block blockIn)
     {
         Item item = (Item)BLOCK_TO_ITEM.get(blockIn);
-        return item == null ? Items.field_190931_a : item;
+        return item == null ? Items.AIR : item;
     }
 
     /**
@@ -152,7 +152,7 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
     }
 
     @SideOnly(Side.CLIENT)
-    public ItemStack func_190903_i()
+    public ItemStack getDefaultInstance()
     {
         return new ItemStack(this);
     }
@@ -201,7 +201,7 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
     /**
      * Called when a Block is right-clicked with this Item
      */
-    public EnumActionResult onItemUse(EntityPlayer stack, World playerIn, BlockPos worldIn, EnumHand pos, EnumFacing hand, float facing, float hitX, float hitY)
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         return EnumActionResult.PASS;
     }
@@ -211,9 +211,9 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
         return 1.0F;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        return new ActionResult(EnumActionResult.PASS, worldIn.getHeldItem(playerIn));
+        return new ActionResult(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
     }
 
     /**
@@ -468,6 +468,14 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
         return I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name").trim();
     }
 
+    /**
+     * Returns true if this item has an enchantment glint. By default, this returns
+     * <code>stack.isItemEnchanted()</code>, but other items can override it (for instance, written books always return
+     * true).
+     *  
+     * Note that if you override this method, you generally want to also call the super version (on {@link Item}) to get
+     * the glint for enchanted items. Of course, that is unnecessary if the overwritten version always returns true.
+     */
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack stack)
     {
@@ -485,7 +493,7 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
     /**
      * Checks isDamagable and if it cannot be stacked
      */
-    public boolean isItemTool(ItemStack stack)
+    public boolean isEnchantable(ItemStack stack)
     {
         return this.getItemStackLimit(stack) == 1 && this.isDamageable();
     }
@@ -707,7 +715,7 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
     {
         if (!hasContainerItem(itemStack))
         {
-            return ItemStack.field_190927_a;
+            return ItemStack.EMPTY;
         }
         return new ItemStack(getContainerItem());
     }
@@ -1455,23 +1463,23 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
         registerItemBlock(Blocks.RED_NETHER_BRICK);
         registerItemBlock(Blocks.BONE_BLOCK);
         registerItemBlock(Blocks.STRUCTURE_VOID);
-        registerItemBlock(Blocks.field_190976_dk);
-        registerItemBlock(Blocks.field_190977_dl, new ItemShulkerBox(Blocks.field_190977_dl));
-        registerItemBlock(Blocks.field_190978_dm, new ItemShulkerBox(Blocks.field_190978_dm));
-        registerItemBlock(Blocks.field_190979_dn, new ItemShulkerBox(Blocks.field_190979_dn));
-        registerItemBlock(Blocks.field_190980_do, new ItemShulkerBox(Blocks.field_190980_do));
-        registerItemBlock(Blocks.field_190981_dp, new ItemShulkerBox(Blocks.field_190981_dp));
-        registerItemBlock(Blocks.field_190982_dq, new ItemShulkerBox(Blocks.field_190982_dq));
-        registerItemBlock(Blocks.field_190983_dr, new ItemShulkerBox(Blocks.field_190983_dr));
-        registerItemBlock(Blocks.field_190984_ds, new ItemShulkerBox(Blocks.field_190984_ds));
-        registerItemBlock(Blocks.field_190985_dt, new ItemShulkerBox(Blocks.field_190985_dt));
-        registerItemBlock(Blocks.field_190986_du, new ItemShulkerBox(Blocks.field_190986_du));
-        registerItemBlock(Blocks.field_190987_dv, new ItemShulkerBox(Blocks.field_190987_dv));
-        registerItemBlock(Blocks.field_190988_dw, new ItemShulkerBox(Blocks.field_190988_dw));
-        registerItemBlock(Blocks.field_190989_dx, new ItemShulkerBox(Blocks.field_190989_dx));
-        registerItemBlock(Blocks.field_190990_dy, new ItemShulkerBox(Blocks.field_190990_dy));
-        registerItemBlock(Blocks.field_190991_dz, new ItemShulkerBox(Blocks.field_190991_dz));
-        registerItemBlock(Blocks.field_190975_dA, new ItemShulkerBox(Blocks.field_190975_dA));
+        registerItemBlock(Blocks.OBSERVER);
+        registerItemBlock(Blocks.WHITE_SHULKER_BOX, new ItemShulkerBox(Blocks.WHITE_SHULKER_BOX));
+        registerItemBlock(Blocks.ORANGE_SHULKER_BOX, new ItemShulkerBox(Blocks.ORANGE_SHULKER_BOX));
+        registerItemBlock(Blocks.MAGENTA_SHULKER_BOX, new ItemShulkerBox(Blocks.MAGENTA_SHULKER_BOX));
+        registerItemBlock(Blocks.LIGHT_BLUE_SHULKER_BOX, new ItemShulkerBox(Blocks.LIGHT_BLUE_SHULKER_BOX));
+        registerItemBlock(Blocks.YELLOW_SHULKER_BOX, new ItemShulkerBox(Blocks.YELLOW_SHULKER_BOX));
+        registerItemBlock(Blocks.LIME_SHULKER_BOX, new ItemShulkerBox(Blocks.LIME_SHULKER_BOX));
+        registerItemBlock(Blocks.PINK_SHULKER_BOX, new ItemShulkerBox(Blocks.PINK_SHULKER_BOX));
+        registerItemBlock(Blocks.GRAY_SHULKER_BOX, new ItemShulkerBox(Blocks.GRAY_SHULKER_BOX));
+        registerItemBlock(Blocks.SILVER_SHULKER_BOX, new ItemShulkerBox(Blocks.SILVER_SHULKER_BOX));
+        registerItemBlock(Blocks.CYAN_SHULKER_BOX, new ItemShulkerBox(Blocks.CYAN_SHULKER_BOX));
+        registerItemBlock(Blocks.PURPLE_SHULKER_BOX, new ItemShulkerBox(Blocks.PURPLE_SHULKER_BOX));
+        registerItemBlock(Blocks.BLUE_SHULKER_BOX, new ItemShulkerBox(Blocks.BLUE_SHULKER_BOX));
+        registerItemBlock(Blocks.BROWN_SHULKER_BOX, new ItemShulkerBox(Blocks.BROWN_SHULKER_BOX));
+        registerItemBlock(Blocks.GREEN_SHULKER_BOX, new ItemShulkerBox(Blocks.GREEN_SHULKER_BOX));
+        registerItemBlock(Blocks.RED_SHULKER_BOX, new ItemShulkerBox(Blocks.RED_SHULKER_BOX));
+        registerItemBlock(Blocks.BLACK_SHULKER_BOX, new ItemShulkerBox(Blocks.BLACK_SHULKER_BOX));
         registerItemBlock(Blocks.STRUCTURE_BLOCK);
         registerItem(256, "iron_shovel", (new ItemSpade(Item.ToolMaterial.IRON)).setUnlocalizedName("shovelIron"));
         registerItem(257, "iron_pickaxe", (new ItemPickaxe(Item.ToolMaterial.IRON)).setUnlocalizedName("pickaxeIron"));
@@ -1731,7 +1739,7 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
         /** Defines the natural enchantability factor of the material. */
         private final int enchantability;
         //Added by forge for custom Tool materials.
-        private ItemStack repairMaterial = ItemStack.field_190927_a;
+        private ItemStack repairMaterial = ItemStack.EMPTY;
 
         private ToolMaterial(int harvestLevel, int maxUses, float efficiency, float damageVsEntity, int enchantability)
         {
@@ -1790,7 +1798,7 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
 
         public ToolMaterial setRepairItem(ItemStack stack)
         {
-            if (!this.repairMaterial.func_190926_b()) throw new RuntimeException("Repair material has already been set");
+            if (!this.repairMaterial.isEmpty()) throw new RuntimeException("Repair material has already been set");
             if (this == WOOD || this == STONE || this == GOLD || this == IRON || this == DIAMOND) throw new RuntimeException("Can not change vanilla tool repair materials");
             this.repairMaterial = stack;
             return this;
@@ -1798,7 +1806,7 @@ public class Item extends net.minecraftforge.fml.common.registry.IForgeRegistryE
 
         public ItemStack getRepairItemStack()
         {
-            if (!repairMaterial.func_190926_b()) return repairMaterial;
+            if (!repairMaterial.isEmpty()) return repairMaterial;
             Item ret = this.getRepairItem();
             if (ret != null) repairMaterial = new ItemStack(ret, 1, net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE);
             return repairMaterial;

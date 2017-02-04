@@ -351,9 +351,9 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
         return this.chunkProvider.provideChunk(chunkX, chunkZ);
     }
 
-    public boolean func_190526_b(int p_190526_1_, int p_190526_2_)
+    public boolean isChunkGeneratedAt(int x, int z)
     {
-        return this.isChunkLoaded(p_190526_1_, p_190526_2_, false) ? true : this.chunkProvider.func_191062_e(p_190526_1_, p_190526_2_);
+        return this.isChunkLoaded(x, z, false) ? true : this.chunkProvider.isChunkGeneratedAt(x, z);
     }
 
     /**
@@ -432,7 +432,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
                 }
                 else if (!this.isRemote && (flags & 16) == 0)
                 {
-                    this.func_190522_c(pos, block);
+                    this.updateObservingBlocksAt(pos, block);
                 }
             }
         }
@@ -504,7 +504,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
             x2 = i;
         }
 
-        if (this.provider.func_191066_m())
+        if (this.provider.hasSkyLight())
         {
             for (int j = x2; j <= z2; ++j)
             {
@@ -531,31 +531,31 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
         }
     }
 
-    public void func_190522_c(BlockPos p_190522_1_, Block p_190522_2_)
+    public void updateObservingBlocksAt(BlockPos pos, Block blockType)
     {
-        this.func_190529_b(p_190522_1_.west(), p_190522_2_, p_190522_1_);
-        this.func_190529_b(p_190522_1_.east(), p_190522_2_, p_190522_1_);
-        this.func_190529_b(p_190522_1_.down(), p_190522_2_, p_190522_1_);
-        this.func_190529_b(p_190522_1_.up(), p_190522_2_, p_190522_1_);
-        this.func_190529_b(p_190522_1_.north(), p_190522_2_, p_190522_1_);
-        this.func_190529_b(p_190522_1_.south(), p_190522_2_, p_190522_1_);
+        this.observedNeighborChanged(pos.west(), blockType, pos);
+        this.observedNeighborChanged(pos.east(), blockType, pos);
+        this.observedNeighborChanged(pos.down(), blockType, pos);
+        this.observedNeighborChanged(pos.up(), blockType, pos);
+        this.observedNeighborChanged(pos.north(), blockType, pos);
+        this.observedNeighborChanged(pos.south(), blockType, pos);
     }
 
-    public void notifyNeighborsOfStateChange(BlockPos pos, Block blockType, boolean p_175685_3_)
+    public void notifyNeighborsOfStateChange(BlockPos pos, Block blockType, boolean updateObservers)
     {
-        if(net.minecraftforge.event.ForgeEventFactory.onNeighborNotify(this, pos, this.getBlockState(pos), java.util.EnumSet.allOf(EnumFacing.class), p_175685_3_).isCanceled())
+        if(net.minecraftforge.event.ForgeEventFactory.onNeighborNotify(this, pos, this.getBlockState(pos), java.util.EnumSet.allOf(EnumFacing.class), updateObservers).isCanceled())
             return;
 
-        this.func_190524_a(pos.west(), blockType, pos);
-        this.func_190524_a(pos.east(), blockType, pos);
-        this.func_190524_a(pos.down(), blockType, pos);
-        this.func_190524_a(pos.up(), blockType, pos);
-        this.func_190524_a(pos.north(), blockType, pos);
-        this.func_190524_a(pos.south(), blockType, pos);
+        this.neighborChanged(pos.west(), blockType, pos);
+        this.neighborChanged(pos.east(), blockType, pos);
+        this.neighborChanged(pos.down(), blockType, pos);
+        this.neighborChanged(pos.up(), blockType, pos);
+        this.neighborChanged(pos.north(), blockType, pos);
+        this.neighborChanged(pos.south(), blockType, pos);
 
-        if (p_175685_3_)
+        if (updateObservers)
         {
-            this.func_190522_c(pos, blockType);
+            this.updateObservingBlocksAt(pos, blockType);
         }
     }
 
@@ -568,44 +568,44 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
 
         if (skipSide != EnumFacing.WEST)
         {
-            this.func_190524_a(pos.west(), blockType, pos);
+            this.neighborChanged(pos.west(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.EAST)
         {
-            this.func_190524_a(pos.east(), blockType, pos);
+            this.neighborChanged(pos.east(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.DOWN)
         {
-            this.func_190524_a(pos.down(), blockType, pos);
+            this.neighborChanged(pos.down(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.UP)
         {
-            this.func_190524_a(pos.up(), blockType, pos);
+            this.neighborChanged(pos.up(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.NORTH)
         {
-            this.func_190524_a(pos.north(), blockType, pos);
+            this.neighborChanged(pos.north(), blockType, pos);
         }
 
         if (skipSide != EnumFacing.SOUTH)
         {
-            this.func_190524_a(pos.south(), blockType, pos);
+            this.neighborChanged(pos.south(), blockType, pos);
         }
     }
 
-    public void func_190524_a(BlockPos p_190524_1_, final Block p_190524_2_, BlockPos p_190524_3_)
+    public void neighborChanged(BlockPos pos, final Block p_190524_2_, BlockPos p_190524_3_)
     {
         if (!this.isRemote)
         {
-            IBlockState iblockstate = this.getBlockState(p_190524_1_);
+            IBlockState iblockstate = this.getBlockState(pos);
 
             try
             {
-                iblockstate.neighborChanged(this, p_190524_1_, p_190524_2_, p_190524_3_);
+                iblockstate.neighborChanged(this, pos, p_190524_2_, p_190524_3_);
             }
             catch (Throwable throwable)
             {
@@ -625,23 +625,23 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
                         }
                     }
                 });
-                CrashReportCategory.addBlockInfo(crashreportcategory, p_190524_1_, iblockstate);
+                CrashReportCategory.addBlockInfo(crashreportcategory, pos, iblockstate);
                 throw new ReportedException(crashreport);
             }
         }
     }
 
-    public void func_190529_b(BlockPos p_190529_1_, final Block p_190529_2_, BlockPos p_190529_3_)
+    public void observedNeighborChanged(BlockPos pos, final Block p_190529_2_, BlockPos p_190529_3_)
     {
         if (!this.isRemote)
         {
-            IBlockState iblockstate = this.getBlockState(p_190529_1_);
+            IBlockState iblockstate = this.getBlockState(pos);
 
             if (true)
             {
                 try
                 {
-                    iblockstate.getBlock().observedNeighborChange(iblockstate, this, p_190529_1_, p_190529_2_, p_190529_3_);
+                    iblockstate.getBlock().observedNeighborChange(iblockstate, this, pos, p_190529_2_, p_190529_3_);
                 }
                 catch (Throwable throwable)
                 {
@@ -661,7 +661,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
                             }
                         }
                     });
-                    CrashReportCategory.addBlockInfo(crashreportcategory, p_190529_1_, iblockstate);
+                    CrashReportCategory.addBlockInfo(crashreportcategory, pos, iblockstate);
                     throw new ReportedException(crashreport);
                 }
             }
@@ -791,13 +791,13 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
      */
     public BlockPos getHeight(BlockPos pos)
     {
-        return new BlockPos(pos.getX(), this.getHeightmapHeight(pos.getX(), pos.getZ()), pos.getZ());
+        return new BlockPos(pos.getX(), this.getHeight(pos.getX(), pos.getZ()), pos.getZ());
     }
 
     /**
      * Returns, from the height map, the height of the highest block at this x and z coordinate.
      */
-    public int getHeightmapHeight(int x, int z)
+    public int getHeight(int x, int z)
     {
         int i;
 
@@ -847,7 +847,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     @SideOnly(Side.CLIENT)
     public int getLightFromNeighborsFor(EnumSkyBlock type, BlockPos pos)
     {
-        if (!this.provider.func_191066_m() && type == EnumSkyBlock.SKY)
+        if (!this.provider.hasSkyLight() && type == EnumSkyBlock.SKY)
         {
             return 0;
         }
@@ -1013,12 +1013,12 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
         {
             if (!Double.isNaN(vec32.xCoord) && !Double.isNaN(vec32.yCoord) && !Double.isNaN(vec32.zCoord))
             {
-                int i = MathHelper.floor_double(vec32.xCoord);
-                int j = MathHelper.floor_double(vec32.yCoord);
-                int k = MathHelper.floor_double(vec32.zCoord);
-                int l = MathHelper.floor_double(vec31.xCoord);
-                int i1 = MathHelper.floor_double(vec31.yCoord);
-                int j1 = MathHelper.floor_double(vec31.zCoord);
+                int i = MathHelper.floor(vec32.xCoord);
+                int j = MathHelper.floor(vec32.yCoord);
+                int k = MathHelper.floor(vec32.zCoord);
+                int l = MathHelper.floor(vec31.xCoord);
+                int i1 = MathHelper.floor(vec31.yCoord);
+                int j1 = MathHelper.floor(vec31.zCoord);
                 BlockPos blockpos = new BlockPos(l, i1, j1);
                 IBlockState iblockstate = this.getBlockState(blockpos);
                 Block block = iblockstate.getBlock();
@@ -1149,9 +1149,9 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
                         vec31 = new Vec3d(vec31.xCoord + d6 * d5, vec31.yCoord + d7 * d5, d2);
                     }
 
-                    l = MathHelper.floor_double(vec31.xCoord) - (enumfacing == EnumFacing.EAST ? 1 : 0);
-                    i1 = MathHelper.floor_double(vec31.yCoord) - (enumfacing == EnumFacing.UP ? 1 : 0);
-                    j1 = MathHelper.floor_double(vec31.zCoord) - (enumfacing == EnumFacing.SOUTH ? 1 : 0);
+                    l = MathHelper.floor(vec31.xCoord) - (enumfacing == EnumFacing.EAST ? 1 : 0);
+                    i1 = MathHelper.floor(vec31.yCoord) - (enumfacing == EnumFacing.UP ? 1 : 0);
+                    j1 = MathHelper.floor(vec31.zCoord) - (enumfacing == EnumFacing.SOUTH ? 1 : 0);
                     blockpos = new BlockPos(l, i1, j1);
                     IBlockState iblockstate1 = this.getBlockState(blockpos);
                     Block block1 = iblockstate1.getBlock();
@@ -1227,11 +1227,11 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
         this.spawnParticle(particleType.getParticleID(), particleType.getShouldIgnoreRange(), xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, parameters);
     }
 
-    public void func_190523_a(int p_190523_1_, double p_190523_2_, double p_190523_4_, double p_190523_6_, double p_190523_8_, double p_190523_10_, double p_190523_12_, int... p_190523_14_)
+    public void spawnAlwaysVisibleParticle(int p_190523_1_, double p_190523_2_, double p_190523_4_, double p_190523_6_, double p_190523_8_, double p_190523_10_, double p_190523_12_, int... p_190523_14_)
     {
         for (int i = 0; i < this.eventListeners.size(); ++i)
         {
-            ((IWorldEventListener)this.eventListeners.get(i)).func_190570_a(p_190523_1_, false, true, p_190523_2_, p_190523_4_, p_190523_6_, p_190523_8_, p_190523_10_, p_190523_12_, p_190523_14_);
+            ((IWorldEventListener)this.eventListeners.get(i)).spawnParticle(p_190523_1_, false, true, p_190523_2_, p_190523_4_, p_190523_6_, p_190523_8_, p_190523_10_, p_190523_12_, p_190523_14_);
         }
     }
 
@@ -1261,13 +1261,13 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     /**
      * Called when an entity is spawned in the world. This includes players.
      */
-    public boolean spawnEntityInWorld(Entity entityIn)
+    public boolean spawnEntity(Entity entityIn)
     {
         // do not drop any items while restoring blocksnapshots. Prevents dupes
         if (!this.isRemote && (entityIn == null || (entityIn instanceof net.minecraft.entity.item.EntityItem && this.restoringBlockSnapshots))) return false;
 
-        int i = MathHelper.floor_double(entityIn.posX / 16.0D);
-        int j = MathHelper.floor_double(entityIn.posZ / 16.0D);
+        int i = MathHelper.floor(entityIn.posX / 16.0D);
+        int j = MathHelper.floor(entityIn.posZ / 16.0D);
         boolean flag = entityIn.forceSpawn;
 
         if (entityIn instanceof EntityPlayer)
@@ -1374,12 +1374,12 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
 
     private boolean func_191504_a(@Nullable Entity p_191504_1_, AxisAlignedBB p_191504_2_, boolean p_191504_3_, @Nullable List<AxisAlignedBB> p_191504_4_)
     {
-        int i = MathHelper.floor_double(p_191504_2_.minX) - 1;
-        int j = MathHelper.ceiling_double_int(p_191504_2_.maxX) + 1;
-        int k = MathHelper.floor_double(p_191504_2_.minY) - 1;
-        int l = MathHelper.ceiling_double_int(p_191504_2_.maxY) + 1;
-        int i1 = MathHelper.floor_double(p_191504_2_.minZ) - 1;
-        int j1 = MathHelper.ceiling_double_int(p_191504_2_.maxZ) + 1;
+        int i = MathHelper.floor(p_191504_2_.minX) - 1;
+        int j = MathHelper.ceil(p_191504_2_.maxX) + 1;
+        int k = MathHelper.floor(p_191504_2_.minY) - 1;
+        int l = MathHelper.ceil(p_191504_2_.maxY) + 1;
+        int i1 = MathHelper.floor(p_191504_2_.minZ) - 1;
+        int j1 = MathHelper.ceil(p_191504_2_.maxZ) + 1;
         WorldBorder worldborder = this.getWorldBorder();
         boolean flag = p_191504_1_ != null && p_191504_1_.isOutsideBorder();
         boolean flag1 = p_191504_1_ != null && this.func_191503_g(p_191504_1_);
@@ -1545,7 +1545,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     {
         float f = this.getCelestialAngle(partialTicks);
         float f1 = 1.0F - (MathHelper.cos(f * ((float)Math.PI * 2F)) * 2.0F + 0.5F);
-        f1 = MathHelper.clamp_float(f1, 0.0F, 1.0F);
+        f1 = MathHelper.clamp(f1, 0.0F, 1.0F);
         f1 = 1.0F - f1;
         f1 = (float)((double)f1 * (1.0D - (double)(this.getRainStrength(partialTicks) * 5.0F) / 16.0D));
         f1 = (float)((double)f1 * (1.0D - (double)(this.getThunderStrength(partialTicks) * 5.0F) / 16.0D));
@@ -1556,20 +1556,20 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
      * Returns the sun brightness - checks time of day, rain and thunder
      */
     @SideOnly(Side.CLIENT)
-    public float getSunBrightness(float p_72971_1_)
+    public float getSunBrightness(float partialTicks)
     {
-        return this.provider.getSunBrightness(p_72971_1_);
+        return this.provider.getSunBrightness(partialTicks);
     }
 
     @SideOnly(Side.CLIENT)
-    public float getSunBrightnessBody(float p_72971_1_)
+    public float getSunBrightnessBody(float partialTicks)
     {
-        float f = this.getCelestialAngle(p_72971_1_);
+        float f = this.getCelestialAngle(partialTicks);
         float f1 = 1.0F - (MathHelper.cos(f * ((float)Math.PI * 2F)) * 2.0F + 0.2F);
-        f1 = MathHelper.clamp_float(f1, 0.0F, 1.0F);
+        f1 = MathHelper.clamp(f1, 0.0F, 1.0F);
         f1 = 1.0F - f1;
-        f1 = (float)((double)f1 * (1.0D - (double)(this.getRainStrength(p_72971_1_) * 5.0F) / 16.0D));
-        f1 = (float)((double)f1 * (1.0D - (double)(this.getThunderStrength(p_72971_1_) * 5.0F) / 16.0D));
+        f1 = (float)((double)f1 * (1.0D - (double)(this.getRainStrength(partialTicks) * 5.0F) / 16.0D));
+        f1 = (float)((double)f1 * (1.0D - (double)(this.getThunderStrength(partialTicks) * 5.0F) / 16.0D));
         return f1 * 0.8F + 0.2F;
     }
 
@@ -1587,10 +1587,10 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     {
         float f = this.getCelestialAngle(partialTicks);
         float f1 = MathHelper.cos(f * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
-        f1 = MathHelper.clamp_float(f1, 0.0F, 1.0F);
-        int i = MathHelper.floor_double(entityIn.posX);
-        int j = MathHelper.floor_double(entityIn.posY);
-        int k = MathHelper.floor_double(entityIn.posZ);
+        f1 = MathHelper.clamp(f1, 0.0F, 1.0F);
+        int i = MathHelper.floor(entityIn.posX);
+        int j = MathHelper.floor(entityIn.posY);
+        int k = MathHelper.floor(entityIn.posZ);
         BlockPos blockpos = new BlockPos(i, j, k);
         int l = net.minecraftforge.client.ForgeHooksClient.getSkyBlendColour(this, blockpos);
         float f3 = (float)(l >> 16 & 255) / 255.0F;
@@ -1686,7 +1686,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     {
         float f = this.getCelestialAngle(partialTicks);
         float f1 = MathHelper.cos(f * ((float)Math.PI * 2F)) * 2.0F + 0.5F;
-        f1 = MathHelper.clamp_float(f1, 0.0F, 1.0F);
+        f1 = MathHelper.clamp(f1, 0.0F, 1.0F);
         float f2 = 1.0F;
         float f3 = 1.0F;
         float f4 = 1.0F;
@@ -1770,7 +1770,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     {
         float f = this.getCelestialAngle(partialTicks);
         float f1 = 1.0F - (MathHelper.cos(f * ((float)Math.PI * 2F)) * 2.0F + 0.25F);
-        f1 = MathHelper.clamp_float(f1, 0.0F, 1.0F);
+        f1 = MathHelper.clamp(f1, 0.0F, 1.0F);
         return f1 * f1 * 0.5F;
     }
 
@@ -1930,7 +1930,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
         {
             TileEntity tileentity = (TileEntity)iterator.next();
 
-            if (!tileentity.isInvalid() && tileentity.hasWorldObj())
+            if (!tileentity.isInvalid() && tileentity.hasWorld())
             {
                 BlockPos blockpos = tileentity.getPos();
 
@@ -2027,7 +2027,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     public boolean addTileEntity(TileEntity tile)
     {
         if (tile.getWorld() != this) // Forge - set the world early as vanilla doesn't set it until next tick
-            tile.setWorldObj(this);
+            tile.setWorld(this);
 
         List<TileEntity> dest = processingLoadedTiles ? addedTileEntityList : loadedTileEntityList;
         boolean flag = dest.add(tile);
@@ -2054,7 +2054,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
             for (TileEntity te : tileEntityCollection)
             {
                 if (te.getWorld() != this) // Forge - set the world early as vanilla doesn't set it until next tick
-                    te.setWorldObj(this);
+                    te.setWorld(this);
             }
             this.addedTileEntityList.addAll(tileEntityCollection);
         }
@@ -2080,8 +2080,8 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
      */
     public void updateEntityWithOptionalForce(Entity entityIn, boolean forceUpdate)
     {
-        int i = MathHelper.floor_double(entityIn.posX);
-        int j = MathHelper.floor_double(entityIn.posZ);
+        int i = MathHelper.floor(entityIn.posX);
+        int j = MathHelper.floor(entityIn.posZ);
         boolean isForced = getPersistentChunks().containsKey(new net.minecraft.util.math.ChunkPos(i >> 4, j >> 4));
         int k = isForced ? 0 : 32;
         boolean canUpdate = !forceUpdate || this.isAreaLoaded(i - k, 0, j - k, i + k, 0, j + k, true);
@@ -2136,9 +2136,9 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
                 entityIn.rotationYaw = entityIn.prevRotationYaw;
             }
 
-            int l = MathHelper.floor_double(entityIn.posX / 16.0D);
-            int i1 = MathHelper.floor_double(entityIn.posY / 16.0D);
-            int j1 = MathHelper.floor_double(entityIn.posZ / 16.0D);
+            int l = MathHelper.floor(entityIn.posX / 16.0D);
+            int i1 = MathHelper.floor(entityIn.posY / 16.0D);
+            int j1 = MathHelper.floor(entityIn.posZ / 16.0D);
 
             if (!entityIn.addedToChunk || entityIn.chunkCoordX != l || entityIn.chunkCoordY != i1 || entityIn.chunkCoordZ != j1)
             {
@@ -2209,12 +2209,12 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
      */
     public boolean checkBlockCollision(AxisAlignedBB bb)
     {
-        int i = MathHelper.floor_double(bb.minX);
-        int j = MathHelper.ceiling_double_int(bb.maxX);
-        int k = MathHelper.floor_double(bb.minY);
-        int l = MathHelper.ceiling_double_int(bb.maxY);
-        int i1 = MathHelper.floor_double(bb.minZ);
-        int j1 = MathHelper.ceiling_double_int(bb.maxZ);
+        int i = MathHelper.floor(bb.minX);
+        int j = MathHelper.ceil(bb.maxX);
+        int k = MathHelper.floor(bb.minY);
+        int l = MathHelper.ceil(bb.maxY);
+        int i1 = MathHelper.floor(bb.minZ);
+        int j1 = MathHelper.ceil(bb.maxZ);
         BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
         for (int k1 = i; k1 < j; ++k1)
@@ -2243,12 +2243,12 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
      */
     public boolean containsAnyLiquid(AxisAlignedBB bb)
     {
-        int i = MathHelper.floor_double(bb.minX);
-        int j = MathHelper.ceiling_double_int(bb.maxX);
-        int k = MathHelper.floor_double(bb.minY);
-        int l = MathHelper.ceiling_double_int(bb.maxY);
-        int i1 = MathHelper.floor_double(bb.minZ);
-        int j1 = MathHelper.ceiling_double_int(bb.maxZ);
+        int i = MathHelper.floor(bb.minX);
+        int j = MathHelper.ceil(bb.maxX);
+        int k = MathHelper.floor(bb.minY);
+        int l = MathHelper.ceil(bb.maxY);
+        int i1 = MathHelper.floor(bb.minZ);
+        int j1 = MathHelper.ceil(bb.maxZ);
         BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
         for (int k1 = i; k1 < j; ++k1)
@@ -2274,12 +2274,12 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
 
     public boolean isFlammableWithin(AxisAlignedBB bb)
     {
-        int i = MathHelper.floor_double(bb.minX);
-        int j = MathHelper.ceiling_double_int(bb.maxX);
-        int k = MathHelper.floor_double(bb.minY);
-        int l = MathHelper.ceiling_double_int(bb.maxY);
-        int i1 = MathHelper.floor_double(bb.minZ);
-        int j1 = MathHelper.ceiling_double_int(bb.maxZ);
+        int i = MathHelper.floor(bb.minX);
+        int j = MathHelper.ceil(bb.maxX);
+        int k = MathHelper.floor(bb.minY);
+        int l = MathHelper.ceil(bb.maxY);
+        int i1 = MathHelper.floor(bb.minZ);
+        int j1 = MathHelper.ceil(bb.maxZ);
 
         if (this.isAreaLoaded(i, k, i1, j, l, j1, true))
         {
@@ -2318,12 +2318,12 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
      */
     public boolean handleMaterialAcceleration(AxisAlignedBB bb, Material materialIn, Entity entityIn)
     {
-        int i = MathHelper.floor_double(bb.minX);
-        int j = MathHelper.ceiling_double_int(bb.maxX);
-        int k = MathHelper.floor_double(bb.minY);
-        int l = MathHelper.ceiling_double_int(bb.maxY);
-        int i1 = MathHelper.floor_double(bb.minZ);
-        int j1 = MathHelper.ceiling_double_int(bb.maxZ);
+        int i = MathHelper.floor(bb.minX);
+        int j = MathHelper.ceil(bb.maxX);
+        int k = MathHelper.floor(bb.minY);
+        int l = MathHelper.ceil(bb.maxY);
+        int i1 = MathHelper.floor(bb.minZ);
+        int j1 = MathHelper.ceil(bb.maxZ);
 
         if (!this.isAreaLoaded(i, k, i1, j, l, j1, true))
         {
@@ -2389,12 +2389,12 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
      */
     public boolean isMaterialInBB(AxisAlignedBB bb, Material materialIn)
     {
-        int i = MathHelper.floor_double(bb.minX);
-        int j = MathHelper.ceiling_double_int(bb.maxX);
-        int k = MathHelper.floor_double(bb.minY);
-        int l = MathHelper.ceiling_double_int(bb.maxY);
-        int i1 = MathHelper.floor_double(bb.minZ);
-        int j1 = MathHelper.ceiling_double_int(bb.maxZ);
+        int i = MathHelper.floor(bb.minX);
+        int j = MathHelper.ceil(bb.maxX);
+        int k = MathHelper.floor(bb.minY);
+        int l = MathHelper.ceil(bb.maxY);
+        int i1 = MathHelper.floor(bb.minZ);
+        int j1 = MathHelper.ceil(bb.maxZ);
         BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
         for (int k1 = i; k1 < j; ++k1)
@@ -2574,7 +2574,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
                 {
                     tileEntityIn.setPos(pos);
                     if (tileEntityIn.getWorld() != this)
-                        tileEntityIn.setWorldObj(this); // Forge - set the world early as vanilla doesn't set it until next tick
+                        tileEntityIn.setWorld(this); // Forge - set the world early as vanilla doesn't set it until next tick
                     Iterator<TileEntity> iterator = this.addedTileEntityList.iterator();
 
                     while (iterator.hasNext())
@@ -2726,7 +2726,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
 
     public void updateWeatherBody()
     {
-        if (this.provider.func_191066_m())
+        if (this.provider.hasSkyLight())
         {
             if (!this.isRemote)
             {
@@ -2804,7 +2804,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
                     this.thunderingStrength = (float)((double)this.thunderingStrength - 0.01D);
                 }
 
-                this.thunderingStrength = MathHelper.clamp_float(this.thunderingStrength, 0.0F, 1.0F);
+                this.thunderingStrength = MathHelper.clamp(this.thunderingStrength, 0.0F, 1.0F);
                 this.prevRainingStrength = this.rainingStrength;
 
                 if (this.worldInfo.isRaining())
@@ -2816,7 +2816,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
                     this.rainingStrength = (float)((double)this.rainingStrength - 0.01D);
                 }
 
-                this.rainingStrength = MathHelper.clamp_float(this.rainingStrength, 0.0F, 1.0F);
+                this.rainingStrength = MathHelper.clamp(this.rainingStrength, 0.0F, 1.0F);
             }
         }
     }
@@ -2938,7 +2938,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     {
         boolean flag = false;
 
-        if (this.provider.func_191066_m())
+        if (this.provider.hasSkyLight())
         {
             flag |= this.checkLightFor(EnumSkyBlock.SKY, pos);
         }
@@ -3048,9 +3048,9 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
 
                         if (l2 > 0)
                         {
-                            int j3 = MathHelper.abs_int(i2 - i1);
-                            int k3 = MathHelper.abs_int(j2 - j1);
-                            int l3 = MathHelper.abs_int(k2 - k1);
+                            int j3 = MathHelper.abs(i2 - i1);
+                            int k3 = MathHelper.abs(j2 - j1);
+                            int l3 = MathHelper.abs(k2 - k1);
 
                             if (j3 + k3 + l3 < 17)
                             {
@@ -3173,10 +3173,10 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     public List<Entity> getEntitiesInAABBexcluding(@Nullable Entity entityIn, AxisAlignedBB boundingBox, @Nullable Predicate <? super Entity > predicate)
     {
         List<Entity> list = Lists.<Entity>newArrayList();
-        int i = MathHelper.floor_double((boundingBox.minX - MAX_ENTITY_RADIUS) / 16.0D);
-        int j = MathHelper.floor_double((boundingBox.maxX + MAX_ENTITY_RADIUS) / 16.0D);
-        int k = MathHelper.floor_double((boundingBox.minZ - MAX_ENTITY_RADIUS) / 16.0D);
-        int l = MathHelper.floor_double((boundingBox.maxZ + MAX_ENTITY_RADIUS) / 16.0D);
+        int i = MathHelper.floor((boundingBox.minX - MAX_ENTITY_RADIUS) / 16.0D);
+        int j = MathHelper.floor((boundingBox.maxX + MAX_ENTITY_RADIUS) / 16.0D);
+        int k = MathHelper.floor((boundingBox.minZ - MAX_ENTITY_RADIUS) / 16.0D);
+        int l = MathHelper.floor((boundingBox.maxZ + MAX_ENTITY_RADIUS) / 16.0D);
 
         for (int i1 = i; i1 <= j; ++i1)
         {
@@ -3229,10 +3229,10 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
 
     public <T extends Entity> List<T> getEntitiesWithinAABB(Class <? extends T > clazz, AxisAlignedBB aabb, @Nullable Predicate <? super T > filter)
     {
-        int i = MathHelper.floor_double((aabb.minX - MAX_ENTITY_RADIUS) / 16.0D);
-        int j = MathHelper.ceiling_double_int((aabb.maxX + MAX_ENTITY_RADIUS) / 16.0D);
-        int k = MathHelper.floor_double((aabb.minZ - MAX_ENTITY_RADIUS) / 16.0D);
-        int l = MathHelper.ceiling_double_int((aabb.maxZ + MAX_ENTITY_RADIUS) / 16.0D);
+        int i = MathHelper.floor((aabb.minX - MAX_ENTITY_RADIUS) / 16.0D);
+        int j = MathHelper.ceil((aabb.maxX + MAX_ENTITY_RADIUS) / 16.0D);
+        int k = MathHelper.floor((aabb.minZ - MAX_ENTITY_RADIUS) / 16.0D);
+        int l = MathHelper.ceil((aabb.maxZ + MAX_ENTITY_RADIUS) / 16.0D);
         List<T> list = Lists.<T>newArrayList();
 
         for (int i1 = i; i1 < j; ++i1)
@@ -3333,7 +3333,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
         this.unloadedEntityList.addAll(entityCollection);
     }
 
-    public boolean func_190527_a(Block p_190527_1_, BlockPos p_190527_2_, boolean p_190527_3_, EnumFacing p_190527_4_, @Nullable Entity p_190527_5_)
+    public boolean mayPlace(Block p_190527_1_, BlockPos p_190527_2_, boolean p_190527_3_, EnumFacing p_190527_4_, @Nullable Entity p_190527_5_)
     {
         IBlockState iblockstate = this.getBlockState(p_190527_2_);
         AxisAlignedBB axisalignedbb = p_190527_3_ ? null : p_190527_1_.getDefaultState().getCollisionBoundingBox(this, p_190527_2_);
@@ -3479,11 +3479,11 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     public EntityPlayer getClosestPlayer(double posX, double posY, double posZ, double distance, boolean spectator)
     {
         Predicate<Entity> predicate = spectator ? EntitySelectors.CAN_AI_TARGET : EntitySelectors.NOT_SPECTATING;
-        return this.func_190525_a(posX, posY, posZ, distance, predicate);
+        return this.getClosestPlayer(posX, posY, posZ, distance, predicate);
     }
 
     @Nullable
-    public EntityPlayer func_190525_a(double p_190525_1_, double p_190525_3_, double p_190525_5_, double p_190525_7_, Predicate<Entity> p_190525_9_)
+    public EntityPlayer getClosestPlayer(double x, double y, double z, double p_190525_7_, Predicate<Entity> p_190525_9_)
     {
         double d0 = -1.0D;
         EntityPlayer entityplayer = null;
@@ -3494,7 +3494,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
 
             if (p_190525_9_.apply(entityplayer1))
             {
-                double d1 = entityplayer1.getDistanceSq(p_190525_1_, p_190525_3_, p_190525_5_);
+                double d1 = entityplayer1.getDistanceSq(x, y, z);
 
                 if ((p_190525_7_ < 0.0D || d1 < p_190525_7_ * p_190525_7_) && (d0 == -1.0D || d1 < d0))
                 {
@@ -3698,8 +3698,8 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     @SideOnly(Side.CLIENT)
     public void joinEntityInSurroundings(Entity entityIn)
     {
-        int i = MathHelper.floor_double(entityIn.posX / 16.0D);
-        int j = MathHelper.floor_double(entityIn.posZ / 16.0D);
+        int i = MathHelper.floor(entityIn.posX / 16.0D);
+        int j = MathHelper.floor(entityIn.posZ / 16.0D);
         int k = 2;
 
         for (int l = -2; l <= 2; ++l)
@@ -3866,7 +3866,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
      * Assigns the given String id to the given MapDataBase using the MapStorage, removing any existing ones of the same
      * id.
      */
-    public void setItemData(String dataID, WorldSavedData worldSavedDataIn)
+    public void setData(String dataID, WorldSavedData worldSavedDataIn)
     {
         this.mapStorage.setData(dataID, worldSavedDataIn);
     }
@@ -3876,7 +3876,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
      * the given Class, or returns null if none such file exists.
      */
     @Nullable
-    public WorldSavedData loadItemData(Class <? extends WorldSavedData > clazz, String dataID)
+    public WorldSavedData loadData(Class <? extends WorldSavedData > clazz, String dataID)
     {
         return this.mapStorage.getOrLoadData(clazz, dataID);
     }
@@ -4231,7 +4231,7 @@ public abstract class World implements IBlockAccess, net.minecraftforge.common.c
     }
 
     @Nullable
-    public BlockPos func_190528_a(String p_190528_1_, BlockPos p_190528_2_, boolean p_190528_3_)
+    public BlockPos findNearestStructure(String p_190528_1_, BlockPos p_190528_2_, boolean p_190528_3_)
     {
         return null;
     }

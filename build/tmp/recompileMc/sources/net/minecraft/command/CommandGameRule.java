@@ -15,7 +15,7 @@ public class CommandGameRule extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "gamerule";
     }
@@ -30,14 +30,20 @@ public class CommandGameRule extends CommandBase
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The ICommandSender who is requesting usage details
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.gamerule.usage";
     }
 
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
@@ -48,7 +54,7 @@ public class CommandGameRule extends CommandBase
         switch (args.length)
         {
             case 0:
-                sender.addChatMessage(new TextComponentString(joinNiceString(gamerules.getRules())));
+                sender.sendMessage(new TextComponentString(joinNiceString(gamerules.getRules())));
                 break;
             case 1:
 
@@ -58,7 +64,7 @@ public class CommandGameRule extends CommandBase
                 }
 
                 String s2 = gamerules.getString(s);
-                sender.addChatMessage((new TextComponentString(s)).appendText(" = ").appendText(s2));
+                sender.sendMessage((new TextComponentString(s)).appendText(" = ").appendText(s2));
                 sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, gamerules.getInt(s));
                 break;
             default:
@@ -80,14 +86,14 @@ public class CommandGameRule extends CommandBase
         {
             byte b0 = (byte)(rules.getBoolean(p_184898_1_) ? 22 : 23);
 
-            for (EntityPlayerMP entityplayermp : server.getPlayerList().getPlayerList())
+            for (EntityPlayerMP entityplayermp : server.getPlayerList().getPlayers())
             {
                 entityplayermp.connection.sendPacket(new SPacketEntityStatus(entityplayermp, b0));
             }
         }
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
     {
         if (args.length == 1)
         {

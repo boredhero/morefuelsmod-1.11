@@ -42,14 +42,14 @@ public class GuiListWorldSelectionEntry implements GuiListExtended.IGuiListEntry
     private DynamicTexture icon;
     private long lastClickTime;
 
-    public GuiListWorldSelectionEntry(GuiListWorldSelection listWorldSelIn, WorldSummary p_i46591_2_, ISaveFormat p_i46591_3_)
+    public GuiListWorldSelectionEntry(GuiListWorldSelection listWorldSelIn, WorldSummary worldSummaryIn, ISaveFormat saveFormat)
     {
         this.containingListSel = listWorldSelIn;
         this.worldSelScreen = listWorldSelIn.getGuiWorldSelection();
-        this.worldSummary = p_i46591_2_;
+        this.worldSummary = worldSummaryIn;
         this.client = Minecraft.getMinecraft();
-        this.iconLocation = new ResourceLocation("worlds/" + p_i46591_2_.getFileName() + "/icon");
-        this.iconFile = p_i46591_3_.getFile(p_i46591_2_.getFileName(), "icon.png");
+        this.iconLocation = new ResourceLocation("worlds/" + worldSummaryIn.getFileName() + "/icon");
+        this.iconFile = saveFormat.getFile(worldSummaryIn.getFileName(), "icon.png");
 
         if (!this.iconFile.isFile())
         {

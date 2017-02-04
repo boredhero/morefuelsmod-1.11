@@ -210,16 +210,16 @@ public class BlockTallGrass extends BlockBush implements IGrowable, net.minecraf
     @Override
     public NonNullList<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune)
     {
-        return NonNullList.func_191197_a(1, new ItemStack(Blocks.TALLGRASS, 1, ((BlockTallGrass.EnumType)world.getBlockState(pos).getValue(TYPE)).getMeta()));
+        return NonNullList.withSize(1, new ItemStack(Blocks.TALLGRASS, 1, ((BlockTallGrass.EnumType)world.getBlockState(pos).getValue(TYPE)).getMeta()));
     }
     @Override
     public NonNullList<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        if (RANDOM.nextInt(8) != 0) return NonNullList.func_191196_a();
+        if (RANDOM.nextInt(8) != 0) return NonNullList.create();
         ItemStack seed = net.minecraftforge.common.ForgeHooks.getGrassSeed(RANDOM, fortune);
-        if (!seed.func_190926_b())
-            return NonNullList.func_191197_a(1, seed);
+        if (!seed.isEmpty())
+            return NonNullList.withSize(1, seed);
         else
-            return NonNullList.func_191196_a();
+            return NonNullList.create();
     }
 }

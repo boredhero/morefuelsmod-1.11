@@ -104,6 +104,8 @@ public abstract class Biome extends net.minecraftforge.fml.common.registry.IForg
     protected List<Biome.SpawnListEntry> spawnableCreatureList = Lists.<Biome.SpawnListEntry>newArrayList();
     protected List<Biome.SpawnListEntry> spawnableWaterCreatureList = Lists.<Biome.SpawnListEntry>newArrayList();
     protected List<Biome.SpawnListEntry> spawnableCaveCreatureList = Lists.<Biome.SpawnListEntry>newArrayList();
+    // Forge: Stores the spawnable lists for non-vanilla EnumCreatureTypes. Can't be an EnumMap as that doesn't handle new enum values being added after it's created.
+    protected java.util.Map<EnumCreatureType, List<Biome.SpawnListEntry>> modSpawnableLists = com.google.common.collect.Maps.newHashMap();
 
     public static int getIdForBiome(Biome biome)
     {
@@ -189,7 +191,7 @@ public abstract class Biome extends net.minecraftforge.fml.common.registry.IForg
     public int getSkyColorByTemp(float currentTemperature)
     {
         currentTemperature = currentTemperature / 3.0F;
-        currentTemperature = MathHelper.clamp_float(currentTemperature, -1.0F, 1.0F);
+        currentTemperature = MathHelper.clamp(currentTemperature, -1.0F, 1.0F);
         return MathHelper.hsvToRGB(0.62222224F - currentTemperature * 0.05F, 0.5F + currentTemperature * 0.1F, 1.0F);
     }
 
@@ -206,7 +208,9 @@ public abstract class Biome extends net.minecraftforge.fml.common.registry.IForg
             case AMBIENT:
                 return this.spawnableCaveCreatureList;
             default:
-                return Collections.<Biome.SpawnListEntry>emptyList();
+                // Forge: Return a non-empty list for non-vanilla EnumCreatureTypes
+                if (!this.modSpawnableLists.containsKey(creatureType)) this.modSpawnableLists.put(creatureType, Lists.<Biome.SpawnListEntry>newArrayList());
+                return this.modSpawnableLists.get(creatureType);
         }
     }
 
@@ -271,8 +275,8 @@ public abstract class Biome extends net.minecraftforge.fml.common.registry.IForg
     @SideOnly(Side.CLIENT)
     public int getGrassColorAtPos(BlockPos pos)
     {
-        double d0 = (double)MathHelper.clamp_float(this.getFloatTemperature(pos), 0.0F, 1.0F);
-        double d1 = (double)MathHelper.clamp_float(this.getRainfall(), 0.0F, 1.0F);
+        double d0 = (double)MathHelper.clamp(this.getFloatTemperature(pos), 0.0F, 1.0F);
+        double d1 = (double)MathHelper.clamp(this.getRainfall(), 0.0F, 1.0F);
         return getModdedBiomeGrassColor(ColorizerGrass.getGrassColor(d0, d1));
     }
 
@@ -374,8 +378,8 @@ public abstract class Biome extends net.minecraftforge.fml.common.registry.IForg
     @SideOnly(Side.CLIENT)
     public int getFoliageColorAtPos(BlockPos pos)
     {
-        double d0 = (double)MathHelper.clamp_float(this.getFloatTemperature(pos), 0.0F, 1.0F);
-        double d1 = (double)MathHelper.clamp_float(this.getRainfall(), 0.0F, 1.0F);
+        double d0 = (double)MathHelper.clamp(this.getFloatTemperature(pos), 0.0F, 1.0F);
+        double d1 = (double)MathHelper.clamp(this.getRainfall(), 0.0F, 1.0F);
         return getModdedBiomeFoliageColor(ColorizerFoliage.getFoliageColor(d0, d1));
     }
 
@@ -687,6 +691,7 @@ public abstract class Biome extends net.minecraftforge.fml.common.registry.IForg
             public Class <? extends EntityLiving > entityClass;
             public int minGroupCount;
             public int maxGroupCount;
+            private final java.lang.reflect.Constructor<?> ctr;
 
             public SpawnListEntry(Class <? extends EntityLiving > entityclassIn, int weight, int groupCountMin, int groupCountMax)
             {
@@ -694,11 +699,27 @@ public abstract class Biome extends net.minecraftforge.fml.common.registry.IForg
                 this.entityClass = entityclassIn;
                 this.minGroupCount = groupCountMin;
                 this.maxGroupCount = groupCountMax;
+
+                java.lang.reflect.Constructor<?> tmp = null;
+                try
+                {
+                    tmp = entityclassIn.getConstructor(World.class);
+                }
+                catch (NoSuchMethodException e)
+                {
+                    com.google.common.base.Throwables.propagate(e);
+                }
+                ctr = tmp;
             }
 
             public String toString()
             {
                 return this.entityClass.getSimpleName() + "*(" + this.minGroupCount + "-" + this.maxGroupCount + "):" + this.itemWeight;
+            }
+
+            public EntityLiving newInstance(World world) throws Exception
+            {
+                return (EntityLiving)ctr.newInstance(world);
             }
         }
 

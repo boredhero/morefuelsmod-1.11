@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
+import javax.annotation.Nullable;
 import javax.vecmath.AxisAngle4f;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
@@ -330,7 +331,7 @@ public class ModelBlockAnimation
                 {
                     int length = loop ? var.samples.length : (var.samples.length - 1);
                     float timeScaled = time * length;
-                    int s1 = MathHelper.clamp_int((int)Math.round(Math.floor(timeScaled)), 0, length - 1);
+                    int s1 = MathHelper.clamp((int)Math.round(Math.floor(timeScaled)), 0, length - 1);
                     float progress = timeScaled - s1;
                     int s2 = s1 + 1;
                     if(s2 == length && loop) s2 = 0;
@@ -515,6 +516,7 @@ public class ModelBlockAnimation
         }
     }
 
+    @Nullable
     public TRSRTransformation getPartTransform(IModelState state, BlockPart part, int i)
     {
         ImmutableCollection<MBJointWeight> infos = getJoint(i);

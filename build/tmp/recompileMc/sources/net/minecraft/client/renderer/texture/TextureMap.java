@@ -152,7 +152,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
             if (lvt_11_2_ < k)
             {
                 // FORGE: do not lower the mipmap level, just log the problematic textures
-                LOGGER.warn("Texture {} with size {}x{} will have visual artifacts at mip level {}, it can only support level {}. Please report to the mod author that the texture should be some multiple of 16x16.", resourcelocation, textureatlassprite.getIconWidth(), textureatlassprite.getIconHeight(), MathHelper.calculateLogBaseTwo(k), MathHelper.calculateLogBaseTwo(lvt_11_2_));
+                LOGGER.warn("Texture {} with size {}x{} will have visual artifacts at mip level {}, it can only support level {}. Please report to the mod author that the texture should be some multiple of 16x16.", resourcelocation, textureatlassprite.getIconWidth(), textureatlassprite.getIconHeight(), MathHelper.log2(k), MathHelper.log2(lvt_11_2_));
             }
 
             stitcher.addSprite(textureatlassprite);
@@ -160,7 +160,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
         net.minecraftforge.fml.common.ProgressManager.pop(bar);
         int l = Math.min(j, k);
-        int i1 = MathHelper.calculateLogBaseTwo(l);
+        int i1 = MathHelper.log2(l);
 
         if (false && i1 < this.mipmapLevels) // FORGE: do not lower the mipmap level
         {

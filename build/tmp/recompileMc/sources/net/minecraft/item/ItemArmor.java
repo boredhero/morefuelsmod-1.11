@@ -44,7 +44,7 @@ public class ItemArmor extends Item
         protected ItemStack dispenseStack(IBlockSource source, ItemStack stack)
         {
             ItemStack itemstack = ItemArmor.dispenseArmor(source, stack);
-            return itemstack.func_190926_b() ? super.dispenseStack(source, stack) : itemstack;
+            return itemstack.isEmpty() ? super.dispenseStack(source, stack) : itemstack;
         }
     };
     /** Stores the armor type: 0 is helmet, 1 is plate, 2 is legs and 3 is boots */
@@ -67,7 +67,7 @@ public class ItemArmor extends Item
 
         if (list.isEmpty())
         {
-            return ItemStack.field_190927_a;
+            return ItemStack.EMPTY;
         }
         else
         {
@@ -223,20 +223,20 @@ public class ItemArmor extends Item
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {
         ItemStack mat = this.material.getRepairItemStack();
-        if (!mat.func_190926_b() && net.minecraftforge.oredict.OreDictionary.itemMatches(mat,repair,false)) return true;
+        if (!mat.isEmpty() && net.minecraftforge.oredict.OreDictionary.itemMatches(mat,repair,false)) return true;
         return super.getIsRepairable(toRepair, repair);
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World itemStackIn, EntityPlayer worldIn, EnumHand playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        ItemStack itemstack = worldIn.getHeldItem(playerIn);
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
         EntityEquipmentSlot entityequipmentslot = EntityLiving.getSlotForItemStack(itemstack);
-        ItemStack itemstack1 = worldIn.getItemStackFromSlot(entityequipmentslot);
+        ItemStack itemstack1 = playerIn.getItemStackFromSlot(entityequipmentslot);
 
-        if (itemstack1.func_190926_b())
+        if (itemstack1.isEmpty())
         {
-            worldIn.setItemStackToSlot(entityequipmentslot, itemstack.copy());
-            itemstack.func_190920_e(0);
+            playerIn.setItemStackToSlot(entityequipmentslot, itemstack.copy());
+            itemstack.setCount(0);
             return new ActionResult(EnumActionResult.SUCCESS, itemstack);
         }
         else
@@ -251,8 +251,8 @@ public class ItemArmor extends Item
 
         if (equipmentSlot == this.armorType)
         {
-            multimap.put(SharedMonsterAttributes.ARMOR.getAttributeUnlocalizedName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", (double)this.damageReduceAmount, 0));
-            multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getAttributeUnlocalizedName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", (double)this.toughness, 0));
+            multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor modifier", (double)this.damageReduceAmount, 0));
+            multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Armor toughness", (double)this.toughness, 0));
         }
 
         return multimap;
@@ -295,7 +295,7 @@ public class ItemArmor extends Item
         private final SoundEvent soundEvent;
         private final float toughness;
         //Added by forge for custom Armor materials.
-        public ItemStack repairMaterial = ItemStack.field_190927_a;
+        public ItemStack repairMaterial = ItemStack.EMPTY;
 
         private ArmorMaterial(String nameIn, int maxDamageFactorIn, int[] damageReductionAmountArrayIn, int enchantabilityIn, SoundEvent soundEventIn, float toughnessIn)
         {
@@ -359,7 +359,7 @@ public class ItemArmor extends Item
 
         public ArmorMaterial setRepairItem(ItemStack stack)
         {
-            if (!this.repairMaterial.func_190926_b()) throw new RuntimeException("Repair material has already been set");
+            if (!this.repairMaterial.isEmpty()) throw new RuntimeException("Repair material has already been set");
             if (this == LEATHER || this == CHAIN || this == GOLD || this == IRON || this == DIAMOND) throw new RuntimeException("Can not change vanilla armor repair materials");
             this.repairMaterial = stack;
             return this;
@@ -367,7 +367,7 @@ public class ItemArmor extends Item
 
         public ItemStack getRepairItemStack()
         {
-            if (!repairMaterial.func_190926_b()) return repairMaterial;
+            if (!repairMaterial.isEmpty()) return repairMaterial;
             Item ret = this.getRepairItem();
             if (ret != null) repairMaterial = new ItemStack(ret,1,net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE);
             return repairMaterial;

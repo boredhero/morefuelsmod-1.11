@@ -113,7 +113,7 @@ public class EntityPainting extends EntityHanging
      */
     public void onBroken(@Nullable Entity brokenEntity)
     {
-        if (this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+        if (this.world.getGameRules().getBoolean("doEntityDrops"))
         {
             this.playSound(SoundEvents.ENTITY_PAINTING_BREAK, 1.0F, 1.0F);
 

@@ -16,7 +16,7 @@ public class ParticleSimpleAnimated extends Particle
     private final int numAgingFrames;
     /** Added to the ySpeed every tick. Usually a small (thousandths), negative value. */
     private final float yAccel;
-    private float field_191239_M = 0.91F;
+    private float baseAirFriction = 0.91F;
     /** The red value to drift toward */
     private float fadeTargetRed;
     /** The green value to drift toward */
@@ -84,12 +84,12 @@ public class ParticleSimpleAnimated extends Particle
 
         this.setParticleTextureIndex(this.textureIdx + (this.numAgingFrames - 1 - this.particleAge * this.numAgingFrames / this.particleMaxAge));
         this.motionY += (double)this.yAccel;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= (double)this.field_191239_M;
-        this.motionY *= (double)this.field_191239_M;
-        this.motionZ *= (double)this.field_191239_M;
+        this.move(this.motionX, this.motionY, this.motionZ);
+        this.motionX *= (double)this.baseAirFriction;
+        this.motionY *= (double)this.baseAirFriction;
+        this.motionZ *= (double)this.baseAirFriction;
 
-        if (this.isCollided)
+        if (this.onGround)
         {
             this.motionX *= 0.699999988079071D;
             this.motionZ *= 0.699999988079071D;
@@ -101,8 +101,8 @@ public class ParticleSimpleAnimated extends Particle
         return 15728880;
     }
 
-    protected void func_191238_f(float p_191238_1_)
+    protected void setBaseAirFriction(float p_191238_1_)
     {
-        this.field_191239_M = p_191238_1_;
+        this.baseAirFriction = p_191238_1_;
     }
 }

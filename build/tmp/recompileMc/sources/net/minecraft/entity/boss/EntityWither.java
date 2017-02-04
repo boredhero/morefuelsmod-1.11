@@ -71,7 +71,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
     {
         public boolean apply(@Nullable Entity p_apply_1_)
         {
-            return p_apply_1_ instanceof EntityLivingBase && ((EntityLivingBase)p_apply_1_).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD && ((EntityLivingBase)p_apply_1_).func_190631_cK();
+            return p_apply_1_ instanceof EntityLivingBase && ((EntityLivingBase)p_apply_1_).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD && ((EntityLivingBase)p_apply_1_).attackable();
         }
     };
 
@@ -166,9 +166,9 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
     {
         this.motionY *= 0.6000000238418579D;
 
-        if (!this.worldObj.isRemote && this.getWatchedTargetId(0) > 0)
+        if (!this.world.isRemote && this.getWatchedTargetId(0) > 0)
         {
-            Entity entity = this.worldObj.getEntityByID(this.getWatchedTargetId(0));
+            Entity entity = this.world.getEntityByID(this.getWatchedTargetId(0));
 
             if (entity != null)
             {
@@ -188,7 +188,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
 
                 if (d3 > 9.0D)
                 {
-                    double d5 = (double)MathHelper.sqrt_double(d3);
+                    double d5 = (double)MathHelper.sqrt(d3);
                     this.motionX += (d0 / d5 * 0.5D - this.motionX) * 0.6000000238418579D;
                     this.motionZ += (d1 / d5 * 0.5D - this.motionZ) * 0.6000000238418579D;
                 }
@@ -215,7 +215,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
 
             if (k > 0)
             {
-                entity1 = this.worldObj.getEntityByID(k);
+                entity1 = this.world.getEntityByID(k);
             }
 
             if (entity1 != null)
@@ -226,7 +226,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
                 double d6 = entity1.posX - d11;
                 double d7 = entity1.posY + (double)entity1.getEyeHeight() - d12;
                 double d8 = entity1.posZ - d13;
-                double d9 = (double)MathHelper.sqrt_double(d6 * d6 + d8 * d8);
+                double d9 = (double)MathHelper.sqrt(d6 * d6 + d8 * d8);
                 float f = (float)(MathHelper.atan2(d8, d6) * (180D / Math.PI)) - 90.0F;
                 float f1 = (float)(-(MathHelper.atan2(d7, d9) * (180D / Math.PI)));
                 this.xRotationHeads[j] = this.rotlerp(this.xRotationHeads[j], f1, 40.0F);
@@ -245,11 +245,11 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
             double d10 = this.getHeadX(l);
             double d2 = this.getHeadY(l);
             double d4 = this.getHeadZ(l);
-            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D, d4 + this.rand.nextGaussian() * 0.30000001192092896D, 0.0D, 0.0D, 0.0D, new int[0]);
+            this.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D, d4 + this.rand.nextGaussian() * 0.30000001192092896D, 0.0D, 0.0D, 0.0D, new int[0]);
 
-            if (flag && this.worldObj.rand.nextInt(4) == 0)
+            if (flag && this.world.rand.nextInt(4) == 0)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D, d4 + this.rand.nextGaussian() * 0.30000001192092896D, 0.699999988079071D, 0.699999988079071D, 0.5D, new int[0]);
+                this.world.spawnParticle(EnumParticleTypes.SPELL_MOB, d10 + this.rand.nextGaussian() * 0.30000001192092896D, d2 + this.rand.nextGaussian() * 0.30000001192092896D, d4 + this.rand.nextGaussian() * 0.30000001192092896D, 0.699999988079071D, 0.699999988079071D, 0.5D, new int[0]);
             }
         }
 
@@ -257,7 +257,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
         {
             for (int i1 = 0; i1 < 3; ++i1)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + this.rand.nextGaussian(), this.posY + (double)(this.rand.nextFloat() * 3.3F), this.posZ + this.rand.nextGaussian(), 0.699999988079071D, 0.699999988079071D, 0.8999999761581421D, new int[0]);
+                this.world.spawnParticle(EnumParticleTypes.SPELL_MOB, this.posX + this.rand.nextGaussian(), this.posY + (double)(this.rand.nextFloat() * 3.3F), this.posZ + this.rand.nextGaussian(), 0.699999988079071D, 0.699999988079071D, 0.8999999761581421D, new int[0]);
             }
         }
     }
@@ -270,8 +270,8 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
 
             if (j1 <= 0)
             {
-                this.worldObj.newExplosion(this, this.posX, this.posY + (double)this.getEyeHeight(), this.posZ, 7.0F, false, this.worldObj.getGameRules().getBoolean("mobGriefing"));
-                this.worldObj.playBroadcastSound(1023, new BlockPos(this), 0);
+                this.world.newExplosion(this, this.posX, this.posY + (double)this.getEyeHeight(), this.posZ, 7.0F, false, this.world.getGameRules().getBoolean("mobGriefing"));
+                this.world.playBroadcastSound(1023, new BlockPos(this), 0);
             }
 
             this.setInvulTime(j1);
@@ -291,7 +291,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
                 {
                     this.nextHeadUpdate[i - 1] = this.ticksExisted + 10 + this.rand.nextInt(10);
 
-                    if (this.worldObj.getDifficulty() == EnumDifficulty.NORMAL || this.worldObj.getDifficulty() == EnumDifficulty.HARD)
+                    if (this.world.getDifficulty() == EnumDifficulty.NORMAL || this.world.getDifficulty() == EnumDifficulty.HARD)
                     {
                         int j3 = i - 1;
                         int k3 = this.idleHeadUpdates[i - 1];
@@ -301,9 +301,9 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
                         {
                             float f = 10.0F;
                             float f1 = 5.0F;
-                            double d0 = MathHelper.getRandomDoubleInRange(this.rand, this.posX - 10.0D, this.posX + 10.0D);
-                            double d1 = MathHelper.getRandomDoubleInRange(this.rand, this.posY - 5.0D, this.posY + 5.0D);
-                            double d2 = MathHelper.getRandomDoubleInRange(this.rand, this.posZ - 10.0D, this.posZ + 10.0D);
+                            double d0 = MathHelper.nextDouble(this.rand, this.posX - 10.0D, this.posX + 10.0D);
+                            double d1 = MathHelper.nextDouble(this.rand, this.posY - 5.0D, this.posY + 5.0D);
+                            double d2 = MathHelper.nextDouble(this.rand, this.posZ - 10.0D, this.posZ + 10.0D);
                             this.launchWitherSkullToCoords(i + 1, d0, d1, d2, true);
                             this.idleHeadUpdates[i - 1] = 0;
                         }
@@ -313,7 +313,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
 
                     if (k1 > 0)
                     {
-                        Entity entity = this.worldObj.getEntityByID(k1);
+                        Entity entity = this.world.getEntityByID(k1);
 
                         if (entity != null && entity.isEntityAlive() && this.getDistanceSqToEntity(entity) <= 900.0D && this.canEntityBeSeen(entity))
                         {
@@ -335,7 +335,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
                     }
                     else
                     {
-                        List<EntityLivingBase> list = this.worldObj.<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(20.0D, 8.0D, 20.0D), Predicates.<EntityLivingBase>and(NOT_UNDEAD, EntitySelectors.NOT_SPECTATING));
+                        List<EntityLivingBase> list = this.world.<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().expand(20.0D, 8.0D, 20.0D), Predicates.<EntityLivingBase>and(NOT_UNDEAD, EntitySelectors.NOT_SPECTATING));
 
                         for (int j2 = 0; j2 < 10 && !list.isEmpty(); ++j2)
                         {
@@ -377,11 +377,11 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
             {
                 --this.blockBreakCounter;
 
-                if (this.blockBreakCounter == 0 && this.worldObj.getGameRules().getBoolean("mobGriefing"))
+                if (this.blockBreakCounter == 0 && this.world.getGameRules().getBoolean("mobGriefing"))
                 {
-                    int i1 = MathHelper.floor_double(this.posY);
-                    int l1 = MathHelper.floor_double(this.posX);
-                    int i2 = MathHelper.floor_double(this.posZ);
+                    int i1 = MathHelper.floor(this.posY);
+                    int l1 = MathHelper.floor(this.posX);
+                    int i2 = MathHelper.floor(this.posZ);
                     boolean flag = false;
 
                     for (int k2 = -1; k2 <= 1; ++k2)
@@ -394,12 +394,12 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
                                 int k = i1 + j;
                                 int l = i2 + l2;
                                 BlockPos blockpos = new BlockPos(i3, k, l);
-                                IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+                                IBlockState iblockstate = this.world.getBlockState(blockpos);
                                 Block block = iblockstate.getBlock();
 
-                                if (!block.isAir(iblockstate, this.worldObj, blockpos) && block.canEntityDestroy(iblockstate, worldObj, blockpos, this))
+                                if (!block.isAir(iblockstate, this.world, blockpos) && block.canEntityDestroy(iblockstate, world, blockpos, this))
                                 {
-                                    flag = this.worldObj.destroyBlock(blockpos, true) || flag;
+                                    flag = this.world.destroyBlock(blockpos, true) || flag;
                                 }
                             }
                         }
@@ -407,7 +407,7 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
 
                     if (flag)
                     {
-                        this.worldObj.playEvent((EntityPlayer)null, 1022, new BlockPos(this), 0);
+                        this.world.playEvent((EntityPlayer)null, 1022, new BlockPos(this), 0);
                     }
                 }
             }
@@ -522,14 +522,14 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
      */
     private void launchWitherSkullToCoords(int p_82209_1_, double x, double y, double z, boolean invulnerable)
     {
-        this.worldObj.playEvent((EntityPlayer)null, 1024, new BlockPos(this), 0);
+        this.world.playEvent((EntityPlayer)null, 1024, new BlockPos(this), 0);
         double d0 = this.getHeadX(p_82209_1_);
         double d1 = this.getHeadY(p_82209_1_);
         double d2 = this.getHeadZ(p_82209_1_);
         double d3 = x - d0;
         double d4 = y - d1;
         double d5 = z - d2;
-        EntityWitherSkull entitywitherskull = new EntityWitherSkull(this.worldObj, this, d3, d4, d5);
+        EntityWitherSkull entitywitherskull = new EntityWitherSkull(this.world, this, d3, d4, d5);
 
         if (invulnerable)
         {
@@ -539,13 +539,11 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
         entitywitherskull.posY = d1;
         entitywitherskull.posX = d0;
         entitywitherskull.posZ = d2;
-        this.worldObj.spawnEntityInWorld(entitywitherskull);
+        this.world.spawnEntity(entitywitherskull);
     }
 
     /**
      * Attack the specified entity using a ranged attack.
-     *  
-     * @param distanceFactor How far the target is, normalized and clamped between 0.1 and 1.0
      */
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
     {
@@ -561,9 +559,9 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
         {
             return false;
         }
-        else if (source != DamageSource.drown && !(source.getEntity() instanceof EntityWither))
+        else if (source != DamageSource.DROWN && !(source.getEntity() instanceof EntityWither))
         {
-            if (this.getInvulTime() > 0 && source != DamageSource.outOfWorld)
+            if (this.getInvulTime() > 0 && source != DamageSource.OUT_OF_WORLD)
             {
                 return false;
             }
@@ -619,9 +617,9 @@ public class EntityWither extends EntityMob implements IRangedAttackMob
             entityitem.setNoDespawn();
         }
 
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
-            for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(50.0D, 100.0D, 50.0D)))
+            for (EntityPlayer entityplayer : this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(50.0D, 100.0D, 50.0D)))
             {
                 entityplayer.addStat(AchievementList.KILL_WITHER);
             }

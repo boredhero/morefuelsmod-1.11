@@ -31,6 +31,8 @@ import net.minecraftforge.fml.common.versioning.VersionRange;
 
 import com.google.common.eventbus.EventBus;
 
+import javax.annotation.Nullable;
+
 import net.minecraftforge.fml.common.ModContainer.Disableable;
 
 public class InjectedModContainer implements ModContainer
@@ -152,6 +154,7 @@ public class InjectedModContainer implements ModContainer
         return wrappedContainer.acceptableMinecraftVersionRange();
     }
 
+    @Nullable
     public WorldAccessContainer getWrappedWorldAccessContainer()
     {
         if (wrappedContainer instanceof WorldAccessContainer)
@@ -165,6 +168,7 @@ public class InjectedModContainer implements ModContainer
     }
 
     @Override
+    @Nullable
     public Certificate getSigningCertificate()
     {
         return wrappedContainer.getSigningCertificate();

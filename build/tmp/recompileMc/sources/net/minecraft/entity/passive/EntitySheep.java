@@ -109,7 +109,7 @@ public class EntitySheep extends EntityAnimal implements net.minecraftforge.comm
      */
     public void onLivingUpdate()
     {
-        if (this.worldObj.isRemote)
+        if (this.world.isRemote)
         {
             this.sheepTimer = Math.max(0, this.sheepTimer - 1);
         }
@@ -197,7 +197,7 @@ public class EntitySheep extends EntityAnimal implements net.minecraftforge.comm
 
         if (false && itemstack.getItem() == Items.SHEARS && !this.getSheared() && !this.isChild())   //Forge: Moved to onSheared
         {
-            if (!this.worldObj.isRemote)
+            if (!this.world.isRemote)
             {
                 this.setSheared(true);
                 int i = 1 + this.rand.nextInt(3);
@@ -337,7 +337,7 @@ public class EntitySheep extends EntityAnimal implements net.minecraftforge.comm
     public EntitySheep createChild(EntityAgeable ageable)
     {
         EntitySheep entitysheep = (EntitySheep)ageable;
-        EntitySheep entitysheep1 = new EntitySheep(this.worldObj);
+        EntitySheep entitysheep1 = new EntitySheep(this.world);
         entitysheep1.setFleeceColor(this.getDyeColorMixFromParents(this, entitysheep));
         return entitysheep1;
     }
@@ -364,7 +364,7 @@ public class EntitySheep extends EntityAnimal implements net.minecraftforge.comm
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-        this.setFleeceColor(getRandomSheepColor(this.worldObj.rand));
+        this.setFleeceColor(getRandomSheepColor(this.world.rand));
         return livingdata;
     }
 
@@ -377,7 +377,7 @@ public class EntitySheep extends EntityAnimal implements net.minecraftforge.comm
         int j = ((EntitySheep)mother).getFleeceColor().getDyeDamage();
         this.inventoryCrafting.getStackInSlot(0).setItemDamage(i);
         this.inventoryCrafting.getStackInSlot(1).setItemDamage(j);
-        ItemStack itemstack = CraftingManager.getInstance().findMatchingRecipe(this.inventoryCrafting, ((EntitySheep)father).worldObj);
+        ItemStack itemstack = CraftingManager.getInstance().findMatchingRecipe(this.inventoryCrafting, ((EntitySheep)father).world);
         int k;
 
         if (itemstack.getItem() == Items.DYE)
@@ -386,7 +386,7 @@ public class EntitySheep extends EntityAnimal implements net.minecraftforge.comm
         }
         else
         {
-            k = this.worldObj.rand.nextBoolean() ? i : j;
+            k = this.world.rand.nextBoolean() ? i : j;
         }
 
         return EnumDyeColor.byDyeDamage(k);

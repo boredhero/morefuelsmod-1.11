@@ -51,7 +51,7 @@ public final class AnimationItemOverrideList extends ItemOverrideList
 
     public AnimationItemOverrideList(IModel model, IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter, ItemOverrideList overrides)
     {
-        this(model, state, format, bakedTextureGetter, overrides.getOverrides());
+        this(model, state, format, bakedTextureGetter, overrides.getOverrides().reverse());
     }
 
     public AnimationItemOverrideList(IModel model, IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter, List<ItemOverride> overrides)
@@ -67,17 +67,17 @@ public final class AnimationItemOverrideList extends ItemOverrideList
     @Override
     public IBakedModel handleItemState(@Nonnull IBakedModel originalModel, @Nonnull ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity)
     {
-        if(stack.hasCapability(net.minecraftforge.common.model.animation.CapabilityAnimation.ANIMATION_CAPABILITY, null))
+        IAnimationStateMachine asm = stack.getCapability(CapabilityAnimation.ANIMATION_CAPABILITY, null);
+        if (asm != null)
         {
             // TODO: caching?
-            IAnimationStateMachine asm = stack.getCapability(CapabilityAnimation.ANIMATION_CAPABILITY, null);
             if(world == null && entity != null)
             {
-                world = entity.worldObj;
+                world = entity.world;
             }
             if(world == null)
             {
-                world = Minecraft.getMinecraft().theWorld;
+                world = Minecraft.getMinecraft().world;
             }
             IModelState state = asm.apply(Animation.getWorldTime(world, Animation.getPartialTickTime())).getLeft();
             return model.bake(new ModelStateComposition(state, this.state), format, bakedTextureGetter);

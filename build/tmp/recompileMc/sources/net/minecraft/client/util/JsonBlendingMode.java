@@ -19,15 +19,15 @@ public class JsonBlendingMode
     private final boolean separateBlend;
     private final boolean opaque;
 
-    private JsonBlendingMode(boolean p_i45084_1_, boolean p_i45084_2_, int p_i45084_3_, int p_i45084_4_, int p_i45084_5_, int p_i45084_6_, int p_i45084_7_)
+    private JsonBlendingMode(boolean separateBlendIn, boolean opaqueIn, int srcColorFactorIn, int destColorFactorIn, int srcAlphaFactorIn, int destAlphaFactorIn, int blendFunctionIn)
     {
-        this.separateBlend = p_i45084_1_;
-        this.srcColorFactor = p_i45084_3_;
-        this.destColorFactor = p_i45084_4_;
-        this.srcAlphaFactor = p_i45084_5_;
-        this.destAlphaFactor = p_i45084_6_;
-        this.opaque = p_i45084_2_;
-        this.blendFunction = p_i45084_7_;
+        this.separateBlend = separateBlendIn;
+        this.srcColorFactor = srcColorFactorIn;
+        this.destColorFactor = destColorFactorIn;
+        this.srcAlphaFactor = srcAlphaFactorIn;
+        this.destAlphaFactor = destAlphaFactorIn;
+        this.opaque = opaqueIn;
+        this.blendFunction = blendFunctionIn;
     }
 
     public JsonBlendingMode()
@@ -35,9 +35,9 @@ public class JsonBlendingMode
         this(false, true, 1, 0, 1, 0, 32774);
     }
 
-    public JsonBlendingMode(int p_i45085_1_, int p_i45085_2_, int p_i45085_3_)
+    public JsonBlendingMode(int srcFactor, int dstFactor, int blendFunctionIn)
     {
-        this(false, false, p_i45085_1_, p_i45085_2_, p_i45085_1_, p_i45085_2_, p_i45085_3_);
+        this(false, false, srcFactor, dstFactor, srcFactor, dstFactor, blendFunctionIn);
     }
 
     public JsonBlendingMode(int p_i45086_1_, int p_i45086_2_, int p_i45086_3_, int p_i45086_4_, int p_i45086_5_)

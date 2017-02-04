@@ -96,8 +96,6 @@ public class RegionFile
         }
     }
 
-    @Nullable
-
     // This is a copy (sort of) of the method below it, make sure they stay in sync
     public synchronized boolean chunkExists(int x, int z)
     {
@@ -130,6 +128,8 @@ public class RegionFile
 
         return false;
     }
+
+    @Nullable
 
     /**
      * Returns an uncompressed chunk stream from the region file.

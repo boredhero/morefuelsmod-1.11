@@ -18,7 +18,7 @@ public class CommandTP extends CommandBase
     /**
      * Gets the name of the command
      */
-    public String getCommandName()
+    public String getName()
     {
         return "tp";
     }
@@ -33,14 +33,20 @@ public class CommandTP extends CommandBase
 
     /**
      * Gets the usage string for the command.
+     *  
+     * @param sender The ICommandSender who is requesting usage details
      */
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.tp.usage";
     }
 
     /**
      * Callback for when the command is executed
+     *  
+     * @param server The server instance
+     * @param sender The sender who executed the command
+     * @param args The arguments that were passed
      */
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
@@ -69,7 +75,7 @@ public class CommandTP extends CommandBase
                 {
                     throw new WrongUsageException("commands.tp.usage", new Object[0]);
                 }
-                else if (entity.worldObj != null)
+                else if (entity.world != null)
                 {
                     int j = 4096;
                     int lvt_6_2_ = i + 1;
@@ -86,7 +92,7 @@ public class CommandTP extends CommandBase
             {
                 Entity entity1 = getEntity(server, sender, args[args.length - 1]);
 
-                if (entity1.worldObj != entity.worldObj)
+                if (entity1.world != entity.world)
                 {
                     throw new CommandException("commands.tp.notSameDimension", new Object[0]);
                 }
@@ -165,7 +171,7 @@ public class CommandTP extends CommandBase
         {
             float f2 = (float)MathHelper.wrapDegrees(p_189863_4_.getResult());
             float f3 = (float)MathHelper.wrapDegrees(p_189863_5_.getResult());
-            f3 = MathHelper.clamp_float(f3, -90.0F, 90.0F);
+            f3 = MathHelper.clamp(f3, -90.0F, 90.0F);
             p_189863_0_.setLocationAndAngles(p_189863_1_.getResult(), p_189863_2_.getResult(), p_189863_3_.getResult(), f2, f3);
             p_189863_0_.setRotationYawHead(f2);
         }
@@ -177,13 +183,16 @@ public class CommandTP extends CommandBase
         }
     }
 
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
     {
-        return args.length != 1 && args.length != 2 ? Collections.<String>emptyList() : getListOfStringsMatchingLastWord(args, server.getAllUsernames());
+        return args.length != 1 && args.length != 2 ? Collections.<String>emptyList() : getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
     }
 
     /**
      * Return whether the specified command parameter index is a username parameter.
+     *  
+     * @param args The arguments of the command invocation
+     * @param index The index
      */
     public boolean isUsernameIndex(String[] args, int index)
     {

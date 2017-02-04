@@ -72,8 +72,8 @@ public class Stitcher
             }
         }
 
-        this.currentWidth = MathHelper.roundUpToPowerOfTwo(this.currentWidth);
-        this.currentHeight = MathHelper.roundUpToPowerOfTwo(this.currentHeight);
+        this.currentWidth = MathHelper.smallestEncompassingPowerOfTwo(this.currentWidth);
+        this.currentHeight = MathHelper.smallestEncompassingPowerOfTwo(this.currentHeight);
         net.minecraftforge.fml.common.ProgressManager.pop(bar);
     }
 
@@ -142,10 +142,10 @@ public class Stitcher
     {
         int i = Math.min(p_94311_1_.getWidth(), p_94311_1_.getHeight());
         int j = Math.max(p_94311_1_.getWidth(), p_94311_1_.getHeight());
-        int k = MathHelper.roundUpToPowerOfTwo(this.currentWidth);
-        int l = MathHelper.roundUpToPowerOfTwo(this.currentHeight);
-        int i1 = MathHelper.roundUpToPowerOfTwo(this.currentWidth + i);
-        int j1 = MathHelper.roundUpToPowerOfTwo(this.currentHeight + i);
+        int k = MathHelper.smallestEncompassingPowerOfTwo(this.currentWidth);
+        int l = MathHelper.smallestEncompassingPowerOfTwo(this.currentHeight);
+        int i1 = MathHelper.smallestEncompassingPowerOfTwo(this.currentWidth + i);
+        int j1 = MathHelper.smallestEncompassingPowerOfTwo(this.currentHeight + i);
         boolean flag1 = i1 <= this.maxWidth;
         boolean flag2 = j1 <= this.maxHeight;
 

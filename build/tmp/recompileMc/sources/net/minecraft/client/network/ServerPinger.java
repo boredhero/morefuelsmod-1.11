@@ -254,11 +254,11 @@ public class ServerPinger
 
                             if ("\u00a71".equals(astring[0]))
                             {
-                                int i = MathHelper.parseIntWithDefault(astring[1], 0);
+                                int i = MathHelper.getInt(astring[1], 0);
                                 String s1 = astring[2];
                                 String s2 = astring[3];
-                                int j = MathHelper.parseIntWithDefault(astring[4], -1);
-                                int k = MathHelper.parseIntWithDefault(astring[5], -1);
+                                int j = MathHelper.getInt(astring[4], -1);
+                                int k = MathHelper.getInt(astring[5], -1);
                                 server.version = -1;
                                 server.gameVersion = s1;
                                 server.serverMOTD = s2;

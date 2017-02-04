@@ -56,7 +56,7 @@ public class WorldGenFossils extends WorldGenerator
         {
             for (int j1 = 0; j1 < blockpos.getX(); ++j1)
             {
-                l = Math.min(l, worldIn.getHeightmapHeight(position.getX() + i1 + j, position.getZ() + j1 + k));
+                l = Math.min(l, worldIn.getHeight(position.getX() + i1 + j, position.getZ() + j1 + k));
             }
         }
 

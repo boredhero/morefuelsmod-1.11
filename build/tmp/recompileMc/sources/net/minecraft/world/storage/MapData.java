@@ -23,7 +23,7 @@ public class MapData extends WorldSavedData
     public int zCenter;
     public int dimension; //FML byte -> int
     public boolean trackingPosition;
-    public boolean field_191096_f;
+    public boolean unlimitedTracking;
     public byte scale;
     /** colours */
     public byte[] colors = new byte[16384];
@@ -39,8 +39,8 @@ public class MapData extends WorldSavedData
     public void calculateMapCenter(double x, double z, int mapScale)
     {
         int i = 128 * (1 << mapScale);
-        int j = MathHelper.floor_double((x + 64.0D) / (double)i);
-        int k = MathHelper.floor_double((z + 64.0D) / (double)i);
+        int j = MathHelper.floor((x + 64.0D) / (double)i);
+        int k = MathHelper.floor((z + 64.0D) / (double)i);
         this.xCenter = j * i + i / 2 - 64;
         this.zCenter = k * i + i / 2 - 64;
     }
@@ -64,7 +64,7 @@ public class MapData extends WorldSavedData
         this.xCenter = nbt.getInteger("xCenter");
         this.zCenter = nbt.getInteger("zCenter");
         this.scale = nbt.getByte("scale");
-        this.scale = (byte)MathHelper.clamp_int(this.scale, 0, 4);
+        this.scale = (byte)MathHelper.clamp(this.scale, 0, 4);
 
         if (nbt.hasKey("trackingPosition", 1))
         {
@@ -75,7 +75,7 @@ public class MapData extends WorldSavedData
             this.trackingPosition = true;
         }
 
-        this.field_191096_f = nbt.getBoolean("unlimitedTracking");
+        this.unlimitedTracking = nbt.getBoolean("unlimitedTracking");
         int i = nbt.getShort("width");
         int j = nbt.getShort("height");
 
@@ -120,7 +120,7 @@ public class MapData extends WorldSavedData
         compound.setShort("height", (short)128);
         compound.setByteArray("colors", this.colors);
         compound.setBoolean("trackingPosition", this.trackingPosition);
-        compound.setBoolean("unlimitedTracking", this.field_191096_f);
+        compound.setBoolean("unlimitedTracking", this.unlimitedTracking);
         return compound;
     }
 
@@ -149,7 +149,7 @@ public class MapData extends WorldSavedData
             {
                 if (!mapStack.isOnItemFrame() && mapdata$mapinfo1.entityplayerObj.dimension == this.dimension && this.trackingPosition)
                 {
-                    this.func_191095_a(MapDecoration.Type.PLAYER, mapdata$mapinfo1.entityplayerObj.worldObj, mapdata$mapinfo1.entityplayerObj.getName(), mapdata$mapinfo1.entityplayerObj.posX, mapdata$mapinfo1.entityplayerObj.posZ, (double)mapdata$mapinfo1.entityplayerObj.rotationYaw);
+                    this.addDecoration(MapDecoration.Type.PLAYER, mapdata$mapinfo1.entityplayerObj.world, mapdata$mapinfo1.entityplayerObj.getName(), mapdata$mapinfo1.entityplayerObj.posX, mapdata$mapinfo1.entityplayerObj.posZ, (double)mapdata$mapinfo1.entityplayerObj.rotationYaw);
                 }
             }
             else
@@ -163,7 +163,7 @@ public class MapData extends WorldSavedData
         {
             EntityItemFrame entityitemframe = mapStack.getItemFrame();
             BlockPos blockpos = entityitemframe.getHangingPosition();
-            this.func_191095_a(MapDecoration.Type.FRAME, player.worldObj, "frame-" + entityitemframe.getEntityId(), (double)blockpos.getX(), (double)blockpos.getZ(), (double)(entityitemframe.facingDirection.getHorizontalIndex() * 90));
+            this.addDecoration(MapDecoration.Type.FRAME, player.world, "frame-" + entityitemframe.getEntityId(), (double)blockpos.getX(), (double)blockpos.getZ(), (double)(entityitemframe.facingDirection.getHorizontalIndex() * 90));
         }
 
         if (mapStack.hasTagCompound() && mapStack.getTagCompound().hasKey("Decorations", 9))
@@ -176,13 +176,13 @@ public class MapData extends WorldSavedData
 
                 if (!this.mapDecorations.containsKey(nbttagcompound.getString("id")))
                 {
-                    this.func_191095_a(MapDecoration.Type.func_191159_a(nbttagcompound.getByte("type")), player.worldObj, nbttagcompound.getString("id"), nbttagcompound.getDouble("x"), nbttagcompound.getDouble("z"), nbttagcompound.getDouble("rot"));
+                    this.addDecoration(MapDecoration.Type.byIcon(nbttagcompound.getByte("type")), player.world, nbttagcompound.getString("id"), nbttagcompound.getDouble("x"), nbttagcompound.getDouble("z"), nbttagcompound.getDouble("rot"));
                 }
             }
         }
     }
 
-    public static void func_191094_a(ItemStack p_191094_0_, BlockPos p_191094_1_, String p_191094_2_, MapDecoration.Type p_191094_3_)
+    public static void addTargetDecoration(ItemStack p_191094_0_, BlockPos p_191094_1_, String p_191094_2_, MapDecoration.Type p_191094_3_)
     {
         NBTTagList nbttaglist;
 
@@ -197,21 +197,21 @@ public class MapData extends WorldSavedData
         }
 
         NBTTagCompound nbttagcompound = new NBTTagCompound();
-        nbttagcompound.setByte("type", p_191094_3_.func_191163_a());
+        nbttagcompound.setByte("type", p_191094_3_.getIcon());
         nbttagcompound.setString("id", p_191094_2_);
         nbttagcompound.setDouble("x", (double)p_191094_1_.getX());
         nbttagcompound.setDouble("z", (double)p_191094_1_.getZ());
         nbttagcompound.setDouble("rot", 180.0D);
         nbttaglist.appendTag(nbttagcompound);
 
-        if (p_191094_3_.func_191162_c())
+        if (p_191094_3_.hasMapColor())
         {
-            NBTTagCompound nbttagcompound1 = p_191094_0_.func_190925_c("display");
-            nbttagcompound1.setInteger("MapColor", p_191094_3_.func_191161_d());
+            NBTTagCompound nbttagcompound1 = p_191094_0_.getOrCreateSubCompound("display");
+            nbttagcompound1.setInteger("MapColor", p_191094_3_.getMapColor());
         }
     }
 
-    private void func_191095_a(MapDecoration.Type p_191095_1_, World p_191095_2_, String p_191095_3_, double p_191095_4_, double p_191095_6_, double p_191095_8_)
+    private void addDecoration(MapDecoration.Type p_191095_1_, World p_191095_2_, String p_191095_3_, double p_191095_4_, double p_191095_6_, double p_191095_8_)
     {
         int i = 1 << this.scale;
         float f = (float)(p_191095_4_ - (double)this.xCenter) / (float)i;
@@ -248,7 +248,7 @@ public class MapData extends WorldSavedData
             }
             else
             {
-                if (!this.field_191096_f)
+                if (!this.unlimitedTracking)
                 {
                     this.mapDecorations.remove(p_191095_3_);
                     return;

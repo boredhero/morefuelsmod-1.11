@@ -129,9 +129,9 @@ public class EntityRabbit extends EntityAnimal
             }
         }
 
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
-            this.worldObj.setEntityState(this, (byte)1);
+            this.world.setEntityState(this, (byte)1);
         }
     }
 
@@ -386,7 +386,7 @@ public class EntityRabbit extends EntityAnimal
 
     public EntityRabbit createChild(EntityAgeable ageable)
     {
-        EntityRabbit entityrabbit = new EntityRabbit(this.worldObj);
+        EntityRabbit entityrabbit = new EntityRabbit(this.world);
         int i = this.getRandomRabbitType();
 
         if (this.rand.nextInt(20) != 0)
@@ -471,7 +471,7 @@ public class EntityRabbit extends EntityAnimal
 
     private int getRandomRabbitType()
     {
-        Biome biome = this.worldObj.getBiome(new BlockPos(this));
+        Biome biome = this.world.getBiome(new BlockPos(this));
         int i = this.rand.nextInt(100);
         return biome.isSnowyBiome() ? (i < 80 ? 1 : 3) : (biome instanceof BiomeDesert ? 4 : (i < 50 ? 0 : (i < 90 ? 5 : 2)));
     }
@@ -488,7 +488,7 @@ public class EntityRabbit extends EntityAnimal
     {
         BlockCarrot blockcarrot = (BlockCarrot)Blocks.CARROTS;
         IBlockState iblockstate = blockcarrot.withAge(blockcarrot.getMaxAge());
-        this.worldObj.spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D, new int[] {Block.getStateId(iblockstate)});
+        this.world.spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D, new int[] {Block.getStateId(iblockstate)});
         this.carrotTicks = 40;
     }
 
@@ -578,7 +578,7 @@ public class EntityRabbit extends EntityAnimal
             {
                 if (this.runDelay <= 0)
                 {
-                    if (!this.rabbit.worldObj.getGameRules().getBoolean("mobGriefing"))
+                    if (!this.rabbit.world.getGameRules().getBoolean("mobGriefing"))
                     {
                         return false;
                     }
@@ -609,7 +609,7 @@ public class EntityRabbit extends EntityAnimal
 
                 if (this.getIsAboveDestination())
                 {
-                    World world = this.rabbit.worldObj;
+                    World world = this.rabbit.world;
                     BlockPos blockpos = this.destinationBlock.up();
                     IBlockState iblockstate = world.getBlockState(blockpos);
                     Block block = iblockstate.getBlock();

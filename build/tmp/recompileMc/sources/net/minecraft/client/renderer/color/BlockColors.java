@@ -143,17 +143,17 @@ public class BlockColors
         return blockcolors;
     }
 
-    public int getColor(IBlockState p_189991_1_)
+    public int getColor(IBlockState state)
     {
-        IBlockColor iblockcolor = (IBlockColor)this.blockColorMap.get(p_189991_1_.getBlock().delegate);
+        IBlockColor iblockcolor = (IBlockColor)this.blockColorMap.get(state.getBlock().delegate);
 
         if (iblockcolor != null)
         {
-            return iblockcolor.colorMultiplier(p_189991_1_, (IBlockAccess)null, (BlockPos)null, 0);
+            return iblockcolor.colorMultiplier(state, (IBlockAccess)null, (BlockPos)null, 0);
         }
         else
         {
-            MapColor mapcolor = p_189991_1_.getMapColor();
+            MapColor mapcolor = state.getMapColor();
             return mapcolor != null ? mapcolor.colorValue : -1;
         }
     }

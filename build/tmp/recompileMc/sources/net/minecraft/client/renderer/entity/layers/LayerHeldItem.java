@@ -27,7 +27,7 @@ public class LayerHeldItem implements LayerRenderer<EntityLivingBase>
         ItemStack itemstack = flag ? entitylivingbaseIn.getHeldItemOffhand() : entitylivingbaseIn.getHeldItemMainhand();
         ItemStack itemstack1 = flag ? entitylivingbaseIn.getHeldItemMainhand() : entitylivingbaseIn.getHeldItemOffhand();
 
-        if (!itemstack.func_190926_b() || !itemstack1.func_190926_b())
+        if (!itemstack.isEmpty() || !itemstack1.isEmpty())
         {
             GlStateManager.pushMatrix();
 
@@ -46,7 +46,7 @@ public class LayerHeldItem implements LayerRenderer<EntityLivingBase>
 
     private void renderHeldItem(EntityLivingBase p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_, EnumHandSide handSide)
     {
-        if (!p_188358_2_.func_190926_b())
+        if (!p_188358_2_.isEmpty())
         {
             GlStateManager.pushMatrix();
 
@@ -55,7 +55,7 @@ public class LayerHeldItem implements LayerRenderer<EntityLivingBase>
                 GlStateManager.translate(0.0F, 0.2F, 0.0F);
             }
             // Forge: moved this call down, fixes incorrect offset while sneaking.
-            this.func_191361_a(handSide);
+            this.translateToHand(handSide);
             GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
             boolean flag = handSide == EnumHandSide.LEFT;
@@ -65,7 +65,7 @@ public class LayerHeldItem implements LayerRenderer<EntityLivingBase>
         }
     }
 
-    protected void func_191361_a(EnumHandSide p_191361_1_)
+    protected void translateToHand(EnumHandSide p_191361_1_)
     {
         ((ModelBiped)this.livingEntityRenderer.getMainModel()).postRenderArm(0.0625F, p_191361_1_);
     }

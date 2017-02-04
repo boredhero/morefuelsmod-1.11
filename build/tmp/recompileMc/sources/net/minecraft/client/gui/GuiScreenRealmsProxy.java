@@ -36,20 +36,20 @@ public class GuiScreenRealmsProxy extends GuiScreen
         super.initGui();
     }
 
-    public void drawCenteredString(String p_154325_1_, int p_154325_2_, int p_154325_3_, int p_154325_4_)
+    public void drawCenteredString(String text, int x, int y, int color)
     {
-        super.drawCenteredString(this.fontRendererObj, p_154325_1_, p_154325_2_, p_154325_3_, p_154325_4_);
+        super.drawCenteredString(this.fontRendererObj, text, x, y, color);
     }
 
-    public void drawString(String p_154322_1_, int p_154322_2_, int p_154322_3_, int p_154322_4_, boolean p_154322_5_)
+    public void drawString(String text, int x, int y, int color, boolean p_154322_5_)
     {
         if (p_154322_5_)
         {
-            super.drawString(this.fontRendererObj, p_154322_1_, p_154322_2_, p_154322_3_, p_154322_4_);
+            super.drawString(this.fontRendererObj, text, x, y, color);
         }
         else
         {
-            this.fontRendererObj.drawString(p_154322_1_, p_154322_2_, p_154322_3_, p_154322_4_);
+            this.fontRendererObj.drawString(text, x, y, color);
         }
     }
 
@@ -136,19 +136,19 @@ public class GuiScreenRealmsProxy extends GuiScreen
         return this.fontRendererObj.FONT_HEIGHT;
     }
 
-    public int getStringWidth(String p_154326_1_)
+    public int getStringWidth(String text)
     {
-        return this.fontRendererObj.getStringWidth(p_154326_1_);
+        return this.fontRendererObj.getStringWidth(text);
     }
 
-    public void fontDrawShadow(String p_154319_1_, int p_154319_2_, int p_154319_3_, int p_154319_4_)
+    public void fontDrawShadow(String text, int x, int y, int color)
     {
-        this.fontRendererObj.drawStringWithShadow(p_154319_1_, (float)p_154319_2_, (float)p_154319_3_, p_154319_4_);
+        this.fontRendererObj.drawStringWithShadow(text, (float)x, (float)y, color);
     }
 
-    public List<String> fontSplit(String p_154323_1_, int p_154323_2_)
+    public List<String> fontSplit(String text, int wrapWidth)
     {
-        return this.fontRendererObj.listFormattedStringToWidth(p_154323_1_, p_154323_2_);
+        return this.fontRendererObj.listFormattedStringToWidth(text, wrapWidth);
     }
 
     /**

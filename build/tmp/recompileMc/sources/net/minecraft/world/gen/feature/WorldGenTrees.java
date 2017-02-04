@@ -95,7 +95,7 @@ public class WorldGenTrees extends WorldGenAbstractTree
 
                 if (state.getBlock().canSustainPlant(state, worldIn, position.down(), net.minecraft.util.EnumFacing.UP, (net.minecraft.block.BlockSapling)Blocks.SAPLING) && position.getY() < worldIn.getHeight() - i - 1)
                 {
-                    this.setDirtAt(worldIn, position.down());
+                    state.getBlock().onPlantGrow(state, worldIn, position.down(), position);
                     int k2 = 3;
                     int l2 = 0;
 

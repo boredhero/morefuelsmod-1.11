@@ -15,10 +15,10 @@ public class GuiSimpleScrolledSelectionListProxy extends GuiSlot
 {
     private final RealmsSimpleScrolledSelectionList realmsScrolledSelectionList;
 
-    public GuiSimpleScrolledSelectionListProxy(RealmsSimpleScrolledSelectionList p_i45525_1_, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn)
+    public GuiSimpleScrolledSelectionListProxy(RealmsSimpleScrolledSelectionList realmsScrolledSelectionListIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn)
     {
         super(Minecraft.getMinecraft(), widthIn, heightIn, topIn, bottomIn, slotHeightIn);
-        this.realmsScrolledSelectionList = p_i45525_1_;
+        this.realmsScrolledSelectionList = realmsScrolledSelectionListIn;
     }
 
     protected int getSize()
@@ -121,7 +121,7 @@ public class GuiSimpleScrolledSelectionListProxy extends GuiSlot
             if (i1 > 0)
             {
                 int j1 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
-                j1 = MathHelper.clamp_int(j1, 32, this.bottom - this.top - 8);
+                j1 = MathHelper.clamp(j1, 32, this.bottom - this.top - 8);
                 int k1 = (int)this.amountScrolled * (this.bottom - this.top - j1) / i1 + this.top;
 
                 if (k1 < this.top)
