@@ -11,18 +11,18 @@ This mapping 'snapshot_20161220' was designed for MC 1.11! Use at your own peril
 #################################################
 :deobfCompileDummyTask
 :deobfProvidedDummyTask
-:sourceApiJava
+:sourceApiJava UP-TO-DATE
 :compileApiJava UP-TO-DATE
 :processApiResources UP-TO-DATE
 :apiClasses UP-TO-DATE
-:sourceMainJava
+:sourceMainJava UP-TO-DATE
 :compileJavawarning: [options] bootstrap class path not set in conjunction with -source 1.6
 1 warning
 
-:processResources
+:processResources UP-TO-DATE
 :classes
 :jar
-:sourceTestJava
+:sourceTestJava UP-TO-DATE
 :compileTestJava UP-TO-DATE
 :processTestResources UP-TO-DATE
 :testClasses UP-TO-DATE
@@ -44,4 +44,4 @@ remapping source...
 
 BUILD SUCCESSFUL
 
-Total time: 19.425 secs
+Total time: 10.155 secs
