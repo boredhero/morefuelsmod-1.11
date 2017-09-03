@@ -1,0 +1,18 @@
+##Yay Pirates!
+
+#Items
+item.pelletsFuel.name=Yer Oven Logs
+item.concentratedPelletsFuel.name=Yer Best Oven Logs
+item.coke.name=Fancy Baked Coal
+item.bituminousCoal.name=Fancy Coal
+item.canSlimoline.name=Turbo fuel
+item.dustCoal.name=Black Powder
+
+#Blocks
+tile.pelletBlock.name=Block of Yer Oven Logs
+tile.concentratedPelletBlock.name=Block of Yer Best Oven Logs
+tile.cokeBlock.name=Block of Yer Fancy Baked Coal
+tile.bituminousCoalOre.name=Rocks with Fancy Coal
+
+#Tabs
+itemGroup.morefuelsmod=Better Firewood Upgrade

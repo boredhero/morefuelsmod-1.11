@@ -1,0 +1,18 @@
+##All Arabic Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=(qawalib waqud)Ù‚ÙˆØ§Ù„Ø¨ ÙˆÙ‚ÙˆØ¯
+item.concentratedPelletsFuel.name=Ù‚ÙˆØ§Ù„Ø¨ ÙˆÙ‚ÙˆØ¯ Ø§Ù„Ù…Ø±ÙƒØ²Ø© (qawalib waqud almarkaza)
+item.coke.name=Ù�Ø­Ù… Ø§Ù„ÙƒÙˆÙƒ (ÙˆÙ‚ÙˆØ¯)(fahamm alkuk (wqud))
+item.bituminousCoal.name=Ø§Ù„Ù�Ø­Ù… Ø§Ù„Ø­Ø¬Ø±ÙŠ(alfahm alhajri)
+item.canSlimoline.name=ÙŠÙ…ÙƒÙ† Ù…Ù† slimoline (yumkin min slimoline)
+item.dustCoal.name=ØºØ¨Ø§Ø± Ø§Ù„Ù�Ø­Ù…(ghubar alfahm)
+
+#Blocks
+tile.pelletBlock.name=ÙƒØªÙ„Ø© Ù…Ù† Ø§Ù„ÙˆÙ‚ÙˆØ¯ Ø¨ÙŠÙ„ÙŠÙ‡(kutlat min alwaqud bilih)
+tile.concentratedPelletBlock.name=ÙƒØªÙ„Ø© Ù…Ù† Ø§Ù„ÙˆÙ‚ÙˆØ¯ Ø¨ÙŠÙ„ÙŠÙ‡ Ø§Ù„Ù…Ø±ÙƒØ²Ø©(kutlat min alwaqud bilih almarkaza)
+tile.cokeBlock.name=ÙƒØªÙ„Ø© Ù…Ù† Ù�Ø­Ù… Ø§Ù„ÙƒÙˆÙƒ (ÙˆÙ‚ÙˆØ¯)(kutlat min faham alkuk (wqud))
+tile.bituminousCoalOre.name=Ø®Ø§Ù… Ø§Ù„Ù�Ø­Ù… Ø§Ù„Ø­Ø¬Ø±ÙŠ(kham alfahm alhajri)
+
+#Tabs
+itemGroup.morefuelsmod=Ø§Ù„Ù…Ø²ÙŠØ¯ Ù…Ù† Ø§Ù„ÙˆÙ‚ÙˆØ¯ ØªØ¹Ø¯ÙŠÙ„(almazid min alwaqud taedil)

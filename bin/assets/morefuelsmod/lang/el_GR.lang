@@ -1,0 +1,18 @@
+##All Greek Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=Ï€Î»Î¯Î½Î¸Ï‰Î½ ÎºÎ±Ï…ÏƒÎ¯Î¼Ï‰Î½ (plÃ­nthon kafsÃ­mon)
+item.concentratedPelletsFuel.name=ÏƒÏ…Î¼Ï€Ï…ÎºÎ½Ï‰Î¼Î­Î½Î¿Ï… Ï€Î»Î¯Î½Î¸Ï‰Î½ ÎºÎ±Ï…ÏƒÎ¯Î¼Ï‰Î½ (sympyknomÃ©nou plÃ­nthon kafsÃ­mon)
+item.coke.name=Î¿Ï€Ï„Î¬Î½Î¸Ï�Î±ÎºÎ± (ÎºÎ±Ï…ÏƒÎ¯Î¼Ï‰Î½) (optÃ¡nthraka (kafsÃ­mon))
+item.bituminousCoal.name=Î±ÏƒÏ†Î±Î»Ï„Î¿Ï�Ï‡Î± Î¬Î½Î¸Ï�Î±ÎºÎ± (asfaltoÃºcha Ã¡nthraka)
+item.canSlimoline.name=ÎœÏ€Î¿Ï�ÎµÎ¯ Î½Î± Ï„Î¿Ï… Slimoline (BoreÃ­ na tou Slimoline)
+item.dustCoal.name=Î±Î½Î¸Ï�Î±ÎºÎ¿ÏƒÎºÏŒÎ½Î· (anthrakoskÃ³ni)
+
+#Blocks
+tile.pelletBlock.name=Î¼Ï€Î»Î¿Îº Ï„Î¿Ï… ÎºÎ±Ï…ÏƒÎ¯Î¼Î¿Ï… Î²Î¹Î¿Î¼Î¬Î¶Î±Ï‚ (blok tou kafsÃ­mou viomÃ¡zas)
+tile.concentratedPelletBlock.name=Î¼Ï€Î»Î¿Îº ÏƒÏ…Î¼Ï€Ï…ÎºÎ½Ï‰Î¼Î­Î½Î¿Ï… ÎºÎ±Ï�ÏƒÎ¹Î¼Î¿ pellet
+tile.cokeBlock.name=Î‘Ï€Î¿ÎºÎ»ÎµÎ¹ÏƒÎ¼ÏŒÏ‚ Ï„Î·Ï‚ Coke (ÎºÎ±Ï…ÏƒÎ¯Î¼Ï‰Î½) (ApokleismÃ³s tis Coke (kafsÃ­mon))
+tile.bituminousCoalOre.name=Î±ÏƒÏ†Î±Î»Ï„Î¿Ï�Ï‡Î± Î¿Ï�Ï…ÎºÏ„ÏŒ Î¬Î½Î¸Ï�Î±ÎºÎ± (asfaltoÃºcha oryktÃ³ Ã¡nthraka)
+
+#Tabs
+itemGroup.morefuelsmod=Î ÎµÏ�Î¹ÏƒÏƒÏŒÏ„ÎµÏ�Î± ÎšÎ±Ï�ÏƒÎ¹Î¼Î± Î¤Ï�Î¿Ï€Î¿Ï€Î¿Î¯Î·ÏƒÎ· (PerissÃ³tera KÃ¡fsima TropopoÃ­isi)

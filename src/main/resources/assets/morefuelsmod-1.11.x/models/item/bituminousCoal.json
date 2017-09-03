@@ -1,6 +1,0 @@
-{
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "morefuelsmod-1.11.x:items/bituminouscoal"
-    }
-}

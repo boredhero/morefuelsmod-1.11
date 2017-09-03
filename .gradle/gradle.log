@@ -1,7 +1,7 @@
 This mapping 'snapshot_20161220' was designed for MC 1.11! Use at your own peril.This mapping 'snapshot_20161220' was designed for MC 1.11! Use at your own peril.
 
 #################################################
-         ForgeGradle 2.2-SNAPSHOT-59eb824        
+         ForgeGradle 2.2-SNAPSHOT-d13a6c8        
   https://github.com/MinecraftForge/ForgeGradle  
 #################################################
                Powered by MCP unknown               
@@ -10,47 +10,20 @@ This mapping 'snapshot_20161220' was designed for MC 1.11! Use at your own peril
          R4wk, ZeuX, IngisKahn, bspkrs           
 #################################################
 :deobfCompileDummyTask
-:getVersionJson
-:extractUserdev
-:downloadClient
-:downloadServer
-:splitServerJar
-:mergeJars
-:applyBinaryPatches
 :deobfProvidedDummyTask
-:extractDependencyATs SKIPPED
-:extractMcpData
-:extractMcpMappings
-:genSrgs
-:deobfMcMCP
-Applying SpecialSource...
-Applying Exceptor...
-:sourceApiJava UP-TO-DATE
-:compileApiJava UP-TO-DATE
-:processApiResources UP-TO-DATE
-:apiClasses UP-TO-DATE
-:sourceMainJava
-:compileJavawarning: [options] bootstrap class path not set in conjunction with -source 1.6
-1 warning
-
-:processResources UP-TO-DATE
-:classes
-:jar
-:sourceTestJava UP-TO-DATE
-:compileTestJava UP-TO-DATE
-:processTestResources UP-TO-DATE
-:testClasses UP-TO-DATE
-:test UP-TO-DATE
-:reobfJar
-:extractRangemapReplacedMain
-C:\Users\Noah\Desktop\Coding\MoreFuelsMod\morefuelsmod-1.11\build\sources\main\java
-:retromapReplacedMain
-remapping source...
-:sourceJar
-:assemble
-:check UP-TO-DATE
-:build
+:eclipseClasspath
+:eclipseJdt
+:eclipseProject
+:getVersionJson
+:extractNatives SKIPPED
+:extractUserdev UP-TO-DATE
+:getAssetIndex UP-TO-DATE
+:getAssets
+:makeStart
+:makeEclipseCleanRunClient UP-TO-DATE
+:makeEclipseCleanRunServer UP-TO-DATE
+:eclipse
 
 BUILD SUCCESSFUL
 
-Total time: 1 mins 0.86 secs
+Total time: 9.462 secs

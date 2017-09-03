@@ -1,0 +1,18 @@
+##All Hebrew Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=×›×“×•×¨×™ ×“×œ×§
+item.concentratedPelletsFuel.name=×›×“×•×¨×™ ×“×œ×§ ×ž×¨×•×›×–×™×�
+item.coke.name=×§×•×§ (×“×œ×§)
+item.bituminousCoal.name=×¤×—×� ×‘×™×˜×•×ž× ×™
+item.canSlimoline.name=×¤×—×™×ª Slimoline
+item.dustCoal.name=×�×‘×§ ×¤×—×�
+
+#Blocks
+tile.pelletBlock.name=×’×•×© ×”×“×œ×§ ×’×œ×•×œ
+tile.concentratedPelletBlock.name=×’×•×© ×”×“×œ×§ ×’×œ×•×œ ×ž×¨×•×›×–
+tile.cokeBlock.name=×‘×œ×•×§ ×©×œ ×§×•×§ (×“×œ×§)
+tile.bituminousCoalOre.name=×‘×¦×¨ ×¤×—×� ×‘×™×˜×•×ž× ×™
+
+#Tabs
+itemGroup.morefuelsmod=×©×™× ×•×™ ×“×œ×§×™×� × ×•×¡×¤×™×�

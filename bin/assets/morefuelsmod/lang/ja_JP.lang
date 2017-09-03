@@ -1,0 +1,18 @@
+##All Japanese Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=ç‡ƒæ–™ãƒšãƒ¬ãƒƒãƒˆ (NenryÅ� peretto)
+item.concentratedPelletsFuel.name=æ¿ƒç¸®ã�•ã‚Œã�Ÿç‡ƒæ–™ãƒšãƒ¬ãƒƒãƒˆ (NÅ�shuku sa reta nenryÅ� peretto)
+item.coke.name=ã‚³ãƒ¼ã‚¯ã‚¹ï¼ˆç‡ƒæ–™) (KÅ�kusu (nenryÅ�))
+item.bituminousCoal.name=ç€�é�’ç‚­ (Rekiseitan)
+item.canSlimoline.name=slimolineã�®ç¼¶ (Slimoline no kan)
+item.dustCoal.name=ç‚­å¡µ (Tanjin)
+
+#Blocks
+tile.pelletBlock.name=ãƒšãƒ¬ãƒƒãƒˆç‡ƒæ–™ã�®ãƒ–ãƒ­ãƒƒã‚¯ (Peretto nenryÅ� no burokku)
+tile.concentratedPelletBlock.name=æ¿ƒç¸®ã�•ã‚Œã�Ÿãƒšãƒ¬ãƒƒãƒˆç‡ƒæ–™ã�®ãƒ–ãƒ­ãƒƒã‚¯ (NÅ�shuku sa reta peretto nenryÅ� no burokku)
+tile.cokeBlock.name=ã‚³ãƒ¼ã‚¯ã‚¹ã�®ãƒ–ãƒ­ãƒƒã‚¯ï¼ˆç‡ƒæ–™ï¼‰) (KÅ�kusu no burokku (nenryÅ�))
+tile.bituminousCoalOre.name=ç€�é�’ç‚­é‰±çŸ³ (Rekiseitan kÅ�seki)
+
+#Tabs
+itemGroup.morefuelsmod=ã‚ˆã‚Šå¤šã��ã�®ç‡ƒæ–™ã�®å¤‰æ›´ (Yori Å�ku no nenryÅ� no henkÅ�)

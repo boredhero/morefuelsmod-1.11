@@ -1,0 +1,18 @@
+##All Russian Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=Ñ‚Ð¾Ð¿Ð»Ð¸Ð²Ð½Ñ‹Ðµ Ð³Ñ€Ð°Ð½ÑƒÐ»Ñ‹ (Toplivnyye Granuly)
+item.concentratedPelletsFuel.name=ÐšÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ñ‚Ð¾Ð¿Ð»Ð¸Ð²Ð½Ñ‹Ðµ Ð³Ñ€Ð°Ð½ÑƒÐ»Ñ‹ (Kontsentrirovannyye Toplivnyye Granuly)
+item.coke.name=ÐºÐ¾ÐºÑ� (Ñ‚Ð¾Ð¿Ð»Ð¸Ð²Ð¾) (Koks (Toplivo))
+item.bituminousCoal.name=Ð±Ð¸Ñ‚ÑƒÐ¼Ð¸Ð½Ð¾Ð·Ð½Ñ‹Ð¹ ÑƒÐ³Ð¾Ð»ÑŒ (Bituminoznyy Ugol')
+item.canSlimoline.name=Ð¼Ð¾Ð¶ÐµÑ‚ Ð¸Ð· Slimoline (Mozhet Iz Slimoline)
+item.dustCoal.name=ÑƒÐ³Ð¾Ð»ÑŒÐ½Ð°Ñ� Ð¿Ñ‹Ð»ÑŒ (Ugol'naya Pyl')
+
+#Blocks
+tile.pelletBlock.name=Ð±Ð»Ð¾Ðº Ð³Ñ€Ð°Ð½ÑƒÐ» Ñ‚Ð¾Ð¿Ð»Ð¸Ð²Ð° (Blok Granul Topliva)
+tile.concentratedPelletBlock.name=Ð±Ð»Ð¾Ðº ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ð³Ð¾ Ð³Ñ€Ð°Ð½ÑƒÐ» Ñ‚Ð¾Ð¿Ð»Ð¸Ð²Ð° (Blok Kontsentrirovannogo Granul Topliva)
+tile.cokeBlock.name=Ð±Ð»Ð¾Ðº ÐºÐ¾ÐºÑ�Ð° (Ñ‚Ð¾Ð¿Ð»Ð¸Ð²Ð°) (Blok Koksa (Topliva))
+tile.bituminousCoalOre.name=ÐºÐ°Ð¼ÐµÐ½Ð½Ñ‹Ð¹ ÑƒÐ³Ð¾Ð»ÑŒ Ñ€ÑƒÐ´Ð° (Kamennyy Ugol' Ruda)
+
+#Tabs
+itemGroup.morefuelsmod=Ð¼Ð¾Ð´Ð¸Ñ„Ð¸ÐºÐ°Ñ†Ð¸Ñ� Ð±Ð¾Ð»ÑŒÑˆÐµ Ñ‚Ð¾Ð¿Ð»Ð¸Ð²Ð° (Modifikatsiya Bol'she Topliva)

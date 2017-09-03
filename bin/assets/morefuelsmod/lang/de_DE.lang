@@ -1,0 +1,18 @@
+##All German Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=Brennstoff-Pellets
+item.concentratedPelletsFuel.name=Konzentrierte Brennstoffpellets
+item.coke.name=Koks (Brennstoff)
+item.bituminousCoal.name=Steinkohle
+item.canSlimoline.name=Kann von Slimolin
+item.dustCoal.name=Kohlenstaub
+
+#Blocks
+tile.pelletBlock.name=Block von Pellets als Brennstoff
+tile.concentratedPelletBlock.name=Block Konzentrierter Pellets als Brennstoff
+tile.cokeBlock.name=Block von Koks (Brennstoff)
+tile.bituminousCoalOre.name=Bituminoser Kohle Erz
+
+#Tabs
+itemGroup.morefuelsmod=Mehr Brennstoffe Modifikation
