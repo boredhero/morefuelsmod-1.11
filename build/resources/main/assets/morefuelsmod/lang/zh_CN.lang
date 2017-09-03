@@ -1,0 +1,18 @@
+##All Chinese (Simplified) Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=ç‡ƒæ–™èŠ¯å�— (RÃ¡nliÃ o xÄ«n kuÃ i)
+item.concentratedPelletsFuel.name=æµ“ç¼©ç‡ƒæ–™åŽ‹å�— (NÃ³ngsuÅ� rÃ¡nliÃ o yÄ� kuÃ i)
+item.coke.name=å�¯å�£å�¯ä¹�ï¼ˆç‡ƒæ–™ï¼‰ (KÄ›kÇ’ukÄ›lÃ¨ (rÃ¡nliÃ o))
+item.bituminousCoal.name=çƒŸç…¤ (YÄ�nmÃ©i)
+item.canSlimoline.name=slimolineçš„èƒ½ (Slimoline de nÃ©ng)
+item.dustCoal.name=ç…¤å°˜ (MÃ©i chÃ©n)
+
+#Blocks
+tile.pelletBlock.name=é¢—ç²’ç‡ƒæ–™å�— (KÄ“lÃ¬ rÃ¡nliÃ o kuÃ i)
+tile.concentratedPelletBlock.name=æµ“ç¼©çš„é¢—ç²’ç‡ƒæ–™å�— (NÃ³ngsuÅ� de kÄ“lÃ¬ rÃ¡nliÃ o kuÃ i)
+tile.cokeBlock.name=ç„¦ç‚­å�—ï¼ˆç‡ƒæ–™ï¼‰ (JiÄ�otÃ n kuÃ i (rÃ¡nliÃ o))
+tile.bituminousCoalOre.name=çƒŸç…¤çŸ¿ (YÄ�n mÃ©ikuÃ ng)
+
+#Tabs
+itemGroup.morefuelsmod=æ›´å¤šçš„ç‡ƒæ–™ä¿®æ”¹ (GÃ¨ng duÅ� de rÃ¡nliÃ o xiÅ«gÇŽi)

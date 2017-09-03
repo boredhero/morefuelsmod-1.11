@@ -1,0 +1,18 @@
+##All Polish Translation Done With Google Translate! If there are errors, email me at treeclan12@gmail.com to correct them or commit to github repo
+
+#Items
+item.pelletsFuel.name=Pellety Opałowe
+item.concentratedPelletsFuel.name=Skoncentrowane Pellety Opałowe
+item.coke.name=Koks (Paliwa)
+item.bituminousCoal.name=Węgiel Kamienny
+item.canSlimoline.name=Puszka Slimoline
+item.dustCoal.name=Pył Węglowy
+
+#Blocks
+tile.pelletBlock.name=Blok Paliwa Pelet
+tile.concentratedPelletBlock.name=Blok Stężonego Fuek Pelet
+tile.cokeBlock.name=Blok Koks (Paliwa)
+tile.bituminousCoalOre.name=Rudy Węgla Kamiennego
+
+#Tabs
+itemGroup.morefuelsmod=Modyfikacja Więcej Paliw
