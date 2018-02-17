@@ -1,13 +1,13 @@
 [
 {
   "modid": "morefuelsmod",
-  "name": "ง4More Fuels Mod",
-  "description": "ง4งoA mod that makes more items usable as fuel as well as adds some fuel storage items and blocks.",
+  "name": "ยง4More Fuels Mod",
+  "description": "ยง4ยงoA mod that makes more items usable as fuel as well as adds some fuel storage items and blocks.",
   "version": "",
   "mcversion": "${mcversion}",
   "url": "http://tinyurl.com/MoreFuelsMod",
   "updateUrl": "",
-  "authorList": ["ง6Bง4oง6rง4eง6d"],
+  "authorList": ["ยง6Bยง4oยง6rยง4eยง6d"],
   "logoFile": "mf-logo.png",
   "screenshots": [],
   "dependencies": ["mod_Forge"]
